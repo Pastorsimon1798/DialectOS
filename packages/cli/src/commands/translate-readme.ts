@@ -22,12 +22,14 @@ import {
   loadProtectedTokens,
   protectTokensInText,
   restoreProtectedTokens,
+  detectIdentityTokens,
 } from "../lib/token-protection.js";
 import {
   loadGlossary,
   prepareGlossaryProtectedText,
   type GlossaryMode,
 } from "../lib/glossary-enforcement.js";
+import { validateMarkdownStructure } from "../lib/structure-validator.js";
 
 interface TranslateReadmeOptions {
   dialect: string;
@@ -38,6 +40,9 @@ interface TranslateReadmeOptions {
   protectTokens?: string;
   glossaryFile?: string;
   glossaryMode?: GlossaryMode;
+  protectIdentities?: boolean;
+  validateStructure?: boolean;
+  structureMode?: "warn" | "strict";
 }
 
 /**
@@ -62,6 +67,11 @@ export function createTranslateReadmeCommand(
     .option("--protect-tokens <file>", "JSON file with protected tokens")
     .option("--glossary-file <file>", "JSON glossary file with term mappings")
     .option("--glossary-mode <mode>", "Glossary mode: off|strict", "off")
+    .option("--protect-identities", "Auto-protect handles/domains/usernames", true)
+    .option("--no-protect-identities", "Disable auto identity protection")
+    .option("--validate-structure", "Validate markdown structure after translation", true)
+    .option("--no-validate-structure", "Disable structure validation")
+    .option("--structure-mode <mode>", "Structure validation mode: warn|strict", "strict")
     .action(async (input: string, options: TranslateReadmeOptions) => {
       try {
         await translateReadme(input, options, getRegistry);
@@ -134,7 +144,11 @@ async function translateReadme(
         glossary,
         glossaryMode
       );
-      const protectedChunk = protectTokensInText(glossaryChunk.text, protectedTokens);
+      const runtimeTokens = options.protectIdentities
+        ? detectIdentityTokens(glossaryChunk.text)
+        : [];
+      const mergedTokens = Array.from(new Set([...protectedTokens, ...runtimeTokens]));
+      const protectedChunk = protectTokensInText(glossaryChunk.text, mergedTokens);
       // Translate the content
       const result = await provider.translate(
         protectedChunk.text,
@@ -156,6 +170,17 @@ async function translateReadme(
 
   // 7. Reconstruct markdown
   const translated = reconstructMarkdown(parsed.sections, translatedSections);
+
+  if (options.validateStructure) {
+    const validation = validateMarkdownStructure(content, translated);
+    if (!validation.valid) {
+      const msg = `Structure validation failed: ${validation.violations.join("; ")}`;
+      if ((options.structureMode || "strict") === "strict") {
+        throw new Error(msg);
+      }
+      console.warn(msg);
+    }
+  }
 
   // 8. Write output
   if (options.output) {

@@ -13,12 +13,14 @@ import {
   loadProtectedTokens,
   protectTokensInText,
   restoreProtectedTokens,
+  detectIdentityTokens,
 } from "../lib/token-protection.js";
 import {
   loadGlossary,
   prepareGlossaryProtectedText,
   type GlossaryMode,
 } from "../lib/glossary-enforcement.js";
+import { validateMarkdownStructure } from "../lib/structure-validator.js";
 
 // ============================================================================
 // extract-translatable Command
@@ -87,6 +89,12 @@ export interface TranslateApiDocsOptions {
   glossaryFile?: string;
   /** Glossary mode */
   glossaryMode?: GlossaryMode;
+  /** Auto-protect identity-like tokens */
+  protectIdentities?: boolean;
+  /** Validate markdown structure */
+  validateStructure?: boolean;
+  /** Validation mode */
+  structureMode?: "warn" | "strict";
 }
 
 /**
@@ -111,7 +119,8 @@ async function translateSection(
   dialect: SpanishDialect,
   protectedTokens: string[],
   glossary: Awaited<ReturnType<typeof loadGlossary>>,
-  glossaryMode: GlossaryMode
+  glossaryMode: GlossaryMode,
+  protectIdentities: boolean
 ): Promise<MarkdownSection> {
   if (!section.translatable) {
     return section;
@@ -123,7 +132,11 @@ async function translateSection(
       glossary,
       glossaryMode
     );
-    const protectedChunk = protectTokensInText(glossaryChunk.text, protectedTokens);
+    const runtimeTokens = protectIdentities
+      ? detectIdentityTokens(glossaryChunk.text)
+      : [];
+    const mergedTokens = Array.from(new Set([...protectedTokens, ...runtimeTokens]));
+    const protectedChunk = protectTokensInText(glossaryChunk.text, mergedTokens);
     const result = await provider.translate(protectedChunk.text, "auto", dialect, {
       dialect,
     });
@@ -151,7 +164,8 @@ async function translateSections(
   dialect: SpanishDialect,
   protectedTokens: string[],
   glossary: Awaited<ReturnType<typeof loadGlossary>>,
-  glossaryMode: GlossaryMode
+  glossaryMode: GlossaryMode,
+  protectIdentities: boolean
 ): Promise<MarkdownSection[]> {
   const translatedSections: MarkdownSection[] = [];
 
@@ -163,7 +177,8 @@ async function translateSections(
         dialect,
         protectedTokens,
         glossary,
-        glossaryMode
+        glossaryMode,
+        protectIdentities
       );
       translatedSections.push(translated);
     } else {
@@ -210,6 +225,7 @@ export async function executeTranslateApiDocs(
     const protectedTokens = await loadProtectedTokens(options?.protectTokens);
     const glossary = await loadGlossary(options?.glossaryFile);
     const glossaryMode = (options?.glossaryMode || "off") as GlossaryMode;
+    const protectIdentities = options?.protectIdentities !== false;
 
     // Translate all translatable sections
     const translatedSections = await translateSections(
@@ -218,11 +234,23 @@ export async function executeTranslateApiDocs(
       validatedDialect,
       protectedTokens,
       glossary,
-      glossaryMode
+      glossaryMode,
+      protectIdentities
     );
 
     // Reconstruct markdown with translated content
     const translated = reconstructMarkdown(parsed.sections, translatedSections);
+
+    if (options?.validateStructure !== false) {
+      const validation = validateMarkdownStructure(content, translated);
+      if (!validation.valid) {
+        const msg = `Structure validation failed: ${validation.violations.join("; ")}`;
+        if ((options?.structureMode || "strict") === "strict") {
+          throw new Error(msg);
+        }
+        console.warn(msg);
+      }
+    }
 
     // Write output
     await writeOutput(translated, options?.output);

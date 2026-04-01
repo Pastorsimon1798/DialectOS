@@ -316,6 +316,40 @@ date: 2024-01-01
       expect(result).toContain("ingenieria agentic");
       expect(result).toContain("Shorts");
     });
+
+    it("should auto-protect identity tokens by default", async () => {
+      const content = "# Follow @pastorsimon1798 on kyanitelabs.tech";
+      await fs.writeFile(inputFile, content);
+
+      const registry = new MockRegistry(
+        new MockProvider((text) =>
+          text
+            .replace("@pastorsimon1798", "@pastoresimon1798")
+            .replace("kyanitelabs.tech", "kyanitelabs.es")
+        )
+      ) as ProviderRegistry;
+
+      await executeCommand(registry, [inputFile, "--output", outputFile]);
+
+      const result = await fs.readFile(outputFile, "utf-8");
+      expect(result).toContain("@pastorsimon1798");
+      expect(result).toContain("kyanitelabs.tech");
+      expect(result).not.toContain("@pastoresimon1798");
+      expect(result).not.toContain("kyanitelabs.es");
+    });
+
+    it("should fail in strict mode when structure is corrupted", async () => {
+      const content = "# Header\n\nParagraph.";
+      await fs.writeFile(inputFile, content);
+
+      const registry = new MockRegistry(
+        new MockProvider(() => "<g id=\"1\">Header</g>")
+      ) as ProviderRegistry;
+
+      await expect(
+        executeCommand(registry, [inputFile, "--output", outputFile])
+      ).rejects.toThrow("Structure validation failed");
+    });
   });
 
   describe("error handling", () => {

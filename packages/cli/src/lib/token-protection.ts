@@ -52,3 +52,21 @@ export function restoreProtectedTokens(text: string, replacements: Map<string, s
   });
   return restored;
 }
+
+export function detectIdentityTokens(text: string): string[] {
+  const tokens = new Set<string>();
+
+  const patterns: RegExp[] = [
+    /@[a-zA-Z0-9_.-]{3,}/g, // handles
+    /\b[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,}\b/g, // domains
+    /\b[a-zA-Z0-9_-]{3,}\/[a-zA-Z0-9_.-]{2,}\b/g, // repo-like owner/name
+    /(?:^|[^\w])([a-zA-Z0-9_-]{6,}\d{2,})(?:$|[^\w])/g, // usernames with numeric suffixes
+  ];
+
+  for (const pattern of patterns) {
+    const matches = text.match(pattern) || [];
+    matches.forEach((match) => tokens.add(match.trim()));
+  }
+
+  return Array.from(tokens).sort((a, b) => b.length - a.length);
+}

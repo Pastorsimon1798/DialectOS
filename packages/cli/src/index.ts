@@ -95,6 +95,11 @@ program
   .option("--protect-tokens <file>", "JSON file with protected tokens")
   .option("--glossary-file <file>", "JSON glossary file with term mappings")
   .option("--glossary-mode <mode>", "Glossary mode: off|strict", "off")
+  .option("--protect-identities", "Auto-protect handles/domains/usernames", true)
+  .option("--no-protect-identities", "Disable auto identity protection")
+  .option("--validate-structure", "Validate markdown structure after translation", true)
+  .option("--no-validate-structure", "Disable structure validation")
+  .option("--structure-mode <mode>", "Structure validation mode: warn|strict", "strict")
   .action(async (input, options) => {
     try {
       const registry = getDefaultProviderRegistry();
