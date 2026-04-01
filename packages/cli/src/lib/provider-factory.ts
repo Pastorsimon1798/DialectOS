@@ -35,7 +35,13 @@ export function createProviderRegistry(): ProviderRegistry {
   }
 
   // Always register MyMemory (free, no auth required)
-  const myMemoryProvider = new MyMemoryProvider();
+  // Align CLI behavior with MCP: allow runtime limit tuning for bulk docs.
+  const myMemoryLimit = parseInt(process.env.MYMEMORY_RATE_LIMIT || "", 10);
+  const myMemoryWindow = parseInt(process.env.MYMEMORY_RATE_WINDOW_MS || "", 10);
+  const myMemoryProvider = new MyMemoryProvider({
+    maxRequests: myMemoryLimit > 0 ? myMemoryLimit : 60,
+    windowMs: myMemoryWindow > 0 ? myMemoryWindow : 60000,
+  });
   registry.register(myMemoryProvider);
 
   return registry;
