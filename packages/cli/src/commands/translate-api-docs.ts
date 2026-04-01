@@ -9,6 +9,11 @@ import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@espanol/types";
 import { parseMarkdown, reconstructMarkdown, extractTranslatableText } from "@espanol/markdown-parser";
 import { validateFilePath, validateContentLength } from "@espanol/security";
 import { writeOutput, writeError } from "../lib/output.js";
+import {
+  loadProtectedTokens,
+  protectTokensInText,
+  restoreProtectedTokens,
+} from "../lib/token-protection.js";
 
 // ============================================================================
 // extract-translatable Command
@@ -71,6 +76,8 @@ export interface TranslateApiDocsOptions {
   provider?: string;
   /** Write output to file instead of stdout */
   output?: string;
+  /** Optional protected token file path */
+  protectTokens?: string;
 }
 
 /**
@@ -92,20 +99,22 @@ function validateDialect(dialect: string): SpanishDialect {
 async function translateSection(
   section: MarkdownSection,
   provider: TranslationProvider,
-  dialect: SpanishDialect
+  dialect: SpanishDialect,
+  protectedTokens: string[]
 ): Promise<MarkdownSection> {
   if (!section.translatable) {
     return section;
   }
 
   try {
-    const result = await provider.translate(section.content, "auto", dialect, {
+    const protectedChunk = protectTokensInText(section.content, protectedTokens);
+    const result = await provider.translate(protectedChunk.text, "auto", dialect, {
       dialect,
     });
 
     return {
       ...section,
-      content: result.translatedText,
+      content: restoreProtectedTokens(result.translatedText, protectedChunk.replacements),
     };
   } catch (error) {
     // If translation fails, return original section
@@ -120,13 +129,14 @@ async function translateSection(
 async function translateSections(
   parsed: ParsedMarkdown,
   provider: TranslationProvider,
-  dialect: SpanishDialect
+  dialect: SpanishDialect,
+  protectedTokens: string[]
 ): Promise<MarkdownSection[]> {
   const translatedSections: MarkdownSection[] = [];
 
   for (const section of parsed.sections) {
     if (section.translatable) {
-      const translated = await translateSection(section, provider, dialect);
+      const translated = await translateSection(section, provider, dialect, protectedTokens);
       translatedSections.push(translated);
     } else {
       // Keep non-translatable sections as-is
@@ -169,9 +179,10 @@ export async function executeTranslateApiDocs(
     // Get translation provider
     const providerName = options?.provider;
     const provider = getProvider(providerName);
+    const protectedTokens = await loadProtectedTokens(options?.protectTokens);
 
     // Translate all translatable sections
-    const translatedSections = await translateSections(parsed, provider, validatedDialect);
+    const translatedSections = await translateSections(parsed, provider, validatedDialect, protectedTokens);
 
     // Reconstruct markdown with translated content
     const translated = reconstructMarkdown(parsed.sections, translatedSections);

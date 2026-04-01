@@ -54,6 +54,7 @@ describe("translate-readme command", () => {
   const testDir = "/tmp/espanol-cli-test";
   const inputFile = path.join(testDir, "README.md");
   const outputFile = path.join(testDir, "README.es.md");
+  const tokensFile = path.join(testDir, "tokens.json");
 
   // Helper to execute command
   async function executeCommand(
@@ -253,6 +254,36 @@ date: 2024-01-01
 
       const result = await fs.readFile(outputFile, "utf-8");
       expect(result).toContain("# [Informal] Hello");
+    });
+
+    it("should preserve protected tokens when token file is provided", async () => {
+      const content = "# Kyanite Labs and @pastorsimon1798";
+      await fs.writeFile(inputFile, content);
+      await fs.writeFile(tokensFile, JSON.stringify({
+        tokens: ["Kyanite Labs", "@pastorsimon1798"],
+      }));
+
+      const registry = new MockRegistry(
+        new MockProvider((text) =>
+          text
+            .replace("Kyanite Labs", "Laboratorios Cianita")
+            .replace("@pastorsimon1798", "@pastoresimon1798")
+        )
+      ) as ProviderRegistry;
+
+      await executeCommand(registry, [
+        inputFile,
+        "--protect-tokens",
+        tokensFile,
+        "--output",
+        outputFile,
+      ]);
+
+      const result = await fs.readFile(outputFile, "utf-8");
+      expect(result).toContain("Kyanite Labs");
+      expect(result).toContain("@pastorsimon1798");
+      expect(result).not.toContain("Laboratorios Cianita");
+      expect(result).not.toContain("@pastoresimon1798");
     });
   });
 

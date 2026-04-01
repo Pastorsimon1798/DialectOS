@@ -7,7 +7,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { writeOutput, writeError } from "../lib/output.js";
 import { executeTranslateApiDocs, executeExtractTranslatable } from "../commands/translate-api-docs.js";
 import type { TranslationProvider } from "@espanol/types";
-import * as fs from "node:fs";
+import * as path from "node:path";
 
 // Mock dependencies
 const mockWriteOutput = vi.fn();
@@ -158,6 +158,8 @@ describe("extract-translatable command", () => {
 
 describe("translate-api-docs command", () => {
   let mockProvider: TranslationProvider;
+  const testDir = "/tmp/espanol-cli-api-test";
+  const tokenFile = path.join(testDir, "tokens.json");
 
   beforeEach(() => {
     mockProvider = {
@@ -356,6 +358,49 @@ describe("translate-api-docs command", () => {
       const getProvider = vi.fn().mockReturnValue(mockProvider);
 
       await expect(executeTranslateApiDocs("../../../etc/passwd", "es-ES", undefined, getProvider)).rejects.toThrow("Path traversal detected");
+    });
+  });
+
+  describe("protected tokens", () => {
+    it("should preserve protected tokens in translated API docs", async () => {
+      mockReadFile.mockImplementation((filePath: string) => {
+        if (filePath === tokenFile) {
+          return Promise.resolve(JSON.stringify({
+            tokens: ["Kyanite Labs", "@pastorsimon1798"],
+          }));
+        }
+        return Promise.resolve("Kyanite Labs by @pastorsimon1798");
+      });
+      mockParseMarkdown.mockReturnValue({
+        sections: [
+          {
+            type: "paragraph",
+            content: "Kyanite Labs by @pastorsimon1798",
+            raw: "Kyanite Labs by @pastorsimon1798",
+            translatable: true,
+          },
+        ],
+        translatableSections: 1,
+        codeBlockCount: 0,
+        linkCount: 0,
+      });
+
+      (mockProvider.translate as any).mockImplementation(async (inputText: string) => ({
+        translatedText: inputText
+          .replace("Kyanite Labs", "Laboratorios Cianita")
+          .replace("@pastorsimon1798", "@pastoresimon1798"),
+        detectedLanguage: "en",
+        provider: "mymemory",
+      }));
+
+      mockReconstructMarkdown.mockImplementation((_orig: unknown, translated: any[]) => translated[0].content);
+
+      const getProvider = vi.fn().mockReturnValue(mockProvider);
+
+      await executeTranslateApiDocs("./test.md", "es-ES", { protectTokens: tokenFile }, getProvider);
+
+      expect(mockWriteOutput).toHaveBeenCalledWith(expect.stringContaining("Kyanite Labs"));
+      expect(mockWriteOutput).toHaveBeenCalledWith(expect.stringContaining("@pastorsimon1798"));
     });
   });
 });

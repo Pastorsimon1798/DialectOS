@@ -18,6 +18,11 @@ import {
 } from "@espanol/markdown-parser";
 import { validateMarkdownPath, createSecureTempPath } from "@espanol/security";
 import type { ProviderRegistry } from "@espanol/providers";
+import {
+  loadProtectedTokens,
+  protectTokensInText,
+  restoreProtectedTokens,
+} from "../lib/token-protection.js";
 
 interface TranslateReadmeOptions {
   dialect: string;
@@ -25,6 +30,7 @@ interface TranslateReadmeOptions {
   provider?: string;
   formal?: boolean;
   informal?: boolean;
+  protectTokens?: string;
 }
 
 /**
@@ -46,6 +52,7 @@ export function createTranslateReadmeCommand(
     .option("-p, --provider <provider>", "Translation provider")
     .option("-f, --formal", "Use formal register")
     .option("-i, --informal", "Use informal register")
+    .option("--protect-tokens <file>", "JSON file with protected tokens")
     .action(async (input: string, options: TranslateReadmeOptions) => {
       try {
         await translateReadme(input, options, getRegistry);
@@ -104,15 +111,17 @@ async function translateReadme(
 
   // 6. Translate each translatable section
   const translatedSections: MarkdownSection[] = [];
+  const protectedTokens = await loadProtectedTokens(options.protectTokens);
 
   for (const section of parsed.sections) {
     if (!section.translatable) {
       // Non-translatable sections keep original
       translatedSections.push(section);
     } else {
+      const protectedChunk = protectTokensInText(section.content, protectedTokens);
       // Translate the content
       const result = await provider.translate(
-        section.content,
+        protectedChunk.text,
         "en", // Assume source is English
         "es", // Target is Spanish
         translateOptions
@@ -121,7 +130,7 @@ async function translateReadme(
       // Create translated section
       translatedSections.push({
         ...section,
-        content: result.translatedText,
+        content: restoreProtectedTokens(result.translatedText, protectedChunk.replacements),
       });
     }
   }

@@ -92,6 +92,7 @@ program
   .option("--dialect <dialect>", "Spanish dialect (e.g., es-ES, es-MX, es-AR)", "es-ES")
   .option("--provider <provider>", "Translation provider (deepl, libre, mymemory, or auto for automatic selection)", "auto")
   .option("--output <path>", "Write translation to file instead of stdout")
+  .option("--protect-tokens <file>", "JSON file with protected tokens")
   .action(async (input, options) => {
     try {
       const registry = getDefaultProviderRegistry();
