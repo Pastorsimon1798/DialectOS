@@ -8,7 +8,7 @@ import { CircuitBreaker } from "../circuit-breaker.js";
 import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT } from "@espanol/security";
 
 const MYMEMORY_ENDPOINT = "https://api.mymemory.translated.net/get";
-const MYMEMORY_TIMEOUT = 15000; // 15 seconds (faster timeout for free service)
+const DEFAULT_MYMEMORY_TIMEOUT = 15000; // 15 seconds (faster timeout for free service)
 const MAX_CHARS = 500;
 const CHUNK_SIZE = 450;
 
@@ -16,12 +16,14 @@ export class MyMemoryProvider implements TranslationProvider {
   readonly name = "mymemory";
   private breaker: CircuitBreaker;
   private rateLimiter: RateLimiter;
+  private timeoutMs: number;
 
   constructor(options?: {
     failureThreshold?: number;
     resetTimeoutMs?: number;
     maxRequests?: number;
     windowMs?: number;
+    timeoutMs?: number;
   }) {
     // Initialize circuit breaker
     this.breaker = new CircuitBreaker(
@@ -34,6 +36,11 @@ export class MyMemoryProvider implements TranslationProvider {
       options?.maxRequests || 10,
       options?.windowMs || 60000
     );
+
+    const envTimeout = parseInt(process.env.MYMEMORY_TIMEOUT_MS || "", 10);
+    this.timeoutMs =
+      options?.timeoutMs ||
+      (envTimeout > 0 ? envTimeout : DEFAULT_MYMEMORY_TIMEOUT);
   }
 
   async translate(
@@ -110,7 +117,7 @@ export class MyMemoryProvider implements TranslationProvider {
     await this.rateLimiter.acquire();
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), MYMEMORY_TIMEOUT);
+    const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
 
     try {
       const params = new URLSearchParams({
