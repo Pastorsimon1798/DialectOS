@@ -100,16 +100,14 @@ program
   .option("--validate-structure", "Validate markdown structure after translation", true)
   .option("--no-validate-structure", "Disable structure validation")
   .option("--structure-mode <mode>", "Structure validation mode: warn|strict", "strict")
+  .option("--checkpoint-file <path>", "Checkpoint file for resumable translation")
+  .option("--resume", "Resume from checkpoint when available", true)
+  .option("--no-resume", "Ignore existing checkpoint")
   .action(async (input, options) => {
     try {
       const registry = getDefaultProviderRegistry();
 
-      await executeTranslateApiDocs(input, options.dialect, options, (providerName) => {
-        if (!providerName || providerName === "auto") {
-          return registry.getAuto();
-        }
-        return registry.get(providerName);
-      });
+      await executeTranslateApiDocs(input, options.dialect, options, () => registry);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       writeError(message);

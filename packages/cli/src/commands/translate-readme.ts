@@ -30,6 +30,12 @@ import {
   type GlossaryMode,
 } from "../lib/glossary-enforcement.js";
 import { validateMarkdownStructure } from "../lib/structure-validator.js";
+import { loadCheckpoint, saveCheckpoint, type TranslationCheckpoint } from "../lib/checkpoint.js";
+import {
+  translateWithFallback,
+  type AdaptivePacingState,
+} from "../lib/resilient-translation.js";
+import { calculateQualityScore } from "../lib/quality-score.js";
 
 interface TranslateReadmeOptions {
   dialect: string;
@@ -43,6 +49,8 @@ interface TranslateReadmeOptions {
   protectIdentities?: boolean;
   validateStructure?: boolean;
   structureMode?: "warn" | "strict";
+  checkpointFile?: string;
+  resume?: boolean;
 }
 
 /**
@@ -72,6 +80,9 @@ export function createTranslateReadmeCommand(
     .option("--validate-structure", "Validate markdown structure after translation", true)
     .option("--no-validate-structure", "Disable structure validation")
     .option("--structure-mode <mode>", "Structure validation mode: warn|strict", "strict")
+    .option("--checkpoint-file <file>", "Checkpoint file for resumable translation")
+    .option("--resume", "Resume from checkpoint when available", true)
+    .option("--no-resume", "Ignore existing checkpoint")
     .action(async (input: string, options: TranslateReadmeOptions) => {
       try {
         await translateReadme(input, options, getRegistry);
@@ -114,10 +125,6 @@ async function translateReadme(
 
   // 4. Get translation provider
   const registry = getRegistry();
-  const provider = options.provider
-    ? registry.get(options.provider)
-    : registry.getAuto();
-
   // 5. Build translation options
   const translateOptions: TranslateOptions = {
     dialect: options.dialect as SpanishDialect,
@@ -133,12 +140,20 @@ async function translateReadme(
   const protectedTokens = await loadProtectedTokens(options.protectTokens);
   const glossary = await loadGlossary(options.glossaryFile);
   const glossaryMode = (options.glossaryMode || "off") as GlossaryMode;
+  const checkpointPath = options.checkpointFile || `${options.output || validatedPath}.checkpoint.json`;
+  const checkpoint = options.resume ? await loadCheckpoint(checkpointPath) : null;
+  const translatedByIndex = checkpoint?.translatedByIndex || {};
+  const pacing: AdaptivePacingState = { delayMs: 0 };
 
-  for (const section of parsed.sections) {
+  for (const [idx, section] of parsed.sections.entries()) {
     if (!section.translatable) {
       // Non-translatable sections keep original
       translatedSections.push(section);
     } else {
+      if (translatedByIndex[idx]) {
+        translatedSections.push({ ...section, content: translatedByIndex[idx] });
+        continue;
+      }
       const glossaryChunk = prepareGlossaryProtectedText(
         section.content,
         glossary,
@@ -149,22 +164,34 @@ async function translateReadme(
         : [];
       const mergedTokens = Array.from(new Set([...protectedTokens, ...runtimeTokens]));
       const protectedChunk = protectTokensInText(glossaryChunk.text, mergedTokens);
-      // Translate the content
-      const result = await provider.translate(
+      const result = await translateWithFallback(
+        registry,
+        options.provider,
         protectedChunk.text,
-        "en", // Assume source is English
-        "es", // Target is Spanish
-        translateOptions
+        "en",
+        "es",
+        translateOptions,
+        pacing
+      );
+
+      const translatedContent = restoreProtectedTokens(
+        restoreProtectedTokens(result.translatedText, protectedChunk.replacements),
+        glossaryChunk.replacements
       );
 
       // Create translated section
       translatedSections.push({
         ...section,
-        content: restoreProtectedTokens(
-          restoreProtectedTokens(result.translatedText, protectedChunk.replacements),
-          glossaryChunk.replacements
-        ),
+        content: translatedContent,
       });
+
+      translatedByIndex[idx] = translatedContent;
+      const state: TranslationCheckpoint = {
+        sourcePath: validatedPath,
+        totalSections: parsed.sections.length,
+        translatedByIndex,
+      };
+      await saveCheckpoint(checkpointPath, state);
     }
   }
 
@@ -181,6 +208,24 @@ async function translateReadme(
       console.warn(msg);
     }
   }
+
+  const validation = options.validateStructure
+    ? validateMarkdownStructure(content, translated)
+    : { valid: true, violations: [] };
+  const quality = calculateQualityScore(
+    content,
+    translated,
+    protectedTokens,
+    glossary?.mappings || {},
+    validation.valid
+  );
+  console.error(
+    `[quality] score=${quality.score} token=${(quality.tokenIntegrity * 100).toFixed(
+      0
+    )}% glossary=${(quality.glossaryFidelity * 100).toFixed(0)}% structure=${
+      quality.structureIntegrity === 1 ? "pass" : "fail"
+    }`
+  );
 
   // 8. Write output
   if (options.output) {

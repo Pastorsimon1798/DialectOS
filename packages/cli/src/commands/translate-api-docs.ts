@@ -4,10 +4,11 @@
  */
 
 import * as fs from "node:fs";
-import type { TranslationProvider, SpanishDialect, MarkdownSection, ParsedMarkdown } from "@espanol/types";
+import type { TranslationProvider, SpanishDialect, MarkdownSection, ParsedMarkdown, TranslateOptions } from "@espanol/types";
 import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@espanol/types";
 import { parseMarkdown, reconstructMarkdown, extractTranslatableText } from "@espanol/markdown-parser";
 import { validateFilePath, validateContentLength } from "@espanol/security";
+import type { ProviderRegistry } from "@espanol/providers";
 import { writeOutput, writeError } from "../lib/output.js";
 import {
   loadProtectedTokens,
@@ -21,6 +22,12 @@ import {
   type GlossaryMode,
 } from "../lib/glossary-enforcement.js";
 import { validateMarkdownStructure } from "../lib/structure-validator.js";
+import { loadCheckpoint, saveCheckpoint, type TranslationCheckpoint } from "../lib/checkpoint.js";
+import {
+  translateWithFallback,
+  type AdaptivePacingState,
+} from "../lib/resilient-translation.js";
+import { calculateQualityScore } from "../lib/quality-score.js";
 
 // ============================================================================
 // extract-translatable Command
@@ -95,6 +102,10 @@ export interface TranslateApiDocsOptions {
   validateStructure?: boolean;
   /** Validation mode */
   structureMode?: "warn" | "strict";
+  /** Checkpoint file for resumable processing */
+  checkpointFile?: string;
+  /** Resume from checkpoint */
+  resume?: boolean;
 }
 
 /**
@@ -115,12 +126,14 @@ function validateDialect(dialect: string): SpanishDialect {
  */
 async function translateSection(
   section: MarkdownSection,
-  provider: TranslationProvider,
+  registry: ProviderRegistry,
+  preferredProvider: string | undefined,
   dialect: SpanishDialect,
   protectedTokens: string[],
   glossary: Awaited<ReturnType<typeof loadGlossary>>,
   glossaryMode: GlossaryMode,
-  protectIdentities: boolean
+  protectIdentities: boolean,
+  pacing: AdaptivePacingState
 ): Promise<MarkdownSection> {
   if (!section.translatable) {
     return section;
@@ -137,9 +150,18 @@ async function translateSection(
       : [];
     const mergedTokens = Array.from(new Set([...protectedTokens, ...runtimeTokens]));
     const protectedChunk = protectTokensInText(glossaryChunk.text, mergedTokens);
-    const result = await provider.translate(protectedChunk.text, "auto", dialect, {
+    const options: TranslateOptions = {
       dialect,
-    });
+    };
+    const result = await translateWithFallback(
+      registry,
+      preferredProvider,
+      protectedChunk.text,
+      "auto",
+      dialect,
+      options,
+      pacing
+    );
 
     return {
       ...section,
@@ -160,27 +182,47 @@ async function translateSection(
  */
 async function translateSections(
   parsed: ParsedMarkdown,
-  provider: TranslationProvider,
+  registry: ProviderRegistry,
+  preferredProvider: string | undefined,
   dialect: SpanishDialect,
   protectedTokens: string[],
   glossary: Awaited<ReturnType<typeof loadGlossary>>,
   glossaryMode: GlossaryMode,
-  protectIdentities: boolean
+  protectIdentities: boolean,
+  checkpointPath: string,
+  sourcePath: string,
+  resume: boolean
 ): Promise<MarkdownSection[]> {
   const translatedSections: MarkdownSection[] = [];
+  const checkpoint = resume ? await loadCheckpoint(checkpointPath) : null;
+  const translatedByIndex = checkpoint?.translatedByIndex || {};
+  const pacing: AdaptivePacingState = { delayMs: 0 };
 
-  for (const section of parsed.sections) {
+  for (const [idx, section] of parsed.sections.entries()) {
     if (section.translatable) {
+      if (translatedByIndex[idx]) {
+        translatedSections.push({ ...section, content: translatedByIndex[idx] });
+        continue;
+      }
       const translated = await translateSection(
         section,
-        provider,
+        registry,
+        preferredProvider,
         dialect,
         protectedTokens,
         glossary,
         glossaryMode,
-        protectIdentities
+        protectIdentities,
+        pacing
       );
       translatedSections.push(translated);
+      translatedByIndex[idx] = translated.content;
+      const state: TranslationCheckpoint = {
+        sourcePath,
+        totalSections: parsed.sections.length,
+        translatedByIndex,
+      };
+      await saveCheckpoint(checkpointPath, state);
     } else {
       // Keep non-translatable sections as-is
       translatedSections.push(section);
@@ -203,7 +245,7 @@ export async function executeTranslateApiDocs(
   input: string,
   dialect: string,
   options: TranslateApiDocsOptions | undefined,
-  getProvider: (name?: string) => TranslationProvider
+  getRegistry: () => ProviderRegistry
 ): Promise<void> {
   try {
     // Validate and resolve file path
@@ -221,28 +263,35 @@ export async function executeTranslateApiDocs(
 
     // Get translation provider
     const providerName = options?.provider;
-    const provider = getProvider(providerName);
+    const registry = getRegistry();
     const protectedTokens = await loadProtectedTokens(options?.protectTokens);
     const glossary = await loadGlossary(options?.glossaryFile);
     const glossaryMode = (options?.glossaryMode || "off") as GlossaryMode;
     const protectIdentities = options?.protectIdentities !== false;
+    const checkpointPath =
+      options?.checkpointFile || `${options?.output || validatedPath}.checkpoint.json`;
+    const resume = options?.resume !== false;
 
     // Translate all translatable sections
     const translatedSections = await translateSections(
       parsed,
-      provider,
+      registry,
+      providerName,
       validatedDialect,
       protectedTokens,
       glossary,
       glossaryMode,
-      protectIdentities
+      protectIdentities,
+      checkpointPath,
+      validatedPath,
+      resume
     );
 
     // Reconstruct markdown with translated content
     const translated = reconstructMarkdown(parsed.sections, translatedSections);
 
+    const validation = validateMarkdownStructure(content, translated);
     if (options?.validateStructure !== false) {
-      const validation = validateMarkdownStructure(content, translated);
       if (!validation.valid) {
         const msg = `Structure validation failed: ${validation.violations.join("; ")}`;
         if ((options?.structureMode || "strict") === "strict") {
@@ -254,6 +303,20 @@ export async function executeTranslateApiDocs(
 
     // Write output
     await writeOutput(translated, options?.output);
+    const quality = calculateQualityScore(
+      content,
+      translated,
+      protectedTokens,
+      glossary?.mappings || {},
+      validation.valid
+    );
+    console.error(
+      `[quality] score=${quality.score} token=${(quality.tokenIntegrity * 100).toFixed(
+        0
+      )}% glossary=${(quality.glossaryFidelity * 100).toFixed(0)}% structure=${
+        quality.structureIntegrity === 1 ? "pass" : "fail"
+      }`
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     writeError(message);

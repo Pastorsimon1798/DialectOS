@@ -48,6 +48,18 @@ class MockRegistry implements Partial<ProviderRegistry> {
   get(_name: string): TranslationProvider {
     return this.provider;
   }
+
+  listProviders(): string[] {
+    return [this.provider.name];
+  }
+
+  isAvailable(_name: string): boolean {
+    return true;
+  }
+
+  recordSuccess(_name: string): void {}
+
+  recordFailure(_name: string): void {}
 }
 
 describe("translate-readme command", () => {

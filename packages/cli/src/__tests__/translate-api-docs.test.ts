@@ -8,6 +8,7 @@ import { writeOutput, writeError } from "../lib/output.js";
 import { executeTranslateApiDocs, executeExtractTranslatable } from "../commands/translate-api-docs.js";
 import type { TranslationProvider } from "@espanol/types";
 import * as path from "node:path";
+import type { ProviderRegistry } from "@espanol/providers";
 
 // Mock dependencies
 const mockWriteOutput = vi.fn();
@@ -40,9 +41,20 @@ const mockReadFile = vi.fn();
 
 vi.mock("node:fs", () => ({
   promises: {
-    readFile: (path: string, encoding: string) => mockReadFile(path, encoding),
+    readFile: (filePath: string, encoding: string) => mockReadFile(filePath, encoding),
+    writeFile: vi.fn().mockResolvedValue(undefined),
   },
 }));
+
+function makeRegistry(provider: TranslationProvider): ProviderRegistry {
+  return {
+    get: vi.fn().mockReturnValue(provider),
+    listProviders: vi.fn().mockReturnValue(["mymemory"]),
+    isAvailable: vi.fn().mockReturnValue(true),
+    recordSuccess: vi.fn(),
+    recordFailure: vi.fn(),
+  } as unknown as ProviderRegistry;
+}
 
 describe("extract-translatable command", () => {
   let mockProvider: TranslationProvider;
@@ -210,9 +222,9 @@ describe("translate-api-docs command", () => {
 
       mockReconstructMarkdown.mockReturnValue("| Header1 | Header2 |\n|---------|---------|\n| Cell1   | Cell2   |");
 
-      const getProvider = vi.fn().mockReturnValue(mockProvider);
-
-      await executeTranslateApiDocs("./test-table.md", "es-ES", undefined, getProvider);
+      await executeTranslateApiDocs("./test-table.md", "es-ES", undefined, () =>
+        makeRegistry(mockProvider)
+      );
 
       expect(mockProvider.translate).toHaveBeenCalledWith(
         "Header1 Header2 Cell1 Cell2",
@@ -244,9 +256,9 @@ describe("translate-api-docs command", () => {
 
       mockReconstructMarkdown.mockReturnValue("- Item 1\n  - Nested item");
 
-      const getProvider = vi.fn().mockReturnValue(mockProvider);
-
-      await executeTranslateApiDocs("./test-list.md", "es-ES", undefined, getProvider);
+      await executeTranslateApiDocs("./test-list.md", "es-ES", undefined, () =>
+        makeRegistry(mockProvider)
+      );
 
       expect(mockProvider.translate).toHaveBeenCalledWith(
         "Item 1\nNested item",
@@ -284,9 +296,9 @@ describe("translate-api-docs command", () => {
 
       mockReconstructMarkdown.mockReturnValue("```javascript\nconst x = 1;\n```\n\nSome text");
 
-      const getProvider = vi.fn().mockReturnValue(mockProvider);
-
-      await executeTranslateApiDocs("./test-code.md", "es-ES", undefined, getProvider);
+      await executeTranslateApiDocs("./test-code.md", "es-ES", undefined, () =>
+        makeRegistry(mockProvider)
+      );
 
       // Code blocks should not be translated
       expect(mockProvider.translate).toHaveBeenCalledTimes(1);
@@ -326,9 +338,9 @@ describe("translate-api-docs command", () => {
 
       mockReconstructMarkdown.mockReturnValue("---\ntitle: API Docs\n---\n\n# API");
 
-      const getProvider = vi.fn().mockReturnValue(mockProvider);
-
-      await executeTranslateApiDocs("./test-frontmatter.md", "es-ES", undefined, getProvider);
+      await executeTranslateApiDocs("./test-frontmatter.md", "es-ES", undefined, () =>
+        makeRegistry(mockProvider)
+      );
 
       expect(mockProvider.translate).toHaveBeenCalledWith(
         "# API",
@@ -344,10 +356,10 @@ describe("translate-api-docs command", () => {
     it("should throw error for invalid dialect", async () => {
       mockValidateFilePath.mockImplementation((path: string) => path);
 
-      const getProvider = vi.fn().mockReturnValue(mockProvider);
-
       await expect(
-        executeTranslateApiDocs("./test.md", "invalid-dialect" as any, undefined, getProvider)
+        executeTranslateApiDocs("./test.md", "invalid-dialect" as any, undefined, () =>
+          makeRegistry(mockProvider)
+        )
       ).rejects.toThrow("Invalid dialect");
     });
 
@@ -356,9 +368,11 @@ describe("translate-api-docs command", () => {
         throw new Error("Path traversal detected");
       });
 
-      const getProvider = vi.fn().mockReturnValue(mockProvider);
-
-      await expect(executeTranslateApiDocs("../../../etc/passwd", "es-ES", undefined, getProvider)).rejects.toThrow("Path traversal detected");
+      await expect(
+        executeTranslateApiDocs("../../../etc/passwd", "es-ES", undefined, () =>
+          makeRegistry(mockProvider)
+        )
+      ).rejects.toThrow("Path traversal detected");
     });
   });
 
@@ -396,9 +410,9 @@ describe("translate-api-docs command", () => {
 
       mockReconstructMarkdown.mockImplementation((_orig: unknown, translated: any[]) => translated[0].content);
 
-      const getProvider = vi.fn().mockReturnValue(mockProvider);
-
-      await executeTranslateApiDocs("./test.md", "es-ES", { protectTokens: tokenFile }, getProvider);
+      await executeTranslateApiDocs("./test.md", "es-ES", { protectTokens: tokenFile }, () =>
+        makeRegistry(mockProvider)
+      );
 
       expect(mockWriteOutput).toHaveBeenCalledWith(expect.stringContaining("Kyanite Labs"));
       expect(mockWriteOutput).toHaveBeenCalledWith(expect.stringContaining("@pastorsimon1798"));
@@ -439,13 +453,11 @@ describe("translate-api-docs command", () => {
       }));
 
       mockReconstructMarkdown.mockImplementation((_orig: unknown, translated: any[]) => translated[0].content);
-      const getProvider = vi.fn().mockReturnValue(mockProvider);
-
       await executeTranslateApiDocs(
         "./test.md",
         "es-ES",
         { glossaryFile, glossaryMode: "strict" as any },
-        getProvider
+        () => makeRegistry(mockProvider)
       );
 
       const out = mockWriteOutput.mock.calls[0]?.[0] as string;
