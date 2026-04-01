@@ -149,7 +149,7 @@ export async function executeTranslate(
     const translationProvider = getProvider(provider);
 
     // Perform translation
-    const result = await translationProvider.translate(text, "auto", dialect, {
+    const result = await translationProvider.translate(text, "auto", "es", {
       formality,
       dialect,
     });
