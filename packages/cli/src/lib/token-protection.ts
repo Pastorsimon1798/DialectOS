@@ -49,6 +49,12 @@ export function restoreProtectedTokens(text: string, replacements: Map<string, s
   let restored = text;
   replacements.forEach((token, placeholder) => {
     restored = restored.split(placeholder).join(token);
+    // Some providers normalize placeholders (e.g. "__ESPANOL_GLOSS_6__" -> "ESPANOL GLOSS 6")
+    const normalized = placeholder
+      .replace(/^_+|_+$/g, "")
+      .replace(/_/g, "[_\\s]*");
+    const regex = new RegExp(`\\b${normalized}\\b`, "g");
+    restored = restored.replace(regex, token);
   });
   return restored;
 }
