@@ -450,7 +450,7 @@ describe("LibreTranslateProvider", () => {
       }),
     } as any);
 
-    process.env.LIBRETRANSLATE_URL = "https://libretranslate.com/translate";
+    process.env.LIBRETRANSLATE_URL = "https://libretranslate.com";
     const provider = new LibreTranslateProvider();
 
     const result = await provider.translate("Hello", "en", "es");
@@ -482,7 +482,7 @@ describe("LibreTranslateProvider", () => {
       json: async () => ({ translatedText: "Hola" }),
     } as any);
 
-    process.env.LIBRETRANSLATE_URL = "https://libretranslate.com/translate";
+    process.env.LIBRETRANSLATE_URL = "https://libretranslate.com";
     process.env.LIBRETRANSLATE_API_KEY = "test-key-123";
     const provider = new LibreTranslateProvider();
 
@@ -510,7 +510,7 @@ describe("LibreTranslateProvider", () => {
       json: async () => ({}),
     } as any);
 
-    process.env.LIBRETRANSLATE_URL = "https://libretranslate.com/translate";
+    process.env.LIBRETRANSLATE_URL = "https://libretranslate.com";
     const provider = new LibreTranslateProvider();
 
     await expect(provider.translate("Hello", "en", "es")).rejects.toThrow(
@@ -536,7 +536,7 @@ describe("LibreTranslateProvider", () => {
       })
     );
 
-    process.env.LIBRETRANSLATE_URL = "https://libretranslate.com/translate";
+    process.env.LIBRETRANSLATE_URL = "https://libretranslate.com";
     const provider = new LibreTranslateProvider();
 
     await expect(provider.translate("Hello", "en", "es")).rejects.toThrow(
@@ -568,7 +568,7 @@ describe("MyMemoryProvider", () => {
       }),
     } as any);
 
-    const provider = new MyMemoryProvider();
+    const provider = new MyMemoryProvider({ maxRetries: 0, retryDelayMs: 1 });
 
     const result = await provider.translate("Hello", "en", "es");
 
@@ -590,7 +590,7 @@ describe("MyMemoryProvider", () => {
       }),
     } as any);
 
-    const provider = new MyMemoryProvider();
+    const provider = new MyMemoryProvider({ maxRetries: 0, retryDelayMs: 1 });
     await provider.translate("Hello", "en", "es");
 
     const fetchCall = vi.mocked(global.fetch).mock.calls[0];
@@ -614,14 +614,14 @@ describe("MyMemoryProvider", () => {
       json: async () => ({}),
     } as any);
 
-    const provider = new MyMemoryProvider();
+    const provider = new MyMemoryProvider({ maxRetries: 0, retryDelayMs: 1 });
 
     await expect(provider.translate("Hello", "en", "es")).rejects.toThrow(
       "Invalid response content type"
     );
   });
 
-  it("should warn when text exceeds 5000 characters", async () => {
+  it("should translate long text by chunking", async () => {
     vi.mocked(global.fetch).mockResolvedValue({
       ok: true,
       headers: {
@@ -636,17 +636,16 @@ describe("MyMemoryProvider", () => {
       }),
     } as any);
 
-    const provider = new MyMemoryProvider();
-    const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const provider = new MyMemoryProvider({
+      maxRequests: 1000,
+      maxRetries: 0,
+      retryDelayMs: 1,
+    });
 
     const longText = "a".repeat(6000);
-    await provider.translate(longText, "en", "es");
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining("exceeds 5000 character limit")
-    );
-
-    consoleSpy.mockRestore();
+    const result = await provider.translate(longText, "en", "es");
+    expect(result.translatedText.length).toBeGreaterThan(0);
+    expect(vi.mocked(global.fetch).mock.calls.length).toBeGreaterThan(1);
   });
 });
 
