@@ -1,0 +1,12 @@
+{
+  "sourcePath": "/Users/simongonzalezdecruz/workspaces/DialectOS-latest/audits/adversarial-2026-04-01/corpus/declaration-excerpt.md",
+  "sourceHash": "bed02bd56e82f43928e1faf005dda16d4aa79efa2c2e1c816a6a77493e8a6960",
+  "totalSections": 5,
+  "translatedByIndex": {
+    "0": "Declaration Excerpt (Public Domain)",
+    "1": "In Congress, July 4, 1776.",
+    "2": "We hold these truths to be self-evident, that all men are created equal, that\nthey are endowed by their Creator with certain unalienable Rights, that among\nthese are Life, Liberty and the pursuit of Happiness.",
+    "3": "That to secure these rights, Governments are instituted among Men, deriving\ntheir just powers from the consent of the governed.",
+    "4": "That whenever any Form of Government becomes destructive of these ends, it is\nthe Right of the People to alter or to abolish it, and to institute new\nGovernment."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "sourcePath": "/Users/simongonzalezdecruz/workspaces/DialectOS-latest/README.md",
+  "totalSections": 32,
+  "translatedByIndex": {
+    "0": " DialectOS  ",
+    "1": "Servidor de traducción de dialecto español construido en el Protocolo Modelo de Contexto (MCP).",
+    "2": " DialectOS   proporciona 16 herramientas MCP que entienden las diferencias de dialecto español —traduciendo, detectando y adaptando contenido a 20 variantes regionales (es-ES, es-MX, es-AR, es-CO, etc.) preservando la estructura de marcado, los comentarios de código y el formato de archivo locale.",
+    "3": "Arquitectura",
+    "5": "16 MCP Tools",
+    "6": "Traducción del mercado (4)**",
+    "7": "`translate markdown` — Traducir el marcador al conservar la estructura\n`extract translatable` - Extracto texto translatable de la marcación\n`translate api docs` — Traducir documentación de la API\n`create bilingual doc` — Crear documentos bilingües de lado a lado",
+    "8": "**i18n Operations (6)**",
+    "9": "`detect missing keys` — Compare los archivos locales para las teclas perdidas\nTraducir claves perdidas\n`batch translate locales` — Batch traduce a múltiples dialectos\n`manage dialect variants` — Crear variantes específicas del dialecto\n`check formality` — Comprobar la consistencia de la formalidad (tú vs usted)\n`apply gender neutral` — Apply gender-neutral language (elles, latine, x)",
+    "10": "**Traducción (6)**",
+    "11": "Traducir texto a un dialecto español específico\n`detect dialect` - Detectar el dialecto español del texto\n`translate code comment` — Traducir comentarios de código (preservar código)\n`translate readme` — Traducir archivos README\n\"search glossary \" - Búsqueda de glosario incorporado (500+ términos)\n`list dialects` - Listar todos los 20 dialectos compatibles con metadatos",
+    "12": "Inicio rápido",
+    "13": "Como servidor MCP",
+    "14": "Añada a su configuración del cliente MCP (por ejemplo, Claude Desktop `  claude_desktop_config.json  `):",
+    "16": "De la Fuente",
+    "18": "CLI",
+    "20": "Configuración",
+    "21": "Medio ambiente",
+    "22": "Variable Description Default `DEEPL AUTH KEY` DeepL API key — `LIBRETRANSLATE URL` LibreTranslate endpoint — `ALLOWED LOCALE DIRS` Comma-separated allowed directories for file tools ` process.cwd ()` `ENABLE MYMEMORY Límite de velocidad de nivel de herramienta `máx, ventana '60,60000` `ESPANOL LOG LEVEL` Nivel de registro \" terrorismo \"",
+    "23": "Proveedores de traducción",
+    "24": "Proveedor Auth Cost Quality DeepL `DEEPL AUTH KEY` Paid Excelente LibreTranslate `LIBRETRANSLATE URL` Self-hosted Good MyMemory None Free Basic",
+    "25": "Todos los proveedores utilizan el patrón de interruptores con falla automática.",
+    "26": "Seguridad",
+    "27": "Protección traversal de caminos con resolución de enlace\nLímites de longitud de contenido (512KB max)\nTasa límite (60   req/min    nivel de herramienta, configurable por proveedor)\nInput sanitization (null bytes, caracteres de control)\nSaneamiento del mensaje de error (sin rastros de pila, sin rutas internas, sin claves de API)",
+    "28": "Desarrollo",
+    "30": "Licencia",
+    "31": "MIT"
+  }
+}
