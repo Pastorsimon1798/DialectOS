@@ -151,7 +151,12 @@ async function translateReadme(
   const translatedByIndex =
     checkpoint && checkpoint.sourcePath === validatedPath && checkpoint.sourceHash === sourceHash
       ? checkpoint.translatedByIndex
-      : {};
+      : (() => {
+          if (checkpoint && !checkpoint.sourceHash) {
+            console.warn("Checkpoint predates source hashing — retranslating all sections");
+          }
+          return {};
+        })();
   const pacing: AdaptivePacingState = { delayMs: 0 };
 
   for (const [idx, section] of parsed.sections.entries()) {
@@ -173,55 +178,61 @@ async function translateReadme(
         : [];
       const mergedTokens = Array.from(new Set([...protectedTokens, ...runtimeTokens]));
       const protectedChunk = protectTokensInText(glossaryChunk.text, mergedTokens);
-      const result = await translateWithFallback(
-        registry,
-        options.provider,
-        protectedChunk.text,
-        "en",
-        "es",
-        translateOptions,
-        pacing
-      );
+      try {
+        const result = await translateWithFallback(
+          registry,
+          options.provider,
+          protectedChunk.text,
+          "en",
+          "es",
+          translateOptions,
+          pacing
+        );
 
-      const translatedContent = restoreProtectedTokens(
-        restoreProtectedTokens(result.translatedText, protectedChunk.replacements),
-        glossaryChunk.replacements
-      );
+        const translatedContent = restoreProtectedTokens(
+          restoreProtectedTokens(result.translatedText, protectedChunk.replacements),
+          glossaryChunk.replacements
+        );
 
-      // Create translated section
-      translatedSections.push({
-        ...section,
-        content: translatedContent,
-      });
+        // Create translated section
+        translatedSections.push({
+          ...section,
+          content: translatedContent,
+        });
 
-      translatedByIndex[idx] = translatedContent;
-      const state: TranslationCheckpoint = {
-        sourcePath: validatedPath,
-        sourceHash,
-        totalSections: parsed.sections.length,
-        translatedByIndex,
-      };
-      await saveCheckpoint(checkpointPath, state);
+        // Only checkpoint successful translations
+        translatedByIndex[idx] = translatedContent;
+        const state: TranslationCheckpoint = {
+          sourcePath: validatedPath,
+          sourceHash,
+          totalSections: parsed.sections.length,
+          translatedByIndex,
+        };
+        await saveCheckpoint(checkpointPath, state);
+      } catch (error) {
+        // Keep original section on failure — do NOT checkpoint
+        console.error(`Failed to translate section ${idx}: ${error instanceof Error ? error.message : String(error)}`);
+        translatedSections.push(section);
+      }
     }
   }
 
   // 7. Reconstruct markdown
   const translated = reconstructMarkdown(parsed.sections, translatedSections);
 
-  if (options.validateStructure) {
-    const validation = validateMarkdownStructure(content, translated);
-    if (!validation.valid) {
-      const msg = `Structure validation failed: ${validation.violations.join("; ")}`;
-      if ((options.structureMode || "strict") === "strict") {
-        throw new Error(msg);
-      }
-      console.warn(msg);
-    }
-  }
-
+  // Call validateMarkdownStructure once and reuse the result
   const validation = options.validateStructure
     ? validateMarkdownStructure(content, translated)
     : { valid: true, violations: [] };
+
+  if (options.validateStructure && !validation.valid) {
+    const msg = `Structure validation failed: ${validation.violations.join("; ")}`;
+    if ((options.structureMode || "strict") === "strict") {
+      throw new Error(msg);
+    }
+    console.warn(msg);
+  }
+
   const quality = calculateQualityScore(
     content,
     translated,

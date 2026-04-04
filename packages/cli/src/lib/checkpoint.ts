@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 
 export interface TranslationCheckpoint {
   sourcePath: string;
-  sourceHash: string;
+  sourceHash?: string;
   totalSections: number;
   translatedByIndex: Record<number, string>;
 }
@@ -11,7 +11,11 @@ export interface TranslationCheckpoint {
 export async function loadCheckpoint(path: string): Promise<TranslationCheckpoint | null> {
   try {
     const raw = await fs.readFile(path, "utf-8");
-    return JSON.parse(raw) as TranslationCheckpoint;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || !parsed.sourcePath) {
+      return null;
+    }
+    return parsed as TranslationCheckpoint;
   } catch {
     return null;
   }

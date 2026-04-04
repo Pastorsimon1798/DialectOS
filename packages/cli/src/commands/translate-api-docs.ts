@@ -209,7 +209,12 @@ async function translateSections(
   const translatedByIndex =
     checkpoint && checkpoint.sourcePath === sourcePath && checkpoint.sourceHash === sourceHash
       ? checkpoint.translatedByIndex
-      : {};
+      : (() => {
+          if (checkpoint && !checkpoint.sourceHash) {
+            console.warn("Checkpoint predates source hashing — retranslating all sections");
+          }
+          return {};
+        })();
   const pacing: AdaptivePacingState = { delayMs: 0 };
   let failures = 0;
 
@@ -233,8 +238,10 @@ async function translateSections(
       translatedSections.push(translated.section);
       if (translated.failed) {
         failures++;
+      } else {
+        // Only save successfully translated sections to checkpoint
+        translatedByIndex[idx] = translated.section.content;
       }
-      translatedByIndex[idx] = translated.section.content;
       const state: TranslationCheckpoint = {
         sourcePath,
         sourceHash,
@@ -307,7 +314,7 @@ export async function executeTranslateApiDocs(
       sourceHash,
       resume
     );
-    const failurePolicy = options?.failurePolicy || "strict";
+    const failurePolicy = options?.failurePolicy ?? "strict";
     if (sectionResult.failures > 0 && failurePolicy === "strict") {
       throw new Error(
         `Section translation failed for ${sectionResult.failures} translatable block(s)`
