@@ -17,7 +17,8 @@ import {
   parseMarkdown,
   reconstructMarkdown,
 } from "@espanol/markdown-parser";
-import { validateMarkdownPath, validateFilePath, validateContentLength, createSecureTempPath } from "@espanol/security";
+import { validateMarkdownPath, validateFilePath, validateContentLength } from "@espanol/security";
+import { writeOutput } from "../lib/output.js";
 import type { ProviderRegistry } from "@espanol/providers";
 import {
   loadProtectedTokens,
@@ -130,11 +131,10 @@ async function translateReadme(
   const parsed = parseMarkdown(content);
 
   if (parsed.sections.length === 0) {
-    const result = "";
     if (options.output) {
-      await writeOutput(options.output, result);
+      await writeOutput("", options.output);
     } else {
-      console.log(result);
+      console.log("");
     }
     return;
   }
@@ -273,41 +273,12 @@ async function translateReadme(
   );
 
   // 8. Write output
-  if (options.output) {
-    await writeOutput(options.output, translated);
-  } else {
-    console.log(translated);
-  }
+  await writeOutput(translated, options.output);
 
   // Clean up checkpoint file after successful completion
   try {
     await fs.unlink(checkpointPath);
   } catch {
     // Checkpoint may not exist — ignore
-  }
-}
-
-/**
- * Write output to file with atomic write
- * Uses temp file + rename for atomicity
- */
-async function writeOutput(filePath: string, content: string): Promise<void> {
-  // Create temp file in same directory as target
-  const tempPath = createSecureTempPath(filePath);
-
-  try {
-    // Write to temp file
-    await fs.writeFile(tempPath, content, "utf-8");
-
-    // Atomic rename to final path
-    await fs.rename(tempPath, filePath);
-  } catch (error) {
-    // Clean up temp file on error
-    try {
-      await fs.unlink(tempPath);
-    } catch {
-      // Ignore cleanup errors
-    }
-    throw error;
   }
 }

@@ -454,13 +454,13 @@ date: 2024-01-01
         new MockProvider((text) => `[ES] ${text}`)
       ) as ProviderRegistry;
 
-      const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+      const stdoutWriteSpy = vi.spyOn(process.stdout, "write").mockImplementation(() => true);
 
       await executeCommand(registry, [inputFile]);
 
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining("# [ES] Test"));
+      expect(stdoutWriteSpy).toHaveBeenCalledWith(expect.stringContaining("# [ES] Test"));
 
-      consoleLogSpy.mockRestore();
+      stdoutWriteSpy.mockRestore();
     });
   });
 

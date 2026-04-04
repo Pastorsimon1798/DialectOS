@@ -12,11 +12,24 @@ export async function loadCheckpoint(path: string): Promise<TranslationCheckpoin
   try {
     const raw = await fs.readFile(path, "utf-8");
     const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object" || !parsed.sourcePath) {
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed) || !parsed.sourcePath) {
       console.warn(`Checkpoint at ${path} is missing required fields — ignoring`);
       return null;
     }
-    return parsed as TranslationCheckpoint;
+    // Prototype pollution protection: reject if any key is a dangerous prototype property
+    const dangerousKeys = ["__proto__", "constructor", "prototype"];
+    if (dangerousKeys.some((key) => key in parsed)) {
+      console.warn(`Checkpoint at ${path} contains dangerous keys — ignoring`);
+      return null;
+    }
+    return {
+      sourcePath: String(parsed.sourcePath),
+      sourceHash: parsed.sourceHash ? String(parsed.sourceHash) : undefined,
+      totalSections: Number(parsed.totalSections) || 0,
+      translatedByIndex: typeof parsed.translatedByIndex === "object" && parsed.translatedByIndex !== null
+        ? parsed.translatedByIndex as Record<number, string>
+        : {},
+    };
   } catch (error) {
     const code = (error as NodeJS.ErrnoException).code;
     if (code !== "ENOENT") {

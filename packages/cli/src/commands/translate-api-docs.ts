@@ -344,15 +344,7 @@ export async function executeTranslateApiDocs(
       }
     }
 
-    // Write output
-    await writeOutput(translated, options?.output);
-
-    // Clean up checkpoint file after successful completion
-    try {
-      await fs.promises.unlink(checkpointPath);
-    } catch {
-      // Checkpoint file may not exist or already deleted — ignore
-    }
+    // Log quality score before writing output
     const quality = calculateQualityScore(
       content,
       translated,
@@ -367,6 +359,16 @@ export async function executeTranslateApiDocs(
         quality.structureIntegrity === 1 ? "pass" : "fail"
       }`
     );
+
+    // Write output
+    await writeOutput(translated, options?.output);
+
+    // Clean up checkpoint file after successful completion
+    try {
+      await fs.promises.unlink(checkpointPath);
+    } catch {
+      // Checkpoint file may not exist or already deleted — ignore
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     writeError(message);
