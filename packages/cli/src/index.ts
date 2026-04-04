@@ -103,6 +103,14 @@ program
   .option("--checkpoint-file <path>", "Checkpoint file for resumable translation")
   .option("--resume", "Resume from checkpoint when available", true)
   .option("--no-resume", "Ignore existing checkpoint")
+  .option("--failure-policy <policy>", "Section failure policy: strict|allow-partial", "strict")
+  .addHook("preAction", (thisCommand) => {
+    const policy = thisCommand.opts().failurePolicy;
+    if (policy && !["strict", "allow-partial"].includes(policy)) {
+      console.error(`Invalid --failure-policy '${policy}'. Must be 'strict' or 'allow-partial'.`);
+      process.exit(1);
+    }
+  })
   .action(async (input, options) => {
     try {
       const registry = getDefaultProviderRegistry();
