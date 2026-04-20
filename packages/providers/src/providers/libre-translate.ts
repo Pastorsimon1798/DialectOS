@@ -144,23 +144,32 @@ export class LibreTranslateProvider implements TranslationProvider {
         signal: controller.signal,
       });
 
-      clearTimeout(timeoutId);
-
-      // Validate response
+      // Validate response before clearing timeout — malicious server could
+      // send headers quickly but stall the body indefinitely.
       if (!response.ok) {
+        clearTimeout(timeoutId);
         throw new Error(`LibreTranslate API error: ${response.statusText}`);
       }
 
       // Validate Content-Type
       const contentType = response.headers.get("content-type");
       if (!contentType?.includes("application/json")) {
+        clearTimeout(timeoutId);
         throw new Error("Invalid response content type");
       }
 
-      const data = await response.json() as {
+      // Keep timeout active while reading body — start a fresh timeout race
+      const data = (await Promise.race([
+        response.json(),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Response body timed out")), LIBRETRANSLATE_TIMEOUT)
+        ),
+      ])) as {
         translatedText: string;
         detectedLanguage?: { language: string };
       };
+
+      clearTimeout(timeoutId);
 
       // Record success
       this.breaker.recordSuccess();

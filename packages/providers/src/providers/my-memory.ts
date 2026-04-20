@@ -137,9 +137,9 @@ export class MyMemoryProvider implements TranslationProvider {
         });
         const url = `${MYMEMORY_ENDPOINT}?${params.toString()}`;
         const response = await fetch(url, { method: "GET", signal: controller.signal });
-        clearTimeout(timeoutId);
 
         if (response.status === 429 && attempt < this.maxRetries) {
+          clearTimeout(timeoutId);
           const retryAfter = parseInt(response.headers.get("retry-after") || "", 10);
           const waitMs =
             Number.isFinite(retryAfter) && retryAfter > 0
@@ -150,19 +150,29 @@ export class MyMemoryProvider implements TranslationProvider {
         }
 
         if (!response.ok) {
+          clearTimeout(timeoutId);
           throw new Error(`MyMemory API error: ${response.statusText}`);
         }
 
         const contentType = response.headers.get("content-type");
         if (!contentType?.includes("application/json")) {
+          clearTimeout(timeoutId);
           throw new Error("Invalid response content type");
         }
 
-        const data = (await response.json()) as {
+        // Keep timeout active while reading body — start a fresh timeout race
+        const data = (await Promise.race([
+          response.json(),
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error("Response body timed out")), this.timeoutMs)
+          ),
+        ])) as {
           responseStatus: number;
           responseDetails?: string;
           responseData: { translatedText: string };
         };
+
+        clearTimeout(timeoutId);
         if (data.responseStatus !== 200) {
           if (
             /TOO MANY REQUESTS|RATE LIMIT/i.test(data.responseDetails || "") &&
