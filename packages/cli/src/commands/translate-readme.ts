@@ -18,7 +18,7 @@ import {
   reconstructMarkdown,
 } from "@espanol/markdown-parser";
 import { validateMarkdownPath, validateFilePath, validateContentLength } from "@espanol/security";
-import { writeOutput } from "../lib/output.js";
+import { writeOutput, sanitizeConsoleOutput } from "../lib/output.js";
 import type { ProviderRegistry } from "@espanol/providers";
 import {
   loadProtectedTokens,
@@ -225,7 +225,9 @@ async function translateReadme(
         await saveCheckpoint(checkpointPath, state);
       } catch (error) {
         // Keep original section on failure — do NOT checkpoint
-        console.error(`Failed to translate section ${idx}: ${error instanceof Error ? error.message : String(error)}`);
+        console.error(
+          `Failed to translate section ${idx}: ${sanitizeConsoleOutput(error instanceof Error ? error.message : String(error))}`
+        );
         translatedSections.push(section);
         failures++;
       }
