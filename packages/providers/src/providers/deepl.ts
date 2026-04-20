@@ -37,7 +37,13 @@ export class DeepLProvider implements TranslationProvider {
     }
 
     // Use mock client if provided (for testing), otherwise create real client
-    this.client = mockClient || new deepl.DeepLClient(authKey);
+    // minTimeout controls axios request timeout — when it fires, the underlying
+    // HTTP request is aborted, preventing dangling promises.
+    this.client =
+      mockClient ||
+      new deepl.DeepLClient(authKey, {
+        minTimeout: options?.timeout || HTTP_TIMEOUT,
+      });
 
     // Initialize circuit breaker
     this.breaker = new CircuitBreaker(
@@ -91,13 +97,14 @@ export class DeepLProvider implements TranslationProvider {
       const sourceLangUpper: deepl.SourceLanguageCode | null =
         sourceLang === "auto" ? null : (sourceLang.toUpperCase() as deepl.SourceLanguageCode);
 
-      // Execute translation with timeout
-      const result = await Promise.race<deepl.TextResult>([
-        this.client.translateText(text, sourceLangUpper, targetLangUpper, translateOptions),
-        new Promise<deepl.TextResult>((_, reject) =>
-          setTimeout(() => reject(new Error("Request timed out")), HTTP_TIMEOUT)
-        ),
-      ]);
+      // Execute translation — axios timeout (minTimeout) aborts the underlying
+      // HTTP request automatically, avoiding dangling promises from Promise.race.
+      const result = await this.client.translateText(
+        text,
+        sourceLangUpper,
+        targetLangUpper,
+        translateOptions
+      );
 
       // Record success
       this.breaker.recordSuccess();
