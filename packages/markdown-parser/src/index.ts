@@ -56,35 +56,29 @@ interface MarkedToken {
  */
 function extractUrlsFromContent(content: string): string[] {
   const urls: string[] = [];
+  const seen = new Set<string>();
 
-  // Match inline links: [text](url)
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  let match;
-  while ((match = linkRegex.exec(content)) !== null) {
-    urls.push(match[2]);
-  }
+  // Use marked's lexer to safely tokenize content (no regex ReDoS)
+  const tokens = marked.lexer(content);
 
-  // Match images: ![alt](url)
-  const imgRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
-  while ((match = imgRegex.exec(content)) !== null) {
-    urls.push(match[2]);
-  }
-
-  // Match autolinks: <url>
-  const autolinkRegex = /<([^>\s]+)>/g;
-  while ((match = autolinkRegex.exec(content)) !== null) {
-    const url = match[1];
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-      urls.push(url);
+  function walkTokens(tokens: any[]): void {
+    for (const token of tokens) {
+      if (token.href && typeof token.href === "string") {
+        if (!seen.has(token.href)) {
+          seen.add(token.href);
+          urls.push(token.href);
+        }
+      }
+      if (token.tokens && Array.isArray(token.tokens)) {
+        walkTokens(token.tokens);
+      }
+      if (token.items && Array.isArray(token.items)) {
+        walkTokens(token.items);
+      }
     }
   }
 
-  // Match reference-style link definitions: [ref]: url
-  const refRegex = /^\s*\[([^\]]+)\]:\s*(\S+)/gm;
-  while ((match = refRegex.exec(content)) !== null) {
-    urls.push(match[2]);
-  }
-
+  walkTokens(tokens);
   return urls;
 }
 

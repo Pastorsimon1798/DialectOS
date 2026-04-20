@@ -72,11 +72,21 @@ export class MyMemoryProvider implements TranslationProvider {
       throw new SecurityError("Invalid language code", ErrorCode.INVALID_INPUT);
     }
 
+    if (!this.breaker.canExecute()) {
+      throw new Error("MyMemory provider is temporarily unavailable (circuit open)");
+    }
+
     const chunks = this.chunkText(text, CHUNK_SIZE);
     const translatedChunks: string[] = [];
 
-    for (const chunk of chunks) {
-      translatedChunks.push(await this.translateChunk(chunk, sourceLang, targetLang));
+    try {
+      for (const chunk of chunks) {
+        translatedChunks.push(await this.translateChunk(chunk, sourceLang, targetLang));
+      }
+      this.breaker.recordSuccess();
+    } catch (error) {
+      this.breaker.recordFailure();
+      throw error;
     }
 
     return {
@@ -151,10 +161,6 @@ export class MyMemoryProvider implements TranslationProvider {
       throw new Error(`Chunk exceeds MyMemory max size (${MAX_CHARS})`);
     }
 
-    if (!this.breaker.canExecute()) {
-      throw new Error("MyMemory provider is temporarily unavailable (circuit open)");
-    }
-
     await this.rateLimiter.acquire();
 
     for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
@@ -177,6 +183,15 @@ export class MyMemoryProvider implements TranslationProvider {
               : this.retryDelayMs * (attempt + 1);
           await new Promise((r) => setTimeout(r, waitMs));
           continue;
+        }
+
+        // Fail immediately on 4xx client errors (except 429 which is handled above)
+        if (response.status >= 400 && response.status < 500) {
+          clearTimeout(timeoutId);
+          throw Object.assign(
+            new Error(`MyMemory API error: ${response.statusText}`),
+            { statusCode: response.status }
+          );
         }
 
         if (!response.ok) {
@@ -216,7 +231,6 @@ export class MyMemoryProvider implements TranslationProvider {
           throw new Error(`MyMemory error: ${data.responseDetails || "Unknown error"}`);
         }
 
-        this.breaker.recordSuccess();
         return data.responseData.translatedText;
       } catch (error) {
         clearTimeout(timeoutId);
@@ -227,8 +241,13 @@ export class MyMemoryProvider implements TranslationProvider {
             );
             continue;
           }
-          this.breaker.recordFailure();
           throw new Error("Request timed out");
+        }
+        // Don't retry on 4xx client errors
+        if (error instanceof Error && (error as Error & { statusCode?: number }).statusCode &&
+            (error as Error & { statusCode?: number }).statusCode! >= 400 &&
+            (error as Error & { statusCode?: number }).statusCode! < 500) {
+          throw error;
         }
         if (attempt < this.maxRetries) {
           await new Promise((r) =>
@@ -236,12 +255,10 @@ export class MyMemoryProvider implements TranslationProvider {
           );
           continue;
         }
-        this.breaker.recordFailure();
         const message = error instanceof Error ? error.message : String(error);
         throw new Error(sanitizeErrorMessage(`MyMemory error: ${message}`));
       }
     }
-    this.breaker.recordFailure();
     throw new Error("MyMemory error: max retries exceeded");
   }
 }
