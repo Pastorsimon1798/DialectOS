@@ -6,7 +6,7 @@
 import * as deepl from "deepl-node";
 import type { TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
-import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT } from "@espanol/security";
+import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength } from "@espanol/security";
 
 const DEEPL_FORMALITY_MAP: Record<string, "more" | "less" | "default"> = {
   formal: "more",
@@ -62,6 +62,9 @@ export class DeepLProvider implements TranslationProvider {
       dialect?: string;
     }
   ): Promise<TranslationResult> {
+    // Validate input length before processing
+    validateContentLength(text);
+
     // Check circuit breaker
     if (!this.breaker.canExecute()) {
       throw new Error("DeepL provider is temporarily unavailable (circuit open)");

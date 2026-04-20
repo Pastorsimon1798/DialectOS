@@ -5,7 +5,7 @@
 
 import type { TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
-import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT } from "@espanol/security";
+import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength } from "@espanol/security";
 
 const LIBRETRANSLATE_TIMEOUT = 30000; // 30 seconds
 
@@ -60,6 +60,9 @@ export class LibreTranslateProvider implements TranslationProvider {
       dialect?: string;
     }
   ): Promise<TranslationResult> {
+    // Validate input length before processing
+    validateContentLength(text);
+
     // Check circuit breaker
     if (!this.breaker.canExecute()) {
       throw new Error("LibreTranslate provider is temporarily unavailable (circuit open)");

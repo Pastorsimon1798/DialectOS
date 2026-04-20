@@ -5,7 +5,7 @@
 
 import type { TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
-import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT } from "@espanol/security";
+import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength } from "@espanol/security";
 
 const MYMEMORY_ENDPOINT = "https://api.mymemory.translated.net/get";
 const DEFAULT_MYMEMORY_TIMEOUT = 15000; // 15 seconds (faster timeout for free service)
@@ -61,6 +61,9 @@ export class MyMemoryProvider implements TranslationProvider {
       dialect?: string;
     }
   ): Promise<TranslationResult> {
+    // Validate input length before processing
+    validateContentLength(text);
+
     const chunks = this.chunkText(text, CHUNK_SIZE);
     const translatedChunks: string[] = [];
 
