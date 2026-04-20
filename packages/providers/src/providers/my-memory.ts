@@ -5,7 +5,8 @@
 
 import type { TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
-import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength } from "@espanol/security";
+import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
+import { languageCodeSchema } from "@espanol/types";
 
 const MYMEMORY_ENDPOINT = "https://api.mymemory.translated.net/get";
 const DEFAULT_MYMEMORY_TIMEOUT = 15000; // 15 seconds (faster timeout for free service)
@@ -63,6 +64,13 @@ export class MyMemoryProvider implements TranslationProvider {
   ): Promise<TranslationResult> {
     // Validate input length before processing
     validateContentLength(text);
+
+    // Validate language codes
+    const sourceResult = languageCodeSchema.safeParse(sourceLang === "auto" ? "en" : sourceLang);
+    const targetResult = languageCodeSchema.safeParse(targetLang);
+    if (!sourceResult.success || !targetResult.success) {
+      throw new SecurityError("Invalid language code", ErrorCode.INVALID_INPUT);
+    }
 
     const chunks = this.chunkText(text, CHUNK_SIZE);
     const translatedChunks: string[] = [];

@@ -6,6 +6,7 @@
 import type { TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
 import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
+import { languageCodeSchema } from "@espanol/types";
 
 const LIBRETRANSLATE_TIMEOUT = 30000; // 30 seconds
 
@@ -105,6 +106,13 @@ export class LibreTranslateProvider implements TranslationProvider {
   ): Promise<TranslationResult> {
     // Validate input length before processing
     validateContentLength(text);
+
+    // Validate language codes
+    const sourceResult = languageCodeSchema.safeParse(sourceLang === "auto" ? "en" : sourceLang);
+    const targetResult = languageCodeSchema.safeParse(targetLang);
+    if (!sourceResult.success || !targetResult.success) {
+      throw new SecurityError("Invalid language code", ErrorCode.INVALID_INPUT);
+    }
 
     // Check circuit breaker
     if (!this.breaker.canExecute()) {
