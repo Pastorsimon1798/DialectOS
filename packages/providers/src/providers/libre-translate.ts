@@ -5,9 +5,50 @@
 
 import type { TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
-import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength } from "@espanol/security";
+import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
 
 const LIBRETRANSLATE_TIMEOUT = 30000; // 30 seconds
+
+/**
+ * Validate LibreTranslate endpoint URL to prevent SSRF.
+ * Blocks private IP ranges, localhost, and non-HTTP(S) protocols.
+ */
+function validateLibreEndpoint(urlStr: string): string {
+  let parsed: URL;
+  try {
+    parsed = new URL(urlStr);
+  } catch {
+    throw new SecurityError("Invalid LibreTranslate endpoint URL", ErrorCode.INVALID_INPUT);
+  }
+
+  // Only allow http and https
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new SecurityError("LibreTranslate endpoint must use http or https", ErrorCode.INVALID_INPUT);
+  }
+
+  // Block localhost
+  const hostname = parsed.hostname.toLowerCase();
+  if (hostname === "localhost" || hostname.endsWith(".localhost")) {
+    throw new SecurityError("LibreTranslate endpoint cannot point to localhost", ErrorCode.INVALID_INPUT);
+  }
+
+  // Block private IP ranges and link-local
+  if (
+    hostname === "0.0.0.0" ||
+    hostname.startsWith("127.") ||
+    hostname.startsWith("10.") ||
+    hostname.startsWith("192.168.") ||
+    hostname.startsWith("169.254.") ||
+    /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(hostname) ||
+    hostname.startsWith("[::1]") ||
+    hostname.startsWith("[fc") ||
+    hostname.startsWith("[fd")
+  ) {
+    throw new SecurityError("LibreTranslate endpoint cannot point to internal addresses", ErrorCode.INVALID_INPUT);
+  }
+
+  return urlStr;
+}
 
 export class LibreTranslateProvider implements TranslationProvider {
   readonly name = "libretranslate";
@@ -25,14 +66,16 @@ export class LibreTranslateProvider implements TranslationProvider {
     windowMs?: number;
   }) {
     // Get endpoint from env var or options
-    this.endpoint =
+    const rawEndpoint =
       options?.endpoint ||
       process.env.LIBRETRANSLATE_URL ||
       "";
 
-    if (!this.endpoint) {
+    if (!rawEndpoint) {
       throw new Error("LIBRETRANSLATE_URL environment variable is required");
     }
+
+    this.endpoint = validateLibreEndpoint(rawEndpoint);
 
     // Get API key from env var or options (optional)
     this.apiKey = options?.apiKey || process.env.LIBRETRANSLATE_API_KEY;
