@@ -157,8 +157,8 @@ async function translateReadme(
   const glossary = await loadGlossary(options.glossaryFile);
   const glossaryMode = (options.glossaryMode || "off") as GlossaryMode;
   const rawCheckpointPath = options.checkpointFile || `${options.output || validatedPath}.checkpoint.json`;
-  // Only validate user-supplied checkpoint paths; auto-generated ones derive from validated paths
-  const checkpointPath = options.checkpointFile ? validateFilePath(rawCheckpointPath) : rawCheckpointPath;
+  // Always validate checkpoint paths to prevent traversal via --output
+  const checkpointPath = validateFilePath(rawCheckpointPath);
   const checkpoint = options.resume ? await loadCheckpoint(checkpointPath) : null;
   const sourceHash = hashSource(content);
   const translatedByIndex: Record<number, string> =

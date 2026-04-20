@@ -296,10 +296,8 @@ export async function executeTranslateApiDocs(
     const protectIdentities = options?.protectIdentities !== false;
     const rawCheckpointPath =
       options?.checkpointFile || `${options?.output || validatedPath}.checkpoint.json`;
-    // Only validate user-supplied checkpoint paths; auto-generated ones derive from validated paths
-    const checkpointPath = options?.checkpointFile
-      ? validateFilePath(rawCheckpointPath)
-      : rawCheckpointPath;
+    // Always validate checkpoint paths to prevent traversal via --output
+    const checkpointPath = validateFilePath(rawCheckpointPath);
     const resume = options?.resume !== false;
     const sourceHash = hashSource(content);
 
