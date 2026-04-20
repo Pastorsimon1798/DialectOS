@@ -30,31 +30,43 @@ vi.mock("node:fs", async (importOriginal) => {
   };
 });
 
-// Security functions to mock
-const validateJsonPath = vi.fn((path: string, options?: { mustExist?: boolean; checkSize?: boolean }) => {
-  // Basic mock that returns the path
-  return path;
-});
-
-const sanitizeErrorMessage = vi.fn((message: string) => {
-  return message
-    .replace(/\/[a-zA-Z0-9_\-\.\/~]+/g, "[path]")
-    .replace(/\\[a-zA-Z0-9_\-\.\\]+/g, "[path]")
-    .replace(/ENOENT/g, "file not found")
-    .replace(/EACCES/g, "access denied")
-    .replace(/EPERM/g, "permission denied");
-});
-
-const createSecureTempPath = vi.fn((parentDir: string) => {
-  const randomSuffix = Math.random().toString(16).substring(2, 10);
-  return join(parentDir, `.tmp_${randomSuffix}`);
-});
-
-// Mock the security module BEFORE importing
+// Mock the security module BEFORE importing (factory must be self-contained for hoisting)
 vi.mock("@espanol/security", () => ({
-  validateJsonPath,
-  sanitizeErrorMessage,
-  createSecureTempPath,
+  validateJsonPath: vi.fn((path: string, _options?: { mustExist?: boolean; checkSize?: boolean }) => path),
+  sanitizeErrorMessage: vi.fn((message: string) =>
+    message
+      .replace(/\/[a-zA-Z0-9_\-\.\/~]+/g, "[path]")
+      .replace(/\\[a-zA-Z0-9_\-\.\\]+/g, "[path]")
+      .replace(/ENOENT/g, "file not found")
+      .replace(/EACCES/g, "access denied")
+      .replace(/EPERM/g, "permission denied")
+  ),
+  createSecureTempPath: vi.fn((parentDir: string) => {
+    const randomSuffix = Math.random().toString(16).substring(2, 10);
+    return join(parentDir, `.tmp_${randomSuffix}`);
+  }),
+  SecurityError: class SecurityError extends Error {
+    constructor(message: string, public code: string) {
+      super(message);
+      this.name = "SecurityError";
+    }
+  },
+  ErrorCode: {
+    PATH_TRAVERSAL: "PATH_TRAVERSAL",
+    INVALID_PATH: "INVALID_PATH",
+    FILE_TOO_LARGE: "FILE_TOO_LARGE",
+    CONTENT_TOO_LONG: "CONTENT_TOO_LONG",
+    INVALID_INPUT: "INVALID_INPUT",
+    RATE_LIMITED: "RATE_LIMITED",
+    SANITIZATION_FAILED: "SANITIZATION_FAILED",
+    VALIDATION_FAILED: "VALIDATION_FAILED",
+    INVALID_JSON: "INVALID_JSON",
+    DEPTH_EXCEEDED: "DEPTH_EXCEEDED",
+    CIRCULAR_REFERENCE: "CIRCULAR_REFERENCE",
+    KEY_LIMIT_EXCEEDED: "KEY_LIMIT_EXCEEDED",
+  },
+  MAX_KEYS: 10000,
+  MAX_RECURSION_DEPTH: 20,
 }));
 
 // Mock the types module BEFORE importing
