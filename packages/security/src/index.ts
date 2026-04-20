@@ -598,6 +598,12 @@ export class RateLimiter {
       (time) => now - time < this.windowMs
     );
 
+    // Hard cap to prevent memory exhaustion from misconfigured large limits
+    const MAX_ARRAY_SIZE = Math.max(this.maxRequests * 2, 1000);
+    if (this.requests.length > MAX_ARRAY_SIZE) {
+      this.requests = this.requests.slice(-this.maxRequests);
+    }
+
     // Check if limit is exceeded
     if (this.requests.length >= this.maxRequests) {
       throw new SecurityError(
