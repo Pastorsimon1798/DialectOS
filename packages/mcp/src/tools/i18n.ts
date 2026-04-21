@@ -22,7 +22,6 @@ import type {
   FormalityIssue,
   GenderNeutralStrategy,
   VariantResult,
-  TranslateOptions,
 } from "@espanol/types";
 import {
   readLocaleFile,
@@ -47,6 +46,7 @@ import {
 } from "@espanol/providers";
 import { ToolResult } from "../lib/types.js";
 import { createProviderRegistry } from "../lib/provider-factory.js";
+import { prepareProviderRequest } from "../lib/provider-request.js";
 
 // ============================================================================
 // Types
@@ -85,30 +85,6 @@ interface CheckFormalityParams {
 interface ApplyGenderNeutralParams {
   localePath: string;
   strategy?: GenderNeutralStrategy;
-}
-
-function prepareProviderRequest(
-  registry: ProviderRegistry,
-  providerName: string,
-  text: string,
-  sourceLang: string,
-  targetLang: string,
-  options: TranslateOptions
-): { sourceLang: string; targetLang: string; options: TranslateOptions } {
-  const maybeRegistry = registry as ProviderRegistry & {
-    prepareRequest?: (
-      name: string,
-      text: string,
-      sourceLang: string,
-      targetLang: string,
-      options: TranslateOptions
-    ) => { sourceLang: string; targetLang: string; options: TranslateOptions };
-  };
-  return maybeRegistry.prepareRequest?.(providerName, text, sourceLang, targetLang, options) ?? {
-    sourceLang,
-    targetLang,
-    options,
-  };
 }
 
 // ============================================================================

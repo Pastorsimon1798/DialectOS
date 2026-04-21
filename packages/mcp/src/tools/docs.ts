@@ -15,7 +15,6 @@ import type {
   MarkdownSection,
   SpanishDialect,
   ProviderName,
-  TranslateOptions,
 } from "@espanol/types";
 import {
   parseMarkdown,
@@ -33,6 +32,7 @@ import type { ProviderRegistry } from "@espanol/providers";
 import { ToolResult } from "../lib/types.js";
 import type { BaseToolOptions } from "../lib/types.js";
 import { createProviderRegistry as createProviderRegistryImpl } from "../lib/provider-factory.js";
+import { prepareProviderRequest } from "../lib/provider-request.js";
 
 // Re-export for backward compatibility
 export { createProviderRegistryImpl as createProviderRegistry };
@@ -65,30 +65,6 @@ interface CreateBilingualDocParams {
   filePath: string;
   dialect?: SpanishDialect;
   provider?: ProviderName;
-}
-
-function prepareProviderRequest(
-  registry: ProviderRegistry,
-  providerName: string,
-  text: string,
-  sourceLang: string,
-  targetLang: string,
-  options: TranslateOptions
-): { sourceLang: string; targetLang: string; options: TranslateOptions } {
-  const maybeRegistry = registry as ProviderRegistry & {
-    prepareRequest?: (
-      name: string,
-      text: string,
-      sourceLang: string,
-      targetLang: string,
-      options: TranslateOptions
-    ) => { sourceLang: string; targetLang: string; options: TranslateOptions };
-  };
-  return maybeRegistry.prepareRequest?.(providerName, text, sourceLang, targetLang, options) ?? {
-    sourceLang,
-    targetLang,
-    options,
-  };
 }
 
 // ============================================================================

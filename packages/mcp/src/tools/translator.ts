@@ -17,7 +17,6 @@ import type {
   SpanishDialect,
   ProviderName,
   GlossaryEntry,
-  TranslateOptions,
 } from "@espanol/types";
 import {
   parseMarkdown,
@@ -39,6 +38,7 @@ import {
 } from "@espanol/providers";
 import { ToolResult } from "../lib/types.js";
 import { createProviderRegistry } from "../lib/provider-factory.js";
+import { prepareProviderRequest } from "../lib/provider-request.js";
 
 // ============================================================================
 // Types
@@ -75,30 +75,6 @@ interface SearchGlossaryParams {
 }
 
 interface ListDialectsParams {}
-
-function prepareProviderRequest(
-  registry: ProviderRegistry,
-  providerName: string,
-  text: string,
-  sourceLang: string,
-  targetLang: string,
-  options: TranslateOptions
-): { sourceLang: string; targetLang: string; options: TranslateOptions } {
-  const maybeRegistry = registry as ProviderRegistry & {
-    prepareRequest?: (
-      name: string,
-      text: string,
-      sourceLang: string,
-      targetLang: string,
-      options: TranslateOptions
-    ) => { sourceLang: string; targetLang: string; options: TranslateOptions };
-  };
-  return maybeRegistry.prepareRequest?.(providerName, text, sourceLang, targetLang, options) ?? {
-    sourceLang,
-    targetLang,
-    options,
-  };
-}
 
 // ============================================================================
 // Dialect Metadata
