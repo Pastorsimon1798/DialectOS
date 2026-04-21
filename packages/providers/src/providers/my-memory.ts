@@ -206,17 +206,21 @@ export class MyMemoryProvider implements TranslationProvider {
         }
 
         // Keep timeout active while reading body — start a fresh timeout race
+        let bodyTimeoutId: ReturnType<typeof setTimeout> | undefined;
         const data = (await Promise.race([
           response.json(),
-          new Promise<never>((_, reject) =>
-            setTimeout(() => reject(new Error("Response body timed out")), this.timeoutMs)
-          ),
+          new Promise<never>((_, reject) => {
+            bodyTimeoutId = setTimeout(
+              () => reject(new Error("Response body timed out")),
+              this.timeoutMs
+            );
+          }),
         ])) as {
           responseStatus: number;
           responseDetails?: string;
           responseData: { translatedText: string };
         };
-
+        if (bodyTimeoutId) clearTimeout(bodyTimeoutId);
         clearTimeout(timeoutId);
         if (data.responseStatus !== 200) {
           if (
