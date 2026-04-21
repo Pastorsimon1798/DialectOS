@@ -2,17 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { readFileSync, writeFileSync, existsSync, mkdirSync, renameSync, rmSync, statSync, realpathSync } from "node:fs";
 import { join } from "node:path";
 
-// Types that should come from @espanol/types (currently placeholder)
-export interface I18nEntry {
-  key: string;
-  value: string;
-}
-
-export interface LocaleDiff {
-  missingInTarget: string[];
-  extraInTarget: string[];
-  commonKeys: string[];
-}
+import type { I18nEntry, LocaleDiff } from "@espanol/types";
 
 // Mock fs module BEFORE importing the functions under test
 vi.mock("node:fs", async (importOriginal) => {
