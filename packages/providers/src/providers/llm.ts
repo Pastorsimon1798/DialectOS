@@ -1,5 +1,6 @@
 /**
- * Generic LLM provider for OpenAI-compatible and Anthropic-compatible APIs.
+ * Generic LLM provider for OpenAI-compatible, Anthropic-compatible, and
+ * LM Studio native APIs.
  *
  * This is the semantic provider path for DialectOS: the provider receives the
  * full dialect/context/formality prompt and is expected to perform translation
@@ -16,7 +17,7 @@ const DEFAULT_MAX_REQUESTS = 60;
 const DEFAULT_WINDOW_MS = 60000;
 const DEFAULT_ANTHROPIC_VERSION = "2023-06-01";
 
-export type LLMApiFormat = "openai" | "anthropic";
+export type LLMApiFormat = "openai" | "anthropic" | "lmstudio";
 
 export interface LLMProviderOptions {
   /** Full chat/message endpoint URL. */
@@ -25,6 +26,16 @@ export interface LLMProviderOptions {
   model?: string;
   /** Wire protocol to use for the configured endpoint. */
   apiFormat?: LLMApiFormat;
+  /** Load an LM Studio model before native chat if it is not already loaded. */
+  lmStudioJitLoad?: boolean;
+  /** Optional native LM Studio load configuration. */
+  lmStudioLoadConfig?: {
+    context_length?: number;
+    eval_batch_size?: number;
+    flash_attention?: boolean;
+    num_experts?: number;
+    offload_kv_cache_to_gpu?: boolean;
+  };
   /** Optional bearer token. Required by most hosted LLM endpoints, optional for local gateways. */
   apiKey?: string;
   /** Anthropic API version header. Only used when apiFormat is "anthropic". */
@@ -106,6 +117,25 @@ function extractAnthropicText(data: unknown): string | undefined {
   return text.length > 0 ? text : undefined;
 }
 
+function extractLMStudioText(data: unknown): string | undefined {
+  if (!data || typeof data !== "object") return undefined;
+  const output = (data as { output?: unknown }).output;
+  if (!Array.isArray(output)) return undefined;
+
+  const text = output
+    .map((item) => {
+      if (!item || typeof item !== "object") return "";
+      const typed = item as { type?: unknown; content?: unknown };
+      return typed.type === "message" && typeof typed.content === "string"
+        ? typed.content
+        : "";
+    })
+    .join("")
+    .trim();
+
+  return text.length > 0 ? text : undefined;
+}
+
 function buildSystemPrompt(): string {
   return [
     "You are a semantic dialect-aware Spanish translation engine for DialectOS.",
@@ -134,6 +164,8 @@ export class LLMProvider implements TranslationProvider {
   private apiFormat: LLMApiFormat;
   private apiKey?: string;
   private anthropicVersion: string;
+  private lmStudioJitLoad: boolean;
+  private lmStudioLoadConfig: LLMProviderOptions["lmStudioLoadConfig"];
   private timeoutMs: number;
   private maxPayloadChars: number;
   private breaker: CircuitBreaker;
@@ -141,10 +173,14 @@ export class LLMProvider implements TranslationProvider {
   private needsApiKey: boolean;
 
   constructor(options: LLMProviderOptions = {}) {
-    const endpoint = options.endpoint || process.env.LLM_API_URL || process.env.LLM_ENDPOINT || "";
     const model = options.model || process.env.LLM_MODEL || "";
     const apiFormat = options.apiFormat || process.env.LLM_API_FORMAT || "openai";
-    const allowLocal = options.allowLocal ?? process.env.LLM_ALLOW_LOCAL === "1";
+    const endpoint = options.endpoint ||
+      process.env.LLM_API_URL ||
+      process.env.LLM_ENDPOINT ||
+      process.env.LM_STUDIO_URL ||
+      (apiFormat === "lmstudio" ? "http://127.0.0.1:1234" : "");
+    const allowLocal = options.allowLocal ?? (apiFormat === "lmstudio" || process.env.LLM_ALLOW_LOCAL === "1");
 
     if (!endpoint) {
       throw new Error("LLM_API_URL environment variable is required");
@@ -152,15 +188,20 @@ export class LLMProvider implements TranslationProvider {
     if (!model) {
       throw new Error("LLM_MODEL environment variable is required");
     }
-    if (apiFormat !== "openai" && apiFormat !== "anthropic") {
-      throw new Error("LLM_API_FORMAT must be 'openai' or 'anthropic'");
+    if (apiFormat !== "openai" && apiFormat !== "anthropic" && apiFormat !== "lmstudio") {
+      throw new Error("LLM_API_FORMAT must be 'openai', 'anthropic', or 'lmstudio'");
     }
 
-    this.endpoint = validateLLMEndpoint(endpoint, allowLocal);
+    this.endpoint = this.normalizeEndpoint(validateLLMEndpoint(endpoint, allowLocal));
     this.model = model;
     this.apiFormat = apiFormat;
     this.apiKey = options.apiKey || process.env.LLM_API_KEY;
     this.anthropicVersion = options.anthropicVersion || process.env.LLM_ANTHROPIC_VERSION || DEFAULT_ANTHROPIC_VERSION;
+    this.lmStudioJitLoad = options.lmStudioJitLoad ?? process.env.LM_STUDIO_JIT_LOAD !== "0";
+    this.lmStudioLoadConfig = {
+      ...this.loadConfigFromEnv(),
+      ...(options.lmStudioLoadConfig || {}),
+    };
     this.needsApiKey = Boolean(this.apiKey);
     this.timeoutMs = options.timeoutMs || parseInt(process.env.LLM_TIMEOUT_MS || "", 10) || HTTP_TIMEOUT;
     this.maxPayloadChars = options.maxPayloadChars || parseInt(process.env.LLM_MAX_PAYLOAD_CHARS || "", 10) || DEFAULT_MAX_PAYLOAD_CHARS;
@@ -216,7 +257,11 @@ export class LLMProvider implements TranslationProvider {
       const systemPrompt = buildSystemPrompt();
       const userPrompt = buildUserPrompt(text, sourceLang, targetLang, options);
       const headers = this.buildHeaders();
-      const response = await fetch(this.endpoint, {
+      if (this.apiFormat === "lmstudio" && this.lmStudioJitLoad) {
+        await this.ensureLMStudioModelLoaded(headers, controller.signal);
+      }
+
+      const response = await fetch(this.inferenceUrl(), {
         method: "POST",
         headers,
         body: JSON.stringify(this.buildRequestBody(systemPrompt, userPrompt)),
@@ -275,6 +320,17 @@ export class LLMProvider implements TranslationProvider {
   }
 
   private buildRequestBody(systemPrompt: string, userPrompt: string): Record<string, unknown> {
+    if (this.apiFormat === "lmstudio") {
+      return {
+        model: this.model,
+        system_prompt: systemPrompt,
+        input: userPrompt,
+        temperature: 0.2,
+        max_output_tokens: 4096,
+        store: false,
+      };
+    }
+
     if (this.apiFormat === "anthropic") {
       return {
         model: this.model,
@@ -298,8 +354,81 @@ export class LLMProvider implements TranslationProvider {
   }
 
   private extractResponseText(data: unknown): string | undefined {
-    return this.apiFormat === "anthropic"
-      ? extractAnthropicText(data)
-      : extractChatCompletionText(data);
+    switch (this.apiFormat) {
+      case "anthropic":
+        return extractAnthropicText(data);
+      case "lmstudio":
+        return extractLMStudioText(data);
+      default:
+        return extractChatCompletionText(data);
+    }
   }
+
+  private normalizeEndpoint(endpoint: string): string {
+    return this.apiFormat === "lmstudio"
+      ? endpoint.replace(/\/+$/, "")
+      : endpoint;
+  }
+
+  private inferenceUrl(): string {
+    return this.apiFormat === "lmstudio"
+      ? `${this.endpoint}/api/v1/chat`
+      : this.endpoint;
+  }
+
+  private async ensureLMStudioModelLoaded(headers: Record<string, string>, signal: AbortSignal): Promise<void> {
+    const listResponse = await fetch(`${this.endpoint}/api/v1/models`, {
+      method: "GET",
+      headers,
+      signal,
+    });
+    if (!listResponse.ok) {
+      throw new Error(`LM Studio models API error: ${listResponse.statusText}`);
+    }
+    const listContentType = listResponse.headers.get("content-type");
+    if (!listContentType?.includes("application/json")) {
+      throw new Error("Invalid LM Studio models response content type");
+    }
+    const listData = await listResponse.json() as { models?: Array<{ key?: string; loaded_instances?: unknown[] }> };
+    const model = listData.models?.find((candidate) => candidate.key === this.model);
+    if (model?.loaded_instances && model.loaded_instances.length > 0) {
+      return;
+    }
+
+    const loadResponse = await fetch(`${this.endpoint}/api/v1/models/load`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        model: this.model,
+        ...this.lmStudioLoadConfig,
+      }),
+      signal,
+    });
+    if (!loadResponse.ok) {
+      throw new Error(`LM Studio load API error: ${loadResponse.statusText}`);
+    }
+  }
+
+  private loadConfigFromEnv(): LLMProviderOptions["lmStudioLoadConfig"] {
+    return {
+      context_length: parseOptionalInteger(process.env.LM_STUDIO_CONTEXT_LENGTH),
+      eval_batch_size: parseOptionalInteger(process.env.LM_STUDIO_EVAL_BATCH_SIZE),
+      flash_attention: parseOptionalBoolean(process.env.LM_STUDIO_FLASH_ATTENTION),
+      num_experts: parseOptionalInteger(process.env.LM_STUDIO_NUM_EXPERTS),
+      offload_kv_cache_to_gpu: parseOptionalBoolean(process.env.LM_STUDIO_OFFLOAD_KV_CACHE_TO_GPU),
+    };
+  }
+}
+
+function parseOptionalInteger(value: string | undefined): number | undefined {
+  if (!value) return undefined;
+  const parsed = parseInt(value, 10);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function parseOptionalBoolean(value: string | undefined): boolean | undefined {
+  if (value === undefined) return undefined;
+  if (value === "1" || value.toLowerCase() === "true") return true;
+  if (value === "0" || value.toLowerCase() === "false") return false;
+  return undefined;
 }

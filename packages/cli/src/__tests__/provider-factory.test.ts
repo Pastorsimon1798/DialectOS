@@ -10,6 +10,7 @@ const ENV_KEYS = [
   "LLM_MODEL",
   "LLM_API_KEY",
   "LLM_ALLOW_LOCAL",
+  "LM_STUDIO_URL",
 ];
 
 function clearProviderEnv() {
@@ -52,6 +53,41 @@ describe("provider factory", () => {
     expect(registry.getAuto().name).toBe("llm");
     expect(provider.getCapabilities?.().dialectHandling).toBe("semantic");
     expect((provider as any).apiFormat).toBe("anthropic");
+  });
+
+  it("passes LM Studio compatibility mode into configured LLM providers", async () => {
+    clearProviderEnv();
+    process.env.LLM_API_URL = "http://127.0.0.1:1234";
+    process.env.LLM_MODEL = "local/dialect-model";
+    process.env.LLM_API_FORMAT = "lmstudio";
+    process.env.LLM_ALLOW_LOCAL = "1";
+
+    const registry = createProviderRegistry();
+    const provider = registry.get("llm");
+
+    expect(registry.getAuto().name).toBe("llm");
+    expect((provider as any).apiFormat).toBe("lmstudio");
+  });
+
+  it("accepts LM_STUDIO_URL as the LM Studio endpoint", async () => {
+    clearProviderEnv();
+    process.env.LM_STUDIO_URL = "http://127.0.0.1:1234";
+    process.env.LLM_MODEL = "local/dialect-model";
+    process.env.LLM_API_FORMAT = "lmstudio";
+
+    const registry = createProviderRegistry();
+
+    expect(registry.getAuto().name).toBe("llm");
+  });
+
+  it("registers LM Studio against the default local server when no URL is provided", async () => {
+    clearProviderEnv();
+    process.env.LLM_MODEL = "local/dialect-model";
+    process.env.LLM_API_FORMAT = "lmstudio";
+
+    const registry = createProviderRegistry();
+
+    expect(registry.getAuto().name).toBe("llm");
   });
 
   it("does not register generic fallback providers unless explicitly configured", () => {

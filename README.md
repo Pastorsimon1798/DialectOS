@@ -7,7 +7,7 @@
 Translate, detect, and adapt content across **25 regional Spanish variants** while preserving markdown structure, code comments, and locale file formatting.
 
 [![CI](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml/badge.svg)](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-653%20passing-brightgreen)](https://github.com/Pastorsimon1798/DialectOS/actions)
+[![Tests](https://img.shields.io/badge/tests-659%20passing-brightgreen)](https://github.com/Pastorsimon1798/DialectOS/actions)
 [![License](https://img.shields.io/badge/license-BSL%201.1-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](package.json)
 [![pnpm](https://img.shields.io/badge/pnpm-9.15.0-orange)](package.json)
@@ -36,7 +36,7 @@ Translate, detect, and adapt content across **25 regional Spanish variants** whi
 | Gender-neutral language | ❌ | ❌ | ✅ **elles / latine / -x** |
 | Formality checking (tú vs usted) | ❌ | ❌ | ✅ **Cross-dialect consistency** |
 | Adversarial quality gates | ❌ | ❌ | ✅ **Semantic drift + structure validation** |
-| LLM-first dialect adaptation | ❌ Generic MT | ⚠️ Limited dialect control | ✅ **Any OpenAI/Anthropic-compatible LLM + dialect contracts** |
+| LLM-first dialect adaptation | ❌ Generic MT | ⚠️ Limited dialect control | ✅ **Any OpenAI/Anthropic/LM Studio local LLM + dialect contracts** |
 
 ---
 
@@ -79,6 +79,17 @@ Add to your Claude Desktop, Cursor, or any MCP client:
 }
 ```
 
+### LM Studio local model testing
+
+Start LM Studio's local server, then point DialectOS at any downloaded local model. `LLM_API_FORMAT=lmstudio` uses LM Studio's native REST API and loads the model just-in-time when needed.
+
+```bash
+LM_STUDIO_URL="http://127.0.0.1:1234" \
+LLM_MODEL="publisher/model-key-or-api-identifier" \
+LLM_API_FORMAT="lmstudio" \
+pnpm dialect:eval -- --live --provider=llm --out=/tmp/dialectos-lmstudio-eval
+```
+
 ### CLI install
 
 ```bash
@@ -105,7 +116,7 @@ git clone https://github.com/Pastorsimon1798/DialectOS.git
 cd DialectOS
 pnpm install
 pnpm build
-pnpm test        # 653 tests passing
+pnpm test        # 659 tests passing
 ```
 
 ---
@@ -147,14 +158,14 @@ pnpm test        # 653 tests passing
 | Package | Version | Description | Tests |
 |---------|---------|-------------|-------|
 | [`@espanol/mcp`](packages/mcp) | `0.1.0` | 16 MCP tools (stdio server) | 85 |
-| [`@espanol/cli`](packages/cli) | `0.1.0` | CLI commands for semantic translation workflows | 254 |
-| [`@espanol/providers`](packages/providers) | `0.1.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker | 68 |
+| [`@espanol/cli`](packages/cli) | `0.1.0` | CLI commands for semantic translation workflows | 257 |
+| [`@espanol/providers`](packages/providers) | `0.1.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker | 71 |
 | [`@espanol/security`](packages/security) | `0.1.0` | Rate limiting, SSRF protection, sanitization | 66 |
 | [`@espanol/types`](packages/types) | `0.1.0` | Shared TypeScript types + glossary, profile, and quality data | 51 |
 | [`@espanol/locale-utils`](packages/locale-utils) | `0.1.0` | Locale file diff/merge utilities | 55 |
 | [`@espanol/markdown-parser`](packages/markdown-parser) | `0.1.0` | Structure-preserving markdown parser | 74 |
 
-**Total: 653 tests across 7 packages**
+**Total: 659 tests across 7 packages**
 
 ---
 
@@ -268,7 +279,7 @@ See [`ROADMAP.md`](ROADMAP.md) for upcoming features including:
 - Portuguese dialect support (pt-BR, pt-PT)
 - Real-time collaborative translation
 - Custom provider plugins
-- OpenAI-compatible and Anthropic-compatible LLM gateways via `LLM_API_URL` + `LLM_MODEL` + `LLM_API_FORMAT`
+- OpenAI-compatible, Anthropic-compatible, and LM Studio local gateways via `LLM_API_URL`/`LM_STUDIO_URL` + `LLM_MODEL` + `LLM_API_FORMAT`
 - VS Code extension
 
 ---

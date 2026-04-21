@@ -955,6 +955,109 @@ describe("Provider capabilities", () => {
       "LLM response did not include translated content"
     );
   });
+
+  it("LLM should use LM Studio native chat with JIT model loading", async () => {
+    vi.mocked(global.fetch).mockReset();
+    vi.mocked(global.fetch)
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => "application/json" },
+        json: async () => ({
+          models: [{ key: "local/dialect-model", type: "llm", loaded_instances: [] }],
+        }),
+      } as any)
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => "application/json" },
+        json: async () => ({ status: "loaded", type: "llm", instance_id: "local/dialect-model" }),
+      } as any)
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => "application/json" },
+        json: async () => ({
+          output: [{ type: "message", content: "Vos podés actualizar tu cuenta ahora." }],
+        }),
+      } as any);
+
+    const provider = new LLMProvider({
+      endpoint: "http://127.0.0.1:1234",
+      model: "local/dialect-model",
+      apiFormat: "lmstudio",
+      allowLocal: true,
+    });
+
+    const result = await provider.translate("You can update your account now.", "en", "es", {
+      dialect: "es-AR",
+      formality: "informal",
+      context: "Use pronominal and verbal voseo.",
+    });
+
+    expect(result.translatedText).toBe("Vos podés actualizar tu cuenta ahora.");
+    expect(global.fetch).toHaveBeenNthCalledWith(1, "http://127.0.0.1:1234/api/v1/models", expect.objectContaining({ method: "GET" }));
+    expect(global.fetch).toHaveBeenNthCalledWith(2, "http://127.0.0.1:1234/api/v1/models/load", expect.objectContaining({
+      method: "POST",
+      body: expect.stringContaining('"model":"local/dialect-model"'),
+    }));
+    expect(global.fetch).toHaveBeenNthCalledWith(3, "http://127.0.0.1:1234/api/v1/chat", expect.objectContaining({ method: "POST" }));
+    const chatBody = JSON.parse(vi.mocked(global.fetch).mock.calls[2][1]!.body as string);
+    expect(chatBody.model).toBe("local/dialect-model");
+    expect(chatBody.system_prompt).toContain("semantic dialect-aware Spanish translation engine");
+    expect(chatBody.input).toContain("Target dialect: es-AR");
+    expect(chatBody.store).toBe(false);
+  });
+
+  it("LLM should skip LM Studio load when the model is already loaded", async () => {
+    vi.mocked(global.fetch).mockReset();
+    vi.mocked(global.fetch)
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => "application/json" },
+        json: async () => ({
+          models: [{ key: "local/dialect-model", type: "llm", loaded_instances: [{ id: "local/dialect-model" }] }],
+        }),
+      } as any)
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => "application/json" },
+        json: async () => ({ output: [{ type: "message", content: "Hola" }] }),
+      } as any);
+
+    const provider = new LLMProvider({
+      endpoint: "http://127.0.0.1:1234",
+      model: "local/dialect-model",
+      apiFormat: "lmstudio",
+      allowLocal: true,
+    });
+
+    await provider.translate("Hello", "en", "es", { dialect: "es-MX" });
+
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+    expect(vi.mocked(global.fetch).mock.calls[1][0]).toBe("http://127.0.0.1:1234/api/v1/chat");
+  });
+
+  it("LLM should default LM Studio format to the local server URL", async () => {
+    vi.mocked(global.fetch).mockReset();
+    vi.mocked(global.fetch)
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => "application/json" },
+        json: async () => ({ models: [{ key: "local/dialect-model", type: "llm", loaded_instances: [{ id: "local/dialect-model" }] }] }),
+      } as any)
+      .mockResolvedValueOnce({
+        ok: true,
+        headers: { get: () => "application/json" },
+        json: async () => ({ output: [{ type: "message", content: "Hola" }] }),
+      } as any);
+
+    const provider = new LLMProvider({
+      model: "local/dialect-model",
+      apiFormat: "lmstudio",
+    });
+
+    await provider.translate("Hello", "en", "es", { dialect: "es-MX" });
+
+    expect(vi.mocked(global.fetch).mock.calls[0][0]).toBe("http://127.0.0.1:1234/api/v1/models");
+  });
   it("DeepL should report native dialect support", () => {
     const provider = new DeepLProvider("test-key", undefined, {
       timeout: 5000,

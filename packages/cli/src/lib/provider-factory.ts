@@ -21,15 +21,15 @@ export function createProviderRegistry(): ProviderRegistry {
   const registry = new ProviderRegistry();
 
   // Register LLM first when configured; getAuto also ranks semantic providers first.
-  const llmEndpoint = process.env.LLM_API_URL || process.env.LLM_ENDPOINT;
+  const llmEndpoint = process.env.LLM_API_URL || process.env.LLM_ENDPOINT || process.env.LM_STUDIO_URL;
   const llmModel = process.env.LLM_MODEL;
-  if (llmEndpoint && llmModel) {
+  if ((llmEndpoint || process.env.LLM_API_FORMAT === "lmstudio") && llmModel) {
     const llmProvider = new LLMProvider({
       endpoint: llmEndpoint,
       model: llmModel,
-      apiFormat: process.env.LLM_API_FORMAT === "anthropic" ? "anthropic" : "openai",
+      apiFormat: parseLLMApiFormat(process.env.LLM_API_FORMAT),
       apiKey: process.env.LLM_API_KEY,
-      allowLocal: process.env.LLM_ALLOW_LOCAL === "1",
+      allowLocal: process.env.LLM_API_FORMAT === "lmstudio" || process.env.LLM_ALLOW_LOCAL === "1",
     });
     registry.register(llmProvider);
   }
@@ -80,4 +80,8 @@ export function getDefaultProviderRegistry(): ProviderRegistry {
 
 export function resetDefaultProviderRegistryForTests(): void {
   defaultRegistry = null;
+}
+
+function parseLLMApiFormat(value: string | undefined): "openai" | "anthropic" | "lmstudio" {
+  return value === "anthropic" || value === "lmstudio" ? value : "openai";
 }

@@ -21,7 +21,7 @@ DialectOS is a Model Context Protocol server that understands 25 Spanish regiona
 - i18n operations: detect missing keys, batch translate, check formality
 - LLM-first provider routing with DeepL/LibreTranslate/MyMemory as fallback utilities
 
-**Tech stack:** TypeScript, pnpm monorepo, 653 tests, Vitest
+**Tech stack:** TypeScript, pnpm monorepo, 659 tests, Vitest
 
 **Repo:** https://github.com/Pastorsimon1798/DialectOS
 
@@ -65,7 +65,7 @@ Security matters when you're piping content through translation APIs.
 - 18 CVEs resolved, zero current vulnerabilities
 
 **Tweet 5:**
-653 tests. 7 packages. pnpm monorepo. TypeScript.
+659 tests. 7 packages. pnpm monorepo. TypeScript.
 
 Source available. BSL 1.1 license (Apache-2.0 on 2030-04-20).
 
@@ -85,13 +85,13 @@ I built DialectOS because existing translation APIs treat Spanish as a single la
 
 **Features:**
 - 25 Spanish dialects with metadata
-- Connect any OpenAI-compatible or Anthropic-compatible LLM, with LibreTranslate/DeepL/MyMemory as fallback utilities
+- Connect any OpenAI-compatible, Anthropic-compatible, or LM Studio local LLM, with LibreTranslate/DeepL/MyMemory as fallback utilities
 - MCP server — integrates with Claude, Cursor, etc.
 - Structure-preserving markdown translation
 - i18n utilities (detect missing keys, batch translate, formality check)
 - Security hardened (SSRF protection, circuit breakers, rate limiting)
 
-**Tech:** TypeScript, pnpm monorepo, 653 tests
+**Tech:** TypeScript, pnpm monorepo, 659 tests
 
 **License:** BSL 1.1 (becomes Apache-2.0 on 2030-04-20)
 
@@ -113,7 +113,7 @@ For teams building multilingual products, this means:
 - ✅ Markdown, tables, and code blocks stay intact
 - ✅ Quality gates catch semantic drift before release
 
-Source available, BSL 1.1 licensed, 653 tests passing.
+Source available, BSL 1.1 licensed, 659 tests passing.
 
 https://github.com/Pastorsimon1798/DialectOS
 
@@ -136,7 +136,7 @@ DialectOS translates content across 25 Spanish regional variants while preservin
 - LLM-first provider routing plus fallback utilities
 - Security hardened with SSRF protection and circuit breakers
 
-**Tech stack:** TypeScript, pnpm monorepo, 653 tests
+**Tech stack:** TypeScript, pnpm monorepo, 659 tests
 
 **License:** BSL 1.1 (source available, becomes Apache-2.0 on 2030-04-20)
 

@@ -6,7 +6,7 @@ Translation providers with circuit breaker, retry logic, model-agnostic LLM comp
 
 | Provider | Auth Required | Dialect Support | Max Payload |
 |----------|---------------|-----------------|-------------|
-| LLM | Optional by gateway | Semantic dialect-aware (OpenAI/Anthropic-compatible) | 50,000 chars default |
+| LLM | Optional by gateway | Semantic dialect-aware (OpenAI/Anthropic/LM Studio-compatible) | 50,000 chars default |
 | DeepL | ✅ API key | Native/approximate | 50,000 chars |
 | LibreTranslate | Optional | None | 5,000 chars |
 | MyMemory | ❌ Free | None | 500 chars |
@@ -23,7 +23,11 @@ registry.register(new LLMProvider({
   endpoint: process.env.LLM_API_URL,
   model: process.env.LLM_MODEL,
   apiKey: process.env.LLM_API_KEY,
-  apiFormat: process.env.LLM_API_FORMAT === "anthropic" ? "anthropic" : "openai",
+  apiFormat: process.env.LLM_API_FORMAT === "anthropic"
+    ? "anthropic"
+    : process.env.LLM_API_FORMAT === "lmstudio"
+      ? "lmstudio"
+      : "openai",
 }));
 
 // Register fallback utilities
@@ -38,7 +42,7 @@ const result = await provider.translate("Hello", "en", "es");
 
 ### LLM compatibility
 
-Use `LLM_API_FORMAT=openai` for OpenAI-compatible chat-completions gateways and `LLM_API_FORMAT=anthropic` for Anthropic-compatible messages gateways.
+Use `LLM_API_FORMAT=openai` for OpenAI-compatible chat-completions gateways, `LLM_API_FORMAT=anthropic` for Anthropic-compatible messages gateways, and `LLM_API_FORMAT=lmstudio` for LM Studio native REST with just-in-time local model loading.
 
 ```bash
 LLM_API_URL="https://api.anthropic.com/v1/messages"
@@ -46,6 +50,15 @@ LLM_MODEL="claude-sonnet-4-5"
 LLM_API_KEY="..."
 LLM_API_FORMAT="anthropic"
 ```
+
+
+```bash
+LM_STUDIO_URL="http://127.0.0.1:1234"
+LLM_MODEL="publisher/model-key-or-api-identifier"
+LLM_API_FORMAT="lmstudio"
+```
+
+LM Studio mode calls the native `/api/v1/models`, `/api/v1/models/load`, and `/api/v1/chat` endpoints so a downloaded local model can be loaded on demand before dialect evaluation.
 
 ## Capability Negotiation
 
