@@ -42,10 +42,28 @@ export async function translateWithFallback(
     await waitAdaptive(pacing);
     try {
       const provider = registry.get(name);
-      const result = await provider.translate(text, sourceLang, targetLang, options);
+      const maybeRegistry = registry as ProviderRegistry & {
+        prepareRequest?: ProviderRegistry["prepareRequest"];
+      };
+      const prepared = maybeRegistry.prepareRequest?.(
+        name,
+        text,
+        sourceLang,
+        targetLang,
+        options
+      ) ?? { sourceLang, targetLang, options };
+      const result = await provider.translate(
+        text,
+        prepared.sourceLang,
+        prepared.targetLang,
+        prepared.options
+      );
       pacing.delayMs = nextDelay(pacing.delayMs, false);
       registry.recordSuccess(name);
-      return result;
+      return {
+        ...result,
+        provider: result.provider ?? (provider.name as TranslationResult["provider"]),
+      };
     } catch (error) {
       const throttled = isThrottleError(error);
       pacing.delayMs = nextDelay(pacing.delayMs, throttled);

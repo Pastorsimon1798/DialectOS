@@ -15,6 +15,7 @@ import type {
   MarkdownSection,
   SpanishDialect,
   ProviderName,
+  TranslateOptions,
 } from "@espanol/types";
 import {
   parseMarkdown,
@@ -66,6 +67,30 @@ interface CreateBilingualDocParams {
   provider?: ProviderName;
 }
 
+function prepareProviderRequest(
+  registry: ProviderRegistry,
+  providerName: string,
+  text: string,
+  sourceLang: string,
+  targetLang: string,
+  options: TranslateOptions
+): { sourceLang: string; targetLang: string; options: TranslateOptions } {
+  const maybeRegistry = registry as ProviderRegistry & {
+    prepareRequest?: (
+      name: string,
+      text: string,
+      sourceLang: string,
+      targetLang: string,
+      options: TranslateOptions
+    ) => { sourceLang: string; targetLang: string; options: TranslateOptions };
+  };
+  return maybeRegistry.prepareRequest?.(providerName, text, sourceLang, targetLang, options) ?? {
+    sourceLang,
+    targetLang,
+    options,
+  };
+}
+
 // ============================================================================
 // Tool Handlers
 // ============================================================================
@@ -113,11 +138,19 @@ async function handleTranslateMarkdown(
         translatedSections.push(section);
       } else {
         // Translate the content
-        const result = await provider.translate(
+        const prepared = prepareProviderRequest(
+          registry,
+          provider.name,
           section.content,
           "en",
           params.dialect || "es-ES",
           { formality, dialect: params.dialect }
+        );
+        const result = await provider.translate(
+          section.content,
+          prepared.sourceLang,
+          prepared.targetLang,
+          prepared.options
         );
 
         translatedSections.push({
@@ -261,7 +294,9 @@ async function handleTranslateApiDocs(
         translatedSections.push(section);
       } else {
         // For API docs, add context about documentation
-        const result = await provider.translate(
+        const prepared = prepareProviderRequest(
+          registry,
+          provider.name,
           section.content,
           "en",
           params.dialect || "es-ES",
@@ -269,6 +304,12 @@ async function handleTranslateApiDocs(
             context: "API documentation",
             dialect: params.dialect,
           }
+        );
+        const result = await provider.translate(
+          section.content,
+          prepared.sourceLang,
+          prepared.targetLang,
+          prepared.options
         );
 
         translatedSections.push({
@@ -347,11 +388,19 @@ async function handleCreateBilingualDoc(
         bilingualParts.push(section.raw);
       } else {
         // Translate the content
-        const result = await provider.translate(
+        const prepared = prepareProviderRequest(
+          registry,
+          provider.name,
           section.content,
           "en",
           params.dialect || "es-ES",
           { dialect: params.dialect }
+        );
+        const result = await provider.translate(
+          section.content,
+          prepared.sourceLang,
+          prepared.targetLang,
+          prepared.options
         );
 
         // Add side-by-side sections
