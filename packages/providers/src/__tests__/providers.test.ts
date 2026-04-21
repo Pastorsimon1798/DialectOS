@@ -293,6 +293,18 @@ describe("ProviderRegistry", () => {
     expect(registry.isAvailable("libre")).toBe(true);
   });
 
+  it("should not alias nonexistent DeepL free provider to DeepL", () => {
+    const registry = new ProviderRegistry();
+    const deeplProvider: TranslationProvider = {
+      name: "deepl",
+      translate: async () => ({ translatedText: "test" }),
+    };
+
+    registry.register(deeplProvider);
+
+    expect(() => registry.get("deepl-free")).toThrow("Provider not available");
+  });
+
   it("should throw when getting non-existent provider", () => {
     const registry = new ProviderRegistry();
 

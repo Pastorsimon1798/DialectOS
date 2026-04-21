@@ -96,7 +96,7 @@ function buildProviderChain(
   const priority =
     envPriority.length > 0
       ? envPriority
-      : ["libre", "deepl", "deepl-free", "mymemory"];
+      : ["libre", "deepl", "mymemory"];
   const available = registry.listProviders().filter((name) => registry.isAvailable(name));
   const ordered = priority.filter((name) => available.includes(name));
   const remainder = available.filter((name) => !ordered.includes(name));

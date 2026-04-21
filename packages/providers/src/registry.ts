@@ -28,7 +28,6 @@ export class ProviderRegistry {
 
   private canonicalName(name: string): string {
     if (name === "libre") return "libretranslate";
-    if (name === "deepl-free") return "deepl";
     return name;
   }
 
