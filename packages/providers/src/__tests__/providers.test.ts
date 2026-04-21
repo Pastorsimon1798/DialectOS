@@ -895,6 +895,66 @@ describe("Provider capabilities", () => {
       "LLM response did not include translated content"
     );
   });
+
+  it("LLM should send dialect context to an Anthropic-compatible messages endpoint", async () => {
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      headers: {
+        get: (name: string) => name === "content-type" ? "application/json" : null,
+      },
+      json: async () => ({
+        content: [{ type: "text", text: "Vos podés actualizar tu cuenta ahora." }],
+      }),
+    } as any);
+
+    const provider = new LLMProvider({
+      endpoint: "https://api.anthropic.com/v1/messages",
+      model: "claude-dialect",
+      apiKey: "anthropic-key",
+      apiFormat: "anthropic",
+    });
+
+    const result = await provider.translate("You can update your account now.", "en", "es", {
+      dialect: "es-AR",
+      formality: "informal",
+      context: "Use pronominal and verbal voseo.",
+    });
+
+    expect(result.translatedText).toBe("Vos podés actualizar tu cuenta ahora.");
+    expect(global.fetch).toHaveBeenCalledWith("https://api.anthropic.com/v1/messages", expect.objectContaining({
+      method: "POST",
+      headers: expect.objectContaining({
+        "Content-Type": "application/json",
+        "x-api-key": "anthropic-key",
+        "anthropic-version": "2023-06-01",
+      }),
+    }));
+    const body = JSON.parse(vi.mocked(global.fetch).mock.calls.at(-1)![1]!.body as string);
+    expect(body.model).toBe("claude-dialect");
+    expect(body.system).toContain("semantic dialect-aware Spanish translation engine");
+    expect(body.messages).toHaveLength(1);
+    expect(body.messages[0].role).toBe("user");
+    expect(body.messages[0].content).toContain("Target dialect: es-AR");
+    expect(body.messages[0].content).toContain("Use pronominal and verbal voseo");
+  });
+
+  it("LLM should reject missing Anthropic message content", async () => {
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      headers: { get: () => "application/json" },
+      json: async () => ({ content: [] }),
+    } as any);
+
+    const provider = new LLMProvider({
+      endpoint: "https://api.anthropic.com/v1/messages",
+      model: "claude-dialect",
+      apiFormat: "anthropic",
+    });
+
+    await expect(provider.translate("Hello", "en", "es", { dialect: "es-MX" })).rejects.toThrow(
+      "LLM response did not include translated content"
+    );
+  });
   it("DeepL should report native dialect support", () => {
     const provider = new DeepLProvider("test-key", undefined, {
       timeout: 5000,
