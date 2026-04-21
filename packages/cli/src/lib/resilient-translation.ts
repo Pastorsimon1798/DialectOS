@@ -5,6 +5,12 @@ export interface AdaptivePacingState {
   delayMs: number;
 }
 
+export interface ResilientTranslationResult extends TranslationResult {
+  providerUsed: string;
+  fallbackCount: number;
+  retryCount: number;
+}
+
 const THROTTLE_PATTERN = /(too many requests|rate limit|429)/i;
 
 export function isThrottleError(error: unknown): boolean {
@@ -34,11 +40,11 @@ export async function translateWithFallback(
   targetLang: string,
   options: TranslateOptions,
   pacing: AdaptivePacingState
-): Promise<TranslationResult> {
+): Promise<ResilientTranslationResult> {
   const chain = buildProviderChain(registry, preferredProvider);
   const errors: string[] = [];
 
-  for (const name of chain) {
+  for (const [attemptIndex, name] of chain.entries()) {
     await waitAdaptive(pacing);
     try {
       const provider = registry.get(name);
@@ -63,6 +69,9 @@ export async function translateWithFallback(
       return {
         ...result,
         provider: result.provider ?? (provider.name as TranslationResult["provider"]),
+        providerUsed: provider.name,
+        fallbackCount: attemptIndex,
+        retryCount: 0,
       };
     } catch (error) {
       const throttled = isThrottleError(error);

@@ -173,9 +173,9 @@ async function translateReadme(
   getRegistry: () => ProviderRegistry
 ): Promise<TranslateReadmeResult> {
   const startTime = Date.now();
+  let providerUsed: string | undefined;
   let fallbackCount = 0;
   let retryCount = 0;
-  let providerUsed: string | undefined;
 
   // 1. Validate input path
   const validatedPath = validateMarkdownPath(input);
@@ -282,6 +282,9 @@ async function translateReadme(
           restoreProtectedTokens(result.translatedText, protectedChunk.replacements),
           glossaryChunk.replacements
         );
+        providerUsed = result.providerUsed;
+        fallbackCount += result.fallbackCount;
+        retryCount += result.retryCount;
 
         // Create translated section
         translatedSections.push({
