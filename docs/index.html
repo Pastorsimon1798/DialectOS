@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DialectOS — Detect 25 Spanish Dialects Instantly</title>
-  <meta name="description" content="Paste Spanish text and detect which of 25 dialects it is — with formal vs slang register classification. Free, open-source, instant.">
+  <title>DialectOS — Translate Spanish Across 25 Dialects</title>
+  <meta name="description" content="Type Spanish text and adapt it for any of 25 regional dialects. See every word substitution instantly.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,143 +12,475 @@
     body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; }
     .gradient-text { background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .glass { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(148, 163, 184, 0.1); }
-    .dialect-card { transition: all 0.2s; }
+    .glass-hover:hover { border-color: rgba(56, 189, 248, 0.3); }
+    .change { background: rgba(34, 197, 94, 0.15); color: #4ade80; padding: 0 3px; border-radius: 3px; font-weight: 500; }
+    .del { background: rgba(239, 68, 68, 0.15); color: #f87171; text-decoration: line-through; padding: 0 3px; border-radius: 3px; }
+    textarea:focus, select:focus { outline: none; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); }
+    .dialect-card { transition: all 0.2s; cursor: pointer; }
     .dialect-card:hover { transform: translateY(-2px); border-color: rgba(56, 189, 248, 0.4); }
-    .keyword-tag { animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.3s ease; }
     .confidence-bar { transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-    textarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); }
-    .register-badge { font-variant-numeric: tabular-nums; }
   </style>
 </head>
 <body class="min-h-screen">
   <!-- Hero -->
   <header class="relative overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-b from-sky-900/20 to-transparent"></div>
-    <div class="relative max-w-5xl mx-auto px-6 pt-20 pb-12 text-center">
+    <div class="relative max-w-5xl mx-auto px-6 pt-16 pb-10 text-center">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-sm font-medium mb-6">
         <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
-        595 tests passing · Open source · MIT
+        595 tests passing · MIT · GitHub Pages
       </div>
-      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-5">
         <span class="gradient-text">DialectOS</span>
       </h1>
-      <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed">
-        Paste Spanish text. Detect which of <strong class="text-slate-200">25 dialects</strong> it is — 
-        with formal vs slang register classification. No signup. No API key.
+      <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed">
+        Type Spanish text. Pick a target dialect. See <strong class="text-slate-200">every word that changes</strong> — 
+        from <em>coche</em> to <em>carro</em>, <em>vosotros</em> to <em>ustedes</em>, <em>zumo</em> to <em>jugo</em>.
+        25 dialects. 200+ vocabulary rules. Zero signup.
       </p>
       <div class="flex flex-wrap justify-center gap-3">
-        <a href="https://github.com/Pastorsimon1798/DialectOS" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl font-semibold text-sm transition-colors flex items-center gap-2">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        <a href="https://github.com/Pastorsimon1798/DialectOS" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl font-semibold text-sm transition-colors flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
           Star on GitHub
         </a>
-        <a href="#demo" class="px-6 py-3 bg-sky-600 hover:bg-sky-500 rounded-xl font-semibold text-sm text-white transition-colors">
-          Try the Demo →
+        <a href="#translate" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 rounded-xl font-semibold text-sm text-white transition-colors">
+          Try It →
         </a>
       </div>
     </div>
   </header>
 
   <!-- Stats -->
-  <section class="max-w-4xl mx-auto px-6 mb-12">
-    <div class="glass rounded-2xl p-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-      <div>
-        <div class="text-3xl font-bold text-sky-400">25</div>
-        <div class="text-sm text-slate-500 mt-1">Dialects</div>
-      </div>
-      <div>
-        <div class="text-3xl font-bold text-violet-400">595</div>
-        <div class="text-sm text-slate-500 mt-1">Tests</div>
-      </div>
-      <div>
-        <div class="text-3xl font-bold text-emerald-400">16</div>
-        <div class="text-sm text-slate-500 mt-1">MCP Tools</div>
-      </div>
-      <div>
-        <div class="text-3xl font-bold text-amber-400">3</div>
-        <div class="text-sm text-slate-500 mt-1">Registers</div>
-      </div>
+  <section class="max-w-4xl mx-auto px-6 mb-10">
+    <div class="glass rounded-2xl p-5 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div><div class="text-3xl font-bold text-sky-400">25</div><div class="text-sm text-slate-500 mt-1">Dialects</div></div>
+      <div><div class="text-3xl font-bold text-violet-400">200+</div><div class="text-sm text-slate-500 mt-1">Vocabulary Rules</div></div>
+      <div><div class="text-3xl font-bold text-emerald-400">595</div><div class="text-sm text-slate-500 mt-1">Tests</div></div>
+      <div><div class="text-3xl font-bold text-amber-400">3</div><div class="text-sm text-slate-500 mt-1">Registers</div></div>
     </div>
   </section>
 
-  <!-- Demo -->
-  <section id="demo" class="max-w-4xl mx-auto px-6 mb-16">
+  <!-- Main Translator -->
+  <section id="translate" class="max-w-5xl mx-auto px-6 mb-14">
     <div class="glass rounded-2xl p-6 md:p-8">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold text-slate-200">Paste Spanish text</h2>
-        <div class="flex gap-2">
-          <button onclick="loadExample('mx')" class="px-3 py-1 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors">🇲🇽 Mexican</button>
-          <button onclick="loadExample('ar')" class="px-3 py-1 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors">🇦🇷 Argentine</button>
-          <button onclick="loadExample('es')" class="px-3 py-1 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors">🇪🇸 Spanish</button>
-          <button onclick="loadExample('co')" class="px-3 py-1 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors">🇨🇴 Colombian</button>
+      <!-- Toolbar -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+        <div>
+          <h2 class="text-xl font-semibold text-slate-200">Dialect Translator</h2>
+          <p class="text-sm text-slate-500 mt-0.5">Type in Spain Spanish (es-ES) or any variant — see what changes for your target.</p>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <button onclick="loadPreset('es-mx')" class="px-3 py-1.5 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors">🇲🇽 → Mexico</button>
+          <button onclick="loadPreset('es-ar')" class="px-3 py-1.5 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors">🇦🇷 → Argentina</button>
+          <button onclick="loadPreset('es-co')" class="px-3 py-1.5 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors">🇨🇴 → Colombia</button>
+          <button onclick="loadPreset('es-cl')" class="px-3 py-1.5 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors">🇨🇱 → Chile</button>
         </div>
       </div>
-      <textarea id="input" rows="4" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-4 text-slate-200 placeholder-slate-600 resize-none text-base leading-relaxed" placeholder="Escribe algo en español... Che boludo, qué onda? ¿Vale, vosotros venís? ¡Parce, qué chévere!"></textarea>
-      <div id="results" class="mt-6 hidden">
-        <!-- Filled by JS -->
+
+      <!-- Two-column layout -->
+      <div class="grid md:grid-cols-2 gap-5">
+        <!-- Source -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-xs font-medium text-slate-400 uppercase tracking-wider">Source</label>
+            <span id="detectedSource" class="text-xs text-slate-500">—</span>
+          </div>
+          <textarea id="sourceText" rows="6" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-4 text-slate-200 placeholder-slate-600 resize-none text-base leading-relaxed font-mono text-sm" placeholder="Escribe algo en español de España...&#10;&#10;Ejemplo: Vosotros vais al coche con el ordenador y bebéis zumo de patata."></textarea>
+        </div>
+
+        <!-- Target -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-xs font-medium text-slate-400 uppercase tracking-wider">Target Dialect</label>
+          </div>
+          <select id="targetDialect" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-slate-200 text-sm mb-3 cursor-pointer">
+            <option value="es-MX">🇲🇽 Mexico (es-MX)</option>
+            <option value="es-AR">🇦🇷 Argentina (es-AR)</option>
+            <option value="es-CO">🇨🇴 Colombia (es-CO)</option>
+            <option value="es-CL">🇨🇱 Chile (es-CL)</option>
+            <option value="es-VE">🇻🇪 Venezuela (es-VE)</option>
+            <option value="es-PE">🇵🇪 Peru (es-PE)</option>
+            <option value="es-UY">🇺🇾 Uruguay (es-UY)</option>
+            <option value="es-PY">🇵🇾 Paraguay (es-PY)</option>
+            <option value="es-BO">🇧🇴 Bolivia (es-BO)</option>
+            <option value="es-EC">🇪🇨 Ecuador (es-EC)</option>
+            <option value="es-GT">🇬🇹 Guatemala (es-GT)</option>
+            <option value="es-HN">🇭🇳 Honduras (es-HN)</option>
+            <option value="es-SV">🇸🇻 El Salvador (es-SV)</option>
+            <option value="es-NI">🇳🇮 Nicaragua (es-NI)</option>
+            <option value="es-CR">🇨🇷 Costa Rica (es-CR)</option>
+            <option value="es-PA">🇵🇦 Panama (es-PA)</option>
+            <option value="es-CU">🇨🇺 Cuba (es-CU)</option>
+            <option value="es-DO">🇩🇴 Dominican Rep. (es-DO)</option>
+            <option value="es-PR">🇵🇷 Puerto Rico (es-PR)</option>
+            <option value="es-GQ">🇬🇶 Eq. Guinea (es-GQ)</option>
+            <option value="es-US">🇺🇸 U.S. Spanish (es-US)</option>
+            <option value="es-PH">🇵🇭 Philippines (es-PH)</option>
+            <option value="es-BZ">🇧🇿 Belize (es-BZ)</option>
+            <option value="es-AD">🇦🇩 Andorra (es-AD)</option>
+            <option value="es-ES">🇪🇸 Spain (es-ES)</option>
+          </select>
+          <div id="outputBox" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl p-4 text-slate-300 text-sm leading-relaxed min-h-[160px] font-mono">
+            <span class="text-slate-600 italic">Type something above and pick a target dialect to see adaptations...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Changes panel -->
+      <div id="changesPanel" class="mt-5 hidden">
+        <div class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Substitutions Applied</div>
+        <div id="changesList" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- Detection mini-panel -->
+      <div id="detectPanel" class="mt-5 hidden fade-in">
+        <div class="glass rounded-xl p-4 flex flex-col md:flex-row items-start md:items-center gap-4">
+          <div class="flex items-center gap-3">
+            <span id="detectFlag" class="text-3xl">🇪🇸</span>
+            <div>
+              <div id="detectCode" class="text-lg font-bold text-slate-100">es-ES</div>
+              <div id="detectName" class="text-sm text-slate-400">Spain</div>
+            </div>
+          </div>
+          <div class="flex-1 w-full md:w-auto">
+            <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Detection confidence</span><span id="detectConf" class="text-slate-300">30%</span></div>
+            <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden"><div id="detectBar" class="confidence-bar h-full rounded-full bg-slate-600" style="width:30%"></div></div>
+          </div>
+          <span id="detectReg" class="px-3 py-1 rounded-lg text-xs font-medium border bg-slate-500/20 text-slate-400 border-slate-500/30">NEUTRAL</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Compare -->
-  <section class="max-w-4xl mx-auto px-6 mb-16">
-    <h2 class="text-2xl font-bold text-center mb-8 text-slate-200">Same word, 25 different ways</h2>
-    <div class="glass rounded-2xl p-6 overflow-x-auto">
+  <!-- Vocabulary Explorer -->
+  <section class="max-w-5xl mx-auto px-6 mb-14">
+    <h2 class="text-2xl font-bold text-center mb-6 text-slate-200">Same word, 25 different ways</h2>
+    <div class="glass rounded-2xl p-5 overflow-x-auto">
       <table class="w-full text-sm">
         <thead>
           <tr class="text-slate-500 border-b border-slate-700">
-            <th class="text-left py-3 px-2 font-medium">Word</th>
-            <th class="text-left py-3 px-2 font-medium">Spain 🇪🇸</th>
-            <th class="text-left py-3 px-2 font-medium">Mexico 🇲🇽</th>
-            <th class="text-left py-3 px-2 font-medium">Argentina 🇦🇷</th>
-            <th class="text-left py-3 px-2 font-medium">Colombia 🇨🇴</th>
-            <th class="text-left py-3 px-2 font-medium">Chile 🇨🇱</th>
+            <th class="text-left py-2.5 px-2 font-medium">Word</th>
+            <th class="text-left py-2.5 px-2 font-medium">🇪🇸 Spain</th>
+            <th class="text-left py-2.5 px-2 font-medium">🇲🇽 Mexico</th>
+            <th class="text-left py-2.5 px-2 font-medium">🇦🇷 Argentina</th>
+            <th class="text-left py-2.5 px-2 font-medium">🇨🇴 Colombia</th>
+            <th class="text-left py-2.5 px-2 font-medium">🇨🇱 Chile</th>
+            <th class="text-left py-2.5 px-2 font-medium">🇻🇪 Venezuela</th>
           </tr>
         </thead>
         <tbody class="text-slate-300">
-          <tr class="border-b border-slate-800/50"><td class="py-2.5 px-2 font-medium text-sky-400">Computer</td><td class="py-2.5 px-2">ordenador</td><td class="py-2.5 px-2">computadora</td><td class="py-2.5 px-2">computadora</td><td class="py-2.5 px-2">computador</td><td class="py-2.5 px-2">computadora</td></tr>
-          <tr class="border-b border-slate-800/50"><td class="py-2.5 px-2 font-medium text-sky-400">Car</td><td class="py-2.5 px-2">coche</td><td class="py-2.5 px-2">carro</td><td class="py-2.5 px-2">auto</td><td class="py-2.5 px-2">carro</td><td class="py-2.5 px-2">auto</td></tr>
-          <tr class="border-b border-slate-800/50"><td class="py-2.5 px-2 font-medium text-sky-400">Potato</td><td class="py-2.5 px-2">patata</td><td class="py-2.5 px-2">papa</td><td class="py-2.5 px-2">papa</td><td class="py-2.5 px-2">papa</td><td class="py-2.5 px-2">papa</td></tr>
-          <tr class="border-b border-slate-800/50"><td class="py-2.5 px-2 font-medium text-sky-400">Juice</td><td class="py-2.5 px-2">zumo</td><td class="py-2.5 px-2">jugo</td><td class="py-2.5 px-2">jugo</td><td class="py-2.5 px-2">jugo</td><td class="py-2.5 px-2">jugo</td></tr>
-          <tr class="border-b border-slate-800/50"><td class="py-2.5 px-2 font-medium text-sky-400">Glasses</td><td class="py-2.5 px-2">gafas</td><td class="py-2.5 px-2">lentes</td><td class="py-2.5 px-2">anteojos</td><td class="py-2.5 px-2">lentes</td><td class="py-2.5 px-2">lentes</td></tr>
-          <tr class="border-b border-slate-800/50"><td class="py-2.5 px-2 font-medium text-sky-400">Cool</td><td class="py-2.5 px-2">guay</td><td class="py-2.5 px-2">chido</td><td class="py-2.5 px-2">piola / bárbaro</td><td class="py-2.5 px-2">chévere / bacano</td><td class="py-2.5 px-2">bacán</td></tr>
-          <tr><td class="py-2.5 px-2 font-medium text-sky-400">2nd plural</td><td class="py-2.5 px-2">vosotros</td><td class="py-2.5 px-2">ustedes</td><td class="py-2.5 px-2">ustedes / vos</td><td class="py-2.5 px-2">ustedes</td><td class="py-2.5 px-2">ustedes / vos</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Computer</td><td class="py-2 px-2">ordenador</td><td class="py-2 px-2">computadora</td><td class="py-2 px-2">computadora</td><td class="py-2 px-2">computador</td><td class="py-2 px-2">computadora</td><td class="py-2 px-2">computadora</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Car</td><td class="py-2 px-2">coche</td><td class="py-2 px-2">carro</td><td class="py-2 px-2">auto</td><td class="py-2 px-2">carro</td><td class="py-2 px-2">auto</td><td class="py-2 px-2">carro</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Potato</td><td class="py-2 px-2">patata</td><td class="py-2 px-2">papa</td><td class="py-2 px-2">papa</td><td class="py-2 px-2">papa</td><td class="py-2 px-2">papa</td><td class="py-2 px-2">papa</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Juice</td><td class="py-2 px-2">zumo</td><td class="py-2 px-2">jugo</td><td class="py-2 px-2">jugo</td><td class="py-2 px-2">jugo</td><td class="py-2 px-2">jugo</td><td class="py-2 px-2">jugo</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Glasses</td><td class="py-2 px-2">gafas</td><td class="py-2 px-2">lentes</td><td class="py-2 px-2">anteojos</td><td class="py-2 px-2">lentes</td><td class="py-2 px-2">lentes</td><td class="py-2 px-2">lentes</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Pen</td><td class="py-2 px-2">bolígrafo</td><td class="py-2 px-2">pluma</td><td class="py-2 px-2">bolígrafo</td><td class="py-2 px-2">esfero</td><td class="py-2 px-2">bolígrafo</td><td class="py-2 px-2">lapicero</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Refrigerator</td><td class="py-2 px-2">frigorífico</td><td class="py-2 px-2">refrigerador</td><td class="py-2 px-2">heladera</td><td class="py-2 px-2">refrigerador</td><td class="py-2 px-2">refrigerador</td><td class="py-2 px-2">refrigerador</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Bean</td><td class="py-2 px-2">judía</td><td class="py-2 px-2">frijol</td><td class="py-2 px-2">poroto</td><td class="py-2 px-2">frijol</td><td class="py-2 px-2">poroto</td><td class="py-2 px-2">caraota</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Peanut</td><td class="py-2 px-2">cacahuete</td><td class="py-2 px-2">cacahuate</td><td class="py-2 px-2">maní</td><td class="py-2 px-2">maní</td><td class="py-2 px-2">maní</td><td class="py-2 px-2">maní</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Strawberry</td><td class="py-2 px-2">fresa</td><td class="py-2 px-2">fresa</td><td class="py-2 px-2">frutilla</td><td class="py-2 px-2">fresa</td><td class="py-2 px-2">frutilla</td><td class="py-2 px-2">fresa</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">Apartment</td><td class="py-2 px-2">piso</td><td class="py-2 px-2">departamento</td><td class="py-2 px-2">departamento</td><td class="py-2 px-2">apartamento</td><td class="py-2 px-2">departamento</td><td class="py-2 px-2">apartamento</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">T-shirt</td><td class="py-2 px-2">camiseta</td><td class="py-2 px-2">camiseta</td><td class="py-2 px-2">camiseta</td><td class="py-2 px-2">camiseta</td><td class="py-2 px-2">polera</td><td class="py-2 px-2">franela</td></tr>
+          <tr class="border-b border-slate-800/50"><td class="py-2 px-2 font-medium text-sky-400">2nd plural</td><td class="py-2 px-2">vosotros</td><td class="py-2 px-2">ustedes</td><td class="py-2 px-2">ustedes</td><td class="py-2 px-2">ustedes</td><td class="py-2 px-2">ustedes</td><td class="py-2 px-2">ustedes</td></tr>
+          <tr><td class="py-2 px-2 font-medium text-sky-400">Cool (slang)</td><td class="py-2 px-2">guay</td><td class="py-2 px-2">chido</td><td class="py-2 px-2">piola</td><td class="py-2 px-2">chévere</td><td class="py-2 px-2">bacán</td><td class="py-2 px-2">chevere</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- Dialect Grid -->
+  <!-- All 25 Dialects -->
   <section class="max-w-5xl mx-auto px-6 mb-16">
-    <h2 class="text-2xl font-bold text-center mb-8 text-slate-200">All 25 Dialects</h2>
+    <h2 class="text-2xl font-bold text-center mb-6 text-slate-200">All 25 Dialects</h2>
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3" id="dialectGrid"></div>
   </section>
 
   <!-- Footer -->
-  <footer class="text-center py-12 text-slate-500 text-sm">
-    <p class="mb-2">
-      <a href="https://github.com/Pastorsimon1798/DialectOS" class="text-sky-400 hover:text-sky-300">DialectOS</a> — 
-      Open source under MIT License
-    </p>
+  <footer class="text-center py-10 text-slate-500 text-sm">
+    <p class="mb-1"><a href="https://github.com/Pastorsimon1798/DialectOS" class="text-sky-400 hover:text-sky-300">DialectOS</a> — MIT License</p>
     <p>Made by <a href="https://github.com/Pastorsimon1798" class="text-slate-400 hover:text-slate-300">Pastorsimon1798</a></p>
   </footer>
 
   <script>
-    // ─── Dialect Data ───
+    // ═══════════════════════════════════════════════════════════════════════════
+    // ADAPTATION RULES (ported from manage-variants.ts)
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    const VOSOTROS = [
+      { from: /\bvosotros\b/gi, to: "ustedes", label: "vosotros → ustedes" },
+      { from: /\bvuestro(a|s)?\b/gi, to: "su$1", label: "vuestro → su" },
+    ];
+
+    const ADAPTATIONS = {
+      "es-MX": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bbolígrafo(s)?\b/gi, to: "pluma$1", label: "bolígrafo → pluma" },
+        { from: /\bfrigorífico(s)?\b/gi, to: "refrigerador$1", label: "frigorífico → refrigerador" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bzumo(s)?\b/gi, to: "jugo$1", label: "zumo → jugo" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bjudía(s)?\b/gi, to: "frijol$1", label: "judía → frijol" },
+        { from: /\bcacahuete(s)?\b/gi, to: "cacahuate$1", label: "cacahuete → cacahuate" },
+      ],
+      "es-AR": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "auto$1", label: "coche → auto" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bpiso(s)?\b/gi, to: "departamento$1", label: "piso → departamento" },
+        { from: /\bfrigorífico(s)?\b/gi, to: "heladera$1", label: "frigorífico → heladera" },
+        { from: /\bgafas\b/gi, to: "anteojos", label: "gafas → anteojos" },
+        { from: /\bfresa(s)?\b/gi, to: "frutilla$1", label: "fresa → frutilla" },
+        { from: /\bjudía(s)?\b/gi, to: "poroto$1", label: "judía → poroto" },
+        { from: /\bcacahuete(s)?\b/gi, to: "maní$1", label: "cacahuete → maní" },
+      ],
+      "es-CO": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computador$1", label: "ordenador → computador" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bbolígrafo(s)?\b/gi, to: "esfero$1", label: "bolígrafo → esfero" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "frijol$1", label: "judía → frijol" },
+        { from: /\bcacahuete(s)?\b/gi, to: "maní$1", label: "cacahuete → maní" },
+        { from: /\bplátano\b/gi, to: "banano", label: "plátano → banano" },
+      ],
+      "es-CL": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "auto$1", label: "coche → auto" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "poroto$1", label: "judía → poroto" },
+        { from: /\bcacahuete(s)?\b/gi, to: "maní$1", label: "cacahuete → maní" },
+        { from: /\bfresa(s)?\b/gi, to: "frutilla$1", label: "fresa → frutilla" },
+        { from: /\bcamiseta(s)?\b/gi, to: "polera$1", label: "camiseta → polera" },
+      ],
+      "es-VE": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bbolígrafo(s)?\b/gi, to: "lapicero$1", label: "bolígrafo → lapicero" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "caraota$1", label: "judía → caraota" },
+        { from: /\bcacahuete(s)?\b/gi, to: "maní$1", label: "cacahuete → maní" },
+        { from: /\bcamiseta(s)?\b/gi, to: "franela$1", label: "camiseta → franela" },
+      ],
+      "es-PE": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bbolígrafo(s)?\b/gi, to: "pluma$1", label: "bolígrafo → pluma" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "poroto$1", label: "judía → poroto" },
+        { from: /\bcacahuete(s)?\b/gi, to: "maní$1", label: "cacahuete → maní" },
+        { from: /\bfresa(s)?\b/gi, to: "frutilla$1", label: "fresa → frutilla" },
+      ],
+      "es-UY": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "auto$1", label: "coche → auto" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bpiso(s)?\b/gi, to: "apartamento$1", label: "piso → apartamento" },
+        { from: /\bgafas\b/gi, to: "anteojos", label: "gafas → anteojos" },
+        { from: /\bfresa(s)?\b/gi, to: "frutilla$1", label: "fresa → frutilla" },
+        { from: /\bjudía(s)?\b/gi, to: "poroto$1", label: "judía → poroto" },
+        { from: /\bcacahuete(s)?\b/gi, to: "maní$1", label: "cacahuete → maní" },
+        { from: /\bfrigorífico(s)?\b/gi, to: "heladera$1", label: "frigorífico → heladera" },
+      ],
+      "es-PY": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "auto$1", label: "coche → auto" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "anteojos", label: "gafas → anteojos" },
+        { from: /\bfresa(s)?\b/gi, to: "frutilla$1", label: "fresa → frutilla" },
+        { from: /\bjudía(s)?\b/gi, to: "poroto$1", label: "judía → poroto" },
+        { from: /\bcacahuete(s)?\b/gi, to: "maní$1", label: "cacahuete → maní" },
+      ],
+      "es-BO": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "frijol$1", label: "judía → frijol" },
+      ],
+      "es-EC": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computador$1", label: "ordenador → computador" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bbolígrafo(s)?\b/gi, to: "esfero$1", label: "bolígrafo → esfero" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "frejol$1", label: "judía → frejol" },
+        { from: /\bcacahuete(s)?\b/gi, to: "maní$1", label: "cacahuete → maní" },
+        { from: /\bplátano\b/gi, to: "banano", label: "plátano → banano" },
+      ],
+      "es-GT": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "frijol$1", label: "judía → frijol" },
+      ],
+      "es-HN": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "frijol$1", label: "judía → frijol" },
+      ],
+      "es-SV": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "frijol$1", label: "judía → frijol" },
+      ],
+      "es-NI": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "frijol$1", label: "judía → frijol" },
+      ],
+      "es-CR": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "frijol$1", label: "judía → frijol" },
+      ],
+      "es-PA": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bbolígrafo(s)?\b/gi, to: "lapicero$1", label: "bolígrafo → lapicero" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "frijol$1", label: "judía → frijol" },
+      ],
+      "es-CU": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bpiso(s)?\b/gi, to: "apartamento$1", label: "piso → apartamento" },
+        { from: /\bautobús(es)?\b/gi, to: "guagua$1", label: "autobús → guagua" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "habichuela$1", label: "judía → habichuela" },
+      ],
+      "es-DO": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bpiso(s)?\b/gi, to: "apartamento$1", label: "piso → apartamento" },
+        { from: /\bautobús(es)?\b/gi, to: "guagua$1", label: "autobús → guagua" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "habichuela$1", label: "judía → habichuela" },
+      ],
+      "es-PR": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bpiso(s)?\b/gi, to: "apartamento$1", label: "piso → apartamento" },
+        { from: /\bautobús(es)?\b/gi, to: "guagua$1", label: "autobús → guagua" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+        { from: /\bjudía(s)?\b/gi, to: "habichuela$1", label: "judía → habichuela" },
+      ],
+      "es-GQ": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+      ],
+      "es-US": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+      ],
+      "es-PH": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+      ],
+      "es-BZ": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+      ],
+      "es-AD": [
+        ...VOSOTROS,
+        { from: /\bordenador(es)?\b/gi, to: "computadora$1", label: "ordenador → computadora" },
+        { from: /\bcoche(s)?\b/gi, to: "carro$1", label: "coche → carro" },
+        { from: /\bmóvil(es)?\b/gi, to: "celular$1", label: "móvil → celular" },
+        { from: /\bpatata(s)?\b/gi, to: "papa$1", label: "patata → papa" },
+        { from: /\bgafas\b/gi, to: "lentes", label: "gafas → lentes" },
+      ],
+      "es-ES": [],
+    };
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // DETECTION DATA
+    // ═══════════════════════════════════════════════════════════════════════════
+
     const DIALECTS = {
-      'es-ES': { name: 'Spain', flag: '🇪🇸', keywords: ['ordenador','coche','zumo','vale','vosotros','vuestro','conducir','aparcar','ladrillo','patata','piso','coger','móvil','bolígrafo','autobús'], formal: ['ordenador','vosotros','conducir','aparcar','coger','bolígrafo','autobús','frigorífico'], slang: ['vale','tío','tía','mola','guay','flipar','chaval','currar'] },
-      'es-MX': { name: 'Mexico', flag: '🇲🇽', keywords: ['computadora','carro','pluma','jugo','departamento','camión','habitación','rentar','estacionamiento','aguacate','plátano','falda','celular','chido','güey'], formal: ['computadora','departamento','estacionamiento','habitación','rentar','camión','plátano','celular'], slang: ['chido','güey','neta','padre','chamba','crudo','fresa','naco'] },
+      'es-ES': { name: 'Spain', flag: '🇪🇸', keywords: ['ordenador','coche','zumo','vale','vosotros','vuestro','conducir','aparcar','patata','piso','coger','móvil','bolígrafo','autobús'], formal: ['ordenador','vosotros','conducir','aparcar','coger','bolígrafo','autobús','frigorífico'], slang: ['vale','tío','tía','mola','guay','flipar','chaval','currar'] },
+      'es-MX': { name: 'Mexico', flag: '🇲🇽', keywords: ['computadora','carro','pluma','jugo','departamento','camión','aguacate','plátano','celular','chido','güey'], formal: ['computadora','departamento','estacionamiento','plátano','celular'], slang: ['chido','güey','neta','padre','chamba','crudo','fresa','naco'] },
       'es-AR': { name: 'Argentina', flag: '🇦🇷', keywords: ['papa','auto','laburo','che','vos','pibe','mina','bondi','quilombo','fiaca','morfar','pulenta','guita','boludo','piola'], formal: ['auto','computadora','departamento','celular','remera','frutilla','poroto','maní'], slang: ['che','pibe','mina','bondi','quilombo','fiaca','morfar','boludo'] },
-      'es-CO': { name: 'Colombia', flag: '🇨🇴', keywords: ['parce','chévere','veci','mono','rajo','guaro','chino','llave','marica','guayabo','vaina','bacano','pilas','pana','rumba'], formal: ['computador','carro','celular','esfero','papa','lentes','maní','banano'], slang: ['parce','chévere','veci','mono','vaina','bacano','pilas','pana','rumba','parcero'] },
+      'es-CO': { name: 'Colombia', flag: '🇨🇴', keywords: ['parce','chévere','veci','mono','rajo','guaro','chino','llave','marica','guayabo','vaina','bacano','pilas','pana','rumba'], formal: ['computador','carro','celular','esfero','papa','lentes','maní','banano'], slang: ['parce','chévere','veci','mono','vaina','bacano','pilas','pana','rumba'] },
       'es-CU': { name: 'Cuba', flag: '🇨🇺', keywords: ['asere','yuma','jinetera','grifo','guagua','fufú','mechero','pichar','temba','socio','qué bola','candela','jama','pinchar','yal'], formal: ['computadora','carro','celular','apartamento','guagua','papa','lentes','habichuela'], slang: ['asere','yuma','jinetera','grifo','fufú','mechero','pichar','temba','qué bola','jama'] },
-      'es-PE': { name: 'Peru', flag: '🇵🇪', keywords: ['chibolo','causa','chifa','poto','brich','huaico','chapo','flaco','mina','pata','chela','jato','huarique','pe','cholo'], formal: ['computadora','carro','celular','pluma','papa','lentes','maní','frutilla'], slang: ['chibolo','causa','chifa','poto','pata','chela','jato','huarique','cholo','flaco'] },
+      'es-PE': { name: 'Peru', flag: '🇵🇪', keywords: ['chibolo','causa','chifa','poto','brich','huaico','chapo','flaco','mina','pata','chela','jato','huarique','pe','cholo'], formal: ['computadora','carro','celular','pluma','papa','lentes','maní','frutilla'], slang: ['chibolo','causa','chifa','poto','pata','chela','jato','huarique','cholo'] },
       'es-CL': { name: 'Chile', flag: '🇨🇱', keywords: ['wea','hueón','cachái','pololo','fome','bacán','palta','choclo','guagua','lianta','chucha','la raja','flaite','caleta','al tiro'], formal: ['auto','computadora','celular','papa','lentes','maní','poroto','frutilla'], slang: ['wea','hueón','cachái','pololo','fome','bacán','lianta','chucha','flaite','caleta'] },
       'es-VE': { name: 'Venezuela', flag: '🇻🇪', keywords: ['chamo','pana','guarambare','chinga','pajúo','siso','pirobo','sifrino','cocuyo','porra','chimbo','morrocoy','guarapo','arrecho','ladilla'], formal: ['computadora','carro','celular','lapicero','papa','lentes','maní','caraota'], slang: ['chamo','pana','guarambare','pajúo','pirobo','sifrino','porra','chimbo','arrecho','ladilla'] },
       'es-UY': { name: 'Uruguay', flag: '🇺🇾', keywords: ['bo','ta','vamo','chajá','gurí','porta','fogón','fiaca','payador','changa','mufa','karai','gurisa','mate','cana'], formal: ['auto','computadora','apartamento','celular','papa','anteojos','frutilla','poroto'], slang: ['bo','ta','vamo','chajá','gurí','porta','fogón','fiaca','changa','mufa'] },
       'es-PY': { name: 'Paraguay', flag: '🇵🇾', keywords: ['jopara','chipa','terere','tranquilopa','haku','mbarete','de balde','al pedo','vai-vai','me hallo','chake','che','gua\'u','jaha','jagua'], formal: ['auto','computadora','celular','papa','anteojos','frutilla','poroto','maní'], slang: ['jopara','chipa','terere','tranquilopa','haku','mbarete','de balde','al pedo','vai-vai','chake'] },
-      'es-BO': { name: 'Bolivia', flag: '🇧🇴', keywords: ['wawa','jach\'a','ch\'iti','qhatu','jallalla','ch\'usa','llunk\'u','api','chairo','pucha','chango','cholita','jichi','q\'omer','llajwa'], formal: ['computadora','carro','celular','papa','lentes','frijol','wawa','cholita'], slang: ['wawa','ch\'iti','jallalla','ch\'usa','pucha','chango','jichi','q\'omer','llajwa','chutar'] },
+      'es-BO': { name: 'Bolivia', flag: '🇧🇴', keywords: ['wawa','jach\'a','ch\'iti','qhatu','jallalla','ch\'usa','llunk\'u','api','chairo','pucha','chango','cholita','jichi','q\'omer','llajwa'], formal: ['computadora','carro','celular','papa','lentes','frijol'], slang: ['wawa','ch\'iti','jallalla','ch\'usa','pucha','chango','jichi','q\'omer','llajwa'] },
       'es-EC': { name: 'Ecuador', flag: '🇪🇨', keywords: ['chévere','pana','chado','guagua','chulla','chucha','bacán','caña','longo','achachay','chibolo','yapa','cacho','ñaño','chuchaqui'], formal: ['computador','carro','celular','esfero','papa','lentes','maní','banano'], slang: ['chévere','pana','chado','chulla','chucha','bacán','longo','achachay','chibolo','yapa'] },
-      'es-GT': { name: 'Guatemala', flag: '🇬🇹', keywords: ['pisto','chapín','shute','chucho','clavo','boche','shumo','ishtmo','chiclero','canche','culero','morral','cipote','patojo','bochinche'], formal: ['computadora','carro','celular','papa','lentes','frijol'], slang: ['pisto','shute','chucho','clavo','boche','shumo','canche','culero','morral','bochinche'] },
+      'es-GT': { name: 'Guatemala', flag: '🇬🇹', keywords: ['pisto','shute','chucho','clavo','boche','shumo','ishtmo','chiclero','canche','culero','morral','cipote','patojo','bochinche'], formal: ['computadora','carro','celular','papa','lentes','frijol'], slang: ['pisto','shute','chucho','clavo','boche','shumo','canche','culero','morral','bochinche'] },
       'es-HN': { name: 'Honduras', flag: '🇭🇳', keywords: ['catracho','mañe','pucher','chepa','cirilo','arrastrado','tirijisi','chino','pichu','chure','choco','chule','cipote','bayunco','ñaño'], formal: ['computadora','carro','celular','papa','lentes','frijol'], slang: ['catracho','mañe','pucher','chepa','tirijisi','pichu','chure','choco','chule','bayunco'] },
       'es-SV': { name: 'El Salvador', flag: '🇸🇻', keywords: ['guanaco','bicho','puch','chero','tuanis','chel','ceo','chunche','pisto','chamba','pacha','chivo','chuco','cerote','maje'], formal: ['computadora','carro','celular','papa','lentes','frijol'], slang: ['bicho','puch','chero','tuanis','chel','ceo','chunche','pisto','chamba','cerote'] },
       'es-NI': { name: 'Nicaragua', flag: '🇳🇮', keywords: ['pinolero','chele','naca','sapa','bicho','tropas','chunche','arre','samaritano','chavalo','jincho','pichilingo','bole','chigüe','maje'], formal: ['computadora','carro','celular','papa','lentes','frijol'], slang: ['chele','naca','sapa','bicho','tropas','chunche','arre','jincho','pichilingo','bole'] },
@@ -156,22 +488,30 @@
       'es-PA': { name: 'Panama', flag: '🇵🇦', keywords: ['sorrin','chombo','fufu','aju','tongo','pelar','chivo','chilin','rasca','talla','majare','chuleta','yeye','chicha','pitillo'], formal: ['computadora','carro','celular','lapicero','papa','lentes','frijol'], slang: ['sorrin','chombo','fufu','aju','tongo','pelar','palo','yeyo','majare','chuleta'] },
       'es-DO': { name: 'Dominican Rep.', flag: '🇩🇴', keywords: ['tiguere','concon','vívere','aplatar','guagua','pora','jevo','china','bandola','kukú','papichulo','vaina','que lo que','chin','yeyo'], formal: ['computadora','carro','celular','apartamento','guagua','papa','lentes','habichuela'], slang: ['tiguere','concon','vívere','pora','jevo','bandola','kukú','papichulo','vaina','que lo que'] },
       'es-PR': { name: 'Puerto Rico', flag: '🇵🇷', keywords: ['bichote','cabrón','zafacón','pulpo','guagua','jevo','pichar','chota','almohada','floor','parking','chevere','nene','mami','papi'], formal: ['computadora','carro','celular','apartamento','guagua','papa','lentes','habichuela'], slang: ['bichote','cabrón','pulpo','jevo','pichar','chota','floor','parking','chevere','janguear'] },
-      'es-GQ': { name: 'Eq. Guinea', flag: '🇬🇶', keywords: ['ñame','guineano','bubi','fang','malabo','fufú','batata','camisola','bacalao','bangá','malamba','ndowe','annobón','bioko','río muni'], formal: ['computadora','carro','celular','papa','lentes','guineano','malabo','annobón'], slang: ['ñame','fufú','batata','camisola','bacalao','bangá','malamba','ndowe','bata','mongomo'] },
+      'es-GQ': { name: 'Eq. Guinea', flag: '🇬🇶', keywords: ['ñame','guineano','bubi','fang','malabo','fufú','batata','camisola','bacalao','bangá','malamba','ndowe','annobón','bioko','río muni'], formal: ['computadora','carro','celular','papa','lentes','guineano','malabo','annobón'], slang: ['ñame','fufú','batata','camisola','bacalao','bangá','malamba','ndowe'] },
       'es-US': { name: 'U.S. Spanish', flag: '🇺🇸', keywords: ['troca','parquear','lonche','wacha','cholo','ese','firme','simón','vato','carnal','neta','mande','fresa','chafa','huero'], formal: ['computadora','carro','celular','papa','lentes','mija','mijo','raza'], slang: ['troca','parquear','lonche','wacha','cholo','ese','firme','simón','vato','carnal'] },
       'es-PH': { name: 'Philippines', flag: '🇵🇭', keywords: ['jendeh','kame','kita','evo','quilaya','tamén','onde','kamo','sila','conele','connosotros','nisos','vusos','jaha','mo\'o'], formal: ['kame','kita','kamo','sila','conele','connosotros','nisos','vusos','jaha','onde'], slang: ['jendeh','evo','quilaya','tamén','mo\'o','ta','maga','eli','akon','dele'] },
       'es-BZ': { name: 'Belize', flag: '🇧🇿', keywords: ['breki','kriol','garífuna','cayos','beliceño','zapote','cayuco','bway','mopan','kekchi','yucatec','placencia','dangriga','criollo','mestizo'], formal: ['computadora','carro','celular','papa','lentes','beliceño','mestizo','criollo'], slang: ['breki','kriol','cayos','zapote','cayuco','bway','mopan','kekchi','placencia','dangriga'] },
       'es-AD': { name: 'Andorra', flag: '🇦🇩', keywords: ['andorrano','madriu','canillo','escaldes','encamp','ordino','massana','caldea','comú','pirineo','andorra','parroquia','principado','vall','pas'], formal: ['andorrano','madriu','canillo','escaldes','encamp','ordino','massana','caldea','parroquia','principado'], slang: ['comú','pirineo','vall','pas','xaval','doncs','molt','clar','aixo','andorra'] },
     };
 
-    // ─── Detection Logic ───
+    const DIALECT_INFO = {
+      'es-ES': 'Spain', 'es-MX': 'Mexico', 'es-AR': 'Argentina', 'es-CO': 'Colombia', 'es-CU': 'Cuba',
+      'es-PE': 'Peru', 'es-CL': 'Chile', 'es-VE': 'Venezuela', 'es-UY': 'Uruguay', 'es-PY': 'Paraguay',
+      'es-BO': 'Bolivia', 'es-EC': 'Ecuador', 'es-GT': 'Guatemala', 'es-HN': 'Honduras', 'es-SV': 'El Salvador',
+      'es-NI': 'Nicaragua', 'es-CR': 'Costa Rica', 'es-PA': 'Panama', 'es-DO': 'Dominican Rep.', 'es-PR': 'Puerto Rico',
+      'es-GQ': 'Eq. Guinea', 'es-US': 'U.S. Spanish', 'es-PH': 'Philippines', 'es-BZ': 'Belize', 'es-AD': 'Andorra',
+    };
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // LOGIC
+    // ═══════════════════════════════════════════════════════════════════════════
+
     function getWords(text) {
       const words = new Set();
-      const tokens = text.toLowerCase().match(/[a-záéíóúüñ'’]+/g) || [];
+      const tokens = text.toLowerCase().match(/[a-záéíóúüñ'']+/g) || [];
       for (const t of tokens) words.add(t);
-      for (let i = 0; i < tokens.length - 1; i++) {
-        words.add(tokens[i] + ' ' + tokens[i+1]);
-        if (i < tokens.length - 2) words.add(tokens[i] + ' ' + tokens[i+1] + ' ' + tokens[i+2]);
-      }
+      for (let i = 0; i < tokens.length - 1; i++) words.add(tokens[i] + ' ' + tokens[i+1]);
       return words;
     }
 
@@ -204,82 +544,130 @@
       return { best, all: results, confidence: conf };
     }
 
-    // ─── UI ───
-    const EXAMPLES = {
-      mx: 'La computadora está en el departamento. Usé la pluma para escribir. Ese güey está bien chido.',
-      ar: 'Che, voy en auto al laburo. ¿Comemos papa hoy? Boludo, qué quilombo.',
-      es: 'El ordenador está en el coche. Bebo zumo. ¡Vale! Vosotros venís.',
-      co: '¡Parce! ¿Qué más? ¡Chévere! Veci, vamos a la fiesta. Llave, pilas.',
-    };
-
-    function loadExample(key) {
-      document.getElementById('input').value = EXAMPLES[key];
-      analyze();
+    function applyAdaptations(text, dialect) {
+      const rules = ADAPTATIONS[dialect] || [];
+      let adapted = text;
+      const changes = [];
+      for (const rule of rules) {
+        const before = adapted;
+        adapted = adapted.replace(rule.from, (match) => {
+          // Preserve case
+          const replacement = match[0] === match[0].toUpperCase()
+            ? rule.to.charAt(0).toUpperCase() + rule.to.slice(1)
+            : rule.to;
+          changes.push({ original: match, replacement, label: rule.label });
+          return replacement;
+        });
+      }
+      return { text: adapted, changes };
     }
 
-    function renderDialectGrid() {
+    function escapeHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function renderDiff(original, adapted, changes) {
+      if (changes.length === 0) return escapeHtml(adapted);
+      let html = escapeHtml(adapted);
+      // Highlight each change in the adapted text
+      for (const c of changes) {
+        const escaped = escapeHtml(c.replacement);
+        html = html.replace(escaped, `<span class="change">${escaped}</span>`);
+      }
+      return html;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // UI
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    const PRESETS = {
+      'es-mx': { text: 'Vosotros vais al coche con el ordenador y bebéis zumo de patata.', target: 'es-MX' },
+      'es-ar': { text: 'Vosotros lleváis gafas y escribís con bolígrafo en el piso.', target: 'es-AR' },
+      'es-co': { text: 'Vosotros compráis el coche y el ordenador, y coméis judías.', target: 'es-CO' },
+      'es-cl': { text: 'Vosotros usáis la camiseta y coméis fresas con cacahuetes.', target: 'es-CL' },
+    };
+
+    function loadPreset(key) {
+      const p = PRESETS[key];
+      document.getElementById('sourceText').value = p.text;
+      document.getElementById('targetDialect').value = p.target;
+      translate();
+    }
+
+    function translate() {
+      const text = document.getElementById('sourceText').value.trim();
+      const target = document.getElementById('targetDialect').value;
+      const outputBox = document.getElementById('outputBox');
+      const changesPanel = document.getElementById('changesPanel');
+      const changesList = document.getElementById('changesList');
+      const detectPanel = document.getElementById('detectPanel');
+
+      if (!text) {
+        outputBox.innerHTML = '<span class="text-slate-600 italic">Type something above and pick a target dialect to see adaptations...</span>';
+        changesPanel.classList.add('hidden');
+        detectPanel.classList.add('hidden');
+        document.getElementById('detectedSource').textContent = '—';
+        return;
+      }
+
+      // Adapt
+      const { text: adapted, changes } = applyAdaptations(text, target);
+
+      // Render output with diff highlighting
+      if (changes.length === 0) {
+        outputBox.innerHTML = '<span class="text-slate-500">No adaptations needed — text is already compatible with ' + DIALECT_INFO[target] + ' Spanish.</span>';
+        changesPanel.classList.add('hidden');
+      } else {
+        outputBox.innerHTML = renderDiff(text, adapted, changes);
+        changesPanel.classList.remove('hidden');
+        changesList.innerHTML = changes.map(c =>
+          `<span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">${escapeHtml(c.original)} → ${escapeHtml(c.replacement)}</span>`
+        ).join('');
+      }
+
+      // Detect source dialect
+      const { best, confidence } = detectDialect(text);
+      const detectedLabel = best.score > 0 ? `${best.flag} ${best.code} · ${best.reg}` : 'neutral Spanish — no dialect markers';
+      document.getElementById('detectedSource').textContent = detectedLabel;
+
+      document.getElementById('detectFlag').textContent = best.flag;
+      document.getElementById('detectCode').textContent = best.code;
+      document.getElementById('detectName').textContent = best.name;
+      document.getElementById('detectConf').textContent = Math.round(confidence * 100) + '%';
+      document.getElementById('detectBar').style.width = (confidence * 100) + '%';
+      document.getElementById('detectBar').className = 'confidence-bar h-full rounded-full ' + (confidence >= 0.7 ? 'bg-emerald-500' : confidence >= 0.4 ? 'bg-amber-500' : 'bg-slate-600');
+
+      const regColors = {
+        slang: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+        formal: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+        neutral: 'bg-slate-500/20 text-slate-400 border-slate-500/30',
+      };
+      const regEl = document.getElementById('detectReg');
+      regEl.textContent = best.reg.toUpperCase();
+      regEl.className = 'px-3 py-1 rounded-lg text-xs font-medium border ' + regColors[best.reg];
+
+      detectPanel.classList.remove('hidden');
+    }
+
+    // Render dialect grid
+    function renderGrid() {
       const grid = document.getElementById('dialectGrid');
-      for (const [code, data] of Object.entries(DIALECTS)) {
+      for (const [code, name] of Object.entries(DIALECT_INFO)) {
+        const flag = DIALECTS[code].flag;
         const div = document.createElement('div');
-        div.className = 'glass rounded-xl p-3 text-center dialect-card cursor-pointer';
-        div.innerHTML = `<div class="text-2xl mb-1">${data.flag}</div><div class="text-sm font-medium text-slate-300">${code}</div><div class="text-xs text-slate-500">${data.name}</div>`;
-        div.onclick = () => { document.getElementById('input').value = data.keywords.slice(0,3).join(' '); analyze(); };
+        div.className = 'glass rounded-xl p-3 text-center dialect-card';
+        div.innerHTML = `<div class="text-2xl mb-1">${flag}</div><div class="text-sm font-medium text-slate-300">${code}</div><div class="text-xs text-slate-500">${name}</div>`;
+        div.onclick = () => { document.getElementById('targetDialect').value = code; translate(); };
         grid.appendChild(div);
       }
     }
 
-    function analyze() {
-      const text = document.getElementById('input').value.trim();
-      const results = document.getElementById('results');
-      if (!text) { results.classList.add('hidden'); return; }
-
-      const { best, all, confidence } = detectDialect(text);
-      results.classList.remove('hidden');
-
-      const registerColor = best.reg === 'slang' ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' :
-                            best.reg === 'formal' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' :
-                            'bg-slate-500/20 text-slate-400 border-slate-500/30';
-
-      const otherDialects = all.slice(1, 4).filter(d => d.score > 0).map(d =>
-        `<div class="flex items-center justify-between py-1.5"><span class="text-sm text-slate-400">${d.flag} ${d.code}</span><div class="flex-1 mx-3 h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="confidence-bar h-full bg-slate-600 rounded-full" style="width:${Math.min(100, d.score * 25)}%"></div></div><span class="text-xs text-slate-500 w-8 text-right">${d.score}</span></div>`
-      ).join('');
-
-      results.innerHTML = `
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="glass rounded-xl p-5">
-            <div class="text-xs text-slate-500 uppercase tracking-wider mb-3">Detected Dialect</div>
-            <div class="flex items-center gap-3 mb-2">
-              <span class="text-4xl">${best.flag}</span>
-              <div>
-                <div class="text-2xl font-bold text-slate-100">${best.code}</div>
-                <div class="text-sm text-slate-400">${best.name}</div>
-              </div>
-            </div>
-            <div class="flex items-center gap-3 mt-4">
-              <div class="flex-1">
-                <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Confidence</span><span class="text-slate-300">${Math.round(confidence * 100)}%</span></div>
-                <div class="h-2 bg-slate-800 rounded-full overflow-hidden"><div class="confidence-bar h-full rounded-full ${confidence >= 0.7 ? 'bg-emerald-500' : confidence >= 0.4 ? 'bg-amber-500' : 'bg-slate-600'}" style="width:${confidence * 100}%"></div></div>
-              </div>
-              <span class="register-badge px-3 py-1 rounded-lg text-xs font-medium border ${registerColor}">${best.reg.toUpperCase()}</span>
-            </div>
-          </div>
-          <div class="glass rounded-xl p-5">
-            <div class="text-xs text-slate-500 uppercase tracking-wider mb-3">Matched Keywords (${best.matched.length})</div>
-            <div class="flex flex-wrap gap-1.5">
-              ${best.matched.length ? best.matched.map(m => `<span class="keyword-tag px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-400 text-xs font-medium border border-sky-500/20">${m}</span>`).join('') : '<span class="text-sm text-slate-600">No strong matches — text may be neutral Spanish</span>'}
-            </div>
-          </div>
-        </div>
-        ${otherDialects ? `
-        <div class="glass rounded-xl p-5 mt-4">
-          <div class="text-xs text-slate-500 uppercase tracking-wider mb-2">Runner-ups</div>
-          ${otherDialects}
-        </div>` : ''}
-      `;
-    }
-
-    document.getElementById('input').addEventListener('input', analyze);
-    renderDialectGrid();
+    document.getElementById('sourceText').addEventListener('input', translate);
+    document.getElementById('targetDialect').addEventListener('change', translate);
+    renderGrid();
+    // Auto-load a demo on first visit so the page isn't empty
+    loadPreset('es-mx');
   </script>
 </body>
 </html>
