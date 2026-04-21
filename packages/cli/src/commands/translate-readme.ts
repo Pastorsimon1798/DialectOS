@@ -45,6 +45,7 @@ import {
 } from "../lib/resilient-translation.js";
 import { calculateQualityScore } from "../lib/quality-score.js";
 import { resolvePolicy, type PolicyProfile } from "../lib/translation-policy.js";
+import { TelemetryCollector, globalTelemetry } from "../lib/telemetry.js";
 
 interface TranslateReadmeOptions {
   dialect: string;
@@ -116,7 +117,23 @@ export function createTranslateReadmeCommand(
         resume: policy.resume,
       };
       try {
-        await translateReadme(input, mergedOptions, getRegistry);
+        const result = await translateReadme(input, mergedOptions, getRegistry);
+        globalTelemetry.record({
+          command: "translate-readme",
+          provider: mergedOptions.provider,
+          providerUsed: result.providerUsed,
+          fallbackCount: result.fallbackCount,
+          retryCount: result.retryCount,
+          sectionCount: result.sectionCount,
+          failureCount: result.failureCount,
+          qualityScore: result.qualityScore,
+          tokenIntegrity: result.tokenIntegrity,
+          glossaryFidelity: result.glossaryFidelity,
+          structureIntegrity: result.structureIntegrity,
+          durationMs: result.durationMs,
+          dialect: mergedOptions.dialect,
+          timestamp: new Date().toISOString(),
+        });
       } catch (error) {
         if (error instanceof Error) {
           writeError(error.message);
@@ -130,11 +147,29 @@ export function createTranslateReadmeCommand(
 /**
  * Main translation function
  */
+export interface TranslateReadmeResult {
+  qualityScore: number;
+  tokenIntegrity: number;
+  glossaryFidelity: number;
+  structureIntegrity: number;
+  providerUsed?: string;
+  fallbackCount: number;
+  retryCount: number;
+  failureCount: number;
+  sectionCount: number;
+  durationMs: number;
+}
+
 async function translateReadme(
   input: string,
   options: TranslateReadmeOptions,
   getRegistry: () => ProviderRegistry
-): Promise<void> {
+): Promise<TranslateReadmeResult> {
+  const startTime = Date.now();
+  let fallbackCount = 0;
+  let retryCount = 0;
+  let providerUsed: string | undefined;
+
   // 1. Validate input path
   const validatedPath = validateMarkdownPath(input);
 
@@ -158,7 +193,17 @@ async function translateReadme(
     } else {
       writeInfo("");
     }
-    return;
+    return {
+      qualityScore: 100,
+      tokenIntegrity: 1,
+      glossaryFidelity: 1,
+      structureIntegrity: 1,
+      fallbackCount: 0,
+      retryCount: 0,
+      failureCount: 0,
+      sectionCount: 0,
+      durationMs: Date.now() - startTime,
+    };
   }
 
   // 4. Get translation provider
@@ -306,4 +351,17 @@ async function translateReadme(
   } catch {
     // Checkpoint may not exist — ignore
   }
+
+  return {
+    qualityScore: quality.score,
+    tokenIntegrity: quality.tokenIntegrity,
+    glossaryFidelity: quality.glossaryFidelity,
+    structureIntegrity: quality.structureIntegrity,
+    providerUsed,
+    fallbackCount,
+    retryCount,
+    failureCount: failures,
+    sectionCount: parsed.sections.length,
+    durationMs: Date.now() - startTime,
+  };
 }

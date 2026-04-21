@@ -5,7 +5,7 @@
  * to validate fallback, circuit breaker, and retry behavior.
  */
 
-import type { TranslationProvider, TranslationResult, ProviderCapability } from "./types.js";
+import type { TranslationProvider, TranslationResult, ProviderCapability, TranslateOptions } from "./types.js";
 
 export type ChaosMode =
   | "latency"
@@ -41,15 +41,26 @@ export class ChaosProvider implements TranslationProvider {
     this.scenario = scenario;
   }
 
-  getCapabilities(): ProviderCapability | null {
-    return this.inner.getCapabilities?.() ?? null;
+  getCapabilities(): ProviderCapability {
+    return this.inner.getCapabilities?.() ?? {
+      name: this.name,
+      displayName: this.name,
+      needsApiKey: false,
+      supportsFormality: false,
+      supportsContext: false,
+      supportsDialect: false,
+      supportedSourceLangs: [],
+      supportedTargetLangs: [],
+      maxPayloadChars: 0,
+      dialectHandling: "none",
+    };
   }
 
   async translate(
     text: string,
     sourceLang: string,
     targetLang: string,
-    options?: unknown
+    options?: TranslateOptions
   ): Promise<TranslationResult> {
     this.callCount++;
 
