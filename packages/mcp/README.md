@@ -42,7 +42,7 @@ Add to your MCP client configuration:
 - `detect_dialect` — Detect dialect from text
 - `translate_code_comment` — Translate comments, preserve code
 - `translate_readme` — Full README translation pipeline
-- `search_glossary` — Search built-in technical glossary
+- `search_glossary` — Search 300+ source-attributed glossary terms
 - `list_dialects` — List all 25 supported dialects
 
 ## Security

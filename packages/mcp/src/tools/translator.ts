@@ -16,8 +16,8 @@ import { z } from "zod";
 import type {
   SpanishDialect,
   ProviderName,
-  GlossaryEntry,
 } from "@espanol/types";
+import { searchGlossary } from "@espanol/types";
 import {
   parseMarkdown,
   reconstructMarkdown,
@@ -459,70 +459,6 @@ const DIALECT_METADATA: Array<{
 ];
 
 // ============================================================================
-// Built-in Glossary
-// ============================================================================
-
-/**
- * Built-in glossary for technical and business terms
- */
-const BUILT_IN_GLOSSARY: GlossaryEntry[] = [
-  // Programming terms
-  { term: "array", translation: "arreglo", category: "programming" },
-  { term: "function", translation: "función", category: "programming" },
-  { term: "variable", translation: "variable", category: "programming" },
-  { term: "string", translation: "cadena", category: "programming" },
-  { term: "integer", translation: "entero", category: "programming" },
-  { term: "object", translation: "objeto", category: "programming" },
-  { term: "class", translation: "clase", category: "programming" },
-  { term: "method", translation: "método", category: "programming" },
-  { term: "loop", translation: "bucle", category: "programming" },
-  { term: "conditional", translation: "condicional", category: "programming" },
-  { term: "exception", translation: "excepción", category: "programming" },
-  { term: "error", translation: "error", category: "programming" },
-  { term: "debug", translation: "depurar", category: "programming" },
-  { term: "compile", translation: "compilar", category: "programming" },
-  { term: "execute", translation: "ejecutar", category: "programming" },
-
-  // Technical terms
-  { term: "server", translation: "servidor", category: "technical" },
-  { term: "client", translation: "cliente", category: "technical" },
-  { term: "database", translation: "base de datos", category: "technical" },
-  { term: "API", translation: "API", category: "technical" },
-  { term: "endpoint", translation: "punto de acceso", category: "technical" },
-  { term: "authentication", translation: "autenticación", category: "technical" },
-  { term: "authorization", translation: "autorización", category: "technical" },
-  { term: "encryption", translation: "cifrado", category: "technical" },
-  { term: "network", translation: "red", category: "technical" },
-  { term: "protocol", translation: "protocolo", category: "technical" },
-
-  // Business terms
-  { term: "invoice", translation: "factura", category: "business" },
-  { term: "receipt", translation: "recibo", category: "business" },
-  { term: "budget", translation: "presupuesto", category: "business" },
-  { term: "profit", translation: "ganancia", category: "business" },
-  { term: "revenue", translation: "ingresos", category: "business" },
-  { term: "expense", translation: "gasto", category: "business" },
-  { term: "customer", translation: "cliente", category: "business" },
-  { term: "supplier", translation: "proveedor", category: "business" },
-  { term: "contract", translation: "contrato", category: "business" },
-  { term: "agreement", translation: "acuerdo", category: "business" },
-  { term: "negotiation", translation: "negociación", category: "business" },
-  { term: "proposal", translation: "propuesta", category: "business" },
-
-  // General terms
-  { term: "hello", translation: "hola", category: "general" },
-  { term: "goodbye", translation: "adiós", category: "general" },
-  { term: "please", translation: "por favor", category: "general" },
-  { term: "thank you", translation: "gracias", category: "general" },
-  { term: "welcome", translation: "bienvenido", category: "general" },
-  { term: "good morning", translation: "buenos días", category: "general" },
-  { term: "good afternoon", translation: "buenas tardes", category: "general" },
-  { term: "good evening", translation: "buenas noches", category: "general" },
-  { term: "how are you", translation: "cómo estás", category: "general" },
-  { term: "see you later", translation: "hasta luego", category: "general" },
-];
-
-// ============================================================================
 // Tool Handlers
 // ============================================================================
 
@@ -924,14 +860,8 @@ async function handleSearchGlossary(
       throw new SecurityError("Query cannot be empty", ErrorCode.INVALID_INPUT);
     }
 
-    // Search glossary
-    const lowerQuery = params.query.toLowerCase();
-    const results = BUILT_IN_GLOSSARY.filter(
-      (entry) =>
-        entry.term.toLowerCase().includes(lowerQuery) ||
-        entry.translation.toLowerCase().includes(lowerQuery) ||
-        entry.category?.toLowerCase().includes(lowerQuery)
-    );
+    // Search canonical shared glossary
+    const results = searchGlossary(params.query);
 
     return {
       content: [
