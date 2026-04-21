@@ -32,9 +32,6 @@ import {
 } from "@espanol/security";
 import {
   ProviderRegistry,
-  DeepLProvider,
-  LibreTranslateProvider,
-  MyMemoryProvider,
 } from "@espanol/providers";
 import { ToolResult } from "../lib/types.js";
 import { createProviderRegistry } from "../lib/provider-factory.js";

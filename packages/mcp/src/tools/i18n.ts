@@ -11,17 +11,15 @@
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { readFileSync, existsSync, statSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
 import type {
   SpanishDialect,
   ProviderName,
   I18nEntry,
-  LocaleDiff,
   FormalityIssue,
   GenderNeutralStrategy,
-  VariantResult,
 } from "@espanol/types";
 import {
   readLocaleFile,
@@ -40,9 +38,6 @@ import {
 } from "@espanol/security";
 import {
   ProviderRegistry,
-  DeepLProvider,
-  LibreTranslateProvider,
-  MyMemoryProvider,
 } from "@espanol/providers";
 import { ToolResult } from "../lib/types.js";
 import { createProviderRegistry } from "../lib/provider-factory.js";

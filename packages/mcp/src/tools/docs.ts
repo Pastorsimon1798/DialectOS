@@ -24,7 +24,6 @@ import {
   validateMarkdownPath,
   validateContentLength,
   RateLimiter,
-  SecurityError,
   createSafeError,
 } from "@espanol/security";
 import type { ProviderRegistry } from "@espanol/providers";
