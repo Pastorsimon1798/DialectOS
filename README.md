@@ -7,7 +7,7 @@
 Translate, detect, and adapt content across **25 regional Spanish variants** while preserving markdown structure, code comments, and locale file formatting.
 
 [![CI](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml/badge.svg)](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-599%20passing-brightgreen)](https://github.com/Pastorsimon1798/DialectOS/actions)
+[![Tests](https://img.shields.io/badge/tests-602%20passing-brightgreen)](https://github.com/Pastorsimon1798/DialectOS/actions)
 [![License](https://img.shields.io/badge/license-BSL%201.1-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](package.json)
 [![pnpm](https://img.shields.io/badge/pnpm-9.15.0-orange)](package.json)
@@ -102,7 +102,7 @@ git clone https://github.com/Pastorsimon1798/DialectOS.git
 cd DialectOS
 pnpm install
 pnpm build
-pnpm test        # 599 tests passing
+pnpm test        # 602 tests passing
 ```
 
 ---
@@ -134,7 +134,7 @@ pnpm test        # 599 tests passing
 | `detect_dialect` | Detect dialect from sample text |
 | `translate_code_comment` | Translate comments, preserve code |
 | `translate_readme` | Full README translation pipeline |
-| `search_glossary` | Search built-in technical glossary |
+| `search_glossary` | Search 300+ source-attributed glossary terms |
 | `list_dialects` | List all 25 supported dialects |
 
 ---
@@ -147,11 +147,11 @@ pnpm test        # 599 tests passing
 | [`@espanol/cli`](packages/cli) | `0.1.0` | CLI commands for translation workflows | 217 |
 | [`@espanol/providers`](packages/providers) | `0.1.0` | DeepL, LibreTranslate, MyMemory with circuit breaker | 61 |
 | [`@espanol/security`](packages/security) | `0.1.0` | Rate limiting, SSRF protection, sanitization | 66 |
-| [`@espanol/types`](packages/types) | `0.1.0` | Shared TypeScript types | 41 |
+| [`@espanol/types`](packages/types) | `0.1.0` | Shared TypeScript types + canonical glossary data | 44 |
 | [`@espanol/locale-utils`](packages/locale-utils) | `0.1.0` | Locale file diff/merge utilities | 55 |
 | [`@espanol/markdown-parser`](packages/markdown-parser) | `0.1.0` | Structure-preserving markdown parser | 74 |
 
-**Total: 599 tests across 7 packages**
+**Total: 602 tests across 7 packages**
 
 ---
 

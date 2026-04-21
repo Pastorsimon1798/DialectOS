@@ -314,6 +314,10 @@ export interface GlossaryEntry {
   term: string;
   translation: string;
   category?: string;
+  source?: string;
+  sourceUrl?: string;
+  confidence?: "low" | "medium" | "high";
+  notes?: string;
 }
 
 // ============================================================================
@@ -374,3 +378,5 @@ export const translationRequestSchema = z.object({
  * Must have at least 1 dialect and at most 25 dialects
  */
 export const batchTargetsSchema = z.array(dialectSchema).min(1, "At least one target dialect is required").max(25, "Cannot exceed 25 target dialects");
+
+export * from "./glossary-data.js";
