@@ -78,9 +78,10 @@ export function loadConfig(configPath?: string): MCPConfig {
   if (process.env.ESPANOL_LOG_LEVEL) {
     const validLevels = ["error", "warn", "info", "debug"] as const;
     const level = process.env.ESPANOL_LOG_LEVEL;
-    if (validLevels.includes(level as typeof validLevels[number])) {
-      config.logging.level = level as MCPConfig["logging"]["level"];
+    if (!validLevels.includes(level as typeof validLevels[number])) {
+      throw new Error(`Invalid MCP config env ESPANOL_LOG_LEVEL: expected one of ${validLevels.join(", ")}`);
     }
+    config.logging.level = level as MCPConfig["logging"]["level"];
   }
 
   return config;

@@ -80,6 +80,14 @@ describe("Configuration System", () => {
     expect(config.security.allowedDirs).toEqual(["/locales", "/data"]);
   });
 
+
+  it("should fail fast on invalid log level env var", async () => {
+    vi.stubEnv("ESPANOL_LOG_LEVEL", "verbose");
+    const { loadConfig } = await import("../lib/config.js");
+
+    expect(() => loadConfig()).toThrow(/Invalid MCP config env ESPANOL_LOG_LEVEL/);
+  });
+
   it("should parse config file", async () => {
     mkdirSync(tempDir, { recursive: true });
     const configPath = join(tempDir, "config.json");
