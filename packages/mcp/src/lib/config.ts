@@ -20,7 +20,7 @@ const configSchema = z.object({
   logging: z.object({
     level: z.enum(["error", "warn", "info", "debug"]).default("error"),
   }).default({ level: "error" }),
-}).default({});
+});
 
 export type MCPConfig = z.infer<typeof configSchema>;
 

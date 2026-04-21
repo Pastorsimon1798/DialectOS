@@ -338,21 +338,21 @@ export const dialectSchema = z.enum([
   "es-NI", "es-CR", "es-PA", "es-DO", "es-PR",
   "es-GQ", "es-US", "es-PH", "es-BZ", "es-AD",
 ], {
-  errorMap: () => ({ message: "Invalid Spanish dialect code" }),
+  message: "Invalid Spanish dialect code",
 });
 
 /**
  * Validates translation provider names
  */
 export const providerNameSchema = z.enum(["deepl", "deepl-free", "libre", "mymemory"], {
-  errorMap: () => ({ message: "Invalid translation provider" }),
+  message: "Invalid translation provider",
 });
 
 /**
  * Validates formality levels
  */
 export const formalitySchema = z.enum(["formal", "informal", "auto"], {
-  errorMap: () => ({ message: "Invalid formality level" }),
+  message: "Invalid formality level",
 });
 
 /**
