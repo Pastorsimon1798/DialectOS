@@ -1,5 +1,5 @@
 /**
- * Generic OpenAI-compatible LLM provider.
+ * Generic LLM provider for OpenAI-compatible and Anthropic-compatible APIs.
  *
  * This is the semantic provider path for DialectOS: the provider receives the
  * full dialect/context/formality prompt and is expected to perform translation
@@ -14,14 +14,21 @@ import { ALL_SPANISH_DIALECTS, languageCodeSchema } from "@espanol/types";
 const DEFAULT_MAX_PAYLOAD_CHARS = 50000;
 const DEFAULT_MAX_REQUESTS = 60;
 const DEFAULT_WINDOW_MS = 60000;
+const DEFAULT_ANTHROPIC_VERSION = "2023-06-01";
+
+export type LLMApiFormat = "openai" | "anthropic";
 
 export interface LLMProviderOptions {
-  /** Full OpenAI-compatible chat completions endpoint. */
+  /** Full chat/message endpoint URL. */
   endpoint?: string;
   /** Model name understood by the configured LLM endpoint. */
   model?: string;
+  /** Wire protocol to use for the configured endpoint. */
+  apiFormat?: LLMApiFormat;
   /** Optional bearer token. Required by most hosted LLM endpoints, optional for local gateways. */
   apiKey?: string;
+  /** Anthropic API version header. Only used when apiFormat is "anthropic". */
+  anthropicVersion?: string;
   /** Allow localhost/private endpoint URLs for explicitly configured local LLM gateways. */
   allowLocal?: boolean;
   timeoutMs?: number;
@@ -82,6 +89,23 @@ function extractChatCompletionText(data: unknown): string | undefined {
     : undefined;
 }
 
+function extractAnthropicText(data: unknown): string | undefined {
+  if (!data || typeof data !== "object") return undefined;
+  const content = (data as { content?: unknown }).content;
+  if (!Array.isArray(content)) return undefined;
+
+  const text = content
+    .map((part) => {
+      if (!part || typeof part !== "object") return "";
+      const maybeText = (part as { text?: unknown }).text;
+      return typeof maybeText === "string" ? maybeText : "";
+    })
+    .join("")
+    .trim();
+
+  return text.length > 0 ? text : undefined;
+}
+
 function buildSystemPrompt(): string {
   return [
     "You are a semantic dialect-aware Spanish translation engine for DialectOS.",
@@ -107,7 +131,9 @@ export class LLMProvider implements TranslationProvider {
   readonly name = "llm";
   private endpoint: string;
   private model: string;
+  private apiFormat: LLMApiFormat;
   private apiKey?: string;
+  private anthropicVersion: string;
   private timeoutMs: number;
   private maxPayloadChars: number;
   private breaker: CircuitBreaker;
@@ -117,6 +143,7 @@ export class LLMProvider implements TranslationProvider {
   constructor(options: LLMProviderOptions = {}) {
     const endpoint = options.endpoint || process.env.LLM_API_URL || process.env.LLM_ENDPOINT || "";
     const model = options.model || process.env.LLM_MODEL || "";
+    const apiFormat = options.apiFormat || process.env.LLM_API_FORMAT || "openai";
     const allowLocal = options.allowLocal ?? process.env.LLM_ALLOW_LOCAL === "1";
 
     if (!endpoint) {
@@ -125,10 +152,15 @@ export class LLMProvider implements TranslationProvider {
     if (!model) {
       throw new Error("LLM_MODEL environment variable is required");
     }
+    if (apiFormat !== "openai" && apiFormat !== "anthropic") {
+      throw new Error("LLM_API_FORMAT must be 'openai' or 'anthropic'");
+    }
 
     this.endpoint = validateLLMEndpoint(endpoint, allowLocal);
     this.model = model;
+    this.apiFormat = apiFormat;
     this.apiKey = options.apiKey || process.env.LLM_API_KEY;
+    this.anthropicVersion = options.anthropicVersion || process.env.LLM_ANTHROPIC_VERSION || DEFAULT_ANTHROPIC_VERSION;
     this.needsApiKey = Boolean(this.apiKey);
     this.timeoutMs = options.timeoutMs || parseInt(process.env.LLM_TIMEOUT_MS || "", 10) || HTTP_TIMEOUT;
     this.maxPayloadChars = options.maxPayloadChars || parseInt(process.env.LLM_MAX_PAYLOAD_CHARS || "", 10) || DEFAULT_MAX_PAYLOAD_CHARS;
@@ -181,22 +213,13 @@ export class LLMProvider implements TranslationProvider {
     const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
 
     try {
-      const headers: Record<string, string> = { "Content-Type": "application/json" };
-      if (this.apiKey) {
-        headers.Authorization = `Bearer ${this.apiKey}`;
-      }
-
+      const systemPrompt = buildSystemPrompt();
+      const userPrompt = buildUserPrompt(text, sourceLang, targetLang, options);
+      const headers = this.buildHeaders();
       const response = await fetch(this.endpoint, {
         method: "POST",
         headers,
-        body: JSON.stringify({
-          model: this.model,
-          temperature: 0.2,
-          messages: [
-            { role: "system", content: buildSystemPrompt() },
-            { role: "user", content: buildUserPrompt(text, sourceLang, targetLang, options) },
-          ],
-        }),
+        body: JSON.stringify(this.buildRequestBody(systemPrompt, userPrompt)),
         signal: controller.signal,
       });
 
@@ -213,7 +236,7 @@ export class LLMProvider implements TranslationProvider {
 
       const data = await response.json();
       clearTimeout(timeoutId);
-      const translatedText = extractChatCompletionText(data);
+      const translatedText = this.extractResponseText(data);
       if (!translatedText) {
         throw new Error("LLM response did not include translated content");
       }
@@ -232,5 +255,51 @@ export class LLMProvider implements TranslationProvider {
       }
       throw new Error(sanitizeErrorMessage(error instanceof Error ? error.message : String(error)));
     }
+  }
+
+  private buildHeaders(): Record<string, string> {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+
+    if (this.apiFormat === "anthropic") {
+      headers["anthropic-version"] = this.anthropicVersion;
+      if (this.apiKey) {
+        headers["x-api-key"] = this.apiKey;
+      }
+      return headers;
+    }
+
+    if (this.apiKey) {
+      headers.Authorization = `Bearer ${this.apiKey}`;
+    }
+    return headers;
+  }
+
+  private buildRequestBody(systemPrompt: string, userPrompt: string): Record<string, unknown> {
+    if (this.apiFormat === "anthropic") {
+      return {
+        model: this.model,
+        max_tokens: 4096,
+        temperature: 0.2,
+        system: systemPrompt,
+        messages: [
+          { role: "user", content: userPrompt },
+        ],
+      };
+    }
+
+    return {
+      model: this.model,
+      temperature: 0.2,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+    };
+  }
+
+  private extractResponseText(data: unknown): string | undefined {
+    return this.apiFormat === "anthropic"
+      ? extractAnthropicText(data)
+      : extractChatCompletionText(data);
   }
 }

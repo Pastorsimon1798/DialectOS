@@ -39,6 +39,21 @@ describe("provider factory", () => {
     expect(registry.getCapabilities("llm")?.dialectHandling).toBe("semantic");
   });
 
+  it("passes Anthropic compatibility mode into configured LLM providers", async () => {
+    clearProviderEnv();
+    process.env.LLM_API_URL = "https://api.anthropic.com/v1/messages";
+    process.env.LLM_MODEL = "claude-dialect";
+    process.env.LLM_API_KEY = "test-key";
+    process.env.LLM_API_FORMAT = "anthropic";
+
+    const registry = createProviderRegistry();
+    const provider = registry.get("llm");
+
+    expect(registry.getAuto().name).toBe("llm");
+    expect(provider.getCapabilities?.().dialectHandling).toBe("semantic");
+    expect((provider as any).apiFormat).toBe("anthropic");
+  });
+
   it("does not register generic fallback providers unless explicitly configured", () => {
     clearProviderEnv();
 

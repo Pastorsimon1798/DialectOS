@@ -27,6 +27,7 @@ export function createProviderRegistry(): ProviderRegistry {
     const llmProvider = new LLMProvider({
       endpoint: llmEndpoint,
       model: llmModel,
+      apiFormat: process.env.LLM_API_FORMAT === "anthropic" ? "anthropic" : "openai",
       apiKey: process.env.LLM_API_KEY,
       allowLocal: process.env.LLM_ALLOW_LOCAL === "1",
     });
