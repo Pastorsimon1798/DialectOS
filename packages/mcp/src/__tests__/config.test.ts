@@ -42,6 +42,14 @@ describe("Configuration System", () => {
     expect(config.rateLimit.windowMs).toBe(30000);
   });
 
+
+  it("should fail fast on invalid numeric env vars", async () => {
+    vi.stubEnv("ESPANOL_RATE_LIMIT", "many,soon");
+    const { loadConfig } = await import("../lib/config.js");
+
+    expect(() => loadConfig()).toThrow(/Invalid MCP config env ESPANOL_RATE_LIMIT/);
+  });
+
   it("should override max file size from env var", async () => {
     vi.stubEnv("ESPANOL_MAX_FILE_SIZE", "1048576");
     const { loadConfig } = await import("../lib/config.js");

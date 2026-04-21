@@ -26,6 +26,17 @@ export type MCPConfig = z.infer<typeof configSchema>;
 
 const DEFAULT_CONFIG: MCPConfig = configSchema.parse({});
 
+function parsePositiveIntEnv(name: string, value: string, min: number): number {
+  if (!/^\d+$/.test(value.trim())) {
+    throw new Error(`Invalid MCP config env ${name}: expected integer >= ${min}`);
+  }
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed < min) {
+    throw new Error(`Invalid MCP config env ${name}: expected integer >= ${min}`);
+  }
+  return parsed;
+}
+
 /**
  * Load configuration with priority: env vars > config file > defaults
  */
@@ -46,17 +57,20 @@ export function loadConfig(configPath?: string): MCPConfig {
 
   // 2. Override from environment variables
   if (process.env.ESPANOL_RATE_LIMIT) {
-    const [max, window] = process.env.ESPANOL_RATE_LIMIT.split(",");
-    config.rateLimit.maxRequests = parseInt(max, 10) || 60;
-    config.rateLimit.windowMs = parseInt(window, 10) || 60000;
+    const parts = process.env.ESPANOL_RATE_LIMIT.split(",");
+    if (parts.length !== 2) {
+      throw new Error("Invalid MCP config env ESPANOL_RATE_LIMIT: expected <maxRequests>,<windowMs>");
+    }
+    config.rateLimit.maxRequests = parsePositiveIntEnv("ESPANOL_RATE_LIMIT", parts[0], 1);
+    config.rateLimit.windowMs = parsePositiveIntEnv("ESPANOL_RATE_LIMIT", parts[1], 1000);
   }
 
   if (process.env.ESPANOL_MAX_FILE_SIZE) {
-    config.security.maxFileSize = parseInt(process.env.ESPANOL_MAX_FILE_SIZE, 10) || 512 * 1024;
+    config.security.maxFileSize = parsePositiveIntEnv("ESPANOL_MAX_FILE_SIZE", process.env.ESPANOL_MAX_FILE_SIZE, 1024);
   }
 
   if (process.env.ESPANOL_MAX_CONTENT_LENGTH) {
-    config.security.maxContentLength = parseInt(process.env.ESPANOL_MAX_CONTENT_LENGTH, 10) || 50000;
+    config.security.maxContentLength = parsePositiveIntEnv("ESPANOL_MAX_CONTENT_LENGTH", process.env.ESPANOL_MAX_CONTENT_LENGTH, 1000);
   }
 
   if (process.env.ALLOWED_LOCALE_DIRS) {
