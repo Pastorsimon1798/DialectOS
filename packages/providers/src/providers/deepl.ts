@@ -18,6 +18,7 @@ const DEEPL_FORMALITY_MAP: Record<string, "more" | "less" | "default"> = {
 export class DeepLProvider implements TranslationProvider {
   readonly name = "deepl";
   private client: deepl.DeepLClient;
+  private authKey: string;
   private breaker: CircuitBreaker;
   private rateLimiter: RateLimiter;
 
@@ -36,6 +37,7 @@ export class DeepLProvider implements TranslationProvider {
     if (!authKey) {
       throw new Error("DEEPL_AUTH_KEY environment variable is required");
     }
+    this.authKey = authKey;
 
     // Use mock client if provided (for testing), otherwise create real client
     // minTimeout controls axios request timeout — when it fires, the underlying
@@ -128,9 +130,8 @@ export class DeepLProvider implements TranslationProvider {
       // Sanitize error message
       // Pre-sanitize with known authKey to catch any format edge cases
       let message = error instanceof Error ? error.message : String(error);
-      const authKey = (this.client as any).authKey;
-      if (authKey && typeof authKey === "string" && message.includes(authKey)) {
-        message = message.replaceAll(authKey, "[REDACTED]");
+      if (message.includes(this.authKey)) {
+        message = message.replaceAll(this.authKey, "[REDACTED]");
       }
       throw new Error(sanitizeErrorMessage(`DeepL error: ${message}`));
     }
