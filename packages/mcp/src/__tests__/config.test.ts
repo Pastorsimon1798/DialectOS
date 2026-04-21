@@ -74,15 +74,14 @@ describe("Configuration System", () => {
     expect(config.logging.level).toBe("debug");
   });
 
-  it("should ignore invalid config file and use defaults", async () => {
+  it("should fail fast on invalid config file", async () => {
     mkdirSync(tempDir, { recursive: true });
     const configPath = join(tempDir, "bad.json");
     writeFileSync(configPath, "not valid json{{{");
 
     const { loadConfig } = await import("../lib/config.js");
-    const config = loadConfig(configPath);
 
-    expect(config.rateLimit.maxRequests).toBe(60);
+    expect(() => loadConfig(configPath)).toThrow(/Invalid MCP config/);
   });
 
   it("should get config path from CLI args", async () => {

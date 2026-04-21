@@ -38,8 +38,9 @@ export function loadConfig(configPath?: string): MCPConfig {
       const raw = readFileSync(configPath, "utf-8");
       const fileConfig = configSchema.parse(JSON.parse(raw));
       Object.assign(config, fileConfig);
-    } catch {
-      // Use defaults if config file is invalid
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error(`Invalid MCP config at ${configPath}: ${message}`);
     }
   }
 
