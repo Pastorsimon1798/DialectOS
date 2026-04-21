@@ -209,7 +209,8 @@
 
     const VOSOTROS = [
       { from: /\bvosotros\b/gi, to: "ustedes", label: "vosotros → ustedes" },
-      { from: /\bvuestro(a|s)?\b/gi, to: "su$1", label: "vuestro → su" },
+      { from: /\bvuestro(s)?\b/gi, to: "su$1", label: "vuestro → su" },
+      { from: /\bvuestra(s)?\b/gi, to: "su$1", label: "vuestra → su" },
     ];
 
     const ADAPTATIONS = {
@@ -549,13 +550,18 @@
       let adapted = text;
       const changes = [];
       for (const rule of rules) {
-        const before = adapted;
-        adapted = adapted.replace(rule.from, (match) => {
+        adapted = adapted.replace(rule.from, (match, ...args) => {
+          // args = [p1, p2, ..., offset, string]
+          const groups = args.slice(0, -2);
+          // Replace $1, $2, etc. with actual capture groups
+          let replacement = rule.to.replace(/\$(\d+)/g, (_, n) => groups[parseInt(n) - 1] || '');
           // Preserve case
-          const replacement = match[0] === match[0].toUpperCase()
-            ? rule.to.charAt(0).toUpperCase() + rule.to.slice(1)
-            : rule.to;
-          changes.push({ original: match, replacement, label: rule.label });
+          if (match[0] === match[0].toUpperCase()) {
+            replacement = replacement.charAt(0).toUpperCase() + replacement.slice(1);
+          }
+          if (match !== replacement) {
+            changes.push({ original: match, replacement, label: rule.label });
+          }
           return replacement;
         });
       }
