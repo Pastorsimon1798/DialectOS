@@ -18,7 +18,7 @@ import {
   reconstructMarkdown,
 } from "@espanol/markdown-parser";
 import { validateMarkdownPath, validateFilePath, validateContentLength } from "@espanol/security";
-import { writeOutput, sanitizeConsoleOutput } from "../lib/output.js";
+import { writeOutput, writeError, writeInfo, sanitizeConsoleOutput } from "../lib/output.js";
 import type { ProviderRegistry } from "@espanol/providers";
 import {
   loadProtectedTokens,
@@ -97,7 +97,7 @@ export function createTranslateReadmeCommand(
         await translateReadme(input, options, getRegistry);
       } catch (error) {
         if (error instanceof Error) {
-          console.error(`Error: ${error.message}`);
+          writeError(error.message);
           throw error;
         }
         throw error;
@@ -134,7 +134,7 @@ async function translateReadme(
     if (options.output) {
       await writeOutput("", options.output);
     } else {
-      console.log("");
+      writeInfo("");
     }
     return;
   }
@@ -166,7 +166,7 @@ async function translateReadme(
       ? checkpoint.translatedByIndex
       : (() => {
           if (checkpoint && !checkpoint.sourceHash) {
-            console.warn("Checkpoint predates source hashing — retranslating all sections");
+            writeInfo("Checkpoint predates source hashing — retranslating all sections");
           }
           return {} as Record<number, string>;
         })();
@@ -225,7 +225,7 @@ async function translateReadme(
         await saveCheckpoint(checkpointPath, state);
       } catch (error) {
         // Keep original section on failure — do NOT checkpoint
-        console.error(
+        writeError(
           `Failed to translate section ${idx}: ${sanitizeConsoleOutput(error instanceof Error ? error.message : String(error))}`
         );
         translatedSections.push(section);
@@ -243,7 +243,7 @@ async function translateReadme(
     throw new Error(`Section translation failed for ${failures} translatable block(s)`);
   }
   if (failures > 0 && failurePolicy === "allow-partial") {
-    console.warn(`Partial translation output: ${failures} translatable block(s) failed`);
+    writeInfo(`Partial translation output: ${failures} translatable block(s) failed`);
   }
 
   // Call validateMarkdownStructure once and reuse the result
@@ -256,7 +256,7 @@ async function translateReadme(
     if ((options.structureMode || "strict") === "strict") {
       throw new Error(msg);
     }
-    console.warn(msg);
+    writeInfo(msg);
   }
 
   const quality = calculateQualityScore(
@@ -266,7 +266,7 @@ async function translateReadme(
     glossary?.mappings || {},
     validation.valid
   );
-  console.error(
+  writeInfo(
     `[quality] score=${quality.score} token=${(quality.tokenIntegrity * 100).toFixed(
       0
     )}% glossary=${(quality.glossaryFidelity * 100).toFixed(0)}% structure=${
