@@ -8,7 +8,7 @@ Translate, detect, and adapt content across **25 regional Spanish variants** whi
 
 [![CI](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml/badge.svg)](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/badge/tests-595%20passing-brightgreen)](https://github.com/Pastorsimon1798/DialectOS/actions)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-BSL%201.1-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](package.json)
 [![pnpm](https://img.shields.io/badge/pnpm-9.15.0-orange)](package.json)
 [![MCP](https://img.shields.io/badge/MCP-compatible-purple)](https://modelcontextprotocol.io)
@@ -271,7 +271,7 @@ See [`ROADMAP.md`](ROADMAP.md) for upcoming features including:
 
 ## 📄 License
 
-MIT — see [`LICENSE`](LICENSE) for details.
+BSL 1.1 — see [`LICENSE`](LICENSE) for details. The Licensed Work will become available under Apache-2.0 on 2030-04-20.
 
 ---
 

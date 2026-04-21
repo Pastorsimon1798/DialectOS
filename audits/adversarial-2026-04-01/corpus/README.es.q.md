@@ -130,4 +130,4 @@ pnpm --filter @espanol/mcp test  # Run MCP tests only (80 tests)
 
 ## Licencia
 
-MIT
+BSL 1.1 — consulta [`LICENSE`](LICENSE) para más detalles. El trabajo licenciado estará disponible bajo Apache-2.0 el 2030-04-20.

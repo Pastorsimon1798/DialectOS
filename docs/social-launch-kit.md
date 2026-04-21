@@ -67,7 +67,7 @@ Security matters when you're piping content through translation APIs.
 **Tweet 5:**
 595 tests. 7 packages. pnpm monorepo. TypeScript.
 
-Open source. MIT license.
+Source available. BSL 1.1 license (Apache-2.0 on 2030-04-20).
 
 If you're building multilingual products, give it a look.
 
@@ -93,7 +93,7 @@ I built DialectOS because existing translation APIs treat Spanish as a single la
 
 **Tech:** TypeScript, pnpm monorepo, 595 tests
 
-**License:** MIT
+**License:** BSL 1.1 (becomes Apache-2.0 on 2030-04-20)
 
 https://github.com/Pastorsimon1798/DialectOS
 
@@ -113,7 +113,7 @@ For teams building multilingual products, this means:
 - ✅ Markdown, tables, and code blocks stay intact
 - ✅ Quality gates catch semantic drift before release
 
-Open source, MIT licensed, 595 tests passing.
+Source available, BSL 1.1 licensed, 595 tests passing.
 
 https://github.com/Pastorsimon1798/DialectOS
 
@@ -138,7 +138,7 @@ DialectOS translates content across 25 Spanish regional variants while preservin
 
 **Tech stack:** TypeScript, pnpm monorepo, 595 tests
 
-**License:** MIT (open source)
+**License:** BSL 1.1 (source available, becomes Apache-2.0 on 2030-04-20)
 
 ---
 
