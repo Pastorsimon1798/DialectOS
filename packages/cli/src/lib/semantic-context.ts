@@ -87,7 +87,7 @@ function buildOutputConstraintPrompt(text: string, dialect: SpanishDialect): str
     constraints.push("For Panamanian transit-context bus, keep bus as bus. The output must not contain: cueco, chombo, yeyé.");
   }
   if (dialect === "es-MX" && /\bpick up\b/.test(lower) && /\bfile\b/.test(lower)) {
-    constraints.push("For technical file pickup, use recoge/recoger/toma/agarra by meaning; do not use coger and do not change the intent to download unless the source says download.");
+    constraints.push("For technical file pickup, use the exact correct form recoge (preferred), recoger, toma, or agarra by meaning; do not use the invalid form recoga, do not use coger, and do not change the intent to download unless the source says download.");
   }
   if (dialect === "es-PH" && /\bphilippine names\b/.test(lower)) {
     constraints.push("For Philippine names, preserve the Philippine reference using Filipinas/filipinos/filipinas rather than only singular adjectival filipino.");
