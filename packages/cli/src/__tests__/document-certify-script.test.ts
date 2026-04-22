@@ -33,4 +33,42 @@ describe("document adversarial certification", () => {
 
     rmSync(outDir, { recursive: true, force: true });
   });
+
+  it("records command failures instead of crashing on missing live output files", () => {
+    const outDir = join(tmpdir(), `document-certify-live-failure-${process.pid}`);
+    rmSync(outDir, { recursive: true, force: true });
+
+    expect(() => execFileSync("node", [
+      "scripts/dialect-certify-documents.mjs",
+      `--out=${outDir}`,
+      "--dialects=es-MX",
+      "--live",
+      "--provider=llm",
+      "--sample-timeout-ms=10000",
+    ], {
+      cwd: join(import.meta.dirname, "../../../.."),
+      stdio: "pipe",
+      env: {
+        ...process.env,
+        LLM_API_URL: "",
+        LLM_ENDPOINT: "",
+        LM_STUDIO_URL: "",
+        LLM_MODEL: "",
+        LLM_API_KEY: "",
+      },
+    })).toThrow();
+
+    const summary = JSON.parse(readFileSync(join(outDir, "results.json"), "utf-8")) as {
+      total: number;
+      failed: number;
+      results: Array<{ dialect: string; passes: boolean; failures: string[] }>;
+    };
+    expect(summary.total).toBe(1);
+    expect(summary.failed).toBe(1);
+    expect(summary.results[0].passes).toBe(false);
+    expect(summary.results[0].failures.join(" ")).toContain("README command failed");
+    expect(summary.results[0].failures.join(" ")).toContain("README output missing");
+
+    rmSync(outDir, { recursive: true, force: true });
+  });
 });
