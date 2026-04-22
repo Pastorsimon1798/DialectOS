@@ -90,7 +90,8 @@ describe("semantic translation context", () => {
       dialect: "es-MX",
       documentKind: "plain",
     });
-    expect(mexico).toContain("For technical file pickup, use recoge/recoger/toma/agarra");
+    expect(mexico).toContain("use the exact correct form recoge");
+    expect(mexico).toContain("do not use the invalid form recoga");
 
     const chile = buildSemanticTranslationContext({
       text: "Buy avocado for lunch.",

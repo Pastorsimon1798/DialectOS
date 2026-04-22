@@ -9,7 +9,8 @@
     "test": "pnpm -r test",
     "test:coverage": "pnpm -r test:coverage",
     "clean": "pnpm -r clean",
-    "dialect:eval": "node scripts/dialect-eval.mjs"
+    "dialect:eval": "node scripts/dialect-eval.mjs",
+    "dialect:certify": "node scripts/dialect-certify.mjs"
   },
   "keywords": [
     "spanish",
