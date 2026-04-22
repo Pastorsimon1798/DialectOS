@@ -1,20 +1,20 @@
 /**
  * MCP Tools for Translation
  *
- * Provides 6 MCP tools:
+ * Provides 7 MCP tools:
  * - translate_text: Translate text to Spanish dialect
  * - detect_dialect: Detect Spanish dialect from text
  * - translate_code_comment: Translate code comments (basic, text extraction)
  * - translate_readme: Translate a README markdown file
  * - search_glossary: Search the built-in glossary
  * - list_dialects: List all Spanish dialects with metadata
+ * - research_regional_term: Create source-backed lexeme proposals without mutating runtime data
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { readFileSync } from "node:fs";
 import { z } from "zod";
 import type {
-  SpanishDialect,
   ProviderName,
 } from "@espanol/types";
 import { searchGlossary } from "@espanol/types";
@@ -36,6 +36,7 @@ import {
 import { ToolResult } from "../lib/types.js";
 import { createProviderRegistry } from "../lib/provider-factory.js";
 import { prepareProviderRequest } from "../lib/provider-request.js";
+import { ALL_SPANISH_DIALECTS, type SpanishDialect } from "@espanol/types";
 
 // ============================================================================
 // Types
@@ -72,6 +73,30 @@ interface SearchGlossaryParams {
 }
 
 interface ListDialectsParams {}
+
+interface ResearchRegionalTermParams {
+  concept: string;
+  dialects: string;
+  semanticField?: string;
+}
+
+interface McpRegionalResearchSource {
+  title: string;
+  link: string;
+  snippet?: string;
+}
+
+type McpResearchConfidence = "low" | "medium" | "high";
+
+interface McpRegionalLexemeProposal {
+  dialect: SpanishDialect;
+  preferred: string[];
+  accepted: string[];
+  forbidden: string[];
+  confidence: McpResearchConfidence;
+  rationale: string;
+  sources: McpRegionalResearchSource[];
+}
 
 // ============================================================================
 // Dialect Metadata
@@ -891,6 +916,101 @@ async function handleSearchGlossary(
   }
 }
 
+
+
+function parseMcpDialectList(value: string): SpanishDialect[] {
+  return value.split(",").map((item) => item.trim()).filter(Boolean).map((item) => {
+    if (!ALL_SPANISH_DIALECTS.includes(item as SpanishDialect)) {
+      throw new SecurityError(`Invalid dialect: ${item}`, ErrorCode.INVALID_INPUT);
+    }
+    return item as SpanishDialect;
+  });
+}
+
+function mcpBuiltInResearchPrior(concept: string, dialect: SpanishDialect): Omit<McpRegionalLexemeProposal, "sources"> {
+  if (/orange juice|jugo de china|jugo de naranja/i.test(concept)) {
+    if (dialect === "es-PR") {
+      return { dialect, preferred: ["jugo de china"], accepted: ["jugo de naranja"], forbidden: [], confidence: "high", rationale: "Puerto Rican citrus usage maps china to sweet orange, so orange juice is jugo de china." };
+    }
+    if (dialect === "es-DO") {
+      return { dialect, preferred: ["jugo de china", "jugo de naranja"], accepted: ["jugo de naranja"], forbidden: [], confidence: "medium", rationale: "Dominican usage may use china for orange, while jugo de naranja remains broadly accepted." };
+    }
+    return { dialect, preferred: ["jugo de naranja"], accepted: ["zumo de naranja"], forbidden: ["jugo de china"], confidence: "medium", rationale: "Outside PR/DO citrus contexts, naranja is the safer default for orange." };
+  }
+  return { dialect, preferred: [], accepted: [], forbidden: [], confidence: "low", rationale: "No built-in prior for this concept yet; use gathered sources for review before promoting data." };
+}
+
+async function researchRegionalTermMcp(params: ResearchRegionalTermParams, search?: (query: string) => Promise<McpRegionalResearchSource[]>) {
+  const concept = params.concept.trim();
+  if (!concept) throw new SecurityError("Concept cannot be empty", ErrorCode.INVALID_INPUT);
+  const dialects = parseMcpDialectList(params.dialects);
+  const warnings: string[] = [];
+  const proposals: McpRegionalLexemeProposal[] = [];
+  for (const dialect of dialects) {
+    const prior = mcpBuiltInResearchPrior(concept, dialect);
+    const sources = search ? await search(`${concept} ${dialect} regional Spanish term`) : [];
+    if (!search) warnings.push("No search adapter configured; using built-in priors only.");
+    proposals.push({ ...prior, sources: sources.slice(0, 4) });
+  }
+  return {
+    concept: concept.toLowerCase(),
+    semanticField: params.semanticField || "general",
+    dialects,
+    generatedAt: new Date().toISOString(),
+    mode: "research-proposal",
+    mutationPolicy: "never-mutates-runtime-data",
+    proposals,
+    suggestedFixtures: proposals.map((proposal) => ({
+      dialect: proposal.dialect,
+      source: concept,
+      requiredOutputGroups: proposal.preferred.length ? [proposal.preferred] : [],
+      forbiddenOutputTerms: proposal.forbidden,
+    })),
+    warnings: [...new Set(warnings)],
+  };
+}
+
+async function serperSearch(query: string): Promise<McpRegionalResearchSource[]> {
+  const apiKey = process.env.SERPER_API_KEY;
+  if (!apiKey) return [];
+  const response = await fetch("https://google.serper.dev/search", {
+    method: "POST",
+    headers: {
+      "x-api-key": apiKey,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ q: query, num: 5 }),
+  });
+  if (!response.ok) throw new Error(`Serper search failed: ${response.status}`);
+  const data = await response.json() as { organic?: Array<{ title?: string; link?: string; snippet?: string }> };
+  return (data.organic || []).filter((item) => item.title && item.link).map((item) => ({
+    title: item.title!,
+    link: item.link!,
+    snippet: item.snippet,
+  }));
+}
+
+async function handleResearchRegionalTerm(
+  params: ResearchRegionalTermParams,
+  _registry: ProviderRegistry,
+  rateLimiter: RateLimiter
+): Promise<ToolResult> {
+  try {
+    await rateLimiter.acquire();
+    validateContentLength(params.concept);
+    const result = await researchRegionalTermMcp(params, process.env.SERPER_API_KEY ? serperSearch : undefined);
+    return {
+      content: [{ type: "text", text: JSON.stringify(result) }],
+    };
+  } catch (error) {
+    const safeError = createSafeError(error);
+    return {
+      content: [{ type: "text", text: JSON.stringify({ error: safeError.code, message: safeError.error }) }],
+      isError: true,
+    };
+  }
+}
+
 /**
  * Handle list_dialects tool
  */
@@ -1021,6 +1141,20 @@ export function registerTranslatorTools(
     },
     async (params) => {
       return handleSearchGlossary(params as SearchGlossaryParams, registry, rateLimiter);
+    }
+  );
+
+  // Register research_regional_term tool
+  server.tool(
+    "research_regional_term",
+    "Research a regional term as a source-backed proposal; does not mutate runtime translation data",
+    {
+      concept: z.string().describe("Concept or phrase to research, e.g. orange juice"),
+      dialects: z.string().describe("Comma-separated dialect codes, e.g. es-PR,es-MX"),
+      semanticField: z.string().optional().describe("Semantic field, e.g. food-drink"),
+    },
+    async (params) => {
+      return handleResearchRegionalTerm(params as ResearchRegionalTermParams, registry, rateLimiter);
     }
   );
 

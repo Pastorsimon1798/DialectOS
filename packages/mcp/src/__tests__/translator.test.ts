@@ -161,7 +161,7 @@ describe("MCP Translator Tools", () => {
   });
 
   describe("Tool Registration", () => {
-    it("should register all 6 translator tools", async () => {
+    it("should register all 7 translator tools", async () => {
       const { registerTranslatorTools } = await import("../tools/translator.js");
       const mockServer = {
         tool: vi.fn(),
@@ -169,7 +169,7 @@ describe("MCP Translator Tools", () => {
 
       registerTranslatorTools(mockServer as any, { registry: mockRegistry });
 
-      expect(mockServer.tool).toHaveBeenCalledTimes(6);
+      expect(mockServer.tool).toHaveBeenCalledTimes(7);
       const toolNames = vi.mocked(mockServer.tool).mock.calls.map((call) => call[0]);
       expect(toolNames).toContain("translate_text");
       expect(toolNames).toContain("detect_dialect");
@@ -177,6 +177,7 @@ describe("MCP Translator Tools", () => {
       expect(toolNames).toContain("translate_readme");
       expect(toolNames).toContain("search_glossary");
       expect(toolNames).toContain("list_dialects");
+      expect(toolNames).toContain("research_regional_term");
     });
   });
 
@@ -521,6 +522,24 @@ describe("MCP Translator Tools", () => {
       const parsedResult = JSON.parse(result.content[0].text);
       expect(parsedResult.results).toEqual([]);
       expect(parsedResult.count).toBe(0);
+    });
+  });
+
+
+  describe("research_regional_term tool", () => {
+    it("should produce a non-mutating regional research proposal", async () => {
+      const { registerTranslatorTools } = await import("../tools/translator.js");
+      const mockServer = { tool: vi.fn() };
+      registerTranslatorTools(mockServer as any, { registry: mockRegistry, rateLimiter: mockRateLimiter });
+      const researchCall = vi.mocked(mockServer.tool).mock.calls.find((call) => call[0] === "research_regional_term");
+      expect(researchCall).toBeDefined();
+      const handler = researchCall![3];
+
+      const result = await handler({ concept: "orange juice", dialects: "es-PR,es-MX", semanticField: "food-drink" });
+      const parsed = JSON.parse(result.content[0].text);
+      expect(parsed.mutationPolicy).toBe("never-mutates-runtime-data");
+      expect(parsed.proposals.some((proposal: any) => proposal.preferred.includes("jugo de china"))).toBe(true);
+      expect(parsed.proposals.some((proposal: any) => proposal.preferred.includes("jugo de naranja"))).toBe(true);
     });
   });
 
