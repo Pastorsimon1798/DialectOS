@@ -25,6 +25,17 @@ Translate, detect, and adapt content across **25 regional Spanish variants** whi
 
 ---
 
+
+## Spanish Launch Certification
+
+DialectOS is available as a paid Spanish localization launch audit. We certify your Spanish docs, app strings, support macros, or locale files across target dialects and deliver an MQM-aligned launch-readiness report.
+
+- Beta pilot: **$500**
+- Scope: up to 10,000 source words and 5 target dialects
+- Deliverables: certification report, issue list, severity table, recommended fixes, launch decision
+- Sample report: [`audits/sample-customer-report.md`](audits/sample-customer-report.md)
+- Offer details: [`docs/spanish-launch-certification.md`](docs/spanish-launch-certification.md)
+
 ## ✨ What makes DialectOS different?
 
 | Feature | Google Translate | DeepL API | **DialectOS** |
@@ -81,7 +92,7 @@ Add to your Claude Desktop, Cursor, or any MCP client:
 
 ### Recommended certified models
 
-For `v0.1.0-rc1`, the recommended default cloud model is `glm-4.5-air` through the Z.ai international Anthropic-compatible endpoint. It passed basic, expanded adversarial, and long-document certification. Use `glm-5.1` when you want the higher-confidence/premium option, and `qwen3.5-9b` via LM Studio for local/offline certification.
+For `v0.1.0-rc3`, the recommended default cloud model is `glm-4.5-air` through the Z.ai international Anthropic-compatible endpoint. It passed basic, expanded adversarial, and long-document certification. Use `glm-5.1` when you want the higher-confidence/premium option, and `qwen3.5-9b` via LM Studio for local/offline certification.
 
 ```bash
 export LLM_API_URL="https://api.z.ai/api/anthropic/v1/messages"
