@@ -221,6 +221,15 @@
             color: #f4f4f5;
         }
 
+        .link {
+            color: #f093fb;
+            font-weight: 600;
+        }
+
+        .link:hover {
+            color: #f5576c;
+        }
+
         footer {
             text-align: center;
             padding: 3rem 0;
@@ -255,7 +264,7 @@
                     <div class="stat-label">Packages</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">480+</div>
+                    <div class="stat-value">701</div>
                     <div class="stat-label">Tests</div>
                 </div>
                 <div class="stat">
@@ -267,7 +276,7 @@
                     <div class="stat-label">MCP Tools</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">20</div>
+                    <div class="stat-value">25</div>
                     <div class="stat-label">Dialects</div>
                 </div>
             </div>
@@ -458,21 +467,39 @@
                 <div class="dialect">es-PA (Panamanian)</div>
                 <div class="dialect">es-DO (Dominican)</div>
                 <div class="dialect">es-PR (Puerto Rican)</div>
+                <div class="dialect">es-GQ (Equatoguinean)</div>
+                <div class="dialect">es-US (U.S. Spanish)</div>
+                <div class="dialect">es-PH (Philippine)</div>
+                <div class="dialect">es-BZ (Belizean)</div>
+                <div class="dialect">es-AD (Andorran)</div>
             </div>
+        </section>
+
+        <section>
+            <h2>Static Browser Demo</h2>
+            <p>
+                The GitHub Pages demo is a rule explorer for deterministic vocabulary substitutions,
+                not the certified semantic translation engine. Use the CLI/MCP/LLM workflow for
+                production certification and MQM-aligned launch reports.
+            </p>
+            <p>
+                <a href="docs/index.html" class="link">Open the rule explorer</a> ·
+                <a href="docs/spanish-launch-certification.md" class="link">Read the launch certification offer</a>
+            </p>
         </section>
 
         <section>
             <h2>Development</h2>
             <div class="code-block">
                 <code><span class="command">pnpm install</span><br>
-<span class="command">pnpm -r test</span><br>
-<span class="command">pnpm -r build</span></code>
+<span class="command">pnpm test</span><br>
+<span class="command">pnpm build</span></code>
             </div>
         </section>
 
         <footer>
             <p>DialectOS — Spanish Dialect Translation Server • BSL 1.1</p>
-            <p style="margin-top: 0.5rem;">480+ tests • 7 packages • 16 MCP tools • 20 dialects</p>
+            <p style="margin-top: 0.5rem;">701 tests • 7 packages • 16 MCP tools • 25 dialects</p>
         </footer>
     </div>
 </body>
