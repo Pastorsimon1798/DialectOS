@@ -17,6 +17,7 @@ import { executeBatchTranslate } from "./commands/i18n/batch-translate.js";
 import { executeManageVariants } from "./commands/i18n/manage-variants.js";
 import { executeCheckFormality } from "./commands/i18n/check-formality.js";
 import { executeApplyGenderNeutral } from "./commands/i18n/apply-gender-neutral.js";
+import { executeResearchRegionalTerm } from "./commands/research.js";
 import { getDefaultProviderRegistry } from "./lib/provider-factory.js";
 import { writeError, writeOutput } from "./lib/output.js";
 import { SecurityError, createSafeError } from "@espanol/security";
@@ -144,6 +145,29 @@ program
       };
 
       await executeTranslateApiDocs(input, mergedOptions.dialect!, mergedOptions, () => registry);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+// research command
+program
+  .command("research-regional-term")
+  .description("Research a regional term as a source-backed proposal; never mutates runtime translation data")
+  .requiredOption("--concept <concept>", "Concept or phrase to research")
+  .requiredOption("--dialects <dialects>", "Comma-separated dialect codes, e.g. es-PR,es-MX")
+  .option("--semantic-field <field>", "Semantic field, e.g. food-drink", "general")
+  .option("--out <path>", "Output JSON artifact path")
+  .action(async (options) => {
+    try {
+      await executeResearchRegionalTerm({
+        concept: options.concept,
+        dialects: options.dialects,
+        semanticField: options.semanticField,
+        out: options.out,
+      });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       writeError(message);
