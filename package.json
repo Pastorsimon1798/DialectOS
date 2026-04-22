@@ -12,7 +12,8 @@
     "dialect:eval": "node scripts/dialect-eval.mjs",
     "dialect:certify": "node scripts/dialect-certify.mjs",
     "dialect:certify:adversarial": "node scripts/dialect-certify-adversarial.mjs",
-    "dialect:certify:documents": "node scripts/dialect-certify-documents.mjs"
+    "dialect:certify:documents": "node scripts/dialect-certify-documents.mjs",
+    "dialect:report": "node scripts/dialect-report.mjs"
   },
   "keywords": [
     "spanish",

@@ -7,7 +7,7 @@
 Translate, detect, and adapt content across **25 regional Spanish variants** while preserving markdown structure, code comments, and locale file formatting.
 
 [![CI](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml/badge.svg)](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-693%20passing-brightgreen)](https://github.com/Pastorsimon1798/DialectOS/actions)
+[![Tests](https://img.shields.io/badge/tests-695%20passing-brightgreen)](https://github.com/Pastorsimon1798/DialectOS/actions)
 [![License](https://img.shields.io/badge/license-BSL%201.1-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](package.json)
 [![pnpm](https://img.shields.io/badge/pnpm-9.15.0-orange)](package.json)
@@ -128,6 +128,14 @@ Use `dialect:certify:documents` to certify README/API-doc/locale JSON flows, not
 pnpm dialect:certify:documents -- --live --provider=llm --dialects=es-MX,es-PA,es-PR --out=/tmp/dialectos-doc-cert
 ```
 
+### Customer-facing certification report
+
+Use `dialect:report` to turn certification artifacts into a customer-facing Markdown deliverable for paid launch audits.
+
+```bash
+pnpm dialect:report -- --input=audits/release-candidate-2026-04-22/model-matrix.json --out=customer-report.md --customer="Acme SaaS" --product="Spanish launch"
+```
+
 ### CLI install
 
 ```bash
@@ -154,7 +162,7 @@ git clone https://github.com/Pastorsimon1798/DialectOS.git
 cd DialectOS
 pnpm install
 pnpm build
-pnpm test        # 693 tests passing
+pnpm test        # 695 tests passing
 ```
 
 ---
@@ -196,14 +204,14 @@ pnpm test        # 693 tests passing
 | Package | Version | Description | Tests |
 |---------|---------|-------------|-------|
 | [`@espanol/mcp`](packages/mcp) | `0.1.0` | 16 MCP tools (stdio server) | 85 |
-| [`@espanol/cli`](packages/cli) | `0.1.0` | CLI commands for semantic translation workflows | 291 |
+| [`@espanol/cli`](packages/cli) | `0.1.0` | CLI commands for semantic translation workflows | 293 |
 | [`@espanol/providers`](packages/providers) | `0.1.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker | 71 |
 | [`@espanol/security`](packages/security) | `0.1.0` | Rate limiting, SSRF protection, sanitization | 66 |
 | [`@espanol/types`](packages/types) | `0.1.0` | Shared TypeScript types + glossary, profile, and quality data | 51 |
 | [`@espanol/locale-utils`](packages/locale-utils) | `0.1.0` | Locale file diff/merge utilities | 55 |
 | [`@espanol/markdown-parser`](packages/markdown-parser) | `0.1.0` | Structure-preserving markdown parser | 74 |
 
-**Total: 693 tests across 7 packages**
+**Total: 695 tests across 7 packages**
 
 ---
 
