@@ -36,17 +36,18 @@ test("static docs engine does not guess a dialect on low-confidence text", () =>
 const rootLandingHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
 const { existsSync } = await import("node:fs");
 
-test("landing pages ship the checked-in logo asset", () => {
-  assert.equal(existsSync(new URL("../assets/dialectos-logo.png", import.meta.url)), true);
+test("landing pages ship the checked-in SVG logo asset", () => {
+  assert.equal(existsSync(new URL("../assets/dialectos-logo.svg", import.meta.url)), true);
 });
 
-test("docs landing renders the branded logo in nav and hero", () => {
+test("docs landing uses the SVG logo in the main brand lockup and not the old PNG", () => {
   assert.match(html, /class="brand-logo"/);
-  assert.match(html, /src="assets\/dialectos-logo\.png"/);
-  assert.match(html, /class="hero-logo"/);
+  assert.match(html, /src="assets\/dialectos-logo\.svg"/);
+  assert.doesNotMatch(html, /dialectos-logo\.png/);
 });
 
-test("root landing reuses the same checked-in logo asset", () => {
-  assert.match(rootLandingHtml, /src="docs\/assets\/dialectos-logo\.png"/);
+test("root landing reuses the same checked-in SVG logo asset", () => {
+  assert.match(rootLandingHtml, /src="docs\/assets\/dialectos-logo\.svg"/);
   assert.match(rootLandingHtml, /alt="DialectOS logo"/);
+  assert.doesNotMatch(rootLandingHtml, /dialectos-logo\.png/);
 });

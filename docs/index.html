@@ -73,10 +73,9 @@
     .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; font-weight: 760; letter-spacing: -.035em; }
     .brand-lockup { display: block; }
     .brand-logo {
-      width: clamp(148px, 16vw, 212px);
+      width: clamp(170px, 18vw, 228px);
       height: auto;
       display: block;
-      filter: drop-shadow(0 12px 22px rgba(23, 22, 20, 0.12));
     }
     .brand small { display: block; color: var(--muted); font-weight: 620; letter-spacing: .01em; margin-top: 4px; }
     .navlinks { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 14px; font-weight: 650; }
@@ -86,13 +85,6 @@
     .nav-cta:hover { background: #000 !important; }
 
     .hero { padding: 72px 0 46px; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .74fr); gap: 42px; align-items: end; }
-    .hero-logo {
-      width: min(100%, 360px);
-      height: auto;
-      display: block;
-      margin-bottom: 18px;
-      filter: drop-shadow(0 20px 34px rgba(23, 22, 20, 0.16));
-    }
     .kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--muted); font-size: 13px; font-weight: 760; text-transform: uppercase; letter-spacing: .12em; }
     .live-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--green); box-shadow: 0 0 0 6px rgba(47,111,79,.13); }
     h1 { margin: 18px 0 20px; max-width: 900px; font-size: clamp(52px, 8vw, 104px); line-height: .89; letter-spacing: -.082em; font-weight: 820; }
@@ -280,7 +272,7 @@
 <body>
   <nav class="shell nav" aria-label="Primary navigation">
     <a class="brand" href="#top" aria-label="DialectOS home">
-      <img class="brand-logo" src="assets/dialectos-logo.png" alt="DialectOS logo">
+      <img class="brand-logo" src="assets/dialectos-logo.svg" alt="DialectOS logo">
       <span class="brand-lockup">DialectOS<small>regional Spanish translation</small></span>
     </a>
     <div class="navlinks">
@@ -293,7 +285,6 @@
 
   <header id="top" class="shell hero">
     <div>
-      <img class="hero-logo" src="assets/dialectos-logo.png" alt="DialectOS logo">
       <div class="kicker"><span class="live-dot"></span><span>746 tests</span><span>·</span><span>provider-backed</span><span>·</span><span>no static fallback</span></div>
       <h1>Spanish that can defend where it came from.</h1>
       <p class="lede">DialectOS is a full-stack dialect translation surface for Spanish regional meaning: Puerto Rican <em>jugo de china</em>, Caribbean <em>guagua</em>, voseo, taboo verbs, and semantic traps that generic translation demos flatten.</p>
