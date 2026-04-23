@@ -31,3 +31,22 @@ test("static docs engine does not guess a dialect on low-confidence text", () =>
   assert.match(engine, /isReliable/);
   assert.match(engine, /dialect: isReliable \? best\.dialect\.code : null/);
 });
+
+
+const rootLandingHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
+const { existsSync } = await import("node:fs");
+
+test("landing pages ship the checked-in logo asset", () => {
+  assert.equal(existsSync(new URL("../assets/dialectos-logo.png", import.meta.url)), true);
+});
+
+test("docs landing renders the branded logo in nav and hero", () => {
+  assert.match(html, /class="brand-logo"/);
+  assert.match(html, /src="assets\/dialectos-logo\.png"/);
+  assert.match(html, /class="hero-logo"/);
+});
+
+test("root landing reuses the same checked-in logo asset", () => {
+  assert.match(rootLandingHtml, /src="docs\/assets\/dialectos-logo\.png"/);
+  assert.match(rootLandingHtml, /alt="DialectOS logo"/);
+});
