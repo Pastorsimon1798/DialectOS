@@ -52,6 +52,11 @@ import {
 } from "../lib/translation-policy.js";
 import { TelemetryCollector, globalTelemetry } from "../lib/telemetry.js";
 import { buildSemanticTranslationContext } from "../lib/semantic-context.js";
+import {
+  buildLexicalAmbiguityExpectations,
+  checkLexicalCompliance,
+} from "../lib/lexical-ambiguity.js";
+import { judgeTranslationOutput } from "../lib/output-judge.js";
 
 interface TranslateReadmeOptions {
   dialect: string;
@@ -232,7 +237,8 @@ async function translateReadme(
   const protectedTokens = await loadProtectedTokens(options.protectTokens);
   const glossary = await loadGlossary(options.glossaryFile);
   const glossaryMode = (options.glossaryMode || "off") as GlossaryMode;
-  const rawCheckpointPath = options.checkpointFile || `${options.output || validatedPath}.checkpoint.json`;
+  const outputIsFile = options.output ? /\.[a-zA-Z0-9]+$/.test(options.output) : false;
+  const rawCheckpointPath = options.checkpointFile || `${outputIsFile ? options.output : validatedPath}.checkpoint.json`;
   // Always validate checkpoint paths to prevent traversal via --output
   const checkpointPath = validateFilePath(rawCheckpointPath);
   const checkpoint = options.resume ? await loadCheckpoint(checkpointPath) : null;
@@ -248,8 +254,23 @@ async function translateReadme(
         })();
   const pacing: AdaptivePacingState = { delayMs: 0 };
   let failures = 0;
+  let sectionsSinceCheckpoint = 0;
 
+  // Graceful interruption: save checkpoint on SIGINT before exiting
+  let interrupted = false;
+  const sigintHandler = () => {
+    interrupted = true;
+    writeInfo("Interrupted — saving checkpoint before exit...");
+  };
+  process.once("SIGINT", sigintHandler);
+  process.once("SIGTERM", sigintHandler);
+
+  try {
   for (const [idx, section] of parsed.sections.entries()) {
+    if (interrupted) {
+      writeInfo(`Translation interrupted at section ${idx}. Resumable with --resume.`);
+      break;
+    }
     if (!section.translatable) {
       // Non-translatable sections keep original
       translatedSections.push(section);
@@ -281,7 +302,7 @@ async function translateReadme(
           options.provider,
           protectedChunk.text,
           "en",
-          "es",
+          options.dialect || "es",
           { ...translateOptions, context: semanticContext },
           pacing
         );
@@ -302,14 +323,20 @@ async function translateReadme(
 
         // Only checkpoint successful translations
         translatedByIndex[idx] = translatedContent;
-        const state: TranslationCheckpoint = {
-          schemaVersion: CURRENT_CHECKPOINT_SCHEMA_VERSION,
-          sourcePath: validatedPath,
-          sourceHash,
-          totalSections: parsed.sections.length,
-          translatedByIndex,
-        };
-        await saveCheckpoint(checkpointPath, state);
+        sectionsSinceCheckpoint++;
+        // Batch checkpoint writes to reduce I/O thrashing (save every 5 sections or on last section)
+        const isLastSection = idx === parsed.sections.length - 1;
+        if (sectionsSinceCheckpoint >= 5 || isLastSection || interrupted) {
+          const state: TranslationCheckpoint = {
+            schemaVersion: CURRENT_CHECKPOINT_SCHEMA_VERSION,
+            sourcePath: validatedPath,
+            sourceHash,
+            totalSections: parsed.sections.length,
+            translatedByIndex,
+          };
+          await saveCheckpoint(checkpointPath, state);
+          sectionsSinceCheckpoint = 0;
+        }
       } catch (error) {
         // Keep original section on failure — do NOT checkpoint
         writeError(
@@ -346,12 +373,18 @@ async function translateReadme(
     writeInfo(msg);
   }
 
+  const lexicalExpectations = buildLexicalAmbiguityExpectations(
+    content,
+    options.dialect as SpanishDialect
+  );
+  const lexicalCompliance = checkLexicalCompliance(translated, lexicalExpectations);
   const quality = calculateQualityScore(
     content,
     translated,
     protectedTokens,
     glossary?.mappings || {},
-    validation.valid
+    validation.valid,
+    lexicalCompliance.score
   );
   const policy = resolvePolicy(options.policy || "balanced", {
     failurePolicy: options.failurePolicy,
@@ -365,12 +398,29 @@ async function translateReadme(
   if (semanticGateApplies && shouldFailSemanticQuality(policy, quality.semanticSimilarity)) {
     throw new Error(formatSemanticQualityError(policy, quality.semanticSimilarity));
   }
+
+  // Run full output judge (prompt leak, placeholder preservation, forbidden terms, etc.)
+  const judge = judgeTranslationOutput({
+    source: content,
+    register: options.formal ? "formal" : options.informal ? "informal" : "auto",
+    documentKind: "readme",
+    forbiddenOutputTerms: lexicalExpectations.forbiddenOutputTerms,
+    requiredOutputGroups: lexicalExpectations.requiredOutputGroups,
+  }, options.dialect as SpanishDialect, translated);
+  if (judge.blockingIssues.length > 0) {
+    const judgeMsg = `Output judge failed: ${judge.blockingIssues.map((i) => i.message).join("; ")}`;
+    if (policy.failurePolicy === "strict") {
+      throw new Error(judgeMsg);
+    }
+    writeInfo(judgeMsg);
+  }
+
   writeInfo(
     `[quality] score=${quality.score} token=${(quality.tokenIntegrity * 100).toFixed(
       0
     )}% glossary=${(quality.glossaryFidelity * 100).toFixed(0)}% structure=${
       quality.structureIntegrity === 1 ? "pass" : "fail"
-    } semantic=${(quality.semanticSimilarity * 100).toFixed(0)}%`
+    } semantic=${(quality.semanticSimilarity * 100).toFixed(0)}% lexical=${(quality.lexicalCompliance * 100).toFixed(0)}% judge=${judge.blockingIssues.length === 0 ? "pass" : "fail"}`
   );
 
   // 8. Write output
@@ -396,4 +446,9 @@ async function translateReadme(
     sectionCount: parsed.sections.length,
     durationMs: Date.now() - startTime,
   };
+  } finally {
+    // Clean up signal handlers to avoid leaks
+    process.off("SIGINT", sigintHandler);
+    process.off("SIGTERM", sigintHandler);
+  }
 }

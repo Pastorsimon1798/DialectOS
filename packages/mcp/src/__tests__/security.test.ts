@@ -41,6 +41,7 @@ vi.mock("@espanol/security", () => {
     validateFilePath: vi.fn(),
     validateContentLength: vi.fn(),
     validateJsonPath: vi.fn(),
+    checkFileSize: vi.fn(),
     RateLimiter: vi.fn().mockImplementation(() => ({
       acquire: vi.fn().mockResolvedValue(undefined),
     })),

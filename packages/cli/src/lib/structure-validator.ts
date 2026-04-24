@@ -61,8 +61,11 @@ export function validateMarkdownStructure(
     );
   }
 
+  // Strip code blocks before checking for unexpected HTML tags to avoid
+  // false positives from tags inside fenced code.
+  const translatedWithoutCode = translatedContent.replace(/```[\s\S]*?```/g, "");
   const tagRegex = /<([a-zA-Z][a-zA-Z0-9-]*)\b[^>]*>/gi;
-  const translatedTags = Array.from(translatedContent.matchAll(tagRegex)).map(
+  const translatedTags = Array.from(translatedWithoutCode.matchAll(tagRegex)).map(
     (m) => m[1].toLowerCase()
   );
   const unexpectedTags = translatedTags.filter(

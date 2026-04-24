@@ -5,6 +5,7 @@
 
 import type { TranslationProvider, TranslationResult, ProviderCapability } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
+import { fetchWithRedirects } from "../fetch-utils.js";
 import { RateLimiter, sanitizeErrorMessage, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
 import { languageCodeSchema } from "@espanol/types";
 
@@ -50,6 +51,10 @@ export class MyMemoryProvider implements TranslationProvider {
     this.maxRetries = options?.maxRetries ?? (envRetries > 0 ? envRetries : 4);
     const envRetryDelay = parseInt(process.env.MYMEMORY_RETRY_DELAY_MS || "", 10);
     this.retryDelayMs = options?.retryDelayMs ?? (envRetryDelay > 0 ? envRetryDelay : 2000);
+  }
+
+  getCircuitBreaker(): CircuitBreaker {
+    return this.breaker;
   }
 
   getCapabilities(): ProviderCapability {
@@ -101,7 +106,10 @@ export class MyMemoryProvider implements TranslationProvider {
       }
       this.breaker.recordSuccess();
     } catch (error) {
-      this.breaker.recordFailure();
+      // Only record failure if no chunks succeeded (partial success should not open breaker)
+      if (translatedChunks.length === 0) {
+        this.breaker.recordFailure();
+      }
       throw error;
     }
 
@@ -188,7 +196,15 @@ export class MyMemoryProvider implements TranslationProvider {
           langpair: `${sourceLang === "auto" ? "autodetect" : sourceLang}|${targetLang}`,
         });
         const url = `${MYMEMORY_ENDPOINT}?${params.toString()}`;
-        const response = await fetch(url, { method: "GET", signal: controller.signal });
+        const response = await fetchWithRedirects(url, {
+          init: { method: "GET", signal: controller.signal },
+          validateUrl: (u) => {
+            const parsed = new URL(u);
+            if (parsed.protocol !== "https:") {
+              throw new SecurityError("MyMemory redirect must stay on https", ErrorCode.INVALID_INPUT);
+            }
+          },
+        });
 
         if (response.status === 429 && attempt < this.maxRetries) {
           clearTimeout(timeoutId);
@@ -219,6 +235,14 @@ export class MyMemoryProvider implements TranslationProvider {
         if (!contentType?.includes("application/json")) {
           clearTimeout(timeoutId);
           throw new Error("Invalid response content type");
+        }
+
+        // Guard against runaway response sizes
+        const contentLength = response.headers.get("content-length");
+        const MAX_RESPONSE_BYTES = 2 * 1024 * 1024; // 2MB
+        if (contentLength && parseInt(contentLength, 10) > MAX_RESPONSE_BYTES) {
+          clearTimeout(timeoutId);
+          throw new Error("MyMemory response exceeds maximum allowed size");
         }
 
         // Keep timeout active while reading body — start a fresh timeout race

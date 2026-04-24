@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+import { validateFilePath } from "@espanol/security";
 
 export interface TokenProtectionFile {
   tokens: string[];
@@ -14,7 +15,8 @@ export async function loadProtectedTokens(filePath?: string): Promise<string[]> 
     return [];
   }
 
-  const raw = await fs.readFile(filePath, "utf-8");
+  const validatedPath = validateFilePath(filePath);
+  const raw = await fs.readFile(validatedPath, "utf-8");
   const parsed = JSON.parse(raw) as TokenProtectionFile | string[];
 
   const tokens = Array.isArray(parsed) ? parsed : parsed.tokens;
@@ -49,6 +51,12 @@ function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function escapeReplacementString(str: string): string {
+  // In String.prototype.replace, $ has special meaning ($&, $1, $$, etc.)
+  // To use a literal string as replacement, we must escape $ as $$
+  return str.replace(/\$/g, "$$$$");
+}
+
 export function restoreProtectedTokens(text: string, replacements: Map<string, string>): string {
   let restored = text;
   replacements.forEach((token, placeholder) => {
@@ -57,9 +65,25 @@ export function restoreProtectedTokens(text: string, replacements: Map<string, s
     const base = escapeRegExp(placeholder.replace(/^_+|_+$/g, ""));
     const normalized = base.replace(/_/g, "[_\\s]*");
     const regex = new RegExp(`\\b${normalized}\\b`, "g");
-    restored = restored.replace(regex, token);
+    restored = restored.replace(regex, escapeReplacementString(token));
   });
   return restored;
+}
+
+const COMMON_FILE_EXTENSIONS = new Set([
+  "json", "js", "ts", "jsx", "tsx", "md", "txt", "yml", "yaml", "xml", "html",
+  "css", "scss", "sass", "less", "svg", "png", "jpg", "jpeg", "gif", "webp",
+  "ico", "pdf", "zip", "tar", "gz", "lock", "toml", "ini", "cfg", "conf",
+  "sh", "bash", "zsh", "fish", "ps1", "bat", "cmd", "exe", "dll", "so",
+  "dylib", "wasm", "rb", "py", "go", "rs", "java", "kt", "swift", "cpp",
+  "c", "h", "hpp", "cs", "php", "lua", "r", "pl", "pm",
+]);
+
+function isFilePath(match: string): boolean {
+  const lastDot = match.lastIndexOf(".");
+  if (lastDot <= 0 || lastDot === match.length - 1) return false;
+  const ext = match.slice(lastDot + 1).toLowerCase();
+  return COMMON_FILE_EXTENSIONS.has(ext);
 }
 
 export function detectIdentityTokens(text: string): string[] {
@@ -74,7 +98,13 @@ export function detectIdentityTokens(text: string): string[] {
 
   for (const pattern of patterns) {
     const matches = text.match(pattern) || [];
-    matches.forEach((match) => tokens.add(match.trim()));
+    matches.forEach((match) => {
+      const trimmed = match.trim();
+      // Skip matches that look like file paths (e.g., config.json, package.lock)
+      if (!isFilePath(trimmed)) {
+        tokens.add(trimmed);
+      }
+    });
   }
 
   return Array.from(tokens).sort((a, b) => b.length - a.length);

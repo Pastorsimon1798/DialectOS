@@ -20,6 +20,43 @@ export interface LexicalAmbiguityExpectations {
   forbiddenOutputTerms: string[];
 }
 
+export interface LexicalComplianceResult {
+  passed: boolean;
+  score: number;
+  violations: string[];
+}
+
+/**
+ * Check translated output against lexical ambiguity expectations.
+ * Returns a compliance score (0-1) and list of violations.
+ */
+export function checkLexicalCompliance(
+  translated: string,
+  expectations: LexicalAmbiguityExpectations
+): LexicalComplianceResult {
+  const violations: string[] = [];
+  const lowerTranslated = translated.toLowerCase();
+
+  for (const group of expectations.requiredOutputGroups) {
+    const hasAny = group.some((term) => lowerTranslated.includes(term.toLowerCase()));
+    if (!hasAny) {
+      violations.push(`Missing required term: expected one of [${group.join(", ")}]`);
+    }
+  }
+
+  for (const term of expectations.forbiddenOutputTerms) {
+    if (lowerTranslated.includes(term.toLowerCase())) {
+      violations.push(`Forbidden term detected: ${term}`);
+    }
+  }
+
+  const totalChecks = expectations.requiredOutputGroups.length + expectations.forbiddenOutputTerms.length;
+  const passedChecks = totalChecks - violations.length;
+  const score = totalChecks === 0 ? 1 : passedChecks / totalChecks;
+
+  return { passed: violations.length === 0, score, violations };
+}
+
 const TABOO_RISK_COGER_DIALECTS: readonly SpanishDialect[] = [
   "es-MX", "es-AR", "es-CL", "es-CO", "es-VE",
   "es-US", "es-PA", "es-PR", "es-DO", "es-CU",

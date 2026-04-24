@@ -58,11 +58,12 @@ export class RetryPolicy {
   }
 
   /**
-   * Check if error is a client error (4xx) that shouldn't be retried
+   * Check if error is a client error (4xx) that shouldn't be retried.
+   * 429 Too Many Requests is explicitly retriable.
    */
   private isClientError(error: Error): boolean {
     const statusCode = (error as Error & { statusCode?: number }).statusCode;
-    return typeof statusCode === "number" && statusCode >= 400 && statusCode < 500;
+    return typeof statusCode === "number" && statusCode >= 400 && statusCode < 500 && statusCode !== 429;
   }
 
   /**

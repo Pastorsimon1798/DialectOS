@@ -109,7 +109,7 @@ function buildOutputConstraintPrompt(text: string, dialect: SpanishDialect): str
     constraints.push(`For informal ${dialect} account-update copy, the output must use Central American voseo such as vos podés/podés; do not use tú/puedes.`);
   }
 
-  return constraints.length > 2
+  return constraints.length >= 2
     ? `Output constraints: ${constraints.join(" ")}`
     : undefined;
 }

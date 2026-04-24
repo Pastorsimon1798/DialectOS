@@ -17,7 +17,7 @@ import { z } from "zod";
 import type {
   ProviderName,
 } from "@espanol/types";
-import { searchGlossary } from "@espanol/types";
+import { searchGlossary, dialectSchema, providerNameSchema } from "@espanol/types";
 import {
   parseMarkdown,
   reconstructMarkdown,
@@ -25,6 +25,7 @@ import {
 import {
   validateMarkdownPath,
   validateContentLength,
+  checkFileSize,
   RateLimiter,
   SecurityError,
   ErrorCode,
@@ -509,7 +510,7 @@ async function handleTranslateText(
     // Get provider
     const provider = params.provider
       ? registry.get(params.provider)
-      : registry.getAuto();
+      : registry.getAuto("es", { dialect: params.dialect || "es-ES" });
 
     // Determine formality
     let formality: "formal" | "informal" | "auto" = "auto";
@@ -607,6 +608,25 @@ async function handleDetectDialect(
     // Sort by score descending
     scores.sort((a, b) => b.score - a.score);
 
+    // Reject ambiguous inputs: if top two dialects are tied in score,
+    // the input contains conflicting dialect markers.
+    if (scores.length >= 2 && scores[0].score === scores[1].score) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify({
+              dialect: "es-ES",
+              confidence: 0,
+              name: "Spanish",
+              matchedKeywords: [],
+              ambiguity: `Input contains conflicting dialect markers (${scores[0].dialect} vs ${scores[1].dialect})`,
+            }),
+          },
+        ],
+      };
+    }
+
     // Return best match or default
     const bestMatch = scores[0];
     // 3 keyword matches = 100% confidence
@@ -668,7 +688,7 @@ async function handleTranslateCodeComment(
     // Get provider
     const provider = params.provider
       ? registry.get(params.provider)
-      : registry.getAuto();
+      : registry.getAuto("es", { dialect: params.dialect || "es-ES" });
 
     // Collect all comment matches with their positions
     interface CommentMatch {
@@ -784,6 +804,9 @@ async function handleTranslateReadme(
     // Validate and get file path
     const validatedPath = validateMarkdownPath(params.filePath);
 
+    // Check file size before reading into memory (prevent OOM)
+    checkFileSize(validatedPath);
+
     // Read file content
     const content = readFileSync(validatedPath, "utf-8");
 
@@ -796,7 +819,7 @@ async function handleTranslateReadme(
     // Get provider
     const provider = params.provider
       ? registry.get(params.provider)
-      : registry.getAuto();
+      : registry.getAuto("es", { dialect: params.dialect || "es-ES" });
 
     // Determine formality
     let formality: "formal" | "informal" | "auto" = "auto";
@@ -805,7 +828,9 @@ async function handleTranslateReadme(
 
     // Translate translatable sections
     const translatedSections = [];
+    const errors: string[] = [];
     let codeBlocksPreserved = 0;
+    let sectionsTranslated = 0;
 
     for (const section of parsed.sections) {
       if (!section.translatable) {
@@ -814,25 +839,32 @@ async function handleTranslateReadme(
           codeBlocksPreserved++;
         }
       } else {
-        const prepared = prepareProviderRequest(
-          registry,
-          provider.name,
-          section.content,
-          "en",
-          params.dialect || "es-ES",
-          { formality, dialect: params.dialect }
-        );
-        const result = await provider.translate(
-          section.content,
-          prepared.sourceLang,
-          prepared.targetLang,
-          prepared.options
-        );
+        try {
+          const prepared = prepareProviderRequest(
+            registry,
+            provider.name,
+            section.content,
+            "en",
+            params.dialect || "es-ES",
+            { formality, dialect: params.dialect }
+          );
+          const result = await provider.translate(
+            section.content,
+            prepared.sourceLang,
+            prepared.targetLang,
+            prepared.options
+          );
 
-        translatedSections.push({
-          ...section,
-          content: result.translatedText,
-        });
+          translatedSections.push({
+            ...section,
+            content: result.translatedText,
+          });
+          sectionsTranslated++;
+        } catch (error) {
+          const safe = createSafeError(error);
+          errors.push(`${section.type}: ${safe.error}`);
+          translatedSections.push(section);
+        }
       }
     }
 
@@ -846,10 +878,13 @@ async function handleTranslateReadme(
           text: JSON.stringify({
             translated,
             sectionsProcessed: parsed.translatableSections,
+            sectionsTranslated,
             codeBlocksPreserved,
+            errors,
           }),
         },
       ],
+      isError: sectionsTranslated === 0 && parsed.translatableSections > 0,
     };
   } catch (error) {
     const safeError = createSafeError(error);
@@ -1080,8 +1115,8 @@ export function registerTranslatorTools(
     "Translate text to a Spanish dialect",
     {
       text: z.string().describe("Text to translate"),
-      dialect: z.string().optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
-      provider: z.string().optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
+      dialect: dialectSchema.optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
+      provider: providerNameSchema.optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
       formal: z.boolean().optional().describe("Use formal tone"),
       informal: z.boolean().optional().describe("Use informal tone"),
     },
@@ -1108,8 +1143,8 @@ export function registerTranslatorTools(
     "Extract and translate code comments (basic text extraction)",
     {
       code: z.string().describe("Source code with comments to translate"),
-      dialect: z.string().optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
-      provider: z.string().optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
+      dialect: dialectSchema.optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
+      provider: providerNameSchema.optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
     },
     async (params) => {
       return handleTranslateCodeComment(params as TranslateCodeCommentParams, registry, rateLimiter);
@@ -1122,8 +1157,8 @@ export function registerTranslatorTools(
     "Translate a README markdown file preserving structure",
     {
       filePath: z.string().describe("Path to the README markdown file"),
-      dialect: z.string().optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
-      provider: z.string().optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
+      dialect: dialectSchema.optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
+      provider: providerNameSchema.optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
       formal: z.boolean().optional().describe("Use formal tone"),
       informal: z.boolean().optional().describe("Use informal tone"),
     },

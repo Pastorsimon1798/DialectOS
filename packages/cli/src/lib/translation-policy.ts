@@ -48,7 +48,7 @@ const POLICY_PRESETS: Record<PolicyProfile, TranslationPolicy> = {
     glossaryMode: "strict",
     protectIdentities: true,
     resume: true,
-    semanticThreshold: 0.4,
+    semanticThreshold: 0.45,
   },
   permissive: {
     profile: "permissive",

@@ -1,6 +1,8 @@
 import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname } from "node:path";
 import { writeOutput } from "../lib/output.js";
 import { parseDialectList, researchRegionalTerm, type RegionalResearchSource } from "../lib/regional-research.js";
+import { validateFilePath } from "@espanol/security";
 
 export interface ResearchCommandOptions {
   concept: string;
@@ -39,7 +41,8 @@ export async function executeResearchRegionalTerm(options: ResearchCommandOption
   });
 
   const out = options.out || `audits/research/${new Date().toISOString().slice(0, 10)}-${result.concept.replace(/[^a-z0-9]+/g, "-")}.json`;
-  mkdirSync(out.split("/").slice(0, -1).join("/") || ".", { recursive: true });
-  writeFileSync(out, `${JSON.stringify(result, null, 2)}\n`);
-  writeOutput(JSON.stringify({ out, concept: result.concept, proposals: result.proposals.length, warnings: result.warnings }, null, 2));
+  const validatedOut = validateFilePath(out);
+  mkdirSync(dirname(validatedOut), { recursive: true });
+  writeFileSync(validatedOut, `${JSON.stringify(result, null, 2)}\n`);
+  writeOutput(JSON.stringify({ out: validatedOut, concept: result.concept, proposals: result.proposals.length, warnings: result.warnings }, null, 2));
 }

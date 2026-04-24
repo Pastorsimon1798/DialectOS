@@ -21,6 +21,7 @@ import type {
   FormalityIssue,
   GenderNeutralStrategy,
 } from "@espanol/types";
+import { dialectSchema, providerNameSchema, ALL_SPANISH_DIALECTS } from "@espanol/types";
 import {
   readLocaleFile,
   writeLocaleFile,
@@ -368,7 +369,7 @@ async function handleTranslateMissingKeys(
     // Get provider
     const provider = params.provider
       ? registry.get(params.provider)
-      : registry.getAuto();
+      : registry.getAuto("es", { dialect: params.dialect || "es-ES" });
 
     // Translate missing keys
     let translatedCount = 0;
@@ -479,10 +480,10 @@ async function handleBatchTranslateLocales(
     const baseEntries = readLocaleFile(basePath);
     const totalKeys = baseEntries.length;
 
-    // Get provider
+    // Get provider — use first target dialect for dialect-aware selection
     const provider = params.provider
       ? registry.get(params.provider)
-      : registry.getAuto();
+      : registry.getAuto("es", { dialect: params.targets[0] || "es-ES" });
 
     let totalTranslated = 0;
     const errors: string[] = [];
@@ -529,7 +530,8 @@ async function handleBatchTranslateLocales(
             });
             totalTranslated++;
           } catch (error) {
-            errors.push(`${targetDialect}/${entry.key}: ${error}`);
+            const safe = createSafeError(error);
+            errors.push(`${targetDialect}/${entry.key}: ${safe.error}`);
           }
         }
 
@@ -537,7 +539,8 @@ async function handleBatchTranslateLocales(
         writeLocaleFile(targetPath, targetEntries);
         targets.push(targetDialect);
       } catch (error) {
-        errors.push(`${targetDialect}: ${error}`);
+        const safe = createSafeError(error);
+        errors.push(`${targetDialect}: ${safe.error}`);
       }
     }
 
@@ -857,8 +860,8 @@ export function registerI18nTools(
     {
       basePath: z.string().describe("Path to the base locale file"),
       targetPath: z.string().describe("Path to the target locale file"),
-      dialect: z.string().optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
-      provider: z.string().optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
+      dialect: dialectSchema.optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
+      provider: providerNameSchema.optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
     },
     async (params) => {
       return handleTranslateMissingKeys(params as TranslateMissingKeysParams, registry, rateLimiter);
@@ -872,8 +875,10 @@ export function registerI18nTools(
     {
       directory: z.string().describe("Directory containing locale files"),
       baseLocale: z.string().optional().describe("Base locale name (e.g., en, es-ES)"),
-      targets: z.array(z.string()).describe("Array of target Spanish dialect codes"),
-      provider: z.string().optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
+      targets: z.array(z.string().refine((v) => ALL_SPANISH_DIALECTS.includes(v as SpanishDialect), {
+        message: "Invalid Spanish dialect code",
+      })).describe("Array of target Spanish dialect codes"),
+      provider: providerNameSchema.optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
     },
     async (params) => {
       return handleBatchTranslateLocales(params as BatchTranslateLocalesParams, registry, rateLimiter);
@@ -886,7 +891,9 @@ export function registerI18nTools(
     "Create dialect-specific variants of a locale file",
     {
       sourcePath: z.string().describe("Path to the source locale file"),
-      variant: z.string().describe("Target dialect variant (e.g., es-MX, es-AR, es-CO)"),
+      variant: z.string().refine((v) => ALL_SPANISH_DIALECTS.includes(v as SpanishDialect), {
+        message: "Invalid Spanish dialect variant",
+      }).describe("Target dialect variant (e.g., es-MX, es-AR, es-CO)"),
       outputPath: z.string().optional().describe("Output path (optional, defaults to source path)"),
     },
     async (params) => {

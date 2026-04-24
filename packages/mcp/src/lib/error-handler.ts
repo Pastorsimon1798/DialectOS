@@ -18,7 +18,8 @@ export function setupGlobalHandlers(): void {
   process.on("unhandledRejection", (reason: unknown) => {
     const safe = createSafeError(reason);
     console.error(JSON.stringify({ level: "error", error: safe.code, message: safe.error }));
-    process.exit(1);
+    // Do not exit: a single rejected promise in one tool call should not
+    // kill the entire long-running MCP server.
   });
 
   const shutdown = (signal: string) => {

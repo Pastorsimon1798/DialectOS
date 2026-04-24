@@ -25,6 +25,7 @@ export interface PreparedProviderRequest {
 
 export class ProviderRegistry {
   private providers = new Map<string, ProviderEntry>();
+  private roundRobinIndex = new Map<string, number>();
 
   private canonicalName(name: string): string {
     if (name === "libre") return "libretranslate";
@@ -40,10 +41,12 @@ export class ProviderRegistry {
    * Register a translation provider
    */
   register(provider: TranslationProvider): void {
-    const breaker = new CircuitBreaker(
-      this.failureThreshold,
-      this.resetTimeoutMs
-    );
+    // Use the provider's own circuit breaker if available to avoid
+    // the double-breaker anti-pattern where registry and provider
+    // maintain separate, desynchronized breakers.
+    const breaker =
+      (provider as unknown as { getCircuitBreaker?(): CircuitBreaker }).getCircuitBreaker?.() ??
+      new CircuitBreaker(this.failureThreshold, this.resetTimeoutMs);
 
     this.providers.set(provider.name, { provider, breaker });
   }
@@ -62,35 +65,77 @@ export class ProviderRegistry {
   /**
    * Get the best available provider (with closed circuit).
    * Semantic dialect-aware providers win over generic machine translation.
+   *
+   * If targetLang is provided, only providers that support it are considered.
+   * If options.dialect is provided, providers with better dialectHandling are preferred.
    */
-  getAuto(): TranslationProvider {
+  getAuto(targetLang?: string, options?: { dialect?: string }): TranslationProvider {
     const rankedEntries = Array.from(this.providers.values()).sort((a, b) =>
-      this.providerRank(b.provider) - this.providerRank(a.provider)
+      this.providerRank(b.provider, options?.dialect) - this.providerRank(a.provider, options?.dialect)
     );
 
+    // Group by rank for round-robin within same rank
+    const rankGroups = new Map<number, ProviderEntry[]>();
     for (const entry of rankedEntries) {
-      if (entry.breaker.canExecute()) {
-        return entry.provider;
-      }
+      const rank = this.providerRank(entry.provider, options?.dialect);
+      if (!rankGroups.has(rank)) rankGroups.set(rank, []);
+      rankGroups.get(rank)!.push(entry);
+    }
+
+    // Try each rank group from highest to lowest
+    const sortedRanks = Array.from(rankGroups.keys()).sort((a, b) => b - a);
+    for (const rank of sortedRanks) {
+      const group = rankGroups.get(rank)!;
+      const available = group.filter((entry) => {
+        if (!entry.breaker.canExecute()) return false;
+        if (targetLang) {
+          const caps = entry.provider.getCapabilities?.();
+          const baseLang = targetLang.split("-")[0];
+          const supported = caps?.supportedTargetLangs || [];
+          if (!supported.includes(targetLang) && !supported.includes(baseLang)) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      if (available.length === 0) continue;
+
+      // Round-robin within same rank
+      const key = `${rank}_${targetLang || "any"}_${options?.dialect || "any"}`;
+      const idx = this.roundRobinIndex.get(key) || 0;
+      const selected = available[idx % available.length];
+      this.roundRobinIndex.set(key, (idx + 1) % available.length);
+      return selected.provider;
     }
 
     throw new Error("No translation providers are currently available");
   }
 
-  private providerRank(provider: TranslationProvider): number {
+  private providerRank(provider: TranslationProvider, dialect?: string): number {
     const caps = provider.getCapabilities?.();
+    let rank = 0;
     switch (caps?.dialectHandling) {
       case "semantic":
-        return 4;
+        rank = 4;
+        break;
       case "native":
-        return 3;
+        rank = 3;
+        break;
       case "approximate":
-        return 2;
+        rank = 2;
+        break;
       case "none":
-        return 1;
+        rank = 1;
+        break;
       default:
-        return 0;
+        rank = 0;
     }
+    // Boost providers that explicitly support the requested dialect
+    if (dialect && caps?.supportedTargetLangs?.includes(dialect)) {
+      rank += 1;
+    }
+    return rank;
   }
 
   /**

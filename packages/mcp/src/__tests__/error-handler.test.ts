@@ -36,7 +36,7 @@ describe("Global Error Handler", () => {
     expect(exitSpy).toHaveBeenCalledWith(1);
   });
 
-  it("should handle unhandledRejection with sanitized error", async () => {
+  it("should handle unhandledRejection with sanitized error without killing the server", async () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const { setupGlobalHandlers } = await import("../lib/error-handler.js");
     setupGlobalHandlers();
@@ -44,7 +44,8 @@ describe("Global Error Handler", () => {
     const handler = handlers.get("unhandledRejection")!;
     handler(new Error("test rejection"));
 
-    expect(exitSpy).toHaveBeenCalledWith(1);
+    // Unhandled rejections should not kill the long-running MCP server
+    expect(exitSpy).not.toHaveBeenCalled();
   });
 
   it("should handle SIGINT for graceful shutdown", async () => {

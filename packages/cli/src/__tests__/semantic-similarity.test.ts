@@ -1,6 +1,10 @@
 /**
  * Semantic similarity tests
  * Addresses GitHub issue #9
+ *
+ * These tests verify cross-lingual EN→ES translation quality scoring.
+ * Word overlap is meaningless across languages, so the scorer uses
+ * Spanish presence heuristics, length ratio, and entity preservation.
  */
 
 import { describe, it, expect } from "vitest";
@@ -10,11 +14,11 @@ import {
 } from "../lib/semantic-similarity.js";
 
 describe("semantic similarity", () => {
-  it("should score identical texts as 1.0", () => {
+  it("should nuke identical text as LLM copy-paste failure", () => {
     const result = calculateSemanticSimilarity("Hello world", "Hello world");
-    expect(result.score).toBe(1);
-    expect(result.wordOverlap).toBe(1);
-    expect(result.lengthRatio).toBe(1);
+    expect(result.score).toBe(0);
+    expect(result.wordOverlap).toBe(0);
+    expect(result.lengthRatio).toBe(0);
   });
 
   it("should detect empty translation as drift", () => {
@@ -22,27 +26,29 @@ describe("semantic similarity", () => {
       "The quick brown fox jumps",
       ""
     );
-    expect(result.score).toBeLessThanOrEqual(0.35);
+    expect(result.score).toBe(0);
     expect(result.wordOverlap).toBe(0);
   });
 
-  it("should detect completely different text as drift", () => {
+  it("should detect non-Spanish garbage as drift", () => {
     const result = calculateSemanticSimilarity(
       "API endpoint returns JSON data",
       "hello world foo bar baz"
     );
-    expect(result.score).toBeLessThanOrEqual(0.35);
-    expect(result.wordOverlap).toBe(0);
+    // No Spanish chars, no Spanish endings, high English word ratio
+    expect(result.score).toBeLessThanOrEqual(0.45);
+    expect(result.wordOverlap).toBeLessThanOrEqual(0.3);
   });
 
-  it("should tolerate normal translation variation", () => {
+  it("should score valid Spanish translation highly", () => {
     const result = calculateSemanticSimilarity(
       "The API endpoint returns JSON data",
-      "El punto final de la API devuelve datos JSON"
+      "El endpoint de la API devuelve información en formato JSON"
     );
-    // Should have some overlap on "api" and "json"
-    expect(result.score).toBeGreaterThan(0.2);
-    expect(result.entityPreservation).toBeGreaterThan(0);
+    // Spanish diacritics present (información), reasonable length, entities preserved
+    expect(result.score).toBeGreaterThan(0.5);
+    expect(result.entityPreservation).toBeGreaterThan(0.3);
+    expect(result.wordOverlap).toBeGreaterThan(0.3);
   });
 
   it("should penalize very short translations", () => {
@@ -71,13 +77,14 @@ describe("semantic similarity", () => {
     expect(result.entityPreservation).toBeGreaterThan(0.3);
   });
 
-  it("should handle texts with no entities", () => {
+  it("should handle Spanish without diacritics (valid but lower score)", () => {
     const result = calculateSemanticSimilarity(
       "the quick brown fox",
-      "the fast brown fox"
+      "el rapido zorro marron"
     );
-    expect(result.entityPreservation).toBeGreaterThanOrEqual(0.3);
-    expect(result.wordOverlap).toBeGreaterThan(0.5);
+    // No Spanish-specific chars, but Spanish morphology and reasonable length
+    expect(result.score).toBeGreaterThan(0.3);
+    expect(result.lengthRatio).toBeGreaterThan(0.5);
   });
 
   it("should meet strict threshold for high scores", () => {
