@@ -8,9 +8,20 @@ import { Readable } from "node:stream";
 import type { TranslationProvider } from "@espanol/types";
 import type { SpanishDialect, ProviderName, FormalityLevel } from "@espanol/types";
 import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@espanol/types";
-import { validateFilePath, validateContentLength } from "@espanol/security";
+import { validateFilePath, validateContentLength, checkFileSize } from "@espanol/security";
 import { writeOutput, writeError } from "../lib/output.js";
 import { buildSemanticTranslationContext } from "../lib/semantic-context.js";
+import {
+  loadProtectedTokens,
+  protectTokensInText,
+  restoreProtectedTokens,
+  detectIdentityTokens,
+} from "../lib/token-protection.js";
+import {
+  loadGlossary,
+  prepareGlossaryProtectedText,
+  type GlossaryMode,
+} from "../lib/glossary-enforcement.js";
 
 /**
  * Options for the translate command
@@ -28,6 +39,14 @@ export interface TranslateCommandOptions {
   inputFile?: string;
   /** Write output to file instead of stdout */
   output?: string;
+  /** Protected tokens file */
+  protectTokens?: string;
+  /** Glossary file */
+  glossaryFile?: string;
+  /** Glossary mode */
+  glossaryMode?: GlossaryMode;
+  /** Auto-protect identities */
+  protectIdentities?: boolean;
 }
 
 /**
@@ -57,6 +76,7 @@ async function readInput(
   // If input file is specified, read from file
   if (options.inputFile) {
     const validatedPath = validateFilePath(options.inputFile);
+    checkFileSize(validatedPath);
     const content = await fs.promises.readFile(validatedPath, "utf-8");
     validateContentLength(content);
     return content;
@@ -142,29 +162,50 @@ export async function executeTranslate(
     const text = await readInput(textArg, options);
 
     if (!text.trim()) {
-      writeError("No input text provided");
-      process.exit(1);
+      throw new Error("No input text provided");
     }
 
     // Get translation provider
     const translationProvider = getProvider(provider);
 
+    // Load glossary and protected tokens
+    const glossary = await loadGlossary(options.glossaryFile);
+    const protectedTokens = await loadProtectedTokens(options.protectTokens);
+    const glossaryMode = (options.glossaryMode || "off") as GlossaryMode;
+    const protectIdentities = options.protectIdentities !== false;
+
+    // Apply glossary protection
+    const glossaryChunk = prepareGlossaryProtectedText(text, glossary, glossaryMode);
+
+    // Detect and merge identity tokens
+    const runtimeTokens = protectIdentities
+      ? detectIdentityTokens(glossaryChunk.text)
+      : [];
+    const mergedTokens = Array.from(new Set([...protectedTokens, ...runtimeTokens]));
+    const protectedChunk = protectTokensInText(glossaryChunk.text, mergedTokens);
+
     const context = buildSemanticTranslationContext({
-      text,
+      text: protectedChunk.text,
       dialect,
       formality,
       documentKind: "plain",
     });
 
-    // Perform translation
-    const result = await translationProvider.translate(text, "auto", "es", {
+    // Perform translation on protected text
+    const result = await translationProvider.translate(protectedChunk.text, "auto", "es", {
       formality,
       dialect,
       context,
     });
 
+    // Restore protected tokens and glossary terms
+    const restored = restoreProtectedTokens(
+      restoreProtectedTokens(result.translatedText, protectedChunk.replacements),
+      glossaryChunk.replacements
+    );
+
     // Write output
-    await writeOutput(result.translatedText, options.output);
+    await writeOutput(restored, options.output);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     writeError(message);

@@ -156,6 +156,8 @@ describe("adversarial fixture corpus", () => {
           "--dialect",
           "es-ES",
           "--no-validate-structure",
+          "--policy",
+          "permissive",
         ])
       ).resolves.not.toThrow();
     });
@@ -199,6 +201,8 @@ describe("adversarial fixture corpus", () => {
         "es-ES",
         "--protect-tokens",
         tokensFile,
+        "--policy",
+        "permissive",
       ]);
 
       const output = await fs.readFile(outputFile, "utf-8");
@@ -234,6 +238,8 @@ describe("adversarial fixture corpus", () => {
         "es-ES",
         "--protect-tokens",
         tokensFile,
+        "--policy",
+        "permissive",
       ]);
 
       const output = await fs.readFile(outputFile, "utf-8");
@@ -298,6 +304,8 @@ describe("adversarial fixture corpus", () => {
           outputFile,
           "--dialect",
           "es-ES",
+          "--policy",
+          "permissive",
         ])
       ).resolves.not.toThrow();
     });

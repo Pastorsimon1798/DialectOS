@@ -45,13 +45,18 @@ program
   .option("--auto-formality", "Auto-detect formality", false)
   .option("--input-file <path>", "Read text from file instead of argument")
   .option("--output <path>", "Write translation to file instead of stdout")
+  .option("--protect-tokens <file>", "JSON file with protected tokens")
+  .option("--glossary-file <file>", "JSON glossary file with term mappings")
+  .option("--glossary-mode <mode>", "Glossary mode: off|strict", "off")
+  .option("--protect-identities", "Auto-protect handles/domains/usernames", true)
+  .option("--no-protect-identities", "Disable auto identity protection")
   .action(async (text, options) => {
     try {
       const registry = getDefaultProviderRegistry();
 
       await executeTranslate(text, options, (providerName) => {
         if (!providerName || providerName === "auto") {
-          return registry.getAuto();
+          return registry.getAuto("es", { dialect: options.dialect || "es-ES" });
         }
         return registry.get(providerName);
       });
@@ -76,7 +81,7 @@ program
 
       await executeExtractTranslatable(input, (providerName) => {
         if (!providerName || providerName === "auto") {
-          return registry.getAuto();
+          return registry.getAuto("es");
         }
         return registry.get(providerName);
       });
@@ -287,7 +292,7 @@ i18nCommand
 
       await executeTranslateKeys(base, target, options.dialect, undefined, (providerName) => {
         if (!providerName) {
-          return registry.getAuto();
+          return registry.getAuto("es", { dialect: options.dialect || "es-ES" });
         }
         return registry.get(providerName);
       });
@@ -315,7 +320,7 @@ i18nCommand
 
       await executeBatchTranslate(directory, options.base, targets, undefined, (providerName) => {
         if (!providerName) {
-          return registry.getAuto();
+          return registry.getAuto("es", { dialect: targets[0] || "es-ES" });
         }
         return registry.get(providerName);
       });

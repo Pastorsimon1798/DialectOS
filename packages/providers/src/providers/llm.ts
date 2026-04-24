@@ -9,6 +9,7 @@
 
 import type { ProviderCapability, TranslateOptions, TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
+import { fetchWithRedirects } from "../fetch-utils.js";
 import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
 import { ALL_SPANISH_DIALECTS, languageCodeSchema } from "@espanol/types";
 
@@ -95,6 +96,23 @@ function extractChatCompletionText(data: unknown): string | undefined {
   if (!Array.isArray(choices) || choices.length === 0) return undefined;
   const first = choices[0] as { message?: { content?: unknown }; text?: unknown } | undefined;
   const content = first?.message?.content ?? first?.text;
+  // Modern OpenAI responses may return content as an array of parts
+  if (Array.isArray(content)) {
+    const text = content
+      .map((part) => {
+        if (!part || typeof part !== "object") return "";
+        const typed = part as { type?: unknown; text?: unknown };
+        if (typed.type === "text" && typeof typed.text === "string") {
+          return typed.text;
+        }
+        // Fallback: any object with a text field
+        const maybeText = typed.text;
+        return typeof maybeText === "string" ? maybeText : "";
+      })
+      .join("")
+      .trim();
+    return text.length > 0 ? text : undefined;
+  }
   return typeof content === "string" && content.trim().length > 0
     ? content.trim()
     : undefined;
@@ -145,6 +163,40 @@ function buildSystemPrompt(): string {
   ].join(" ");
 }
 
+function buildStrictSystemPrompt(): string {
+  return [
+    "You are a semantic dialect-aware Spanish translation engine for DialectOS.",
+    "Your previous attempt failed. This retry MUST return only the raw translated Spanish text.",
+    "NO explanations. NO labels. NO markdown fences. NO alternatives. NO source text.",
+    "Translate meaning, intent, register, and audience expectations; never do word-by-word literal substitution when it damages dialect fidelity.",
+    "Use the requested dialect grammar, formality, taboo, ambiguity, glossary, and style context exactly.",
+  ].join(" ");
+}
+
+const GARBAGE_PATTERNS = [
+  /```/,
+  /^\s*(translation|traducci[oó]n)\s*:/i,
+  /\bhere is (the )?translation\b/i,
+  /\baqu[ií] (est[aá]|tienes) (la )?traducci[oó]n\b/i,
+  /\bdialect quality contract\b/i,
+  /\blexical ambiguity constraints\b/i,
+  /\bforbidden output\b/i,
+  /\btaboo policy\b/i,
+  /\bdo not translate literally\b/i,
+];
+
+function isGarbageOutput(source: string, output: string): boolean {
+  const trimmed = output.trim();
+  if (!trimmed) return true;
+  // Unchanged from source (common LLM failure)
+  if (trimmed.toLowerCase() === source.trim().toLowerCase()) return true;
+  // Contains garbage patterns
+  for (const pattern of GARBAGE_PATTERNS) {
+    if (pattern.test(trimmed)) return true;
+  }
+  return false;
+}
+
 function buildUserPrompt(text: string, sourceLang: string, targetLang: string, options: TranslateOptions = {}): string {
   return [
     `Source language: ${sourceLang}.`,
@@ -152,8 +204,10 @@ function buildUserPrompt(text: string, sourceLang: string, targetLang: string, o
     options.dialect ? `Target dialect: ${options.dialect}.` : undefined,
     options.formality ? `Formality: ${options.formality}.` : undefined,
     options.context ? `Dialect/context instructions: ${options.context}` : undefined,
-    "Source text:",
+    "Source text (delimited by <<< and >>>):",
+    "<<<",
     text,
+    ">>>",
   ].filter(Boolean).join("\n");
 }
 
@@ -171,6 +225,7 @@ export class LLMProvider implements TranslationProvider {
   private breaker: CircuitBreaker;
   private rateLimiter: RateLimiter;
   private needsApiKey: boolean;
+  private allowLocal: boolean;
 
   constructor(options: LLMProviderOptions = {}) {
     const model = options.model || process.env.LLM_MODEL || "";
@@ -192,6 +247,7 @@ export class LLMProvider implements TranslationProvider {
       throw new Error("LLM_API_FORMAT must be 'openai', 'anthropic', or 'lmstudio'");
     }
 
+    this.allowLocal = allowLocal;
     this.endpoint = this.normalizeEndpoint(validateLLMEndpoint(endpoint, allowLocal));
     this.model = model;
     this.apiFormat = apiFormat;
@@ -210,6 +266,10 @@ export class LLMProvider implements TranslationProvider {
       options.maxRequests || parseInt(process.env.LLM_RATE_LIMIT || "", 10) || DEFAULT_MAX_REQUESTS,
       options.windowMs || parseInt(process.env.LLM_RATE_WINDOW_MS || "", 10) || DEFAULT_WINDOW_MS
     );
+  }
+
+  getCircuitBreaker(): CircuitBreaker {
+    return this.breaker;
   }
 
   getCapabilities(): ProviderCapability {
@@ -250,22 +310,46 @@ export class LLMProvider implements TranslationProvider {
     }
     await this.rateLimiter.acquire();
 
+    // Attempt 1: normal prompt
+    let result = await this._doTranslate(text, sourceLang, targetLang, options, buildSystemPrompt());
+
+    // If output looks like garbage, retry once with a stricter prompt
+    if (isGarbageOutput(text, result.translatedText)) {
+      result = await this._doTranslate(text, sourceLang, targetLang, options, buildStrictSystemPrompt());
+      if (isGarbageOutput(text, result.translatedText)) {
+        throw new Error("LLM produced garbage output after retry");
+      }
+    }
+
+    this.breaker.recordSuccess();
+    return result;
+  }
+
+  private async _doTranslate(
+    text: string,
+    sourceLang: string,
+    targetLang: string,
+    options: TranslateOptions | undefined,
+    systemPrompt: string
+  ): Promise<TranslationResult> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
 
     try {
-      const systemPrompt = buildSystemPrompt();
       const userPrompt = buildUserPrompt(text, sourceLang, targetLang, options);
       const headers = this.buildHeaders();
       if (this.apiFormat === "lmstudio" && this.lmStudioJitLoad) {
         await this.ensureLMStudioModelLoaded(headers, controller.signal);
       }
 
-      const response = await fetch(this.inferenceUrl(), {
-        method: "POST",
-        headers,
-        body: JSON.stringify(this.buildRequestBody(systemPrompt, userPrompt)),
-        signal: controller.signal,
+      const response = await fetchWithRedirects(this.inferenceUrl(), {
+        init: {
+          method: "POST",
+          headers,
+          body: JSON.stringify(this.buildRequestBody(systemPrompt, userPrompt)),
+          signal: controller.signal,
+        },
+        validateUrl: (url) => validateLLMEndpoint(url, this.allowLocal),
       });
 
       if (!response.ok) {
@@ -279,14 +363,37 @@ export class LLMProvider implements TranslationProvider {
         throw new Error("Invalid response content type");
       }
 
-      const data = await response.json();
+      // Guard against runaway response sizes before parsing JSON
+      const contentLength = response.headers.get("content-length");
+      const MAX_RESPONSE_BYTES = 2 * 1024 * 1024; // 2MB
+      if (contentLength && parseInt(contentLength, 10) > MAX_RESPONSE_BYTES) {
+        clearTimeout(timeoutId);
+        throw new Error("LLM response exceeds maximum allowed size");
+      }
+
+      // Keep timeout active while reading body — start a fresh timeout race
+      let bodyTimeoutId: ReturnType<typeof setTimeout> | undefined;
+      const data = (await Promise.race([
+        response.json(),
+        new Promise<never>((_, reject) => {
+          bodyTimeoutId = setTimeout(
+            () => reject(new Error("Response body timed out")),
+            this.timeoutMs
+          );
+        }),
+      ])) as unknown;
+      if (bodyTimeoutId) clearTimeout(bodyTimeoutId);
       clearTimeout(timeoutId);
       const translatedText = this.extractResponseText(data);
       if (!translatedText) {
         throw new Error("LLM response did not include translated content");
       }
+      // Hard cap on translated text length to prevent downstream OOM/processing issues
+      const MAX_RESPONSE_CHARS = 100_000;
+      if (translatedText.length > MAX_RESPONSE_CHARS) {
+        throw new Error(`LLM response too long: ${translatedText.length} chars exceeds max ${MAX_RESPONSE_CHARS}`);
+      }
 
-      this.breaker.recordSuccess();
       return {
         translatedText,
         provider: "llm",
@@ -346,6 +453,7 @@ export class LLMProvider implements TranslationProvider {
     return {
       model: this.model,
       temperature: 0.2,
+      max_tokens: 4096,
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },

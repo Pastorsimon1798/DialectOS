@@ -35,7 +35,7 @@ function createServer(config: MCPConfig = loadConfig()): McpServer {
       version: "0.1.0",
     },
     {
-      capabilities: {},
+      capabilities: { tools: {} },
     }
   );
 

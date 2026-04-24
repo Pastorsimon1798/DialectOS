@@ -142,10 +142,6 @@ export function writeLocaleFile(
       checkSize: false,
     });
 
-    // FIX: Call realpathSync on parent directory (TOCTOU fix)
-    const parentDir = dirname(validatedPath);
-    const realParentDir = realpathSync(parentDir);
-
     // Check key count limit
     if (entries.length > MAX_KEYS) {
       throw new SecurityError(
@@ -158,8 +154,8 @@ export function writeLocaleFile(
     const nested = unflattenLocale(entries);
     const content = JSON.stringify(nested, null, indent);
 
-    // FIX: Use createSecureTempPath for random temp file name
-    tempPath = createSecureTempPath(realParentDir);
+    // FIX: Use createSecureTempPath for random temp file name in same directory
+    tempPath = createSecureTempPath(validatedPath);
 
     // FIX: Use O_EXCL flag (wx) for atomic temp file creation
     // This prevents race conditions if multiple processes try to write
@@ -319,6 +315,8 @@ export function flattenLocale(
  * @param entries - Array of I18nEntry objects with dot-notation keys
  * @returns Nested object representing the locale structure
  */
+const DANGEROUS_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+
 export function unflattenLocale(entries: I18nEntry[]): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
@@ -328,6 +326,12 @@ export function unflattenLocale(entries: I18nEntry[]): Record<string, unknown> {
 
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
+      if (DANGEROUS_KEYS.has(key)) {
+        throw new SecurityError(
+          `Dangerous key "${key}" detected in locale entry`,
+          ErrorCode.INVALID_INPUT
+        );
+      }
       const isLast = i === keys.length - 1;
 
       if (isLast) {

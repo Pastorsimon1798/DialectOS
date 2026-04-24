@@ -86,8 +86,8 @@ function checkValueFormality(
   if (register === "formal") {
     // Check for informal pronouns in formal register
     for (const pattern of INFORMAL_PRONOUNS) {
-      // Use lookahead/lookbehind for word boundaries that work with Unicode
-      const regex = new RegExp(`(?<!\\w)${pattern.word}(?!\\w)`, "i");
+      // Unicode-aware word boundaries (\p{L} = any letter, \p{N} = any number)
+      const regex = new RegExp(`(?<![\\p{L}\\p{N}_])${pattern.word}(?![\\p{L}\\p{N}_])`, "iu");
       if (regex.test(value)) {
         return {
           key,
@@ -99,7 +99,7 @@ function checkValueFormality(
 
     // Check for informal verbs in formal register
     for (const pattern of INFORMAL_VERBS) {
-      const regex = new RegExp(`(?<!\\w)${pattern.word}(?!\\w)`, "i");
+      const regex = new RegExp(`(?<![\\p{L}\\p{N}_])${pattern.word}(?![\\p{L}\\p{N}_])`, "iu");
       if (regex.test(value)) {
         return {
           key,
@@ -111,7 +111,7 @@ function checkValueFormality(
   } else {
     // Check for formal patterns in informal register
     for (const pattern of FORMAL_PRONOUNS) {
-      const regex = new RegExp(`(?<!\\w)${pattern.word}(?!\\w)`, "i");
+      const regex = new RegExp(`(?<![\\p{L}\\p{N}_])${pattern.word}(?![\\p{L}\\p{N}_])`, "iu");
       if (regex.test(value)) {
         return {
           key,

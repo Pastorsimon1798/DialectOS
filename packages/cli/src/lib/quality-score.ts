@@ -6,6 +6,7 @@ export interface QualityScore {
   glossaryFidelity: number;
   structureIntegrity: number;
   semanticSimilarity: number;
+  lexicalCompliance: number;
 }
 
 export function calculateQualityScore(
@@ -13,7 +14,8 @@ export function calculateQualityScore(
   translated: string,
   protectedTokens: string[],
   glossary: Record<string, string>,
-  structureValid: boolean
+  structureValid: boolean,
+  lexicalCompliance = 1
 ): QualityScore {
   const tokenChecks = protectedTokens.filter((t) => source.includes(t));
   const tokenHits = tokenChecks.filter((t) => translated.includes(t)).length;
@@ -29,12 +31,13 @@ export function calculateQualityScore(
   const semanticSimilarity = semantic.score;
 
   const score = Math.round(
-    (tokenIntegrity * 0.25 +
-      glossaryFidelity * 0.3 +
-      structureIntegrity * 0.2 +
-      semanticSimilarity * 0.25) *
+    (tokenIntegrity * 0.2 +
+      glossaryFidelity * 0.25 +
+      structureIntegrity * 0.15 +
+      semanticSimilarity * 0.2 +
+      lexicalCompliance * 0.2) *
       100
   );
 
-  return { score, tokenIntegrity, glossaryFidelity, structureIntegrity, semanticSimilarity };
+  return { score, tokenIntegrity, glossaryFidelity, structureIntegrity, semanticSimilarity, lexicalCompliance };
 }

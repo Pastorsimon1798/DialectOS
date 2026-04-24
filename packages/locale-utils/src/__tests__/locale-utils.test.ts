@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, renameSync, rmSync,
 import { join } from "node:path";
 
 import type { I18nEntry, LocaleDiff } from "@espanol/types";
+import { createSecureTempPath } from "@espanol/security";
 
 // Mock fs module BEFORE importing the functions under test
 vi.mock("node:fs", async (importOriginal) => {
@@ -298,13 +299,14 @@ describe("locale-utils", () => {
       expect(writeFileSync).not.toHaveBeenCalled();
     });
 
-    it("should call realpathSync on parent directory (TOCTOU fix)", () => {
+    it("should use createSecureTempPath in same directory as target", () => {
       const entries: I18nEntry[] = [{ key: "key", value: "value" }];
-      vi.mocked(realpathSync).mockReturnValue("/real/path/to");
 
       writeLocaleFile("/path/to/output.json", entries);
 
-      expect(realpathSync).toHaveBeenCalledWith("/path/to");
+      // createSecureTempPath should be called with the validated target path
+      // so the temp file is created in the same directory as the target
+      expect(createSecureTempPath).toHaveBeenCalledWith("/path/to/output.json");
     });
 
     it("should clean up temp file on error", () => {

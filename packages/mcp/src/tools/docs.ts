@@ -16,6 +16,7 @@ import type {
   SpanishDialect,
   ProviderName,
 } from "@espanol/types";
+import { dialectSchema, providerNameSchema } from "@espanol/types";
 import {
   parseMarkdown,
   reconstructMarkdown,
@@ -23,6 +24,7 @@ import {
 import {
   validateMarkdownPath,
   validateContentLength,
+  checkFileSize,
   RateLimiter,
   createSafeError,
 } from "@espanol/security";
@@ -84,6 +86,9 @@ async function handleTranslateMarkdown(
     // Validate and get file path
     const validatedPath = validateMarkdownPath(params.filePath);
 
+    // Check file size before reading into memory (prevent OOM)
+    checkFileSize(validatedPath);
+
     // Read file content
     const content = readFileSync(validatedPath, "utf-8");
 
@@ -96,7 +101,7 @@ async function handleTranslateMarkdown(
     // Get provider
     const provider = params.provider
       ? registry.get(params.provider)
-      : registry.getAuto();
+      : registry.getAuto("es", { dialect: params.dialect || "es-ES" });
 
     // Determine formality
     let formality: "formal" | "informal" | "auto" = "auto";
@@ -105,32 +110,42 @@ async function handleTranslateMarkdown(
 
     // Translate translatable sections
     const translatedSections: MarkdownSection[] = [];
+    const errors: string[] = [];
+    let sectionsTranslated = 0;
 
     for (const section of parsed.sections) {
       if (!section.translatable) {
         // Keep non-translatable sections as-is
         translatedSections.push(section);
       } else {
-        // Translate the content
-        const prepared = prepareProviderRequest(
-          registry,
-          provider.name,
-          section.content,
-          "en",
-          params.dialect || "es-ES",
-          { formality, dialect: params.dialect }
-        );
-        const result = await provider.translate(
-          section.content,
-          prepared.sourceLang,
-          prepared.targetLang,
-          prepared.options
-        );
+        try {
+          // Translate the content
+          const prepared = prepareProviderRequest(
+            registry,
+            provider.name,
+            section.content,
+            "en",
+            params.dialect || "es-ES",
+            { formality, dialect: params.dialect }
+          );
+          const result = await provider.translate(
+            section.content,
+            prepared.sourceLang,
+            prepared.targetLang,
+            prepared.options
+          );
 
-        translatedSections.push({
-          ...section,
-          content: result.translatedText,
-        });
+          translatedSections.push({
+            ...section,
+            content: result.translatedText,
+          });
+          sectionsTranslated++;
+        } catch (error) {
+          const safe = createSafeError(error);
+          errors.push(`${section.type}: ${safe.error}`);
+          // Fallback: keep original content for this section
+          translatedSections.push(section);
+        }
       }
     }
 
@@ -144,11 +159,14 @@ async function handleTranslateMarkdown(
           text: JSON.stringify({
             translated,
             sectionsProcessed: parsed.translatableSections,
+            sectionsTranslated,
+            errors,
             codeBlocksPreserved: parsed.codeBlockCount,
             linksPreserved: parsed.linkCount,
           }),
         },
       ],
+      isError: sectionsTranslated === 0 && parsed.translatableSections > 0,
     };
   } catch (error) {
     const safeError = createSafeError(error);
@@ -181,6 +199,9 @@ async function handleExtractTranslatable(
 
     // Validate and get file path
     const validatedPath = validateMarkdownPath(params.filePath);
+
+    // Check file size before reading into memory (prevent OOM)
+    checkFileSize(validatedPath);
 
     // Read file content
     const content = readFileSync(validatedPath, "utf-8");
@@ -243,6 +264,9 @@ async function handleTranslateApiDocs(
     // Validate and get file path
     const validatedPath = validateMarkdownPath(params.filePath);
 
+    // Check file size before reading into memory (prevent OOM)
+    checkFileSize(validatedPath);
+
     // Read file content
     const content = readFileSync(validatedPath, "utf-8");
 
@@ -255,38 +279,47 @@ async function handleTranslateApiDocs(
     // Get provider
     const provider = params.provider
       ? registry.get(params.provider)
-      : registry.getAuto();
+      : registry.getAuto("es", { dialect: params.dialect || "es-ES" });
 
     // Translate translatable sections
     const translatedSections: MarkdownSection[] = [];
+    const errors: string[] = [];
+    let sectionsTranslated = 0;
 
     for (const section of parsed.sections) {
       if (!section.translatable) {
         translatedSections.push(section);
       } else {
-        // For API docs, add context about documentation
-        const prepared = prepareProviderRequest(
-          registry,
-          provider.name,
-          section.content,
-          "en",
-          params.dialect || "es-ES",
-          {
-            context: "API documentation",
-            dialect: params.dialect,
-          }
-        );
-        const result = await provider.translate(
-          section.content,
-          prepared.sourceLang,
-          prepared.targetLang,
-          prepared.options
-        );
+        try {
+          // For API docs, add context about documentation
+          const prepared = prepareProviderRequest(
+            registry,
+            provider.name,
+            section.content,
+            "en",
+            params.dialect || "es-ES",
+            {
+              context: "API documentation",
+              dialect: params.dialect,
+            }
+          );
+          const result = await provider.translate(
+            section.content,
+            prepared.sourceLang,
+            prepared.targetLang,
+            prepared.options
+          );
 
-        translatedSections.push({
-          ...section,
-          content: result.translatedText,
-        });
+          translatedSections.push({
+            ...section,
+            content: result.translatedText,
+          });
+          sectionsTranslated++;
+        } catch (error) {
+          const safe = createSafeError(error);
+          errors.push(`${section.type}: ${safe.error}`);
+          translatedSections.push(section);
+        }
       }
     }
 
@@ -300,9 +333,12 @@ async function handleTranslateApiDocs(
           text: JSON.stringify({
             translated,
             sectionsProcessed: parsed.translatableSections,
+            sectionsTranslated,
+            errors,
           }),
         },
       ],
+      isError: sectionsTranslated === 0 && parsed.translatableSections > 0,
     };
   } catch (error) {
     const safeError = createSafeError(error);
@@ -336,6 +372,9 @@ async function handleCreateBilingualDoc(
     // Validate and get file path
     const validatedPath = validateMarkdownPath(params.filePath);
 
+    // Check file size before reading into memory (prevent OOM)
+    checkFileSize(validatedPath);
+
     // Read file content
     const content = readFileSync(validatedPath, "utf-8");
 
@@ -348,41 +387,55 @@ async function handleCreateBilingualDoc(
     // Get provider
     const provider = params.provider
       ? registry.get(params.provider)
-      : registry.getAuto();
+      : registry.getAuto("es", { dialect: params.dialect || "es-ES" });
 
     // Build bilingual document
     const bilingualParts: string[] = [];
+    const errors: string[] = [];
+    let sectionsTranslated = 0;
 
     for (const section of parsed.sections) {
       if (!section.translatable) {
         // Keep non-translatable sections as-is
         bilingualParts.push(section.raw);
       } else {
-        // Translate the content
-        const prepared = prepareProviderRequest(
-          registry,
-          provider.name,
-          section.content,
-          "en",
-          params.dialect || "es-ES",
-          { dialect: params.dialect }
-        );
-        const result = await provider.translate(
-          section.content,
-          prepared.sourceLang,
-          prepared.targetLang,
-          prepared.options
-        );
+        try {
+          // Translate the content
+          const prepared = prepareProviderRequest(
+            registry,
+            provider.name,
+            section.content,
+            "en",
+            params.dialect || "es-ES",
+            { dialect: params.dialect }
+          );
+          const result = await provider.translate(
+            section.content,
+            prepared.sourceLang,
+            prepared.targetLang,
+            prepared.options
+          );
 
-        // Add side-by-side sections
-        bilingualParts.push("## Original");
-        bilingualParts.push(section.raw);
-        bilingualParts.push("");
-        bilingualParts.push("## Translation");
-        bilingualParts.push(result.translatedText);
-        bilingualParts.push("");
-        bilingualParts.push("---");
-        bilingualParts.push("");
+          // Add side-by-side sections
+          bilingualParts.push("## Original");
+          bilingualParts.push(section.raw);
+          bilingualParts.push("");
+          bilingualParts.push("## Translation");
+          bilingualParts.push(result.translatedText);
+          bilingualParts.push("");
+          bilingualParts.push("---");
+          bilingualParts.push("");
+          sectionsTranslated++;
+        } catch (error) {
+          const safe = createSafeError(error);
+          errors.push(`${section.type}: ${safe.error}`);
+          // Fallback: include original only
+          bilingualParts.push("## Original");
+          bilingualParts.push(section.raw);
+          bilingualParts.push("");
+          bilingualParts.push("---");
+          bilingualParts.push("");
+        }
       }
     }
 
@@ -395,9 +448,12 @@ async function handleCreateBilingualDoc(
           text: JSON.stringify({
             bilingual,
             sectionsProcessed: parsed.translatableSections,
+            sectionsTranslated,
+            errors,
           }),
         },
       ],
+      isError: sectionsTranslated === 0 && parsed.translatableSections > 0,
     };
   } catch (error) {
     const safeError = createSafeError(error);
@@ -439,8 +495,8 @@ export function registerDocsTools(
     "Translate a markdown file while preserving structure (code blocks, links, etc.)",
     {
       filePath: z.string().describe("Path to the markdown file to translate"),
-      dialect: z.string().optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
-      provider: z.string().optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
+      dialect: dialectSchema.optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
+      provider: providerNameSchema.optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
       formal: z.boolean().optional().describe("Use formal tone (for languages that distinguish formal/informal)"),
       informal: z.boolean().optional().describe("Use informal tone (for languages that distinguish formal/informal)"),
     },
@@ -467,8 +523,8 @@ export function registerDocsTools(
     "Translate API documentation markdown with optimized handling for tables and lists",
     {
       filePath: z.string().describe("Path to the API documentation markdown file"),
-      dialect: z.string().optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
-      provider: z.string().optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
+      dialect: dialectSchema.optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
+      provider: providerNameSchema.optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
     },
     async (params) => {
       return handleTranslateApiDocs(params as TranslateApiDocsParams, registry, rateLimiter);
@@ -481,8 +537,8 @@ export function registerDocsTools(
     "Create a side-by-side bilingual document with original and translated sections",
     {
       filePath: z.string().describe("Path to the markdown file to translate"),
-      dialect: z.string().optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
-      provider: z.string().optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
+      dialect: dialectSchema.optional().describe("Spanish dialect code (e.g., es-ES, es-MX, es-AR)"),
+      provider: providerNameSchema.optional().describe("Translation provider name (llm, deepl, libre, mymemory)"),
     },
     async (params) => {
       return handleCreateBilingualDoc(params as CreateBilingualDocParams, registry, rateLimiter);

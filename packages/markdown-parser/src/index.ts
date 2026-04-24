@@ -598,20 +598,44 @@ function reconstructTable(original: MarkdownSection, translated: MarkdownSection
   const originalCells = dataRows.flatMap(({ line }) => splitTableRow(line));
   const translatedCells = translatedCellsByOriginalShape(originalCells, translated.content);
 
-  if (originalCells.length === 0 || translatedCells.length !== originalCells.length) {
+  if (originalCells.length === 0) {
     return original.raw;
   }
 
-  let translatedIndex = 0;
-  const rebuilt = [...lines];
-  for (const { line, index } of dataRows) {
-    const cellCount = splitTableRow(line).length;
-    const rowCells = translatedCells.slice(translatedIndex, translatedIndex + cellCount);
-    translatedIndex += cellCount;
-    rebuilt[index] = formatTableRow(rowCells, line.trim().startsWith("|") && line.trim().endsWith("|"));
+  // If the translator returned a table with matching cell count, use it directly
+  if (translatedCells.length === originalCells.length) {
+    let translatedIndex = 0;
+    const rebuilt = [...lines];
+    for (const { line, index } of dataRows) {
+      const cellCount = splitTableRow(line).length;
+      const rowCells = translatedCells.slice(translatedIndex, translatedIndex + cellCount);
+      translatedIndex += cellCount;
+      rebuilt[index] = formatTableRow(rowCells, line.trim().startsWith("|") && line.trim().endsWith("|"));
+    }
+    return rebuilt.join("\n");
   }
 
-  return rebuilt.join("\n");
+  // Fallback: preserve original header/alignment, distribute translated content into cells
+  const headerRow = dataRows[0];
+  const alignmentRow = lines.find((l, i) => isAlignmentRow(l) && i > (headerRow?.index ?? -1));
+  if (headerRow && alignmentRow) {
+    const colCount = splitTableRow(headerRow.line).length;
+    const words = translated.content.split(/\s+/).filter(Boolean);
+    const wordsPerCol = Math.max(Math.ceil(words.length / colCount), 1);
+    const rowCells: string[] = [];
+    for (let i = 0; i < colCount; i++) {
+      rowCells.push(words.slice(i * wordsPerCol, (i + 1) * wordsPerCol).join(" ") || " ");
+    }
+    const rebuilt = [...lines];
+    // Replace all data rows with a single row containing the translated content
+    for (const { index } of dataRows.slice(1)) {
+      rebuilt[index] = "";
+    }
+    rebuilt[headerRow.index + 1] = formatTableRow(rowCells, headerRow.line.trim().startsWith("|") && headerRow.line.trim().endsWith("|"));
+    return rebuilt.filter((l) => l.length > 0).join("\n");
+  }
+
+  return original.raw;
 }
 
 // ============================================================================

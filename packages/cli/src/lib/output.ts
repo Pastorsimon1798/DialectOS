@@ -6,7 +6,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as crypto from "node:crypto";
-import { validateFilePath } from "@espanol/security";
+import { validateFilePath, sanitizeErrorMessage } from "@espanol/security";
 
 /**
  * Create a secure temporary file path in the same directory as the target
@@ -35,8 +35,19 @@ export async function writeOutput(
     // Atomic write: temp file + rename to prevent partial writes
     const tempPath = createSecureTempPath(validatedPath);
     try {
-      await fs.promises.writeFile(tempPath, output, "utf-8");
-      await fs.promises.rename(tempPath, validatedPath);
+      await fs.promises.writeFile(tempPath, output, { encoding: "utf-8", flag: "wx" });
+      // On Windows, rename cannot overwrite existing files. Handle EEXIST.
+      try {
+        await fs.promises.rename(tempPath, validatedPath);
+      } catch (renameError) {
+        const code = (renameError as NodeJS.ErrnoException).code;
+        if (code === "EEXIST") {
+          await fs.promises.unlink(validatedPath);
+          await fs.promises.rename(tempPath, validatedPath);
+        } else {
+          throw renameError;
+        }
+      }
     } catch (error) {
       // Clean up temp file on error
       try {
@@ -69,7 +80,7 @@ export function sanitizeConsoleOutput(message: string): string {
  * @param message - The error message
  */
 export function writeError(message: string): void {
-  process.stderr.write(`Error: ${sanitizeConsoleOutput(message)}\n`);
+  process.stderr.write(`Error: ${sanitizeConsoleOutput(sanitizeErrorMessage(message))}\n`);
 }
 
 /**

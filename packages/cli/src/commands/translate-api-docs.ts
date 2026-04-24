@@ -9,7 +9,7 @@ import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@espanol/types";
 import { parseMarkdown, reconstructMarkdown, extractTranslatableText } from "@espanol/markdown-parser";
 import { validateFilePath, validateContentLength } from "@espanol/security";
 import type { ProviderRegistry } from "@espanol/providers";
-import { writeOutput, writeError, sanitizeConsoleOutput } from "../lib/output.js";
+import { writeOutput, writeError, writeInfo, sanitizeConsoleOutput } from "../lib/output.js";
 import {
   loadProtectedTokens,
   protectTokensInText,
@@ -35,6 +35,11 @@ import {
 } from "../lib/resilient-translation.js";
 import { calculateQualityScore } from "../lib/quality-score.js";
 import { buildSemanticTranslationContext } from "../lib/semantic-context.js";
+import {
+  buildLexicalAmbiguityExpectations,
+  checkLexicalCompliance,
+} from "../lib/lexical-ambiguity.js";
+import { judgeTranslationOutput } from "../lib/output-judge.js";
 import {
   formatSemanticQualityError,
   resolvePolicy,
@@ -313,8 +318,10 @@ export async function executeTranslateApiDocs(
     const glossary = await loadGlossary(options?.glossaryFile);
     const glossaryMode = (options?.glossaryMode || "off") as GlossaryMode;
     const protectIdentities = options?.protectIdentities !== false;
+    const outputPath = options?.output;
+    const outputIsFile = outputPath ? /\.[a-zA-Z0-9]+$/.test(outputPath) : false;
     const rawCheckpointPath =
-      options?.checkpointFile || `${options?.output || validatedPath}.checkpoint.json`;
+      options?.checkpointFile || `${outputIsFile && outputPath ? outputPath : validatedPath}.checkpoint.json`;
     // Always validate checkpoint paths to prevent traversal via --output
     const checkpointPath = validateFilePath(rawCheckpointPath);
     const resume = options?.resume !== false;
@@ -362,12 +369,15 @@ export async function executeTranslateApiDocs(
     }
 
     // Log quality score before writing output
+    const lexicalExpectations = buildLexicalAmbiguityExpectations(content, validatedDialect);
+    const lexicalCompliance = checkLexicalCompliance(translated, lexicalExpectations);
     const quality = calculateQualityScore(
       content,
       translated,
       protectedTokens,
       glossary?.mappings || {},
-      validation.valid
+      validation.valid,
+      lexicalCompliance.score
     );
     const policy = resolvePolicy(options?.policy || "balanced", {
       failurePolicy: options?.failurePolicy,
@@ -381,12 +391,29 @@ export async function executeTranslateApiDocs(
     if (semanticGateApplies && shouldFailSemanticQuality(policy, quality.semanticSimilarity)) {
       throw new Error(formatSemanticQualityError(policy, quality.semanticSimilarity));
     }
+
+    // Run full output judge (prompt leak, placeholder preservation, forbidden terms, etc.)
+    const judge = judgeTranslationOutput({
+      source: content,
+      register: "auto",
+      documentKind: "api-docs",
+      forbiddenOutputTerms: lexicalExpectations.forbiddenOutputTerms,
+      requiredOutputGroups: lexicalExpectations.requiredOutputGroups,
+    }, validatedDialect, translated);
+    if (judge.blockingIssues.length > 0) {
+      const judgeMsg = `Output judge failed: ${judge.blockingIssues.map((i) => i.message).join("; ")}`;
+      if (policy.failurePolicy === "strict") {
+        throw new Error(judgeMsg);
+      }
+      console.warn(judgeMsg);
+    }
+
     console.error(
       `[quality] score=${quality.score} token=${(quality.tokenIntegrity * 100).toFixed(
         0
       )}% glossary=${(quality.glossaryFidelity * 100).toFixed(0)}% structure=${
         quality.structureIntegrity === 1 ? "pass" : "fail"
-      }`
+      } semantic=${(quality.semanticSimilarity * 100).toFixed(0)}% lexical=${(quality.lexicalCompliance * 100).toFixed(0)}% judge=${judge.blockingIssues.length === 0 ? "pass" : "fail"}`
     );
 
     // Write output

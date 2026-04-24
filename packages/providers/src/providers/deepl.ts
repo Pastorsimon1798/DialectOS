@@ -5,6 +5,7 @@
 
 import type { TranslationProvider, TranslationResult, ProviderCapability } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
+import { fetchWithRedirects } from "../fetch-utils.js";
 import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
 import { languageCodeSchema } from "@espanol/types";
 
@@ -32,11 +33,30 @@ type DeepLClientLike = {
   ): Promise<DeepLTranslation>;
 };
 
+function validateDeepLEndpoint(urlStr: string | undefined): string | undefined {
+  if (!urlStr) return undefined;
+  let parsed: URL;
+  try {
+    parsed = new URL(urlStr);
+  } catch {
+    throw new SecurityError("Invalid DeepL API URL", ErrorCode.INVALID_INPUT);
+  }
+  if (parsed.protocol !== "https:") {
+    throw new SecurityError("DeepL API URL must use https", ErrorCode.INVALID_INPUT);
+  }
+  const hostname = parsed.hostname.toLowerCase();
+  const allowedHosts = ["api.deepl.com", "api-free.deepl.com"];
+  if (!allowedHosts.includes(hostname)) {
+    throw new SecurityError(`DeepL API URL must point to ${allowedHosts.join(" or ")}`, ErrorCode.INVALID_INPUT);
+  }
+  return urlStr;
+}
+
 class FetchDeepLClient implements DeepLClientLike {
   constructor(
     private readonly authKey: string,
     private readonly timeoutMs: number,
-    private readonly endpoint = process.env.DEEPL_API_URL || (
+    private readonly endpoint = validateDeepLEndpoint(process.env.DEEPL_API_URL) || (
       authKey.endsWith(":fx")
         ? "https://api-free.deepl.com/v2/translate"
         : "https://api.deepl.com/v2/translate"
@@ -59,21 +79,37 @@ class FetchDeepLClient implements DeepLClientLike {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
     try {
-      const response = await fetch(this.endpoint, {
-        method: "POST",
-        headers: {
-          authorization: `DeepL-Auth-Key ${this.authKey}`,
-          "content-type": "application/x-www-form-urlencoded",
+      const response = await fetchWithRedirects(this.endpoint, {
+        init: {
+          method: "POST",
+          headers: {
+            authorization: `DeepL-Auth-Key ${this.authKey}`,
+            "content-type": "application/x-www-form-urlencoded",
+          },
+          body,
+          signal: controller.signal,
         },
-        body,
-        signal: controller.signal,
+        validateUrl: (url) => validateDeepLEndpoint(url),
       });
       if (!response.ok) {
         throw new Error(`DeepL API error: ${response.status} ${response.statusText}`);
       }
-      const data = await response.json() as {
+
+      // Keep timeout active while reading body — start a fresh timeout race
+      let bodyTimeout: ReturnType<typeof setTimeout> | undefined;
+      const data = (await Promise.race([
+        response.json(),
+        new Promise<never>((_, reject) => {
+          bodyTimeout = setTimeout(
+            () => reject(new Error("Response body timed out")),
+            this.timeoutMs
+          );
+        }),
+      ])) as {
         translations?: Array<{ text?: unknown; detected_source_language?: unknown }>;
       };
+      if (bodyTimeout) clearTimeout(bodyTimeout);
+
       const first = data.translations?.[0];
       if (!first || typeof first.text !== "string") {
         throw new Error("DeepL API response did not include translated text");
@@ -132,6 +168,10 @@ export class DeepLProvider implements TranslationProvider {
     );
   }
 
+  getCircuitBreaker(): CircuitBreaker {
+    return this.breaker;
+  }
+
   getCapabilities(): ProviderCapability {
     return {
       name: this.name,
@@ -179,7 +219,8 @@ export class DeepLProvider implements TranslationProvider {
         translateOptions.context = options.context;
       }
 
-      const targetLangUpper = targetLang.toUpperCase();
+      // DeepL only accepts base language codes (e.g., "ES", not "ES-MX")
+      const targetLangUpper = targetLang.split("-")[0].toUpperCase();
       const sourceLangUpper = sourceLang === "auto" ? null : sourceLang.toUpperCase();
 
       const result = await this.client.translateText(
@@ -199,8 +240,25 @@ export class DeepLProvider implements TranslationProvider {
       this.breaker.recordFailure();
 
       let message = error instanceof Error ? error.message : String(error);
-      if (message.includes(this.authKey)) {
-        message = message.replaceAll(this.authKey, "[REDACTED]");
+      // Redact the auth key case-insensitively (DeepL keys may appear in
+      // different casing in some error responses).
+      const lowerMessage = message.toLowerCase();
+      const lowerKey = this.authKey.toLowerCase();
+      let idx = lowerMessage.indexOf(lowerKey);
+      while (idx !== -1) {
+        message = message.slice(0, idx) + "[REDACTED]" + message.slice(idx + this.authKey.length);
+        idx = message.toLowerCase().indexOf(lowerKey, idx + "[REDACTED]".length);
+      }
+      // Also redact the bare UUID part (without :fx suffix) which some
+      // proxies or logs may strip.
+      const uuidPart = this.authKey.split(":")[0];
+      if (uuidPart && uuidPart !== this.authKey) {
+        const lowerUuid = uuidPart.toLowerCase();
+        idx = lowerMessage.indexOf(lowerUuid);
+        while (idx !== -1) {
+          message = message.slice(0, idx) + "[REDACTED]" + message.slice(idx + uuidPart.length);
+          idx = message.toLowerCase().indexOf(lowerUuid, idx + "[REDACTED]".length);
+        }
       }
       throw new Error(sanitizeErrorMessage(`DeepL error: ${message}`));
     }

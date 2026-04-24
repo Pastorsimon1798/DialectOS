@@ -5,6 +5,7 @@
 
 import type { TranslationProvider, TranslationResult, ProviderCapability } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
+import { fetchWithRedirects } from "../fetch-utils.js";
 import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
 import { languageCodeSchema } from "@espanol/types";
 
@@ -94,6 +95,10 @@ export class LibreTranslateProvider implements TranslationProvider {
     );
   }
 
+  getCircuitBreaker(): CircuitBreaker {
+    return this.breaker;
+  }
+
   getCapabilities(): ProviderCapability {
     return {
       name: this.name,
@@ -161,11 +166,14 @@ export class LibreTranslateProvider implements TranslationProvider {
 
       // Execute request against LibreTranslate translate route
       const endpoint = this.endpoint.replace(/\/+$/, "");
-      const response = await fetch(`${endpoint}/translate`, {
-        method: "POST",
-        headers,
-        body,
-        signal: controller.signal,
+      const response = await fetchWithRedirects(`${endpoint}/translate`, {
+        init: {
+          method: "POST",
+          headers,
+          body,
+          signal: controller.signal,
+        },
+        validateUrl: (url) => validateLibreEndpoint(url),
       });
 
       // Validate response before clearing timeout — malicious server could
@@ -182,22 +190,31 @@ export class LibreTranslateProvider implements TranslationProvider {
         throw new Error("Invalid response content type");
       }
 
+      // Guard against runaway response sizes
+      const contentLength = response.headers.get("content-length");
+      const MAX_RESPONSE_BYTES = 2 * 1024 * 1024; // 2MB
+      if (contentLength && parseInt(contentLength, 10) > MAX_RESPONSE_BYTES) {
+        clearTimeout(timeoutId);
+        throw new Error("LibreTranslate response exceeds maximum allowed size");
+      }
+
       // Keep timeout active while reading body — start a fresh timeout race
       let bodyTimeoutId: ReturnType<typeof setTimeout> | undefined;
-      const data = (await Promise.race([
-        response.json(),
-        new Promise<never>((_, reject) => {
-          bodyTimeoutId = setTimeout(
-            () => reject(new Error("Response body timed out")),
-            LIBRETRANSLATE_TIMEOUT
-          );
-        }),
-      ])) as {
-        translatedText: string;
-        detectedLanguage?: { language: string };
-      };
-      if (bodyTimeoutId) clearTimeout(bodyTimeoutId);
-      clearTimeout(timeoutId);
+      let data: { translatedText: string; detectedLanguage?: { language: string } };
+      try {
+        data = (await Promise.race([
+          response.json(),
+          new Promise<never>((_, reject) => {
+            bodyTimeoutId = setTimeout(
+              () => reject(new Error("Response body timed out")),
+              LIBRETRANSLATE_TIMEOUT
+            );
+          }),
+        ])) as typeof data;
+      } finally {
+        if (bodyTimeoutId) clearTimeout(bodyTimeoutId);
+        clearTimeout(timeoutId);
+      }
 
       // Record success
       this.breaker.recordSuccess();

@@ -11,7 +11,9 @@ export class CircuitBreaker {
   private lastFailureTime?: number;
   private nextAttemptTime?: number;
   private probeLockTime?: number;
+  private probeCount = 0;
   private static readonly PROBE_LOCK_TIMEOUT_MS = 5000;
+  private static readonly MAX_PROBE_COUNT = 1;
 
   constructor(
     private readonly failureThreshold: number,
@@ -30,6 +32,7 @@ export class CircuitBreaker {
       if (this.nextAttemptTime && now >= this.nextAttemptTime) {
         this.state = "half-open";
         this.failureCount = 0;
+        this.probeCount = 1;
         this.probeLockTime = now; // This call becomes the probe request
         return true;
       }
@@ -42,9 +45,14 @@ export class CircuitBreaker {
     // no actual request executes (e.g., ProviderRegistry.getAuto() picks
     // a different provider).
     if (this.state === "half-open") {
-      if (this.probeLockTime && now - this.probeLockTime < CircuitBreaker.PROBE_LOCK_TIMEOUT_MS) {
-        return false;
+      if (this.probeCount >= CircuitBreaker.MAX_PROBE_COUNT) {
+        if (this.probeLockTime && now - this.probeLockTime < CircuitBreaker.PROBE_LOCK_TIMEOUT_MS) {
+          return false;
+        }
+        // Lock expired — reset probe count and allow a new probe
+        this.probeCount = 0;
       }
+      this.probeCount++;
       this.probeLockTime = now;
       return true;
     }
@@ -61,6 +69,7 @@ export class CircuitBreaker {
     this.lastFailureTime = undefined;
     this.nextAttemptTime = undefined;
     this.probeLockTime = undefined;
+    this.probeCount = 0;
   }
 
   /**
@@ -75,6 +84,7 @@ export class CircuitBreaker {
       this.state = "open";
       this.nextAttemptTime = Date.now() + this.resetTimeoutMs;
       this.probeLockTime = undefined;
+      this.probeCount = 0;
       return;
     }
 
@@ -101,5 +111,6 @@ export class CircuitBreaker {
     this.lastFailureTime = undefined;
     this.nextAttemptTime = undefined;
     this.probeLockTime = undefined;
+    this.probeCount = 0;
   }
 }

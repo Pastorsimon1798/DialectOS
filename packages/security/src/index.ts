@@ -567,38 +567,64 @@ export function createSafeError(error: unknown): {
 // ============================================================================
 
 /**
- * Rate limiter using sliding window algorithm
+ * Per-key rate limit bucket
+ */
+interface RateLimitBucket {
+  requests: number[];
+}
+
+const ABSOLUTE_MAX_REQUESTS = 10_000;
+const ABSOLUTE_MAX_WINDOW_MS = 3_600_000; // 1 hour
+
+/**
+ * Rate limiter using sliding window algorithm with per-key isolation.
+ *
+ * SECURITY FIXES:
+ * - Per-key buckets prevent one client from exhausting the global limit
+ * - Absolute caps on maxRequests/windowMs prevent OOM from misconfiguration
+ * - Lazy bucket cleanup prevents unbounded memory growth
  */
 export class RateLimiter {
-  private requests: number[] = [];
+  private buckets = new Map<string, RateLimitBucket>();
   private readonly maxRequests: number;
   private readonly windowMs: number;
+  private readonly defaultKey: string;
 
-  constructor(maxRequests: number = 60, windowMs: number = 60000) {
-    this.maxRequests = maxRequests;
-    this.windowMs = windowMs;
+  constructor(maxRequests: number = 60, windowMs: number = 60000, defaultKey: string = "default") {
+    // Absolute caps to prevent OOM from misconfigured large limits
+    this.maxRequests = Math.min(maxRequests, ABSOLUTE_MAX_REQUESTS);
+    this.windowMs = Math.min(windowMs, ABSOLUTE_MAX_WINDOW_MS);
+    this.defaultKey = defaultKey;
   }
 
   /**
-   * Acquire a request slot
+   * Acquire a request slot for the given key.
+   * @param key - Client identifier (e.g., IP, token, session). Defaults to constructor defaultKey.
    * @throws SecurityError if rate limit is exceeded
    */
-  async acquire(): Promise<void> {
+  async acquire(key?: string): Promise<void> {
+    const bucketKey = key || this.defaultKey;
     const now = Date.now();
 
+    let bucket = this.buckets.get(bucketKey);
+    if (!bucket) {
+      bucket = { requests: [] };
+      this.buckets.set(bucketKey, bucket);
+    }
+
     // Remove requests outside the current window
-    this.requests = this.requests.filter(
+    bucket.requests = bucket.requests.filter(
       (time) => now - time < this.windowMs
     );
 
-    // Hard cap to prevent memory exhaustion from misconfigured large limits
+    // Hard cap to prevent memory exhaustion
     const MAX_ARRAY_SIZE = Math.max(this.maxRequests * 2, 1000);
-    if (this.requests.length > MAX_ARRAY_SIZE) {
-      this.requests = this.requests.slice(-this.maxRequests);
+    if (bucket.requests.length > MAX_ARRAY_SIZE) {
+      bucket.requests = bucket.requests.slice(-this.maxRequests);
     }
 
     // Check if limit is exceeded
-    if (this.requests.length >= this.maxRequests) {
+    if (bucket.requests.length >= this.maxRequests) {
       throw new SecurityError(
         "Rate limit exceeded",
         ErrorCode.RATE_LIMITED
@@ -606,7 +632,16 @@ export class RateLimiter {
     }
 
     // Add current request
-    this.requests.push(now);
+    bucket.requests.push(now);
+
+    // Lazy cleanup: remove empty buckets older than 2 windows to prevent Map bloat
+    if (this.buckets.size > 1000) {
+      for (const [k, b] of this.buckets) {
+        if (b.requests.length === 0 || now - b.requests[b.requests.length - 1] > this.windowMs * 2) {
+          this.buckets.delete(k);
+        }
+      }
+    }
   }
 }
 
