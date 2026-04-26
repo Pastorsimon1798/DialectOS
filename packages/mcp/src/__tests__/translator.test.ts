@@ -44,9 +44,11 @@ vi.mock("@espanol/security", () => {
     validateFilePath: vi.fn(),
     validateContentLength: vi.fn(),
     checkFileSize: vi.fn(),
-    RateLimiter: vi.fn().mockImplementation(() => ({
-      acquire: vi.fn().mockResolvedValue(undefined),
-    })),
+    RateLimiter: vi.fn(function() {
+      return {
+        acquire: vi.fn().mockResolvedValue(undefined),
+      };
+    }),
     SecurityError,
     createSafeError: vi.fn((error) => {
       if (error.code) {
@@ -61,11 +63,13 @@ vi.mock("@espanol/security", () => {
 });
 
 vi.mock("@espanol/providers", () => ({
-  ProviderRegistry: vi.fn().mockImplementation(() => ({
-    get: vi.fn(),
-    getAuto: vi.fn(),
-    register: vi.fn(),
-  })),
+  ProviderRegistry: vi.fn(function() {
+    return {
+      get: vi.fn(),
+      getAuto: vi.fn(),
+      register: vi.fn(),
+    };
+  }),
   DeepLProvider: vi.fn(),
   LibreTranslateProvider: vi.fn(),
   MyMemoryProvider: vi.fn(),
@@ -95,7 +99,7 @@ describe("MCP Translator Tools", () => {
     mockRateLimiter = {
       acquire: vi.fn().mockResolvedValue(undefined),
     };
-    vi.mocked(RateLimiter).mockImplementation(() => mockRateLimiter);
+    vi.mocked(RateLimiter).mockImplementation(function() { return mockRateLimiter; });
 
     // Create mock registry
     mockRegistry = {

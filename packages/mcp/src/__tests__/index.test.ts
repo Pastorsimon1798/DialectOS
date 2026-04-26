@@ -8,7 +8,7 @@ const mcpState = vi.hoisted(() => ({
 }));
 
 vi.mock("@modelcontextprotocol/sdk/server/mcp.js", () => ({
-  McpServer: vi.fn().mockImplementation((...args: unknown[]) => {
+  McpServer: vi.fn(function(...args: unknown[]) {
     mcpState.constructorArgs.push(args);
     return { tool: vi.fn(), connect: vi.fn() };
   }),
@@ -35,7 +35,7 @@ vi.mock("../lib/provider-factory.js", () => ({
 }));
 
 vi.mock("@espanol/security", () => ({
-  RateLimiter: vi.fn().mockImplementation(() => ({})),
+  RateLimiter: vi.fn(function() { return {}; }),
 }));
 
 describe("MCP server bootstrap", () => {
