@@ -11,6 +11,7 @@
  * - Bilingual document creation (create_bilingual_doc)
  */
 
+import { readFileSync } from "node:fs";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { registerDocsTools } from "./tools/docs.js";
@@ -20,6 +21,10 @@ import { setupGlobalHandlers } from "./lib/error-handler.js";
 import { loadConfig, getConfigPath, type MCPConfig } from "./lib/config.js";
 import { createProviderRegistry } from "./lib/provider-factory.js";
 import { RateLimiter } from "@espanol/security";
+
+const packageJson = JSON.parse(
+  readFileSync(new URL("../package.json", import.meta.url), "utf-8")
+) as { version: string };
 
 // ============================================================================
 // MCP Server Setup
@@ -32,7 +37,7 @@ function createServer(config: MCPConfig = loadConfig()): McpServer {
   const server = new McpServer(
     {
       name: "@espanol/mcp",
-      version: "0.1.0",
+      version: packageJson.version,
     },
     {
       capabilities: { tools: {} },

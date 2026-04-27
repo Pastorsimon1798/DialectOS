@@ -116,7 +116,7 @@ Add to your Claude Desktop, Cursor, or any MCP client:
 
 ### Recommended certified models
 
-For `v0.1.0-rc3`, the recommended default cloud model is `glm-4.5-air` through the Z.ai international Anthropic-compatible endpoint. It passed basic, expanded adversarial, and long-document certification. Use `glm-5.1` when you want the higher-confidence/premium option, and `qwen3.5-9b` via LM Studio for local/offline certification.
+For `v0.2.0`, the recommended default cloud model is `glm-4.5-air` through the Z.ai international Anthropic-compatible endpoint. It passed basic, expanded adversarial, and long-document certification. Use `glm-5.1` when you want the higher-confidence/premium option, and `qwen3.5-9b` via LM Studio for local/offline certification.
 
 ```bash
 export LLM_API_URL="https://api.z.ai/api/anthropic/v1/messages"
@@ -239,13 +239,13 @@ pnpm test        # 746 tests passing
 
 | Package | Version | Description | Tests |
 |---------|---------|-------------|-------|
-| [`@espanol/mcp`](packages/mcp) | `0.1.0` | 17 MCP tools (stdio server) | 86 |
-| [`@espanol/cli`](packages/cli) | `0.1.0` | CLI commands for semantic translation workflows | 320 |
-| [`@espanol/providers`](packages/providers) | `0.1.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker | 71 |
-| [`@espanol/security`](packages/security) | `0.1.0` | Rate limiting, SSRF protection, sanitization | 66 |
-| [`@espanol/types`](packages/types) | `0.1.0` | Shared TypeScript types + glossary, profile, certification, and quality data | 54 |
-| [`@espanol/locale-utils`](packages/locale-utils) | `0.1.0` | Locale file diff/merge utilities | 55 |
-| [`@espanol/markdown-parser`](packages/markdown-parser) | `0.1.0` | Structure-preserving markdown parser | 74 |
+| [`@espanol/mcp`](packages/mcp) | `0.2.0` | 17 MCP tools (stdio server) | 86 |
+| [`@espanol/cli`](packages/cli) | `0.2.0` | CLI commands for semantic translation workflows | 320 |
+| [`@espanol/providers`](packages/providers) | `0.2.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker | 71 |
+| [`@espanol/security`](packages/security) | `0.2.0` | Rate limiting, SSRF protection, sanitization | 66 |
+| [`@espanol/types`](packages/types) | `0.2.0` | Shared TypeScript types + glossary, profile, certification, and quality data | 54 |
+| [`@espanol/locale-utils`](packages/locale-utils) | `0.2.0` | Locale file diff/merge utilities | 55 |
+| [`@espanol/markdown-parser`](packages/markdown-parser) | `0.2.0` | Structure-preserving markdown parser | 74 |
 
 **Total: 746 tests across 7 packages plus the full-app docs, demo-server, and static-hardening contracts**
 

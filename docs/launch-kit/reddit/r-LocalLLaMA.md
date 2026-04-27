@@ -30,7 +30,7 @@ This runs adversarial tests and writes:
 - `progress.json` — live progress
 - `results.json` — aggregate scores
 
-**Certified models for v0.1.0:**
+**Certified models for v0.2.0:**
 - `glm-4.5-air` (cloud, Anthropic-compatible)
 - `qwen3.5-9b` (local, via LM Studio)
 
