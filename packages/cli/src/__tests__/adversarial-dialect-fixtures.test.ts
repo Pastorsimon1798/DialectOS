@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { ALL_SPANISH_DIALECTS, type FormalityLevel, type SpanishDialect } from "@espanol/types";
+import { ALL_SPANISH_DIALECTS, type FormalityLevel, type SpanishDialect } from "@dialectos/types";
 
 interface AdversarialDialectSample {
   id: string;

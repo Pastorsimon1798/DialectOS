@@ -5,11 +5,11 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { executeTranslateKeys } from "../../commands/i18n/translate-keys.js";
-import type { TranslationProvider } from "@espanol/types";
-import type { SpanishDialect } from "@espanol/types";
+import type { TranslationProvider } from "@dialectos/types";
+import type { SpanishDialect } from "@dialectos/types";
 
 // Mock the workspace packages
-vi.mock("@espanol/locale-utils", () => ({
+vi.mock("@dialectos/locale-utils", () => ({
   readLocaleFile: vi.fn(),
   writeLocaleFile: vi.fn(),
   diffLocales: vi.fn(),
@@ -20,7 +20,7 @@ vi.mock("../../lib/output.js", () => ({
   writeInfo: vi.fn(),
 }));
 
-import { readLocaleFile, writeLocaleFile, diffLocales } from "@espanol/locale-utils";
+import { readLocaleFile, writeLocaleFile, diffLocales } from "@dialectos/locale-utils";
 import { writeError, writeInfo } from "../../lib/output.js";
 
 describe("translate-keys command", () => {

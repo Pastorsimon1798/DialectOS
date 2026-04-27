@@ -1,4 +1,4 @@
-# @espanol/markdown-parser
+# @dialectos/markdown-parser
 
 Structure-preserving markdown parser for translation workflows.
 
@@ -12,7 +12,7 @@ Structure-preserving markdown parser for translation workflows.
 ## Usage
 
 ```typescript
-import { parseMarkdown, reconstructMarkdown, extractTranslatableText } from "@espanol/markdown-parser";
+import { parseMarkdown, reconstructMarkdown, extractTranslatableText } from "@dialectos/markdown-parser";
 
 // Parse markdown into sections
 const parsed = parseMarkdown(content);
@@ -27,4 +27,4 @@ const text = extractTranslatableText(content);
 
 ## Security
 
-URL extraction uses `marked.lexer()` instead of regex to prevent ReDoS attacks. All extracted URLs are validated through `@espanol/security` before processing.
+URL extraction uses `marked.lexer()` instead of regex to prevent ReDoS attacks. All extracted URLs are validated through `@dialectos/security` before processing.

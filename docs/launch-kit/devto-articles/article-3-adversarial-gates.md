@@ -96,8 +96,8 @@ Each produces:
 ## Try It
 
 ```bash
-npm install -g @espanol/cli
-espanol translate "Do not proceed" --dialect es-MX
+npm install -g @dialectos/cli
+dialectos translate "Do not proceed" --dialect es-MX
 # If negation drops, you'll see the quality gate fail explicitly
 ```
 

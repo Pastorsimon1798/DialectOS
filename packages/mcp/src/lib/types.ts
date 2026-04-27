@@ -9,6 +9,6 @@ export interface ToolResult {
 }
 
 export interface BaseToolOptions {
-  registry?: import("@espanol/providers").ProviderRegistry;
-  rateLimiter?: import("@espanol/security").RateLimiter;
+  registry?: import("@dialectos/providers").ProviderRegistry;
+  rateLimiter?: import("@dialectos/security").RateLimiter;
 }

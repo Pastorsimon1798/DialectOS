@@ -5,13 +5,13 @@ This example demonstrates how to use DialectOS to translate a README file to mul
 ## Setup
 
 ```bash
-npm install @espanol/cli
+npm install @dialectos/cli
 ```
 
 ## Translate to Mexican Spanish
 
 ```bash
-npx espanol translate-readme README.md \
+npx dialectos translate-readme README.md \
   --dialect es-MX \
   --output README.es-MX.md \
   --policy balanced
@@ -20,7 +20,7 @@ npx espanol translate-readme README.md \
 ## Translate to Argentine Spanish
 
 ```bash
-npx espanol translate-readme README.md \
+npx dialectos translate-readme README.md \
   --dialect es-AR \
   --output README.es-AR.md \
   --policy strict
@@ -29,7 +29,7 @@ npx espanol translate-readme README.md \
 ## Batch translate i18n files
 
 ```bash
-npx espanol i18n batch-translate locales/en.json \
+npx dialectos i18n batch-translate locales/en.json \
   --dialects es-MX,es-AR,es-CO,es-ES \
   --output-dir locales/
 ```
@@ -37,5 +37,5 @@ npx espanol i18n batch-translate locales/en.json \
 ## Check what changed
 
 ```bash
-npx espanol i18n detect-missing locales/en.json locales/es-MX.json
+npx dialectos i18n detect-missing locales/en.json locales/es-MX.json
 ```

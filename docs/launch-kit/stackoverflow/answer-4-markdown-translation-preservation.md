@@ -24,7 +24,7 @@ Translating markdown docs is harder than plain text because you must preserve:
 
 ```bash
 # CLI
-espanol translate-readme README.md --dialect es-MX --output README.es-MX.md
+dialectos translate-readme README.md --dialect es-MX --output README.es-MX.md
 
 # MCP tool
 translate_markdown({

@@ -8,13 +8,13 @@ Servidor de traducción de dialecto español construido en el Protocolo Modelo d
 
 ```
 packages/
-├── mcp/              @espanol/mcp       — 16 MCP tools (stdio server)
-├── cli/              @espanol/cli       — CLI commands for translation workflows
-├── providers/        @espanol/providers — DeepL, LibreTranslate, MyMemory
-├── security/         @espanol/security  — Rate limiting, path validation, sanitization
-├── types/            @espanol/types    — Shared TypeScript types
-├── locale-utils/     @espanol/locale-utils   — Locale file diff/merge utilities
-└── markdown-parser/  @espanol/markdown-parser — Structure-preserving markdown parser
+├── mcp/              @dialectos/mcp       — 16 MCP tools (stdio server)
+├── cli/              @dialectos/cli       — CLI commands for translation workflows
+├── providers/        @dialectos/providers — DeepL, LibreTranslate, MyMemory
+├── security/         @dialectos/security  — Rate limiting, path validation, sanitization
+├── types/            @dialectos/types    — Shared TypeScript types
+├── locale-utils/     @dialectos/locale-utils   — Locale file diff/merge utilities
+└── markdown-parser/  @dialectos/markdown-parser — Structure-preserving markdown parser
 ```
 
 ## 16 MCP Tools
@@ -55,7 +55,7 @@ Añada a su configuración del cliente MCP (por ejemplo, Claude Desktop `  claud
   "mcpServers": {
     "dialectos": {
       "command": "npx",
-      "args": ["-y", "@espanol/mcp"],
+      "args": ["-y", "@dialectos/mcp"],
       "env": {
         "ALLOWED_LOCALE_DIRS": "/path/to/your/locales"
       }
@@ -71,16 +71,16 @@ git clone https://github.com/Pastorsimon1798/DialectOS.git
 cd DialectOS
 pnpm install
 pnpm build
-pnpm --filter @espanol/mcp start
+pnpm --filter @dialectos/mcp start
 ```
 
 ### CLI
 
 ```bash
-pnpm install -g @espanol/cli
-espanol translate "Hello world" --dialect es-MX
-espanol i18n detect-missing ./locales/en.json ./locales/es.json
-espanol dialects list
+pnpm install -g @dialectos/cli
+dialectos translate "Hello world" --dialect es-MX
+dialectos i18n detect-missing ./locales/en.json ./locales/es.json
+dialectos dialects list
 ```
 
 ## Configuración
@@ -125,7 +125,7 @@ Todos los proveedores utilizan el patrón de interruptores con falla automática
 pnpm install          # Install all dependencies
 pnpm -r build         # Build all packages
 pnpm -r test          # Run all tests (480+ tests across 7 packages)
-pnpm --filter @espanol/mcp test  # Run MCP tests only (80 tests)
+pnpm --filter @dialectos/mcp test  # Run MCP tests only (80 tests)
 ```
 
 ## Licencia

@@ -9,18 +9,18 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 
 // Mock the workspace packages
-vi.mock("@espanol/locale-utils", () => ({
+vi.mock("@dialectos/locale-utils", () => ({
   readLocaleFile: vi.fn(),
   writeLocaleFile: vi.fn(),
 }));
 
-vi.mock("@espanol/security", () => ({
+vi.mock("@dialectos/security", () => ({
   validateFilePath: vi.fn((path) => path),
 }));
 
-import { readLocaleFile, writeLocaleFile } from "@espanol/locale-utils";
+import { readLocaleFile, writeLocaleFile } from "@dialectos/locale-utils";
 import { executeManageVariants } from "../../commands/i18n/manage-variants.js";
-import type { I18nEntry } from "@espanol/types";
+import type { I18nEntry } from "@dialectos/types";
 
 describe("i18n manage-variants command", () => {
   const mockReadLocaleFile = readLocaleFile as ReturnType<typeof vi.fn>;

@@ -23,13 +23,13 @@ vi.mock("node:fs", () => ({
 }));
 
 // Mock the core libraries
-vi.mock("@espanol/locale-utils", () => ({
+vi.mock("@dialectos/locale-utils", () => ({
   readLocaleFile: vi.fn(),
   writeLocaleFile: vi.fn(),
   diffLocales: vi.fn(),
 }));
 
-vi.mock("@espanol/security", () => {
+vi.mock("@dialectos/security", () => {
   // Create SecurityError inline
   class SecurityError extends Error {
     code: string;
@@ -74,7 +74,7 @@ vi.mock("@espanol/security", () => {
   };
 });
 
-vi.mock("@espanol/providers", () => ({
+vi.mock("@dialectos/providers", () => ({
   ProviderRegistry: vi.fn(function() {
     return {
       get: vi.fn(),
@@ -92,15 +92,15 @@ import {
   readLocaleFile,
   writeLocaleFile,
   diffLocales,
-} from "@espanol/locale-utils";
+} from "@dialectos/locale-utils";
 import {
   validateJsonPath,
   validateFilePath,
   RateLimiter,
   createSafeError,
   MAX_ARRAY_LENGTH,
-} from "@espanol/security";
-import { ProviderRegistry } from "@espanol/providers";
+} from "@dialectos/security";
+import { ProviderRegistry } from "@dialectos/providers";
 
 describe("MCP i18n Tools", () => {
   let mockRegistry: ProviderRegistry;

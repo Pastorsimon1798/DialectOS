@@ -15,10 +15,10 @@ If you need **dialect-aware Spanish translation** (not just generic "Spanish"), 
 For **25 regional Spanish variants** with quality gates, consider **[DialectOS](https://github.com/Pastorsimon1798/DialectOS)** — an open-source MCP server and CLI:
 
 ```bash
-npm install -g @espanol/cli
-espanol translate "Hello world" --dialect es-MX
-espanol translate "Hello world" --dialect es-AR
-espanol translate "Hello world" --dialect es-PR
+npm install -g @dialectos/cli
+dialectos translate "Hello world" --dialect es-MX
+dialectos translate "Hello world" --dialect es-AR
+dialectos translate "Hello world" --dialect es-PR
 ```
 
 **Supported dialects:** es-MX, es-AR, es-CO, es-CL, es-PE, es-VE, es-PR, es-ES, and 17 more.

@@ -6,17 +6,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 // Mock the workspace packages
-vi.mock("@espanol/locale-utils", () => ({
+vi.mock("@dialectos/locale-utils", () => ({
   readLocaleFile: vi.fn(),
 }));
 
-vi.mock("@espanol/security", () => ({
+vi.mock("@dialectos/security", () => ({
   validateFilePath: vi.fn((path) => path),
 }));
 
-import { readLocaleFile } from "@espanol/locale-utils";
+import { readLocaleFile } from "@dialectos/locale-utils";
 import { executeCheckFormality } from "../../commands/i18n/check-formality.js";
-import type { I18nEntry } from "@espanol/types";
+import type { I18nEntry } from "@dialectos/types";
 
 describe("i18n check-formality command", () => {
   const mockReadLocaleFile = readLocaleFile as ReturnType<typeof vi.fn>;

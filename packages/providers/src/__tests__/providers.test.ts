@@ -1,5 +1,5 @@
 /**
- * Tests for @espanol/providers package
+ * Tests for @dialectos/providers package
  * Tests CircuitBreaker, RetryPolicy, ProviderRegistry, and all providers
  */
 
@@ -16,7 +16,7 @@ import {
   TranslationResult,
   ChaosProvider,
 } from "../index.js";
-import { SecurityError, ErrorCode, sanitizeErrorMessage } from "@espanol/security";
+import { SecurityError, ErrorCode, sanitizeErrorMessage } from "@dialectos/security";
 
 // Mock fetch for HTTP providers
 global.fetch = vi.fn();
@@ -807,7 +807,7 @@ describe("Rate limiting", () => {
 
     // Create provider with very low rate limit for testing
     const provider = new MyMemoryProvider();
-    (provider as any).rateLimiter = new (await import("@espanol/security")).RateLimiter(2, 1000);
+    (provider as any).rateLimiter = new (await import("@dialectos/security")).RateLimiter(2, 1000);
 
     // Should succeed first 2 times
     await provider.translate("Hello", "en", "es");

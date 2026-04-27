@@ -20,13 +20,13 @@ import type {
   I18nEntry,
   FormalityIssue,
   GenderNeutralStrategy,
-} from "@espanol/types";
-import { dialectSchema, providerNameSchema, ALL_SPANISH_DIALECTS } from "@espanol/types";
+} from "@dialectos/types";
+import { dialectSchema, providerNameSchema, ALL_SPANISH_DIALECTS } from "@dialectos/types";
 import {
   readLocaleFile,
   writeLocaleFile,
   diffLocales,
-} from "@espanol/locale-utils";
+} from "@dialectos/locale-utils";
 import {
   validateJsonPath,
   validateFilePath,
@@ -36,10 +36,10 @@ import {
   ErrorCode,
   createSafeError,
   MAX_ARRAY_LENGTH,
-} from "@espanol/security";
+} from "@dialectos/security";
 import {
   ProviderRegistry,
-} from "@espanol/providers";
+} from "@dialectos/providers";
 import { ToolResult } from "../lib/types.js";
 import { createProviderRegistry } from "../lib/provider-factory.js";
 import { prepareProviderRequest } from "../lib/provider-request.js";

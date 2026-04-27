@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * @espanol/cli
+ * @dialectos/cli
  *
  * Spanish translation CLI — translate text, docs, i18n files with dialect awareness
  */
@@ -20,8 +20,8 @@ import { executeApplyGenderNeutral } from "./commands/i18n/apply-gender-neutral.
 import { executeResearchRegionalTerm } from "./commands/research.js";
 import { getDefaultProviderRegistry } from "./lib/provider-factory.js";
 import { writeError, writeOutput } from "./lib/output.js";
-import { SecurityError, createSafeError } from "@espanol/security";
-import type { SpanishDialect } from "@espanol/types";
+import { SecurityError, createSafeError } from "@dialectos/security";
+import type { SpanishDialect } from "@dialectos/types";
 import { parse, format } from "node:path";
 import { resolvePolicy, type PolicyProfile } from "./lib/translation-policy.js";
 
@@ -29,9 +29,9 @@ const program = new Command();
 
 // CLI metadata
 program
-  .name("espanol")
+  .name("dialectos")
   .description("Spanish translation CLI with dialect awareness")
-  .version("0.1.0");
+  .version("0.2.0");
 
 // Translate command
 program

@@ -5,16 +5,16 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { executeBatchTranslate } from "../../commands/i18n/batch-translate.js";
-import type { TranslationProvider } from "@espanol/types";
-import type { SpanishDialect } from "@espanol/types";
+import type { TranslationProvider } from "@dialectos/types";
+import type { SpanishDialect } from "@dialectos/types";
 
 // Mock the workspace packages
-vi.mock("@espanol/locale-utils", () => ({
+vi.mock("@dialectos/locale-utils", () => ({
   readLocaleFile: vi.fn(),
   writeLocaleFile: vi.fn(),
 }));
 
-vi.mock("@espanol/security", () => ({
+vi.mock("@dialectos/security", () => ({
   validateFilePath: vi.fn(),
   MAX_ARRAY_LENGTH: 20,
 }));
@@ -24,8 +24,8 @@ vi.mock("../../lib/output.js", () => ({
   writeInfo: vi.fn(),
 }));
 
-import { readLocaleFile, writeLocaleFile } from "@espanol/locale-utils";
-import { validateFilePath } from "@espanol/security";
+import { readLocaleFile, writeLocaleFile } from "@dialectos/locale-utils";
+import { validateFilePath } from "@dialectos/security";
 import { writeError, writeInfo } from "../../lib/output.js";
 
 describe("batch-translate command", () => {

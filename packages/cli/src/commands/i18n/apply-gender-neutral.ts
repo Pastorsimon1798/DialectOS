@@ -3,9 +3,9 @@
  * Applies gender-neutral language strategies to locale files
  */
 
-import type { I18nEntry, GenderNeutralStrategy, VariantResult } from "@espanol/types";
-import { readLocaleFile, writeLocaleFile } from "@espanol/locale-utils";
-import { validateFilePath } from "@espanol/security";
+import type { I18nEntry, GenderNeutralStrategy, VariantResult } from "@dialectos/types";
+import { readLocaleFile, writeLocaleFile } from "@dialectos/locale-utils";
+import { validateFilePath } from "@dialectos/security";
 
 /**
  * Options for the apply-gender-neutral command

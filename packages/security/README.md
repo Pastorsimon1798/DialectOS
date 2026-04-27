@@ -1,4 +1,4 @@
-# @espanol/security
+# @dialectos/security
 
 Security utilities for input validation, sanitization, and rate limiting.
 
@@ -13,7 +13,7 @@ Security utilities for input validation, sanitization, and rate limiting.
 ## Usage
 
 ```typescript
-import { validateFilePath, RateLimiter, SecurityError, ErrorCode } from "@espanol/security";
+import { validateFilePath, RateLimiter, SecurityError, ErrorCode } from "@dialectos/security";
 
 // Validate file path
 try {

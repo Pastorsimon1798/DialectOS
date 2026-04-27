@@ -1,6 +1,6 @@
 /**
- * Core types for @espanol/providers
- * Re-exports from @espanol/types and adds provider-specific types
+ * Core types for @dialectos/providers
+ * Re-exports from @dialectos/types and adds provider-specific types
  */
 
 export type {
@@ -10,4 +10,4 @@ export type {
   SpanishDialect,
   ProviderMetadata,
   ProviderCapability,
-} from "@espanol/types";
+} from "@dialectos/types";

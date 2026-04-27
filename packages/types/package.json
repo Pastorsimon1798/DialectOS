@@ -1,5 +1,5 @@
 {
-  "name": "@espanol/types",
+  "name": "@dialectos/types",
   "version": "0.2.0",
   "description": "Shared type definitions for Espanol translation toolkit",
   "type": "module",

@@ -1,7 +1,7 @@
-import type { ProviderRegistry } from "@espanol/providers";
-import type { FormalityLevel, SpanishDialect } from "@espanol/types";
-import { ALL_SPANISH_DIALECTS } from "@espanol/types";
-import { validateContentLength } from "@espanol/security";
+import type { ProviderRegistry } from "@dialectos/providers";
+import type { FormalityLevel, SpanishDialect } from "@dialectos/types";
+import { ALL_SPANISH_DIALECTS } from "@dialectos/types";
+import { validateContentLength } from "@dialectos/security";
 import { detectDialect } from "./dialect-info.js";
 import { buildLexicalAmbiguityExpectations } from "./lexical-ambiguity.js";
 import { judgeTranslationOutput } from "./output-judge.js";

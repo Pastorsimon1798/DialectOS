@@ -43,10 +43,10 @@ Each package is independently versioned and tested.
 pnpm test
 
 # Run tests for a specific package
-pnpm test -- --filter=@espanol/cli
+pnpm test -- --filter=@dialectos/cli
 
 # Run tests in watch mode
-pnpm --filter=@espanol/cli test:watch
+pnpm --filter=@dialectos/cli test:watch
 
 # Run with coverage
 pnpm test:coverage

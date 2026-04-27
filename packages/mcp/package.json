@@ -1,5 +1,5 @@
 {
-  "name": "@espanol/mcp",
+  "name": "@dialectos/mcp",
   "version": "0.2.0",
   "description": "MCP adapter for Espanol — thin wrapper around CLI/core",
   "type": "module",
@@ -21,11 +21,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@espanol/locale-utils": "workspace:*",
-    "@espanol/markdown-parser": "workspace:*",
-    "@espanol/providers": "workspace:*",
-    "@espanol/security": "workspace:*",
-    "@espanol/types": "workspace:*",
+    "@dialectos/locale-utils": "workspace:*",
+    "@dialectos/markdown-parser": "workspace:*",
+    "@dialectos/providers": "workspace:*",
+    "@dialectos/security": "workspace:*",
+    "@dialectos/types": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "zod": "^4.3.6"
   },

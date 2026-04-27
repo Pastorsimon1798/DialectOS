@@ -1,5 +1,5 @@
-import type { ProviderRegistry } from "@espanol/providers";
-import type { TranslateOptions, TranslationResult } from "@espanol/types";
+import type { ProviderRegistry } from "@dialectos/providers";
+import type { TranslateOptions, TranslationResult } from "@dialectos/types";
 
 export interface AdaptivePacingState {
   delayMs: number;

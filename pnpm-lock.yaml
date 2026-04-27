@@ -23,19 +23,19 @@ importers:
 
   packages/cli:
     dependencies:
-      '@espanol/locale-utils':
+      '@dialectos/locale-utils':
         specifier: workspace:*
         version: link:../locale-utils
-      '@espanol/markdown-parser':
+      '@dialectos/markdown-parser':
         specifier: workspace:*
         version: link:../markdown-parser
-      '@espanol/providers':
+      '@dialectos/providers':
         specifier: workspace:*
         version: link:../providers
-      '@espanol/security':
+      '@dialectos/security':
         specifier: workspace:*
         version: link:../security
-      '@espanol/types':
+      '@dialectos/types':
         specifier: workspace:*
         version: link:../types
       commander:
@@ -54,10 +54,10 @@ importers:
 
   packages/locale-utils:
     dependencies:
-      '@espanol/security':
+      '@dialectos/security':
         specifier: workspace:*
         version: link:../security
-      '@espanol/types':
+      '@dialectos/types':
         specifier: workspace:*
         version: link:../types
       zod:
@@ -76,10 +76,10 @@ importers:
 
   packages/markdown-parser:
     dependencies:
-      '@espanol/security':
+      '@dialectos/security':
         specifier: workspace:*
         version: link:../security
-      '@espanol/types':
+      '@dialectos/types':
         specifier: workspace:*
         version: link:../types
       isomorphic-dompurify:
@@ -104,19 +104,19 @@ importers:
 
   packages/mcp:
     dependencies:
-      '@espanol/locale-utils':
+      '@dialectos/locale-utils':
         specifier: workspace:*
         version: link:../locale-utils
-      '@espanol/markdown-parser':
+      '@dialectos/markdown-parser':
         specifier: workspace:*
         version: link:../markdown-parser
-      '@espanol/providers':
+      '@dialectos/providers':
         specifier: workspace:*
         version: link:../providers
-      '@espanol/security':
+      '@dialectos/security':
         specifier: workspace:*
         version: link:../security
-      '@espanol/types':
+      '@dialectos/types':
         specifier: workspace:*
         version: link:../types
       '@modelcontextprotocol/sdk':
@@ -138,10 +138,10 @@ importers:
 
   packages/providers:
     dependencies:
-      '@espanol/security':
+      '@dialectos/security':
         specifier: workspace:*
         version: link:../security
-      '@espanol/types':
+      '@dialectos/types':
         specifier: workspace:*
         version: link:../types
       zod:

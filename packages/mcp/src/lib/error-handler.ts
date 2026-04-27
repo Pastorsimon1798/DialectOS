@@ -2,7 +2,7 @@
  * Global error handling for MCP server
  */
 
-import { createSafeError } from "@espanol/security";
+import { createSafeError } from "@dialectos/security";
 
 /**
  * Setup global process error handlers for graceful shutdown

@@ -3,11 +3,11 @@
  * Checks environment variables to determine which providers to register
  */
 
-import { ProviderRegistry } from "@espanol/providers";
-import { DeepLProvider } from "@espanol/providers";
-import { LibreTranslateProvider } from "@espanol/providers";
-import { MyMemoryProvider } from "@espanol/providers";
-import { LLMProvider } from "@espanol/providers";
+import { ProviderRegistry } from "@dialectos/providers";
+import { DeepLProvider } from "@dialectos/providers";
+import { LibreTranslateProvider } from "@dialectos/providers";
+import { MyMemoryProvider } from "@dialectos/providers";
+import { LLMProvider } from "@dialectos/providers";
 
 /**
  * Create a ProviderRegistry with all available providers

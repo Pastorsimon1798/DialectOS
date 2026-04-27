@@ -139,9 +139,9 @@ We built DialectOS to solve this systematically:
 It runs as a CLI tool or an MCP server that Claude Desktop and Cursor can use natively.
 
 ```bash
-npm install -g @espanol/cli
-espanol translate "Hello world" --dialect es-MX
-espanol translate "Hello world" --dialect es-AR
+npm install -g @dialectos/cli
+dialectos translate "Hello world" --dialect es-MX
+dialectos translate "Hello world" --dialect es-AR
 ```
 
 ## Conclusion

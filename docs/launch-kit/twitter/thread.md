@@ -88,7 +88,7 @@ DialectOS applies dialect context + semantic gates.
 ## Tweet 8 (Technical)
 Architecture:
 
-MCP Client → @espanol/mcp → @espanol/cli → Provider Registry
+MCP Client → @dialectos/mcp → @dialectos/cli → Provider Registry
 
 Providers:
 - LLM (OpenAI / Anthropic / LM Studio local)

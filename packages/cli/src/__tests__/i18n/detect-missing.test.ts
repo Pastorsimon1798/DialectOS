@@ -8,7 +8,7 @@ import { executeDetectMissing } from "../../commands/i18n/detect-missing.js";
 import { writeError, writeInfo } from "../../lib/output.js";
 
 // Mock the workspace packages
-vi.mock("@espanol/locale-utils", () => ({
+vi.mock("@dialectos/locale-utils", () => ({
   readLocaleFile: vi.fn(),
   diffLocales: vi.fn(),
 }));
@@ -18,7 +18,7 @@ vi.mock("../../lib/output.js", () => ({
   writeInfo: vi.fn(),
 }));
 
-import { readLocaleFile, diffLocales } from "@espanol/locale-utils";
+import { readLocaleFile, diffLocales } from "@dialectos/locale-utils";
 
 describe("detect-missing command", () => {
   beforeEach(() => {

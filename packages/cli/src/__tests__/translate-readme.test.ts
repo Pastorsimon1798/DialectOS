@@ -8,8 +8,8 @@ import { Command } from "commander";
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { createTranslateReadmeCommand } from "../commands/translate-readme.js";
-import type { TranslationProvider } from "@espanol/types";
-import type { ProviderRegistry } from "@espanol/providers";
+import type { TranslationProvider } from "@dialectos/types";
+import type { ProviderRegistry } from "@dialectos/providers";
 
 // Mock provider for testing
 class MockProvider implements TranslationProvider {

@@ -1,4 +1,4 @@
-# @espanol/types
+# @dialectos/types
 
 Shared TypeScript types and schemas for DialectOS.
 

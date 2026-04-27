@@ -5,10 +5,10 @@
 
 import * as fs from "node:fs";
 import { Readable } from "node:stream";
-import type { TranslationProvider } from "@espanol/types";
-import type { SpanishDialect, ProviderName, FormalityLevel } from "@espanol/types";
-import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@espanol/types";
-import { validateFilePath, validateContentLength, checkFileSize } from "@espanol/security";
+import type { TranslationProvider } from "@dialectos/types";
+import type { SpanishDialect, ProviderName, FormalityLevel } from "@dialectos/types";
+import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@dialectos/types";
+import { validateFilePath, validateContentLength, checkFileSize } from "@dialectos/security";
 import { writeOutput, writeError } from "../lib/output.js";
 import { buildSemanticTranslationContext } from "../lib/semantic-context.js";
 import {

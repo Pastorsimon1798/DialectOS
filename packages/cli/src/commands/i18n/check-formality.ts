@@ -3,9 +3,9 @@
  * Checks locale files for formality consistency
  */
 
-import type { I18nEntry, FormalityIssue } from "@espanol/types";
-import { readLocaleFile } from "@espanol/locale-utils";
-import { validateFilePath } from "@espanol/security";
+import type { I18nEntry, FormalityIssue } from "@dialectos/types";
+import { readLocaleFile } from "@dialectos/locale-utils";
+import { validateFilePath } from "@dialectos/security";
 
 /**
  * Options for the check-formality command

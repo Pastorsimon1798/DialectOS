@@ -2,9 +2,9 @@
 
 **Goal:** Add source-backed grammar profiles and dialect-specific semantic prompt instructions for all 25 Spanish dialects so translation guidance is not just generic context or vocabulary replacement.
 
-**Architecture:** Add canonical dialect grammar/profile data to `@espanol/types`, export lookup helpers, and have CLI semantic context include the relevant profile guidance. Keep the system dependency-free and conservative: profile notes describe defaults and regional variation without pretending native-speaker validation has happened.
+**Architecture:** Add canonical dialect grammar/profile data to `@dialectos/types`, export lookup helpers, and have CLI semantic context include the relevant profile guidance. Keep the system dependency-free and conservative: profile notes describe defaults and regional variation without pretending native-speaker validation has happened.
 
-**Tech Stack:** TypeScript, pnpm workspaces, Vitest, existing @espanol packages.
+**Tech Stack:** TypeScript, pnpm workspaces, Vitest, existing @dialectos packages.
 
 ---
 

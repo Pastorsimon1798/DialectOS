@@ -5,7 +5,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
-import type { TranslationProvider, TranslateOptions } from "@espanol/types";
+import type { TranslationProvider, TranslateOptions } from "@dialectos/types";
 import { executeTranslate } from "../commands/translate.js";
 
 function makeProvider(

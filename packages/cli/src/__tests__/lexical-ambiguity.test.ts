@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ALL_SPANISH_DIALECTS } from "@espanol/types";
+import { ALL_SPANISH_DIALECTS } from "@dialectos/types";
 import {
   buildLexicalAmbiguityExpectations,
   buildLexicalAmbiguityGuidance

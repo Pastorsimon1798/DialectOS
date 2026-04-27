@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { ProviderRegistry } from "@espanol/providers";
-import type { ProviderCapability, TranslationProvider } from "@espanol/types";
+import { ProviderRegistry } from "@dialectos/providers";
+import type { ProviderCapability, TranslationProvider } from "@dialectos/types";
 import {
   getWebDemoProviderStatus,
   translateForWebDemo,

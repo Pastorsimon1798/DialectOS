@@ -34,7 +34,7 @@ vi.mock("../lib/provider-factory.js", () => ({
   createProviderRegistry: vi.fn().mockReturnValue({}),
 }));
 
-vi.mock("@espanol/security", () => ({
+vi.mock("@dialectos/security", () => ({
   RateLimiter: vi.fn(function() { return {}; }),
 }));
 
@@ -54,7 +54,7 @@ describe("MCP server bootstrap", () => {
     createServer();
 
     expect(mcpState.constructorArgs[0]?.[0]).toMatchObject({
-      name: "@espanol/mcp",
+      name: "@dialectos/mcp",
       version: packageJson.version,
     });
   });

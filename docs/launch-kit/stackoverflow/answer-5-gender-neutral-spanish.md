@@ -19,7 +19,7 @@ Spanish is a heavily gendered language. Most translation tools default to mascul
 **[DialectOS](https://github.com/Pastorsimon1798/DialectOS)** has a dedicated `apply_gender_neutral` tool:
 
 ```bash
-espanol i18n apply-gender-neutral ./locales/es-MX.json --style inclusive
+dialectos i18n apply-gender-neutral ./locales/es-MX.json --style inclusive
 ```
 
 **Styles supported:**

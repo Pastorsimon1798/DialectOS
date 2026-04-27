@@ -1,15 +1,15 @@
 /**
  * Built-in glossary display helpers.
- * Canonical glossary data lives in @espanol/types so CLI and MCP share one corpus.
+ * Canonical glossary data lives in @dialectos/types so CLI and MCP share one corpus.
  */
 
-import type { GlossaryEntry } from "@espanol/types";
+import type { GlossaryEntry } from "@dialectos/types";
 export {
   GLOSSARY_CATEGORIES,
   GLOSSARY_DATA,
   getGlossaryByCategory,
   searchGlossary,
-} from "@espanol/types";
+} from "@dialectos/types";
 
 /**
  * Format glossary results for display

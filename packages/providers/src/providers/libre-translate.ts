@@ -6,8 +6,8 @@
 import type { TranslationProvider, TranslationResult, ProviderCapability } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
 import { fetchWithRedirects } from "../fetch-utils.js";
-import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
-import { languageCodeSchema } from "@espanol/types";
+import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@dialectos/security";
+import { languageCodeSchema } from "@dialectos/types";
 
 const LIBRETRANSLATE_TIMEOUT = 30000; // 30 seconds
 
