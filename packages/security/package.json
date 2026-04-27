@@ -1,6 +1,6 @@
 {
   "name": "@espanol/security",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Unified security module for Espanol — path validation, sanitization, rate limiting",
   "type": "module",
   "main": "dist/index.js",
