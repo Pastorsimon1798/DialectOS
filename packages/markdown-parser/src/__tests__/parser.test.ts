@@ -1,5 +1,5 @@
 /**
- * @espanol/markdown-parser tests
+ * @dialectos/markdown-parser tests
  *
  * Comprehensive test suite for markdown parser using marked library
  * Tests security, preservation, and reconstruction functionality
@@ -13,8 +13,8 @@ import {
   countCodeBlocks,
   countLinks,
 } from "../index.js";
-import type { MarkdownSection } from "@espanol/types";
-import { SecurityError } from "@espanol/security";
+import type { MarkdownSection } from "@dialectos/types";
+import { SecurityError } from "@dialectos/security";
 
 describe("parseMarkdown", () => {
   describe("Basic parsing", () => {

@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, vi } from "vitest";
-import { LLMProvider } from "@espanol/providers";
+import { LLMProvider } from "@dialectos/providers";
 import { executeTranslate } from "../commands/translate.js";
 import { buildSemanticTranslationContext } from "../lib/semantic-context.js";
 import { buildLexicalAmbiguityExpectations, checkLexicalCompliance } from "../lib/lexical-ambiguity.js";

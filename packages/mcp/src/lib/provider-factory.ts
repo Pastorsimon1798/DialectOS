@@ -9,7 +9,7 @@ import {
   LibreTranslateProvider,
   MyMemoryProvider,
   LLMProvider,
-} from "@espanol/providers";
+} from "@dialectos/providers";
 
 /**
  * Create a ProviderRegistry with all available providers

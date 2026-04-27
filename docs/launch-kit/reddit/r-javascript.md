@@ -16,13 +16,13 @@ Because the target users are JavaScript developers who need to localize apps for
 
 ```
 packages/
-  @espanol/mcp          — 17 tools, stdio JSON-RPC server
-  @espanol/cli          — CLI commands + quality gates
-  @espanol/providers    — LLM/DeepL/LibreTranslate with circuit breaker
-  @espanol/security     — Rate limiting, SSRF protection
-  @espanol/types        — Shared types + glossary data
-  @espanol/locale-utils — JSON locale diff/merge
-  @espanol/markdown-parser — Structure-preserving markdown AST
+  @dialectos/mcp          — 17 tools, stdio JSON-RPC server
+  @dialectos/cli          — CLI commands + quality gates
+  @dialectos/providers    — LLM/DeepL/LibreTranslate with circuit breaker
+  @dialectos/security     — Rate limiting, SSRF protection
+  @dialectos/types        — Shared types + glossary data
+  @dialectos/locale-utils — JSON locale diff/merge
+  @dialectos/markdown-parser — Structure-preserving markdown AST
 ```
 
 **Key technical decisions:**
@@ -46,8 +46,8 @@ if (result.negationDropped) {
 **Try it:**
 
 ```bash
-npm install -g @espanol/cli
-espanol translate "Hello world" --dialect es-MX
+npm install -g @dialectos/cli
+dialectos translate "Hello world" --dialect es-MX
 ```
 
 **Repo:** https://github.com/Pastorsimon1798/DialectOS

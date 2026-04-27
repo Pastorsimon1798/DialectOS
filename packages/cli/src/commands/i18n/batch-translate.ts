@@ -3,10 +3,10 @@
  * Translates base locale to multiple target dialects
  */
 
-import { readLocaleFile, writeLocaleFile } from "@espanol/locale-utils";
-import { validateFilePath, MAX_ARRAY_LENGTH } from "@espanol/security";
-import type { TranslationProvider, SpanishDialect, ProviderName, I18nEntry } from "@espanol/types";
-import { ALL_SPANISH_DIALECTS } from "@espanol/types";
+import { readLocaleFile, writeLocaleFile } from "@dialectos/locale-utils";
+import { validateFilePath, MAX_ARRAY_LENGTH } from "@dialectos/security";
+import type { TranslationProvider, SpanishDialect, ProviderName, I18nEntry } from "@dialectos/types";
+import { ALL_SPANISH_DIALECTS } from "@dialectos/types";
 import { writeError, writeInfo } from "../../lib/output.js";
 import { join } from "node:path";
 

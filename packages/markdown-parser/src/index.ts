@@ -1,12 +1,12 @@
 /**
- * @espanol/markdown-parser
+ * @dialectos/markdown-parser
  *
  * Safe markdown parser using marked library
  * Replaces vulnerable regex-based parser
  *
  * Features:
  * - Uses marked tokenizer for parsing (no regex ReDoS)
- * - Validates all URLs via @espanol/security
+ * - Validates all URLs via @dialectos/security
  * - Sanitizes HTML blocks with DOMPurify
  * - Preserves code blocks, inline code, links, images
  * - Supports translation workflows
@@ -18,12 +18,12 @@ import {
   type MarkdownSection,
   type MarkdownSectionType,
   type ParsedMarkdown,
-} from "@espanol/types";
+} from "@dialectos/types";
 import {
   validateMarkdownUrl,
   sanitizeHtml,
   SecurityError,
-} from "@espanol/security";
+} from "@dialectos/security";
 
 // ============================================================================
 // Types

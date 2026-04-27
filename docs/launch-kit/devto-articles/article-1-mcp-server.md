@@ -37,11 +37,11 @@ Google Translate gives you generic Spanish. DeepL gives you ~5 variants. Dialect
 ```
 MCP Client (Claude Desktop)
   ↓ stdio
-@espanol/mcp (17 tools)
+@dialectos/mcp (17 tools)
   ↓
-@espanol/cli
+@dialectos/cli
   ↓
-@espanol/providers
+@dialectos/providers
   ├─ LLM (OpenAI / Anthropic / LM Studio)
   ├─ DeepL
   └─ LibreTranslate / MyMemory
@@ -89,11 +89,11 @@ Quality Score = tokenIntegrity×25% + glossaryFidelity×30% + structureIntegrity
 
 ```bash
 # MCP setup
-npx -y @espanol/mcp
+npx -y @dialectos/mcp
 
 # CLI
-npm install -g @espanol/cli
-espanol translate "Hello world" --dialect es-MX
+npm install -g @dialectos/cli
+dialectos translate "Hello world" --dialect es-MX
 ```
 
 ## Open Source

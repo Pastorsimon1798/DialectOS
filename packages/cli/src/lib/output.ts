@@ -6,7 +6,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as crypto from "node:crypto";
-import { validateFilePath, sanitizeErrorMessage } from "@espanol/security";
+import { validateFilePath, sanitizeErrorMessage } from "@dialectos/security";
 
 /**
  * Create a secure temporary file path in the same directory as the target

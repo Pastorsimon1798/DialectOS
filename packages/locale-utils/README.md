@@ -1,4 +1,4 @@
-# @espanol/locale-utils
+# @dialectos/locale-utils
 
 Utilities for locale file diff, merge, and comparison.
 
@@ -12,7 +12,7 @@ Utilities for locale file diff, merge, and comparison.
 ## Usage
 
 ```typescript
-import { detectMissingKeys, mergeLocales } from "@espanol/locale-utils";
+import { detectMissingKeys, mergeLocales } from "@dialectos/locale-utils";
 
 // Find keys in source but missing in target
 const missing = detectMissingKeys(sourceJson, targetJson);

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import type { TranslationProvider } from "@espanol/types";
-import type { ProviderRegistry } from "@espanol/providers";
+import type { TranslationProvider } from "@dialectos/types";
+import type { ProviderRegistry } from "@dialectos/providers";
 import { translateWithFallback } from "../lib/resilient-translation.js";
 
 class TestRegistry implements Partial<ProviderRegistry> {

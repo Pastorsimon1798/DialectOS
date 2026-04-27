@@ -1,5 +1,5 @@
 {
-  "name": "@espanol/locale-utils",
+  "name": "@dialectos/locale-utils",
   "version": "0.2.0",
   "description": "i18n file operations — flatten, unflatten, diff, atomic write",
   "type": "module",
@@ -19,8 +19,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@espanol/security": "workspace:*",
-    "@espanol/types": "workspace:*",
+    "@dialectos/security": "workspace:*",
+    "@dialectos/types": "workspace:*",
     "zod": "^4.3.6"
   },
   "devDependencies": {

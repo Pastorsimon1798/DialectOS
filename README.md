@@ -101,7 +101,7 @@ Add to your Claude Desktop, Cursor, or any MCP client:
   "mcpServers": {
     "dialectos": {
       "command": "npx",
-      "args": ["-y", "@espanol/mcp"],
+      "args": ["-y", "@dialectos/mcp"],
       "env": {
         "LLM_API_URL": "https://your-llm-gateway/v1/chat/completions",
         "LLM_MODEL": "your-dialect-capable-model",
@@ -175,19 +175,19 @@ pnpm dialect:report -- --input=audits/release-candidate-2026-04-22/model-matrix.
 
 ```bash
 # Install globally
-npm install -g @espanol/cli
+npm install -g @dialectos/cli
 
 # Translate to Mexican Spanish
-espanol translate "Hello world" --dialect es-MX
+dialectos translate "Hello world" --dialect es-MX
 
 # Translate a README preserving structure
-espanol translate-readme README.md --dialect es-AR --output README.ar.md
+dialectos translate-readme README.md --dialect es-AR --output README.ar.md
 
 # Detect missing i18n keys
-espanol i18n detect-missing ./locales/en.json ./locales/es.json
+dialectos i18n detect-missing ./locales/en.json ./locales/es.json
 
 # List all supported dialects
-espanol dialects list
+dialectos dialects list
 ```
 
 ### From source
@@ -239,13 +239,13 @@ pnpm test        # 746 tests passing
 
 | Package | Version | Description | Tests |
 |---------|---------|-------------|-------|
-| [`@espanol/mcp`](packages/mcp) | `0.2.0` | 17 MCP tools (stdio server) | 86 |
-| [`@espanol/cli`](packages/cli) | `0.2.0` | CLI commands for semantic translation workflows | 320 |
-| [`@espanol/providers`](packages/providers) | `0.2.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker | 71 |
-| [`@espanol/security`](packages/security) | `0.2.0` | Rate limiting, SSRF protection, sanitization | 66 |
-| [`@espanol/types`](packages/types) | `0.2.0` | Shared TypeScript types + glossary, profile, certification, and quality data | 54 |
-| [`@espanol/locale-utils`](packages/locale-utils) | `0.2.0` | Locale file diff/merge utilities | 55 |
-| [`@espanol/markdown-parser`](packages/markdown-parser) | `0.2.0` | Structure-preserving markdown parser | 74 |
+| [`@dialectos/mcp`](packages/mcp) | `0.2.0` | 17 MCP tools (stdio server) | 86 |
+| [`@dialectos/cli`](packages/cli) | `0.2.0` | CLI commands for semantic translation workflows | 320 |
+| [`@dialectos/providers`](packages/providers) | `0.2.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker | 71 |
+| [`@dialectos/security`](packages/security) | `0.2.0` | Rate limiting, SSRF protection, sanitization | 66 |
+| [`@dialectos/types`](packages/types) | `0.2.0` | Shared TypeScript types + glossary, profile, certification, and quality data | 54 |
+| [`@dialectos/locale-utils`](packages/locale-utils) | `0.2.0` | Locale file diff/merge utilities | 55 |
+| [`@dialectos/markdown-parser`](packages/markdown-parser) | `0.2.0` | Structure-preserving markdown parser | 74 |
 
 **Total: 746 tests across 7 packages plus the full-app docs, demo-server, and static-hardening contracts**
 
@@ -286,7 +286,7 @@ See [`SECURITY.md`](SECURITY.md) for details.
 | `es-BZ` | Belize | *"Carro"*, *"Breki"*, *"Kriol"* |
 | `es-AD` | Andorra | *"Carro"*, *"Madriu"*, *"Caldea"* |
 
-...and 12 more. Full list via `espanol dialects list`.
+...and 12 more. Full list via `dialectos dialects list`.
 
 ---
 
@@ -299,12 +299,12 @@ See [`SECURITY.md`](SECURITY.md) for details.
 └──────────────────────┬──────────────────────────────────────┘
                        │ stdio
 ┌──────────────────────▼──────────────────────────────────────┐
-│                   @espanol/mcp                               │
+│                   @dialectos/mcp                               │
 │              17 tools • JSON-RPC over stdio                  │
 └──────────────────────┬──────────────────────────────────────┘
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
-│                   @espanol/cli                               │
+│                   @dialectos/cli                               │
 │   translate-readme • translate-api-docs • i18n • dialects   │
 │   ├─ Policy profiles (strict/balanced/permissive)           │
 │   ├─ Quality gates (token/glossary/structure/semantic)      │
@@ -313,7 +313,7 @@ See [`SECURITY.md`](SECURITY.md) for details.
 └──────────────────────┬──────────────────────────────────────┘
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
-│                @espanol/providers                            │
+│                @dialectos/providers                            │
 │   ┌─────────┐  ┌─────────────────┐  ┌─────────────────┐    │
 │   │   LLM   │  │     DeepL       │  │ Libre/MyMemory │   │
 │   │ Primary │  │ Paid fallback   │  │ Generic fallback│    │

@@ -6,7 +6,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as os from "node:os";
 import * as crypto from "node:crypto";
-import { SecurityError, ErrorCode, createSecureTempPath } from "@espanol/security";
+import { SecurityError, ErrorCode, createSecureTempPath } from "@dialectos/security";
 import type { TranslationResult, TranslateOptions } from "./types.js";
 
 export interface CachedTranslation {

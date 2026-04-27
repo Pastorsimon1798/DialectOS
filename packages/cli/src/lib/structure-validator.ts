@@ -1,4 +1,4 @@
-import { parseMarkdown } from "@espanol/markdown-parser";
+import { parseMarkdown } from "@dialectos/markdown-parser";
 
 export interface StructureValidationResult {
   valid: boolean;

@@ -15,7 +15,7 @@ If you're using Claude Desktop, Cursor, or any MCP client and want **native tran
   "mcpServers": {
     "dialectos": {
       "command": "npx",
-      "args": ["-y", "@espanol/mcp"],
+      "args": ["-y", "@dialectos/mcp"],
       "env": {
         "LLM_API_URL": "https://api.openai.com/v1/chat/completions",
         "LLM_MODEL": "gpt-4o"

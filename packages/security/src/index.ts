@@ -1,5 +1,5 @@
 /**
- * @espanol/security
+ * @dialectos/security
  *
  * Unified security module for Espanol MCP servers
  * Provides path validation, sanitization, rate limiting, and security controls

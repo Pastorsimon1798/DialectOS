@@ -7,10 +7,10 @@
  * clothing, and regional slang.
  */
 
-import type { SpanishDialect, I18nEntry, VariantResult } from "@espanol/types";
-import { ALL_SPANISH_DIALECTS } from "@espanol/types";
-import { readLocaleFile, writeLocaleFile } from "@espanol/locale-utils";
-import { validateFilePath } from "@espanol/security";
+import type { SpanishDialect, I18nEntry, VariantResult } from "@dialectos/types";
+import { ALL_SPANISH_DIALECTS } from "@dialectos/types";
+import { readLocaleFile, writeLocaleFile } from "@dialectos/locale-utils";
+import { validateFilePath } from "@dialectos/security";
 
 /**
  * Options for the manage-variants command

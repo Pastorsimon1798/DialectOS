@@ -1,5 +1,5 @@
 /**
- * @espanol/providers
+ * @dialectos/providers
  *
  * Translation providers with strategy pattern, circuit breaker, and retry logic
  */

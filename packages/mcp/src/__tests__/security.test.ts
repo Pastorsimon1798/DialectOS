@@ -14,18 +14,18 @@ vi.mock("node:fs", () => ({
 }));
 
 // Mock core libraries
-vi.mock("@espanol/markdown-parser", () => ({
+vi.mock("@dialectos/markdown-parser", () => ({
   parseMarkdown: vi.fn(),
   reconstructMarkdown: vi.fn(),
 }));
 
-vi.mock("@espanol/locale-utils", () => ({
+vi.mock("@dialectos/locale-utils", () => ({
   readLocaleFile: vi.fn(),
   writeLocaleFile: vi.fn(),
   diffLocales: vi.fn(),
 }));
 
-vi.mock("@espanol/security", () => {
+vi.mock("@dialectos/security", () => {
   // Create SecurityError inline for the mock
   class SecurityError extends Error {
     code: string;
@@ -67,7 +67,7 @@ vi.mock("@espanol/security", () => {
   };
 });
 
-vi.mock("@espanol/providers", () => ({
+vi.mock("@dialectos/providers", () => ({
   ProviderRegistry: vi.fn(function() {
     return {
       get: vi.fn(),
@@ -83,12 +83,12 @@ vi.mock("@espanol/providers", () => ({
 import {
   parseMarkdown,
   reconstructMarkdown,
-} from "@espanol/markdown-parser";
+} from "@dialectos/markdown-parser";
 import {
   readLocaleFile,
   writeLocaleFile,
   diffLocales,
-} from "@espanol/locale-utils";
+} from "@dialectos/locale-utils";
 import {
   validateMarkdownPath,
   validateFilePath,
@@ -99,8 +99,8 @@ import {
   SecurityError,
   MAX_ARRAY_LENGTH,
   MAX_CONTENT_LENGTH,
-} from "@espanol/security";
-import { ProviderRegistry } from "@espanol/providers";
+} from "@dialectos/security";
+import { ProviderRegistry } from "@dialectos/providers";
 
 describe("MCP Security Tests", () => {
   let mockRegistry: ProviderRegistry;
@@ -520,7 +520,7 @@ describe("MCP Security Tests", () => {
       // Trigger error with internal path
       vi.mocked(readLocaleFile).mockImplementation(() => {
         throw new Error(
-          "Failed to read file at /node_modules/@espanol/locale-utils/data/es.json"
+          "Failed to read file at /node_modules/@dialectos/locale-utils/data/es.json"
         );
       });
 

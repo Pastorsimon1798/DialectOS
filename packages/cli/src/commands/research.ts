@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { writeOutput } from "../lib/output.js";
 import { parseDialectList, researchRegionalTerm, type RegionalResearchSource } from "../lib/regional-research.js";
-import { validateFilePath } from "@espanol/security";
+import { validateFilePath } from "@dialectos/security";
 
 export interface ResearchCommandOptions {
   concept: string;

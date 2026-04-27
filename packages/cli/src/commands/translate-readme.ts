@@ -3,7 +3,7 @@
  * Translate a markdown file (README, docs) preserving structure
  *
  * Features:
- * - Parses markdown with @espanol/markdown-parser
+ * - Parses markdown with @dialectos/markdown-parser
  * - Preserves code blocks, links, images, tables, frontmatter
  * - Translates only translatable sections
  * - Atomic write to output file
@@ -11,15 +11,15 @@
 
 import { Command } from "commander";
 import { promises as fs } from "node:fs";
-import type { SpanishDialect, TranslateOptions, MarkdownSection } from "@espanol/types";
-import { ALL_SPANISH_DIALECTS } from "@espanol/types";
+import type { SpanishDialect, TranslateOptions, MarkdownSection } from "@dialectos/types";
+import { ALL_SPANISH_DIALECTS } from "@dialectos/types";
 import {
   parseMarkdown,
   reconstructMarkdown,
-} from "@espanol/markdown-parser";
-import { validateMarkdownPath, validateFilePath, validateContentLength } from "@espanol/security";
+} from "@dialectos/markdown-parser";
+import { validateMarkdownPath, validateFilePath, validateContentLength } from "@dialectos/security";
 import { writeOutput, writeError, writeInfo, sanitizeConsoleOutput } from "../lib/output.js";
-import type { ProviderRegistry } from "@espanol/providers";
+import type { ProviderRegistry } from "@dialectos/providers";
 import {
   loadProtectedTokens,
   protectTokensInText,

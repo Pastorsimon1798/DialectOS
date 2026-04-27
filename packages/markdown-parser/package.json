@@ -1,5 +1,5 @@
 {
-  "name": "@espanol/markdown-parser",
+  "name": "@dialectos/markdown-parser",
   "version": "0.2.0",
   "description": "Safe markdown parser using marked — replaces vulnerable regex-based parser",
   "type": "module",
@@ -19,8 +19,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@espanol/security": "workspace:*",
-    "@espanol/types": "workspace:*",
+    "@dialectos/security": "workspace:*",
+    "@dialectos/types": "workspace:*",
     "isomorphic-dompurify": "^3.10.0",
     "marked": "^18.0.2",
     "zod": "^4.3.6"

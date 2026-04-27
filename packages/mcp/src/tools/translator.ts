@@ -16,12 +16,12 @@ import { readFileSync } from "node:fs";
 import { z } from "zod";
 import type {
   ProviderName,
-} from "@espanol/types";
-import { searchGlossary, dialectSchema, providerNameSchema } from "@espanol/types";
+} from "@dialectos/types";
+import { searchGlossary, dialectSchema, providerNameSchema } from "@dialectos/types";
 import {
   parseMarkdown,
   reconstructMarkdown,
-} from "@espanol/markdown-parser";
+} from "@dialectos/markdown-parser";
 import {
   validateMarkdownPath,
   validateContentLength,
@@ -30,14 +30,14 @@ import {
   SecurityError,
   ErrorCode,
   createSafeError,
-} from "@espanol/security";
+} from "@dialectos/security";
 import {
   ProviderRegistry,
-} from "@espanol/providers";
+} from "@dialectos/providers";
 import { ToolResult } from "../lib/types.js";
 import { createProviderRegistry } from "../lib/provider-factory.js";
 import { prepareProviderRequest } from "../lib/provider-request.js";
-import { ALL_SPANISH_DIALECTS, type SpanishDialect } from "@espanol/types";
+import { ALL_SPANISH_DIALECTS, type SpanishDialect } from "@dialectos/types";
 
 // ============================================================================
 // Types

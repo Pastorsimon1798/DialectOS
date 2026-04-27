@@ -3,7 +3,7 @@
  * Provides metadata about Spanish dialects with formal vs. casual register support
  */
 
-import type { SpanishDialect } from "@espanol/types";
+import type { SpanishDialect } from "@dialectos/types";
 
 /**
  * Register-aware dialect metadata

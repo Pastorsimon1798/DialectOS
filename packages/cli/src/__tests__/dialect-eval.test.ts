@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { ALL_SPANISH_DIALECTS, type SpanishDialect, type FormalityLevel } from "@espanol/types";
+import { ALL_SPANISH_DIALECTS, type SpanishDialect, type FormalityLevel } from "@dialectos/types";
 import { buildSemanticTranslationContext } from "../lib/semantic-context.js";
 
 interface DialectEvalSample {

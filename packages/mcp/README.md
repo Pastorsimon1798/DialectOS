@@ -1,4 +1,4 @@
-# @espanol/mcp
+# @dialectos/mcp
 
 Model Context Protocol server providing 17 tools for Spanish dialect translation across 25 regional variants.
 
@@ -11,7 +11,7 @@ Add to your MCP client configuration:
   "mcpServers": {
     "dialectos": {
       "command": "npx",
-      "args": ["-y", "@espanol/mcp"],
+      "args": ["-y", "@dialectos/mcp"],
       "env": {
         "DEEPL_AUTH_KEY": "your-key",
         "ALLOWED_LOCALE_DIRS": "/path/to/locales"

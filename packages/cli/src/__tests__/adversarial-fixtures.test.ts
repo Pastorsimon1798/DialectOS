@@ -11,8 +11,8 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createTranslateReadmeCommand } from "../commands/translate-readme.js";
 import { restoreProtectedTokens } from "../lib/token-protection.js";
-import type { TranslationProvider } from "@espanol/types";
-import type { ProviderRegistry } from "@espanol/providers";
+import type { TranslationProvider } from "@dialectos/types";
+import type { ProviderRegistry } from "@dialectos/providers";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const fixturesDir = path.join(__dirname, "fixtures", "adversarial");

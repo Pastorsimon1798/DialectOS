@@ -15,20 +15,20 @@ import type {
   MarkdownSection,
   SpanishDialect,
   ProviderName,
-} from "@espanol/types";
-import { dialectSchema, providerNameSchema } from "@espanol/types";
+} from "@dialectos/types";
+import { dialectSchema, providerNameSchema } from "@dialectos/types";
 import {
   parseMarkdown,
   reconstructMarkdown,
-} from "@espanol/markdown-parser";
+} from "@dialectos/markdown-parser";
 import {
   validateMarkdownPath,
   validateContentLength,
   checkFileSize,
   RateLimiter,
   createSafeError,
-} from "@espanol/security";
-import type { ProviderRegistry } from "@espanol/providers";
+} from "@dialectos/security";
+import type { ProviderRegistry } from "@dialectos/providers";
 import { ToolResult } from "../lib/types.js";
 import type { BaseToolOptions } from "../lib/types.js";
 import { createProviderRegistry as createProviderRegistryImpl } from "../lib/provider-factory.js";

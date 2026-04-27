@@ -1,4 +1,4 @@
-# @espanol/providers
+# @dialectos/providers
 
 Translation providers with circuit breaker, retry logic, model-agnostic LLM compatibility, and capability negotiation.
 
@@ -14,7 +14,7 @@ Translation providers with circuit breaker, retry logic, model-agnostic LLM comp
 ## Usage
 
 ```typescript
-import { ProviderRegistry, LLMProvider, DeepLProvider, LibreTranslateProvider, MyMemoryProvider } from "@espanol/providers";
+import { ProviderRegistry, LLMProvider, DeepLProvider, LibreTranslateProvider, MyMemoryProvider } from "@dialectos/providers";
 
 const registry = new ProviderRegistry();
 
@@ -73,7 +73,7 @@ if (errors.length > 0) {
 ## Chaos Testing
 
 ```typescript
-import { ChaosProvider } from "@espanol/providers";
+import { ChaosProvider } from "@dialectos/providers";
 
 const chaos = new ChaosProvider(realProvider, { mode: "http-5xx", failOnCalls: [1, 2] });
 // Injects deterministic failures for resilience testing

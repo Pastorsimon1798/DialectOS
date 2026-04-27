@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * @espanol/mcp
+ * @dialectos/mcp
  *
  * MCP adapter for Espanol — provides Model Context Protocol tools for translation
  *
@@ -20,7 +20,7 @@ import { registerTranslatorTools } from "./tools/translator.js";
 import { setupGlobalHandlers } from "./lib/error-handler.js";
 import { loadConfig, getConfigPath, type MCPConfig } from "./lib/config.js";
 import { createProviderRegistry } from "./lib/provider-factory.js";
-import { RateLimiter } from "@espanol/security";
+import { RateLimiter } from "@dialectos/security";
 
 const packageJson = JSON.parse(
   readFileSync(new URL("../package.json", import.meta.url), "utf-8")
@@ -36,7 +36,7 @@ const packageJson = JSON.parse(
 function createServer(config: MCPConfig = loadConfig()): McpServer {
   const server = new McpServer(
     {
-      name: "@espanol/mcp",
+      name: "@dialectos/mcp",
       version: packageJson.version,
     },
     {

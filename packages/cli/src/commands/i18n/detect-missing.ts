@@ -3,7 +3,7 @@
  * Compares two locale files and reports missing, extra, and common keys
  */
 
-import { readLocaleFile, diffLocales } from "@espanol/locale-utils";
+import { readLocaleFile, diffLocales } from "@dialectos/locale-utils";
 import { writeError, writeInfo } from "../../lib/output.js";
 
 /**

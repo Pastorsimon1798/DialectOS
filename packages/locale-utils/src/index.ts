@@ -1,5 +1,5 @@
 /**
- * @espanol/locale-utils
+ * @dialectos/locale-utils
  *
  * i18n file operations with security fixes from red team audit.
  * Provides flatten, unflatten, diff, and atomic write operations.
@@ -16,8 +16,8 @@ import {
   ErrorCode,
   MAX_KEYS,
   MAX_RECURSION_DEPTH,
-} from "@espanol/security";
-import type { I18nEntry, LocaleDiff } from "@espanol/types";
+} from "@dialectos/security";
+import type { I18nEntry, LocaleDiff } from "@dialectos/types";
 
 export { validateJsonPath, sanitizeErrorMessage, createSecureTempPath, SecurityError, ErrorCode, MAX_KEYS, MAX_RECURSION_DEPTH };
 export type { I18nEntry, LocaleDiff };

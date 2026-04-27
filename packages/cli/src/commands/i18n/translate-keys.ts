@@ -3,8 +3,8 @@
  * Translates missing keys from base locale to target locale
  */
 
-import { readLocaleFile, writeLocaleFile, diffLocales } from "@espanol/locale-utils";
-import type { TranslationProvider, SpanishDialect, ProviderName } from "@espanol/types";
+import { readLocaleFile, writeLocaleFile, diffLocales } from "@dialectos/locale-utils";
+import type { TranslationProvider, SpanishDialect, ProviderName } from "@dialectos/types";
 import { writeError, writeInfo } from "../../lib/output.js";
 
 /**

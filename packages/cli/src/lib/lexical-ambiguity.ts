@@ -1,4 +1,4 @@
-import type { SpanishDialect } from "@espanol/types";
+import type { SpanishDialect } from "@dialectos/types";
 
 export interface LexicalAmbiguityRule {
   id: string;

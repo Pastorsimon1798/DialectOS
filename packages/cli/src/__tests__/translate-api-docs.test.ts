@@ -6,9 +6,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { writeOutput, writeError } from "../lib/output.js";
 import { executeTranslateApiDocs, executeExtractTranslatable } from "../commands/translate-api-docs.js";
-import type { TranslationProvider } from "@espanol/types";
+import type { TranslationProvider } from "@dialectos/types";
 import * as path from "node:path";
-import type { ProviderRegistry } from "@espanol/providers";
+import type { ProviderRegistry } from "@dialectos/providers";
 
 // Mock dependencies
 const mockWriteOutput = vi.fn();
@@ -24,7 +24,7 @@ const mockParseMarkdown = vi.fn();
 const mockReconstructMarkdown = vi.fn();
 const mockExtractTranslatableText = vi.fn();
 
-vi.mock("@espanol/markdown-parser", () => ({
+vi.mock("@dialectos/markdown-parser", () => ({
   parseMarkdown: () => mockParseMarkdown(),
   reconstructMarkdown: (...args: unknown[]) => mockReconstructMarkdown(...args),
   extractTranslatableText: (...args: unknown[]) => mockExtractTranslatableText(...args),
@@ -33,7 +33,7 @@ vi.mock("@espanol/markdown-parser", () => ({
 const mockValidateFilePath = vi.fn();
 const mockValidateContentLength = vi.fn();
 
-vi.mock("@espanol/security", () => ({
+vi.mock("@dialectos/security", () => ({
   validateFilePath: (path: string) => mockValidateFilePath(path),
   validateContentLength: (...args: unknown[]) => mockValidateContentLength(...args),
 }));

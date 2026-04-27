@@ -10,8 +10,8 @@
 import type { ProviderCapability, TranslateOptions, TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
 import { fetchWithRedirects } from "../fetch-utils.js";
-import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
-import { ALL_SPANISH_DIALECTS, languageCodeSchema } from "@espanol/types";
+import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@dialectos/security";
+import { ALL_SPANISH_DIALECTS, languageCodeSchema } from "@dialectos/types";
 
 const DEFAULT_MAX_PAYLOAD_CHARS = 50000;
 const DEFAULT_MAX_REQUESTS = 60;

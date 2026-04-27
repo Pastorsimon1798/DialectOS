@@ -27,7 +27,7 @@
 - **File:** `packages/providers/src/providers/libre-translate.ts:19-35, 93-94`
 - **Issue:** `LibreTranslateProvider` accepts arbitrary `endpoint` URL from constructor or `LIBRETRANSLATE_URL` without validation.
 - **Exploit:** `endpoint = "http://169.254.169.254/latest/meta-data/"` → fetch() calls AWS IMDS.
-- **Fix:** Use `validateUrl()` from `@espanol/security`, block private IP ranges, require known path structure.
+- **Fix:** Use `validateUrl()` from `@dialectos/security`, block private IP ranges, require known path structure.
 - **Status:** NOT covered by any open issue. **New finding.**
 
 ### C2. DeepL API Key Leakage in Error Messages
@@ -64,7 +64,7 @@
 
 ### H2. Missing Input Validation on Language Codes
 - **File:** All provider `translate()` methods
-- **Issue:** `@espanol/types` exports `languageCodeSchema` and `formalitySchema`, but NO provider uses them. Arbitrary strings passed to external APIs.
+- **Issue:** `@dialectos/types` exports `languageCodeSchema` and `formalitySchema`, but NO provider uses them. Arbitrary strings passed to external APIs.
 - **Exploit:** `targetLang = "es'); DROP TABLE translations; --"` — passed directly to APIs. While APIs likely sanitize, this bypasses client-side safety nets.
 - **Fix:** Validate all inputs with Zod schemas before calling providers.
 - **Status:** Related to #8 (provider capability negotiation) but more fundamental. **New finding.**
@@ -173,7 +173,7 @@
 
 ### M10. MCP Server Stdio Protocol Contamination
 - **File:** `packages/mcp/src/index.ts:66-70`
-- **Issue:** `console.error` in error handlers writes to stderr, which is okay for MCP, BUT `createSafeError` in `@espanol/security` also uses `console.error`. Any library call that triggers error sanitization contaminates stderr with non-JSON output.
+- **Issue:** `console.error` in error handlers writes to stderr, which is okay for MCP, BUT `createSafeError` in `@dialectos/security` also uses `console.error`. Any library call that triggers error sanitization contaminates stderr with non-JSON output.
 - **Fix:** In MCP context, redirect all logging to a file or use a structured logger that respects MCP protocol boundaries.
 - **Status:** NOT covered by any open issue. **New finding.**
 
@@ -202,7 +202,7 @@
 - **File:** `packages/locale-utils/src/index.ts:36-108`
 - **Issue:** Duplicates `SecurityError`, `ErrorCode`, `sanitizeErrorMessage`, `validateJsonPath` inline with weaker implementations. `validateJsonPath` does NOT check path traversal or allowed directories.
 - **Exploit:** `readLocaleFile("../../../etc/passwd")` succeeds because extension-only check.
-- **Fix:** Import from `@espanol/security` instead of duplicating. The comment says "inline for now until package is implemented" — it IS implemented.
+- **Fix:** Import from `@dialectos/security` instead of duplicating. The comment says "inline for now until package is implemented" — it IS implemented.
 - **Status:** NOT covered by any open issue. **New finding.**
 
 ---
@@ -261,7 +261,7 @@
 ### L9. MCP Tool Schemas Allow Invalid Dialect Codes
 - **File:** `packages/mcp/src/tools/translator.ts:976`, `packages/mcp/src/tools/docs.ts:422`
 - **Issue:** Zod schema is `z.string().optional()` for dialect, not `dialectSchema`. Invalid dialects passed through to providers.
-- **Fix:** Use `dialectSchema` from `@espanol/types` in all MCP tool registrations.
+- **Fix:** Use `dialectSchema` from `@dialectos/types` in all MCP tool registrations.
 
 ### L10. Batch Translate Missing Input Sanitization
 - **File:** `packages/mcp/src/tools/i18n.ts:407-490`
@@ -313,7 +313,7 @@
 8. Fix surrogate pair splitting (H3) — Unicode-aware chunking
 9. Add text length limits (H4) — enforce at provider boundary
 10. Fix circuit breaker race condition (M1) — atomic probe flag
-11. Fix locale-utils security duplication (M14) — import from `@espanol/security`
+11. Fix locale-utils security duplication (M14) — import from `@dialectos/security`
 
 ### Medium-Term (Next Month)
 12. Build provider chaos harness (#13)

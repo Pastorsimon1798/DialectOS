@@ -2,8 +2,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { readFileSync, writeFileSync, existsSync, mkdirSync, renameSync, rmSync, statSync, realpathSync } from "node:fs";
 import { join } from "node:path";
 
-import type { I18nEntry, LocaleDiff } from "@espanol/types";
-import { createSecureTempPath } from "@espanol/security";
+import type { I18nEntry, LocaleDiff } from "@dialectos/types";
+import { createSecureTempPath } from "@dialectos/security";
 
 // Mock fs module BEFORE importing the functions under test
 vi.mock("node:fs", async (importOriginal) => {
@@ -22,7 +22,7 @@ vi.mock("node:fs", async (importOriginal) => {
 });
 
 // Mock the security module BEFORE importing (factory must be self-contained for hoisting)
-vi.mock("@espanol/security", () => ({
+vi.mock("@dialectos/security", () => ({
   validateJsonPath: vi.fn((path: string, _options?: { mustExist?: boolean; checkSize?: boolean }) => path),
   sanitizeErrorMessage: vi.fn((message: string) =>
     message
@@ -61,7 +61,7 @@ vi.mock("@espanol/security", () => ({
 }));
 
 // Mock the types module BEFORE importing
-vi.mock("@espanol/types", () => ({
+vi.mock("@dialectos/types", () => ({
   I18nEntry,
   LocaleDiff,
 }));
@@ -80,7 +80,7 @@ import {
 } from "../index";
 
 // Mock the types module
-vi.mock("@espanol/types", () => ({
+vi.mock("@dialectos/types", () => ({
   I18nEntry,
   LocaleDiff,
 }));

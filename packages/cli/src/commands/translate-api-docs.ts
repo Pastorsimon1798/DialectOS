@@ -4,11 +4,11 @@
  */
 
 import * as fs from "node:fs";
-import type { TranslationProvider, SpanishDialect, MarkdownSection, ParsedMarkdown, TranslateOptions } from "@espanol/types";
-import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@espanol/types";
-import { parseMarkdown, reconstructMarkdown, extractTranslatableText } from "@espanol/markdown-parser";
-import { validateFilePath, validateContentLength } from "@espanol/security";
-import type { ProviderRegistry } from "@espanol/providers";
+import type { TranslationProvider, SpanishDialect, MarkdownSection, ParsedMarkdown, TranslateOptions } from "@dialectos/types";
+import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@dialectos/types";
+import { parseMarkdown, reconstructMarkdown, extractTranslatableText } from "@dialectos/markdown-parser";
+import { validateFilePath, validateContentLength } from "@dialectos/security";
+import type { ProviderRegistry } from "@dialectos/providers";
 import { writeOutput, writeError, writeInfo, sanitizeConsoleOutput } from "../lib/output.js";
 import {
   loadProtectedTokens,

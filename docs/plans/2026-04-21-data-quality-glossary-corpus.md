@@ -4,7 +4,7 @@
 
 **Architecture:** Keep dependencies unchanged. Expand the existing CLI glossary data as the canonical runtime source, add optional source metadata to glossary entries, and import that data from the MCP tool surface instead of maintaining a second smaller glossary. Add tests for coverage counts, source attribution, MCP/CLI parity, and known domain term coverage.
 
-**Tech Stack:** TypeScript, pnpm workspaces, Vitest, existing @espanol packages.
+**Tech Stack:** TypeScript, pnpm workspaces, Vitest, existing @dialectos packages.
 
 ---
 

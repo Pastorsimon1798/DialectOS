@@ -4,7 +4,7 @@
 
 **Architecture:** Introduce shared domain helpers for providers, dialects, glossary, adaptations, quality gating, and table reconstruction rather than continuing duplicated CLI/MCP logic. Keep the changes dependency-free and backwards-compatible at the public CLI/MCP boundary while making unsupported provider/dialect combinations explicit. Tests lock each audited failure before production changes.
 
-**Tech Stack:** TypeScript, pnpm workspaces, Vitest, Commander, MCP SDK, existing @espanol/* packages.
+**Tech Stack:** TypeScript, pnpm workspaces, Vitest, Commander, MCP SDK, existing @dialectos/* packages.
 
 ---
 

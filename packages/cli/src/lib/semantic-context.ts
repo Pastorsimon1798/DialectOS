@@ -1,5 +1,5 @@
-import type { SpanishDialect, FormalityLevel } from "@espanol/types";
-import { buildDialectQualityPrompt, getDialectGrammarProfile } from "@espanol/types";
+import type { SpanishDialect, FormalityLevel } from "@dialectos/types";
+import { buildDialectQualityPrompt, getDialectGrammarProfile } from "@dialectos/types";
 import { getDialectInfo } from "./dialect-info.js";
 import { buildLexicalAmbiguityGuidance } from "./lexical-ambiguity.js";
 

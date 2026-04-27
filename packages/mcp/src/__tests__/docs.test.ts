@@ -21,12 +21,12 @@ vi.mock("node:fs", () => ({
 }));
 
 // Mock the core libraries
-vi.mock("@espanol/markdown-parser", () => ({
+vi.mock("@dialectos/markdown-parser", () => ({
   parseMarkdown: vi.fn(),
   reconstructMarkdown: vi.fn(),
 }));
 
-vi.mock("@espanol/security", () => {
+vi.mock("@dialectos/security", () => {
   // Create SecurityError inline
   class SecurityError extends Error {
     code: string;
@@ -60,7 +60,7 @@ vi.mock("@espanol/security", () => {
   };
 });
 
-vi.mock("@espanol/providers", () => ({
+vi.mock("@dialectos/providers", () => ({
   ProviderRegistry: vi.fn(function() {
     return {
       get: vi.fn(),
@@ -77,14 +77,14 @@ vi.mock("@espanol/providers", () => ({
 import {
   parseMarkdown,
   reconstructMarkdown,
-} from "@espanol/markdown-parser";
+} from "@dialectos/markdown-parser";
 import {
   validateMarkdownPath,
   RateLimiter,
   createSafeError,
   SecurityError,
-} from "@espanol/security";
-import { ProviderRegistry } from "@espanol/providers";
+} from "@dialectos/security";
+import { ProviderRegistry } from "@dialectos/providers";
 
 describe("MCP Docs Tools", () => {
   let mockRegistry: ProviderRegistry;

@@ -1,5 +1,5 @@
-import type { ProviderRegistry } from "@espanol/providers";
-import type { TranslateOptions } from "@espanol/types";
+import type { ProviderRegistry } from "@dialectos/providers";
+import type { TranslateOptions } from "@dialectos/types";
 
 export interface PreparedToolProviderRequest {
   sourceLang: string;

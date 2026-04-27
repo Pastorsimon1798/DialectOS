@@ -1,5 +1,5 @@
-import type { SpanishDialect } from "@espanol/types";
-import { ALL_SPANISH_DIALECTS } from "@espanol/types";
+import type { SpanishDialect } from "@dialectos/types";
+import { ALL_SPANISH_DIALECTS } from "@dialectos/types";
 
 export type ResearchConfidence = "low" | "medium" | "high";
 

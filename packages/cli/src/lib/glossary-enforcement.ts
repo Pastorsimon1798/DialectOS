@@ -1,5 +1,5 @@
 import { promises as fs } from "node:fs";
-import { validateFilePath } from "@espanol/security";
+import { validateFilePath } from "@dialectos/security";
 
 export type GlossaryMode = "off" | "strict";
 

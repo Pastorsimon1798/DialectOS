@@ -6,8 +6,8 @@
 import type { TranslationProvider, TranslationResult, ProviderCapability } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
 import { fetchWithRedirects } from "../fetch-utils.js";
-import { RateLimiter, sanitizeErrorMessage, validateContentLength, SecurityError, ErrorCode } from "@espanol/security";
-import { languageCodeSchema } from "@espanol/types";
+import { RateLimiter, sanitizeErrorMessage, validateContentLength, SecurityError, ErrorCode } from "@dialectos/security";
+import { languageCodeSchema } from "@dialectos/types";
 
 const MYMEMORY_ENDPOINT = "https://api.mymemory.translated.net/get";
 const DEFAULT_MYMEMORY_TIMEOUT = 15000; // 15 seconds (faster timeout for free service)

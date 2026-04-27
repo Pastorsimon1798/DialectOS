@@ -33,16 +33,16 @@ locales/
 
 ```bash
 # Detect missing keys across dialect files
-espanol i18n detect-missing ./locales/en.json ./locales/es-MX.json
+dialectos i18n detect-missing ./locales/en.json ./locales/es-MX.json
 
 # Translate missing keys to a specific dialect
-espanol i18n translate-missing ./locales/en.json --dialect es-MX
+dialectos i18n translate-missing ./locales/en.json --dialect es-MX
 
 # Batch translate to all dialects
-espanol i18n batch-translate ./locales/en.json --dialects es-MX,es-AR,es-CO,es-PR
+dialectos i18n batch-translate ./locales/en.json --dialects es-MX,es-AR,es-CO,es-PR
 
 # Create dialect-specific variants with grammar adaptations
-espanol i18n manage-variants ./locales/es-MX.json --target es-AR
+dialectos i18n manage-variants ./locales/es-MX.json --target es-AR
 ```
 
 **DialectOS also:**
