@@ -1003,6 +1003,292 @@ export const LEXICAL_AMBIGUITY_RULES: readonly LexicalAmbiguityRule[] = [
     },
   },
 
+  {
+    id: "chaqueta-jacket-mx",
+    dialects: ["es-MX"],
+    sourcePattern: /\b(jacket|coat|blazer|chaqueta|chamarra|campera)\b/i,
+    guidance: "'Chaqueta' means jacket in most Spanish dialects but is vulgar slang for masturbation in Mexican Spanish. Always use 'chamarra' for jacket/coat in Mexican Spanish. 'Campera' is also used in Argentina. This is one of the most dangerous false friends in Spanish dialectology.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [dialect === "es-MX" ? ["chamarra", "saco", "abrigo"] : ["chaqueta", "chamarra", "campera", "saco"]],
+      forbiddenOutputTerms: dialect === "es-MX" ? ["chaqueta"] : [],
+    }),
+  },
+
+  {
+    id: "bombilla-lightbulb-mate",
+    dialects: ["es-AR", "es-UY", "es-PY"],
+    sourcePattern: /\b(lightbulb|bulb|bombilla|foco)\b/i,
+    guidance: "'Bombilla' means lightbulb in most Spanish dialects but in Argentina, Uruguay, and Paraguay it primarily refers to the metal straw used for drinking mate. Use 'foco' or 'ampolleta' (CL) for lightbulb in these dialects to avoid confusion.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [dialect === "es-AR" || dialect === "es-UY" || dialect === "es-PY" ? ["foco", "lamparita"] : ["bombilla", "foco", "ampolleta"]],
+      forbiddenOutputTerms: dialect === "es-AR" || dialect === "es-UY" || dialect === "es-PY" ? ["bombilla"] : [],
+    }),
+  },
+
+  {
+    id: "pajilla-straw-pr-do-ve",
+    dialects: ["es-PR", "es-DO", "es-VE"],
+    sourcePattern: /\b(drinking straw|straw|pajilla|popote|pajita|sorbete)\b/i,
+    guidance: "'Pajilla' is the standard term for drinking straw in Puerto Rico but is vulgar slang for masturbation in Dominican Republic and Venezuela. Use 'sorbete' (DO) or 'pitillo' (VE) instead. In Mexico use 'popote', in Colombia 'pajita', in Argentina 'pajita' or 'sorbete'.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [dialect === "es-PR" ? ["pajilla", "sorbete"] : dialect === "es-DO" ? ["sorbete"] : dialect === "es-VE" ? ["pitillo"] : ["pajilla", "popote", "sorbete"]],
+      forbiddenOutputTerms: dialect === "es-DO" || dialect === "es-VE" ? ["pajilla"] : [],
+    }),
+  },
+
+  {
+    id: "gordo-fat-affectionate",
+    dialects: "all",
+    sourcePattern: /\b(fat|overweight|gordo|gorda|gordito|gordita)\b/i,
+    guidance: "'Gordo/gorda' is used affectionately in Argentina, Uruguay, Mexico, and parts of Central America (as a nickname or term of endearment). In Spain, Colombia, Peru, and formal registers elsewhere it can be offensive. Use 'persona con sobrepeso' or 'curvy/curvado' for neutral/medical contexts. The affectionate use is register-dependent.",
+    expectations: {
+      requiredOutputGroups: [["gordo", "sobrepeso", "curvy", "rellenito"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "mamacita-catcall",
+    dialects: ["es-MX", "es-CO", "es-DO", "es-PR", "es-VE", "es-CU"],
+    sourcePattern: /\b(hot woman|attractive woman|babe|mamacita|mami)\b/i,
+    guidance: "'Mamacita' and 'mami' can be affectionate within close relationships but are widely used in street harassment (catcalling) across Caribbean, Mexican, and northern South American Spanish. In formal or professional translation, use 'mujer atractiva', 'hermosa'. Avoid mamacita unless source is explicitly casual/street register.",
+    expectations: {
+      requiredOutputGroups: [["mujer atractiva", "hermosa", "guapa", "linda"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "gringo-foreigner",
+    dialects: ["es-MX", "es-GT", "es-HN", "es-SV", "es-NI", "es-CR", "es-PA"],
+    sourcePattern: /\b(foreigner|american|gringo|gringa|gabacho)\b/i,
+    guidance: "'Gringo' in Mexico and Central America primarily refers to US Americans and can be neutral or mildly derogatory depending on context/tone. 'Gabacho' (MX) is more colloquial and slightly more pejorative. In Argentina and southern South America, 'gringo' can refer to any fair-skinned foreigner, not just Americans. Use 'extranjero' or 'estadounidense' for neutral register.",
+    expectations: {
+      requiredOutputGroups: [["extranjero", "estadounidense", "gringo"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "pirobo-insult-co",
+    dialects: ["es-CO"],
+    sourcePattern: /\b(jerk|asshole|bastard|despicable)\b/i,
+    guidance: "'Pirobo' is a highly offensive Colombian insult (implies sexual deviance). It should never appear in formal or neutral translation. Use 'idiota', 'imbécil', 'persona despreciable' instead. Only use in explicitly vulgar source text matching.",
+    expectations: {
+      requiredOutputGroups: [["idiota", "imbécil", "persona despreciable"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "carechimba-insult-co",
+    dialects: ["es-CO"],
+    sourcePattern: /\b(fuck off|go away|get lost|hell)\b/i,
+    guidance: "'Carechimba' is extremely vulgar Colombian slang (combines 'cara' + 'chimba', vulgar for female genitalia). It's used as an emphatic exclamation. Never use in formal translation. Use 'vete', 'váyase', 'diablos' for neutral equivalents.",
+    expectations: {
+      requiredOutputGroups: [["vete", "váyase", "diablos"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "arrecho-angry-ve",
+    dialects: ["es-VE"],
+    sourcePattern: /\b(angry|furious|pissed off|horny|aroused)\b/i,
+    guidance: "'Arrecho' in Venezuela means angry/furious. In Colombia, it means horny/aroused. This is a dangerous false friend between neighboring countries. For Venezuelan dialect, 'arrecho' = angry is correct. For Colombian, avoid 'arrecho' for anger and use 'enojado', 'bravo', 'furioso' instead.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [dialect === "es-VE" ? ["arrecho", "bravo", "furioso", "enojado"] : ["enojado", "bravo", "furioso"]],
+      forbiddenOutputTerms: [],
+    }),
+  },
+
+  {
+    id: "vaina-thing-do-ve",
+    dialects: ["es-VE", "es-DO"],
+    sourcePattern: /\b(thing|stuff|thingamajig|whatchamacallit|vaina)\b/i,
+    guidance: "'Vaina' is extremely versatile in Dominican and Venezuelan Spanish — it means 'thing/stuff' but can range from completely neutral to mildly vulgar depending on context and tone. It's a filler word similar to 'thing' in English. In formal translation, use 'cosa', 'asunto', 'tema'. In casual register for VE/DO, 'vaina' is natural.",
+    expectations: {
+      requiredOutputGroups: [["cosa", "asunto", "tema", "vaina"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "chevere-cool-ve-dr",
+    dialects: ["es-VE", "es-DO", "es-PR", "es-CO", "es-PA"],
+    sourcePattern: /\b(cool|awesome|great|nice|chevere|chévere)\b/i,
+    guidance: "'Chévere' means cool/awesome and originated in Venezuela but spread through Caribbean and northern South America. It's perfectly acceptable in VE, DO, PR, CO, PA. In Spain, Argentina, and southern South America it may sound Caribbean. Use 'genial', 'estupendo', 'buenísimo' for more neutral/pan-Hispanic equivalents.",
+    expectations: {
+      requiredOutputGroups: [["chévere", "genial", "estupendo", "buenísimo", "cool"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "chiva-goat-pr-hn",
+    dialects: ["es-PR", "es-HN", "es-NI", "es-CR"],
+    sourcePattern: /\b(goat|kid|chiva|chivo|cabra)\b/i,
+    guidance: "'Chiva' means goat in many dialects but in Puerto Rican slang it means 'tip-off' or 'informant', and in Honduras/Nicaragua it can refer to a small bus. For literal 'goat', use 'cabra' or 'chivo' (male goat) in PR. In HN/NI/CR, 'chiva' for goat is fine but be aware of the bus/vehicle connotation.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [dialect === "es-PR" ? ["cabra", "chivo"] : ["chiva", "cabra", "chivo"]],
+      forbiddenOutputTerms: [],
+    }),
+  },
+
+  {
+    id: "punta-tip-vulgar",
+    dialects: ["es-ES", "es-CO", "es-VE"],
+    sourcePattern: /\b(point|tip|punta|punto|punzón)\b/i,
+    guidance: "'Punta' means point/tip in most Spanish, but in Spain, Colombia, and Venezuela it can also be a vulgar euphemism (shortened form of a sexual vulgarity). In formal contexts, prefer 'punto', 'extremo', 'vértice'. 'Punta' is fine for geographical points (punta de la isla) and literal tips.",
+    expectations: {
+      requiredOutputGroups: [["punto", "punta", "extremo", "vértice"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "boba-bobo-dumb-co-ve",
+    dialects: ["es-CO", "es-VE", "es-DO"],
+    sourcePattern: /\b(dumb|stupid|foolish|silly|bobo|boba)\b/i,
+    guidance: "'Bobo/boba' means foolish/silly in most Spanish but in Colombian and Venezuelan Spanish it can be more offensive than in other dialects. In Caribbean Spanish, 'boba' can also refer to a slow-witted person in a more cutting way. Use 'tonto', 'ingenuo', 'inocente' for safer neutral register.",
+    expectations: {
+      requiredOutputGroups: [["tonto", "ingenuo", "inocente", "bobo"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "gaveta-drawer-pr-do",
+    dialects: ["es-PR", "es-DO", "es-CU"],
+    sourcePattern: /\b(drawer|gaveta|cajón|cajón de mesa)\b/i,
+    guidance: "'Gaveta' is the standard term for drawer in Puerto Rico, Dominican Republic, and Cuba, but in most other dialects 'cajón' is preferred and 'gaveta' may sound Caribbean or archaic. 'Cajón' is universally understood. Both are correct in their respective regions.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [dialect === "es-PR" || dialect === "es-DO" || dialect === "es-CU" ? ["gaveta", "cajón"] : ["cajón", "gaveta"]],
+      forbiddenOutputTerms: [],
+    }),
+  },
+
+  {
+    id: "plata-money-latam",
+    dialects: ["es-CO", "es-VE", "es-AR", "es-UY", "es-PY", "es-CL", "es-PE", "es-EC", "es-BO"],
+    sourcePattern: /\b(money|cash|plata|dinero|pasta|lana)\b/i,
+    guidance: "'Plata' is the most common colloquial word for money in Latin America (especially CO, VE, AR, UY, PY, CL). In Spain, 'pasta' or 'dinero' is preferred. In Mexico, 'lana' or 'varo' are common slang. 'Dinero' is the safest universal/formal option. Be aware of register when choosing.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [["dinero", "plata", "pasta", "lana"]],
+      forbiddenOutputTerms: [],
+    }),
+  },
+
+  {
+    id: "alsa-bus-es",
+    dialects: ["es-ES"],
+    sourcePattern: /\b(bus|coach|motorcoach|autobús|autocar)\b/i,
+    guidance: "In Spain, 'autobús' is the standard term. 'Autocar' is used for long-distance coaches. Avoid Latin American terms like 'camión' (Mexico), 'colectivo' (Argentina), 'micro' (Andean/Cono Sur) in peninsular Spanish. 'Bus' as a loanword is informal but understood.",
+    expectations: {
+      requiredOutputGroups: [["autobús", "autocar", "bus"]],
+      forbiddenOutputTerms: ["camión", "colectivo", "micro", "guagua"],
+    },
+  },
+
+  {
+    id: "colectivo-bus-ar-uy",
+    dialects: ["es-AR", "es-UY"],
+    sourcePattern: /\b(bus|public transport|city bus|colectivo|autobús)\b/i,
+    guidance: "In Argentina and Uruguay, 'colectivo' is the standard term for city bus. 'Micro' refers to long-distance buses. Avoid 'autobús' (sounds formal/foreign) and 'camión' (means truck, used for bus in Mexico).",
+    expectations: {
+      requiredOutputGroups: [["colectivo", "micro"]],
+      forbiddenOutputTerms: ["camión"],
+    },
+  },
+
+  {
+    id: "camion-bus-mx",
+    dialects: ["es-MX"],
+    sourcePattern: /\b(bus|city bus|public transport|camión|autobús)\b/i,
+    guidance: "In Mexico, 'camión' is the everyday term for city bus. 'Autobús' is more formal. Note that 'camión' means truck in most other dialects — only in Mexico/Central America does it mean bus. Use 'autobús' for formal register.",
+    expectations: {
+      requiredOutputGroups: [["camión", "autobús"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "enojado-angry-mx",
+    dialects: ["es-MX", "es-GT", "es-HN", "es-SV", "es-NI", "es-CR"],
+    sourcePattern: /\b(angry|mad|furious|upset|enojado|enfadado|bravo)\b/i,
+    guidance: "'Enojado' is the standard word for angry in Mexico and Central America. 'Enfadado' is used in Spain. 'Bravo' is used in Caribbean and some South American dialects. 'Molesto' means annoyed (milder). Match the dialect: enojado (MX/CA), enfadado (ES), bravo (Caribbean/CO/VE).",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [["enojado", "enfadado", "bravo", "furioso"]],
+      forbiddenOutputTerms: [],
+    }),
+  },
+
+  {
+    id: "almorzar-lunch-vs-breakfast",
+    dialects: ["es-CO", "es-VE", "es-CL"],
+    sourcePattern: /\b(breakfast|lunch|almuerzo|desayuno|almorzar)\b/i,
+    guidance: "'Almorzar' and 'almuerzo' can be confusing. In Colombia, 'almuerzo' often refers to a mid-morning meal that functions as both breakfast and lunch (the main meal). In Venezuela and Chile it's more clearly lunch. 'Desayuno' is always breakfast. For clarity, use 'comida del mediodía' or 'comida principal' when the distinction matters.",
+    expectations: {
+      requiredOutputGroups: [["almuerzo", "desayuno", "comida"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "comida-lunch-vs-dinner",
+    dialects: ["es-MX", "es-ES"],
+    sourcePattern: /\b(lunch|dinner|meal|comida|cena|almuerzo)\b/i,
+    guidance: "'Comida' in Mexico means lunch (the main midday meal). In Spain, 'comida' can mean food in general or lunch depending on context. 'Cena' is always dinner/evening meal. In Argentina, 'comida' is generic for food/meal. Disambiguate based on context: if referring to midday meal in MX, use 'comida'; in ES, 'almuerzo' or 'comida'; evening meal is always 'cena'.",
+    expectations: {
+      requiredOutputGroups: [["comida", "almuerzo", "cena"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "torta-cake-mx-vs-sandwich",
+    dialects: ["es-MX", "es-ES", "es-AR"],
+    sourcePattern: /\b(cake|pie|sandwich|torta|tarta|pastel|torta ahogada)\b/i,
+    guidance: "'Torta' means cake in Spain and some regions, but in Mexico it primarily means a sandwich (especially a crusty roll sandwich). 'Pastel' is cake in Mexico. In Argentina, 'torta' is cake. This is a major false friend: Mexican 'torta' (sandwich) vs. Spanish/Argentine 'torta' (cake). Use 'pastel' for cake in MX, 'bocadillo/sándwich' for sandwich in ES.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [dialect === "es-MX" ? ["pastel", "torta", "sándwich", "bocadillo"] : ["tarta", "torta", "pastel", "bocadillo"]],
+      forbiddenOutputTerms: [],
+    }),
+  },
+
+  {
+    id: "pariente-relative-vs-friend",
+    dialects: ["es-MX", "es-GT", "es-HN", "es-SV", "es-NI"],
+    sourcePattern: /\b(relative|family member|friend|pariente|familiar|amigo)\b/i,
+    guidance: "'Pariente' means relative/family member in standard Spanish, but in rural Mexican and Central American Spanish it can also mean close friend or compadre. In formal translation, use 'familiar' or 'miembro de la familia' for relative. Be aware of the broader colloquial usage.",
+    expectations: {
+      requiredOutputGroups: [["pariente", "familiar", "miembro de la familia"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "ahora-now-vs-later",
+    dialects: "all",
+    sourcePattern: /\b(now|right now|later|in a bit|ahora|ahorita|ya)\b/i,
+    guidance: "'Ahora' means 'now' in most Spanish, but 'ahorita' is tricky: in Mexican Spanish it can mean 'right now' OR 'in a while' depending on context and tone. In Dominican Spanish, 'ahora' can mean 'later'. In Argentine Spanish, 'ahora' is straightforward 'now'. For 'right now', use 'ya mismo', 'en este momento', 'inmediatamente' for clarity.",
+    expectations: {
+      requiredOutputGroups: [["ahora", "ya", "en este momento", "inmediatamente"]],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: " frijoles-beans-dialect",
+    dialects: ["es-MX", "es-CO", "es-VE", "es-CL", "es-AR", "es-ES"],
+    sourcePattern: /\b(beans|frijoles|judías|alubias|porotos|habichuelas|caraotas)\b/i,
+    guidance: "Bean terminology is heavily dialectal: 'frijoles' (Mexico, Central America, Colombia), 'porotos' (Argentina, Chile, Uruguay, Paraguay), 'judías' or 'alubias' (Spain), 'caraotas' (Venezuela), 'habichuelas' (Dominican Republic, Puerto Rico, Cuba). Use the dialect-correct term; this is one of the most recognizable dialect markers.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [dialect === "es-AR" || dialect === "es-UY" || dialect === "es-PY" || dialect === "es-CL" ? ["porotos"] : dialect === "es-VE" ? ["caraotas"] : dialect === "es-ES" ? ["judías", "alubias"] : dialect === "es-DO" || dialect === "es-PR" || dialect === "es-CU" ? ["habichuelas"] : ["frijoles"]],
+      forbiddenOutputTerms: [],
+    }),
+  },
+
 ];
 
 function appliesToDialect(rule: LexicalAmbiguityRule, dialect: SpanishDialect): boolean {

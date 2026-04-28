@@ -8,7 +8,11 @@ export type GlossaryCategory =
   | "web"
   | "security"
   | "ai"
-  | "localization";
+  | "localization"
+  | "devops"
+  | "database"
+  | "mobile"
+  | "networking";
 
 export const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
   "programming",
@@ -19,6 +23,10 @@ export const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
   "security",
   "ai",
   "localization",
+  "devops",
+  "database",
+  "mobile",
+  "networking",
 ];
 
 const SOURCE_BY_CATEGORY: Record<string, { source: string; sourceUrl: string }> = {
@@ -37,6 +45,22 @@ const SOURCE_BY_CATEGORY: Record<string, { source: string; sourceUrl: string }> 
   general: {
     source: "Microsoft Language Portal",
     sourceUrl: "https://www.microsoft.com/language",
+  },
+  devops: {
+    source: "CNCF Glossary",
+    sourceUrl: "https://glossary.cncf.io/",
+  },
+  database: {
+    source: "Oracle Database Documentation",
+    sourceUrl: "https://docs.oracle.com/en/database/",
+  },
+  mobile: {
+    source: "Apple Developer Documentation",
+    sourceUrl: "https://developer.apple.com/documentation/",
+  },
+  networking: {
+    source: "Cisco Networking Academy",
+    sourceUrl: "https://www.netacad.com/",
   },
   web: {
     source: "MDN Web Docs Glossary",
@@ -362,7 +386,115 @@ const RAW_GLOSSARY_DATA: GlossaryEntry[] = [
   { term: "shortcut", translation: "atajo", category: "general" },
   { term: "sync", translation: "sincronizar", category: "general" },
   { term: "template", translation: "plantilla", category: "general" },
-  { term: "workspace", translation: "espacio de trabajo", category: "general" }
+  { term: "workspace", translation: "espacio de trabajo", category: "general" },
+
+  // --- devops ---
+  { term: "container", translation: "contenedor", category: "devops" },
+  { term: "orchestration", translation: "orquestación", category: "devops" },
+  { term: "pipeline", translation: "pipeline", category: "devops" },
+  { term: "CI/CD", translation: "CI/CD (integración y entrega continua)", category: "devops" },
+  { term: "deployment", translation: "despliegue", category: "devops" },
+  { term: "staging environment", translation: "entorno de pruebas", category: "devops" },
+  { term: "production environment", translation: "entorno de producción", category: "devops" },
+  { term: "monitoring", translation: "monitoreo", category: "devops" },
+  { term: "alerting", translation: "alertas", category: "devops" },
+  { term: "incident", translation: "incidente", category: "devops" },
+  { term: "post-mortem", translation: "post-mortem", category: "devops" },
+  { term: "rollback", translation: "reversión", category: "devops" },
+  { term: "canary deployment", translation: "despliegue canario", category: "devops" },
+  { term: "blue-green deployment", translation: "despliegue azul-verde", category: "devops" },
+  { term: "infrastructure as code", translation: "infraestructura como código", category: "devops" },
+  { term: "load balancer", translation: "balanceador de carga", category: "devops" },
+  { term: "scalability", translation: "escalabilidad", category: "devops" },
+  { term: "uptime", translation: "tiempo de actividad", category: "devops" },
+  { term: "health check", translation: "verificación de estado", category: "devops" },
+  { term: "artifact", translation: "artefacto", category: "devops" },
+  { term: "registry", translation: "registro de artefactos", category: "devops" },
+  { term: "configuration management", translation: "gestión de configuración", category: "devops" },
+  { term: "provisioning", translation: "aprovisionamiento", category: "devops" },
+  { term: "service mesh", translation: "malla de servicios", category: "devops" },
+  { term: "observability", translation: "observabilidad", category: "devops" },
+
+  // --- database ---
+  { term: "query", translation: "consulta", category: "database" },
+  { term: "index", translation: "índice", category: "database" },
+  { term: "migration", translation: "migración", category: "database" },
+  { term: "schema", translation: "esquema", category: "database" },
+  { term: "foreign key", translation: "clave foránea", category: "database" },
+  { term: "join", translation: "unión (JOIN)", category: "database" },
+  { term: "normalization", translation: "normalización", category: "database" },
+  { term: "transaction", translation: "transacción", category: "database" },
+  { term: "backup", translation: "copia de seguridad", category: "database" },
+  { term: "replica", translation: "réplica", category: "database" },
+  { term: "shard", translation: "fragmento (shard)", category: "database" },
+  { term: "partition", translation: "partición", category: "database" },
+  { term: "cursor", translation: "cursor", category: "database" },
+  { term: "stored procedure", translation: "procedimiento almacenado", category: "database" },
+  { term: "trigger", translation: "disparador", category: "database" },
+  { term: "view", translation: "vista", category: "database" },
+  { term: "primary key", translation: "clave primaria", category: "database" },
+  { term: "table", translation: "tabla", category: "database" },
+  { term: "row", translation: "fila", category: "database" },
+  { term: "column", translation: "columna", category: "database" },
+  { term: "constraint", translation: "restricción", category: "database" },
+  { term: "connection pool", translation: "pool de conexiones", category: "database" },
+  { term: "deadlock", translation: "interbloqueo", category: "database" },
+  { term: "seed data", translation: "datos iniciales", category: "database" },
+  { term: "ORM", translation: "ORM (mapeo objeto-relacional)", category: "database" },
+
+  // --- mobile ---
+  { term: "responsive design", translation: "diseño responsivo", category: "mobile" },
+  { term: "viewport", translation: "ventana gráfica (viewport)", category: "mobile" },
+  { term: "breakpoint", translation: "punto de quiebre", category: "mobile" },
+  { term: "native app", translation: "aplicación nativa", category: "mobile" },
+  { term: "hybrid app", translation: "aplicación híbrida", category: "mobile" },
+  { term: "progressive web app", translation: "aplicación web progresiva", category: "mobile" },
+  { term: "push notification", translation: "notificación push", category: "mobile" },
+  { term: "deep link", translation: "enlace profundo", category: "mobile" },
+  { term: "app store", translation: "tienda de aplicaciones", category: "mobile" },
+  { term: "simulator", translation: "simulador", category: "mobile" },
+  { term: "emulator", translation: "emulador", category: "mobile" },
+  { term: "gesture", translation: "gesto", category: "mobile" },
+  { term: "touch event", translation: "evento táctil", category: "mobile" },
+  { term: "widget", translation: "widget", category: "mobile" },
+  { term: "bundle size", translation: "tamaño del paquete", category: "mobile" },
+  { term: "hot reload", translation: "recarga en caliente", category: "mobile" },
+  { term: "splash screen", translation: "pantalla de inicio", category: "mobile" },
+  { term: "onboarding", translation: "incorporación (onboarding)", category: "mobile" },
+  { term: "runtime permission", translation: "permiso en tiempo de ejecución", category: "mobile" },
+  { term: "biometric authentication", translation: "autenticación biométrica", category: "mobile" },
+  { term: "accessibility", translation: "accesibilidad", category: "mobile" },
+  { term: "screen reader", translation: "lector de pantalla", category: "mobile" },
+  { term: "offline mode", translation: "modo sin conexión", category: "mobile" },
+  { term: "API rate limiting", translation: "limitación de tasa de API", category: "mobile" },
+  { term: "lazy loading", translation: "carga diferida", category: "mobile" },
+
+  // --- networking ---
+  { term: "firewall", translation: "cortafuegos", category: "networking" },
+  { term: "VPN", translation: "VPN (red privada virtual)", category: "networking" },
+  { term: "DNS", translation: "DNS (sistema de nombres de dominio)", category: "networking" },
+  { term: "CDN", translation: "CDN (red de distribución de contenido)", category: "networking" },
+  { term: "packet", translation: "paquete", category: "networking" },
+  { term: "socket", translation: "socket", category: "networking" },
+  { term: "port", translation: "puerto", category: "networking" },
+  { term: "TLS", translation: "TLS (seguridad de la capa de transporte)", category: "networking" },
+  { term: "proxy", translation: "proxy", category: "networking" },
+  { term: "bandwidth", translation: "ancho de banda", category: "networking" },
+  { term: "latency", translation: "latencia", category: "networking" },
+  { term: "throughput", translation: "rendimiento", category: "networking" },
+  { term: "ping", translation: "ping", category: "networking" },
+  { term: "traceroute", translation: "traceroute", category: "networking" },
+  { term: "subnet", translation: "subred", category: "networking" },
+  { term: "IP address", translation: "dirección IP", category: "networking" },
+  { term: "MAC address", translation: "dirección MAC", category: "networking" },
+  { term: "DHCP", translation: "DHCP (protocolo de configuración dinámica de host)", category: "networking" },
+  { term: "HTTP status code", translation: "código de estado HTTP", category: "networking" },
+  { term: "SSL certificate", translation: "certificado SSL", category: "networking" },
+  { term: "caching", translation: "almacenamiento en caché", category: "networking" },
+  { term: "websocket", translation: "websocket", category: "networking" },
+  { term: "load testing", translation: "prueba de carga", category: "networking" },
+  { term: "DDoS", translation: "DDoS (ataque de denegación de servicio distribuido)", category: "networking" },
+  { term: "SSH", translation: "SSH (shell seguro)", category: "networking" },
 ];
 
 export const GLOSSARY_DATA: GlossaryEntry[] = RAW_GLOSSARY_DATA.map((entry) => ({

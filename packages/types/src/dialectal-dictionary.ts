@@ -20,9 +20,7 @@ export interface DictionaryEntry {
   variants: Partial<Record<SpanishDialect, Variant>>;
 }
 
-export const DICTIONARY: DictionaryEntry[] = [
-
-// --- technology ---
+export const DICTIONARY: readonly DictionaryEntry[] = [
 
 { field: "technology", concept: "computer", englishGloss: "electronic computing device",
   panHispanic: "computadora",
@@ -3713,5 +3711,2085 @@ export const DICTIONARY: DictionaryEntry[] = [
     "es-BZ": { term: "tasa de interes", frequency: 1, register: "universal" },
   }},
 
+
+
+{ field: "technology", concept: "laptop", englishGloss: "portable personal computer",
+  variants: {
+    "es-ES": { term: "portatil", frequency: 1, register: "universal" },
+    "es-AD": { term: "portatil", frequency: 1, register: "universal" },
+    "es-MX": { term: "laptop", frequency: 1, register: "universal" },
+    "es-CO": { term: "laptop", frequency: 1, register: "universal" },
+    "es-CU": { term: "laptop", frequency: 1, register: "universal" },
+    "es-PE": { term: "laptop", frequency: 1, register: "universal" },
+    "es-CL": { term: "laptop", frequency: 1, register: "universal" },
+    "es-VE": { term: "laptop", frequency: 1, register: "universal" },
+    "es-BO": { term: "laptop", frequency: 1, register: "universal" },
+    "es-EC": { term: "laptop", frequency: 1, register: "universal" },
+    "es-GT": { term: "laptop", frequency: 1, register: "universal" },
+    "es-HN": { term: "laptop", frequency: 1, register: "universal" },
+    "es-SV": { term: "laptop", frequency: 1, register: "universal" },
+    "es-NI": { term: "laptop", frequency: 1, register: "universal" },
+    "es-CR": { term: "laptop", frequency: 1, register: "universal" },
+    "es-PA": { term: "laptop", frequency: 1, register: "universal" },
+    "es-DO": { term: "laptop", frequency: 1, register: "universal" },
+    "es-PR": { term: "laptop", frequency: 1, register: "universal" },
+    "es-US": { term: "laptop", frequency: 1, register: "universal" },
+    "es-GQ": { term: "laptop", frequency: 1, register: "universal" },
+    "es-PH": { term: "laptop", frequency: 1, register: "universal" },
+    "es-BZ": { term: "laptop", frequency: 1, register: "universal" },
+    "es-AR": { term: "notebook", frequency: 1, register: "universal" },
+    "es-UY": { term: "notebook", frequency: 1, register: "universal" },
+    "es-PY": { term: "notebook", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "charger", englishGloss: "device for charging a battery",
+  variants: {
+    "es-ES": { term: "cargador", frequency: 1, register: "universal" },
+    "es-AD": { term: "cargador", frequency: 1, register: "universal" },
+    "es-MX": { term: "cargador", frequency: 1, register: "universal" },
+    "es-AR": { term: "cargador", frequency: 1, register: "universal" },
+    "es-CO": { term: "cargador", frequency: 1, register: "universal" },
+    "es-CU": { term: "cargador", frequency: 1, register: "universal" },
+    "es-PE": { term: "cargador", frequency: 1, register: "universal" },
+    "es-CL": { term: "cargador", frequency: 1, register: "universal" },
+    "es-VE": { term: "cargador", frequency: 1, register: "universal" },
+    "es-UY": { term: "cargador", frequency: 1, register: "universal" },
+    "es-PY": { term: "cargador", frequency: 1, register: "universal" },
+    "es-BO": { term: "cargador", frequency: 1, register: "universal" },
+    "es-EC": { term: "cargador", frequency: 1, register: "universal" },
+    "es-GT": { term: "cargador", frequency: 1, register: "universal" },
+    "es-HN": { term: "cargador", frequency: 1, register: "universal" },
+    "es-SV": { term: "cargador", frequency: 1, register: "universal" },
+    "es-NI": { term: "cargador", frequency: 1, register: "universal" },
+    "es-CR": { term: "cargador", frequency: 1, register: "universal" },
+    "es-PA": { term: "cargador", frequency: 1, register: "universal" },
+    "es-DO": { term: "cargador", frequency: 1, register: "universal" },
+    "es-PR": { term: "cargador", frequency: 1, register: "universal" },
+    "es-US": { term: "cargador", frequency: 1, register: "universal" },
+    "es-GQ": { term: "cargador", frequency: 1, register: "universal" },
+    "es-PH": { term: "cargador", frequency: 1, register: "universal" },
+    "es-BZ": { term: "cargador", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "printer", englishGloss: "device that produces a paper copy from digital data",
+  panHispanic: "impresora",
+  variants: {
+    "es-ES": { term: "impresora", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "keyboard", englishGloss: "input device with keys for typing",
+  panHispanic: "teclado",
+  variants: {
+    "es-ES": { term: "teclado", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "monitor_screen", englishGloss: "visual display unit for a computer",
+  variants: {
+    "es-ES": { term: "pantalla", frequency: 1, register: "universal" },
+    "es-AD": { term: "pantalla", frequency: 1, register: "universal" },
+    "es-MX": { term: "monitor", frequency: 1, register: "universal", notes: "also pantalla for the screen itself" },
+    "es-AR": { term: "monitor", frequency: 1, register: "universal" },
+    "es-CO": { term: "monitor", frequency: 1, register: "universal" },
+    "es-CL": { term: "monitor", frequency: 1, register: "universal" },
+    "es-VE": { term: "monitor", frequency: 1, register: "universal" },
+    "es-PE": { term: "monitor", frequency: 1, register: "universal" },
+    "es-UY": { term: "monitor", frequency: 1, register: "universal" },
+    "es-EC": { term: "monitor", frequency: 1, register: "universal" },
+    "es-GT": { term: "monitor", frequency: 1, register: "universal" },
+    "es-CR": { term: "monitor", frequency: 1, register: "universal" },
+    "es-PA": { term: "monitor", frequency: 1, register: "universal" },
+    "es-DO": { term: "monitor", frequency: 1, register: "universal" },
+    "es-PR": { term: "monitor", frequency: 1, register: "universal" },
+    "es-US": { term: "monitor", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "router_wifi", englishGloss: "device that routes network traffic and provides wireless connectivity",
+  variants: {
+    "es-ES": { term: "router", frequency: 1, register: "universal" },
+    "es-AD": { term: "router", frequency: 1, register: "universal" },
+    "es-MX": { term: "router", frequency: 1, register: "universal" },
+    "es-AR": { term: "router", frequency: 1, register: "universal" },
+    "es-CO": { term: "router", frequency: 1, register: "universal" },
+    "es-CU": { term: "router", frequency: 1, register: "universal" },
+    "es-PE": { term: "router", frequency: 1, register: "universal" },
+    "es-CL": { term: "router", frequency: 1, register: "universal" },
+    "es-VE": { term: "router", frequency: 1, register: "universal" },
+    "es-UY": { term: "router", frequency: 1, register: "universal" },
+    "es-PY": { term: "router", frequency: 1, register: "universal" },
+    "es-BO": { term: "router", frequency: 1, register: "universal" },
+    "es-EC": { term: "router", frequency: 1, register: "universal" },
+    "es-GT": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-HN": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-SV": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-NI": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-CR": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-PA": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-DO": { term: "router", frequency: 1, register: "universal" },
+    "es-PR": { term: "router", frequency: 1, register: "universal" },
+    "es-US": { term: "router", frequency: 1, register: "universal" },
+    "es-GQ": { term: "router", frequency: 1, register: "universal" },
+    "es-PH": { term: "router", frequency: 1, register: "universal" },
+    "es-BZ": { term: "router", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "usb_drive", englishGloss: "portable flash storage device connected via USB",
+  variants: {
+    "es-ES": { term: "pendrive", frequency: 1, register: "universal" },
+    "es-AD": { term: "pendrive", frequency: 1, register: "universal" },
+    "es-MX": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-AR": { term: "pendrive", frequency: 1, register: "universal" },
+    "es-CO": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-CU": { term: "memoria flash", frequency: 1, register: "universal" },
+    "es-PE": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-CL": { term: "pendrive", frequency: 1, register: "universal" },
+    "es-VE": { term: "memoria flash", frequency: 1, register: "universal" },
+    "es-UY": { term: "pendrive", frequency: 1, register: "universal" },
+    "es-PY": { term: "pendrive", frequency: 1, register: "universal" },
+    "es-BO": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-EC": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-GT": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-HN": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-SV": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-NI": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-CR": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-PA": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-DO": { term: "memoria flash", frequency: 1, register: "universal" },
+    "es-PR": { term: "memoria flash", frequency: 1, register: "universal" },
+    "es-US": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-GQ": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-PH": { term: "memoria USB", frequency: 1, register: "universal" },
+    "es-BZ": { term: "memoria USB", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "app_application", englishGloss: "software application for a mobile device or computer",
+  panHispanic: "aplicacion",
+  variants: {
+    "es-ES": { term: "aplicacion", frequency: 1, register: "universal", notes: "also app colloquially" },
+    "es-MX": { term: "aplicacion", frequency: 1, register: "universal", notes: "also app colloquially" },
+    "es-AR": { term: "aplicacion", frequency: 1, register: "universal", notes: "also app colloquially" },
+  }},
+
+{ field: "technology", concept: "video_call", englishGloss: "real-time audiovisual communication over the internet",
+  panHispanic: "videollamada",
+  variants: {
+    "es-ES": { term: "videollamada", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "cloud_storage", englishGloss: "remote data storage accessible via the internet",
+  panHispanic: "almacenamiento en la nube",
+  variants: {
+    "es-ES": { term: "almacenamiento en la nube", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "update_software", englishGloss: "new version of software with improvements or fixes",
+  panHispanic: "actualizacion",
+  variants: {
+    "es-ES": { term: "actualizacion", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "search_engine", englishGloss: "web service for finding information on the internet",
+  panHispanic: "buscador",
+  variants: {
+    "es-ES": { term: "buscador", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "backup", englishGloss: "copy of data stored as a safeguard",
+  panHispanic: "copia de seguridad",
+  variants: {
+    "es-MX": { term: "respaldo", frequency: 1, register: "universal" },
+    "es-CO": { term: "respaldo", frequency: 1, register: "universal" },
+    "es-VE": { term: "respaldo", frequency: 1, register: "universal" },
+    "es-PE": { term: "respaldo", frequency: 1, register: "universal" },
+    "es-EC": { term: "respaldo", frequency: 1, register: "universal" },
+    "es-GT": { term: "respaldo", frequency: 1, register: "universal" },
+    "es-CR": { term: "respaldo", frequency: 1, register: "universal" },
+    "es-PA": { term: "respaldo", frequency: 1, register: "universal" },
+    "es-DO": { term: "respaldo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "hard_drive", englishGloss: "data storage device using magnetic disks",
+  variants: {
+    "es-ES": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-AD": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-MX": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-AR": { term: "disco rigido", frequency: 1, register: "universal" },
+    "es-UY": { term: "disco rigido", frequency: 1, register: "universal" },
+    "es-CO": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-CU": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-PE": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-CL": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-VE": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-PY": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-BO": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-EC": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-GT": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-HN": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-SV": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-NI": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-CR": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-PA": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-DO": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-PR": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-US": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-GQ": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-PH": { term: "disco duro", frequency: 1, register: "universal" },
+    "es-BZ": { term: "disco duro", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "screen_display", englishGloss: "flat panel showing visual output from a device",
+  panHispanic: "pantalla",
+  variants: {
+    "es-ES": { term: "pantalla", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "battery", englishGloss: "rechargeable power source for electronic devices",
+  panHispanic: "bateria",
+  variants: {
+    "es-ES": { term: "bateria", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "headphones", englishGloss: "pair of speakers worn over or in the ears",
+  variants: {
+    "es-ES": { term: "auriculares", frequency: 1, register: "universal" },
+    "es-AD": { term: "auriculares", frequency: 1, register: "universal" },
+    "es-MX": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-CO": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-CU": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-PE": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-VE": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-BO": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-EC": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-GT": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-HN": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-SV": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-NI": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-CR": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-PA": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-DO": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-PR": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-US": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-GQ": { term: "auriculares", frequency: 1, register: "universal" },
+    "es-PH": { term: "auriculares", frequency: 1, register: "universal" },
+    "es-BZ": { term: "audifonos", frequency: 1, register: "universal" },
+    "es-AR": { term: "auriculares", frequency: 1, register: "universal" },
+    "es-UY": { term: "auriculares", frequency: 1, register: "universal" },
+    "es-PY": { term: "auriculares", frequency: 1, register: "universal" },
+    "es-CL": { term: "auriculares", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "microphone", englishGloss: "device that converts sound into an electrical signal",
+  panHispanic: "microfono",
+  variants: {
+    "es-ES": { term: "microfono", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "camera", englishGloss: "device for capturing photographs or video",
+  panHispanic: "camara",
+  variants: {
+    "es-ES": { term: "camara", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "smartwatch", englishGloss: "wrist-worn computing device with smart features",
+  panHispanic: "reloj inteligente",
+  variants: {
+    "es-MX": { term: "smartwatch", frequency: 2, register: "informal" },
+    "es-AR": { term: "smartwatch", frequency: 2, register: "informal" },
+    "es-ES": { term: "smartwatch", frequency: 2, register: "informal" },
+    "es-US": { term: "smartwatch", frequency: 2, register: "informal" },
+  }},
+
+{ field: "technology", concept: "tablet_device", englishGloss: "touchscreen mobile computing device larger than a phone",
+  panHispanic: "tableta",
+  variants: {
+    "es-ES": { term: "tableta", frequency: 1, register: "universal" },
+    "es-MX": { term: "tablet", frequency: 1, register: "universal" },
+    "es-AR": { term: "tablet", frequency: 1, register: "universal" },
+    "es-CO": { term: "tablet", frequency: 1, register: "universal" },
+    "es-CL": { term: "tablet", frequency: 1, register: "universal" },
+    "es-VE": { term: "tablet", frequency: 1, register: "universal" },
+    "es-PE": { term: "tablet", frequency: 1, register: "universal" },
+    "es-UY": { term: "tablet", frequency: 1, register: "universal" },
+    "es-DO": { term: "tablet", frequency: 1, register: "universal" },
+    "es-US": { term: "tablet", frequency: 1, register: "universal" },
+    "es-PR": { term: "tablet", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "streaming_service", englishGloss: "platform delivering media content over the internet",
+  panHispanic: "plataforma de streaming",
+  variants: {
+    "es-ES": { term: "plataforma de streaming", frequency: 1, register: "universal" },
+    "es-MX": { term: "servicio de streaming", frequency: 1, register: "universal" },
+    "es-AR": { term: "plataforma de streaming", frequency: 1, register: "universal" },
+    "es-CO": { term: "servicio de streaming", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "playlist", englishGloss: "curated list of songs or videos for sequential playback",
+  panHispanic: "lista de reproduccion",
+  variants: {
+    "es-MX": { term: "playlist", frequency: 2, register: "informal" },
+    "es-AR": { term: "playlist", frequency: 2, register: "informal" },
+    "es-ES": { term: "lista de reproduccion", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "password_manager", englishGloss: "software that securely stores and manages passwords",
+  panHispanic: "gestor de contrasenas",
+  variants: {
+    "es-ES": { term: "gestor de contrasenas", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "wifi", englishGloss: "wireless networking technology for internet access",
+  panHispanic: "WiFi",
+  variants: {
+    "es-ES": { term: "WiFi", frequency: 1, register: "universal" },
+    "es-MX": { term: "WiFi", frequency: 1, register: "universal", notes: "also interned inalámbrico formally" },
+  }},
+
+{ field: "technology", concept: "emoji", englishGloss: "small digital image used to express an idea or emotion",
+  panHispanic: "emoji",
+  variants: {
+    "es-ES": { term: "emoji", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "hashtag", englishGloss: "word or phrase preceded by a hash sign used on social media",
+  panHispanic: "hashtag",
+  variants: {
+    "es-ES": { term: "etiqueta", frequency: 2, register: "formal", notes: "formal alternative" },
+  }},
+
+{ field: "technology", concept: "meme", englishGloss: "humorous image or video spread rapidly online",
+  panHispanic: "meme",
+  variants: {
+    "es-ES": { term: "meme", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "influencer", englishGloss: "person with a large social media following who promotes content",
+  panHispanic: "influencer",
+  variants: {
+    "es-ES": { term: "influencer", frequency: 1, register: "universal" },
+    "es-MX": { term: "influencer", frequency: 1, register: "universal" },
+    "es-AR": { term: "influencer", frequency: 1, register: "universal" },
+    "es-CO": { term: "influenciador", frequency: 2, register: "formal" },
+    "es-VE": { term: "influencer", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "podcast", englishGloss: "episodic audio or video series distributed online",
+  panHispanic: "podcast",
+  variants: {
+    "es-ES": { term: "podcast", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "notification", englishGloss: "alert message from an app or system",
+  panHispanic: "notificacion",
+  variants: {
+    "es-ES": { term: "notificacion", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "account_profile", englishGloss: "registered user identity on a platform or service",
+  panHispanic: "cuenta",
+  variants: {
+    "es-ES": { term: "cuenta", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "follower", englishGloss: "person who subscribes to see another user social media content",
+  variants: {
+    "es-ES": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-AD": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-MX": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-AR": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-CO": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-CU": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-PE": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-CL": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-VE": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-UY": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-PY": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-BO": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-EC": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-GT": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-HN": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-SV": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-NI": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-CR": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-PA": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-DO": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-PR": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-US": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-GQ": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-PH": { term: "seguidor", frequency: 1, register: "universal" },
+    "es-BZ": { term: "seguidor", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "post_publish", englishGloss: "content published on a social media platform",
+  panHispanic: "publicacion",
+  variants: {
+    "es-MX": { term: "post", frequency: 2, register: "informal" },
+    "es-AR": { term: "post", frequency: 2, register: "informal" },
+    "es-ES": { term: "post", frequency: 2, register: "informal" },
+    "es-US": { term: "post", frequency: 2, register: "informal" },
+  }},
+
+// --- actions ---
+
+{ field: "actions", concept: "to_call_phone", englishGloss: "to make a telephone call to someone",
+  panHispanic: "llamar",
+  variants: {
+    "es-ES": { term: "llamar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_answer", englishGloss: "to respond to a phone call or question",
+  panHispanic: "contestar",
+  variants: {
+    "es-ES": { term: "contestar", frequency: 1, register: "universal" },
+    "es-MX": { term: "contestar", frequency: 1, register: "universal" },
+    "es-AR": { term: "contestar", frequency: 1, register: "universal" },
+    "es-CO": { term: "responder", frequency: 1, register: "universal", notes: "both contestar and responder used" },
+  }},
+
+{ field: "actions", concept: "to_ask_question", englishGloss: "to inquire or pose a question",
+  panHispanic: "preguntar",
+  variants: {
+    "es-ES": { term: "preguntar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_pay", englishGloss: "to give money in exchange for goods or services",
+  panHispanic: "pagar",
+  variants: {
+    "es-ES": { term: "pagar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_cook", englishGloss: "to prepare food using heat",
+  panHispanic: "cocinar",
+  variants: {
+    "es-ES": { term: "cocinar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_clean", englishGloss: "to remove dirt or mess from a surface or space",
+  panHispanic: "limpiar",
+  variants: {
+    "es-ES": { term: "limpiar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_wash", englishGloss: "to clean with water and usually soap",
+  panHispanic: "lavar",
+  variants: {
+    "es-ES": { term: "lavar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_iron", englishGloss: "to press clothes with a heated appliance to remove wrinkles",
+  panHispanic: "planchar",
+  variants: {
+    "es-ES": { term: "planchar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_repair", englishGloss: "to fix something that is broken or damaged",
+  panHispanic: "reparar",
+  variants: {
+    "es-ES": { term: "reparar", frequency: 1, register: "universal" },
+    "es-MX": { term: "arreglar", frequency: 1, register: "universal" },
+    "es-AR": { term: "arreglar", frequency: 1, register: "universal" },
+    "es-CO": { term: "arreglar", frequency: 1, register: "universal" },
+    "es-VE": { term: "arreglar", frequency: 1, register: "universal" },
+    "es-PE": { term: "arreglar", frequency: 1, register: "universal" },
+    "es-CL": { term: "arreglar", frequency: 1, register: "universal" },
+    "es-UY": { term: "arreglar", frequency: 1, register: "universal" },
+    "es-EC": { term: "arreglar", frequency: 1, register: "universal" },
+    "es-DO": { term: "arreglar", frequency: 1, register: "universal" },
+    "es-PR": { term: "arreglar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_move_house", englishGloss: "to change residence from one home to another",
+  panHispanic: "mudarse",
+  variants: {
+    "es-ES": { term: "mudarse", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_study", englishGloss: "to dedicate time to learning a subject",
+  panHispanic: "estudiar",
+  variants: {
+    "es-ES": { term: "estudiar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_learn", englishGloss: "to acquire knowledge or skill",
+  panHispanic: "aprender",
+  variants: {
+    "es-ES": { term: "aprender", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_teach", englishGloss: "to impart knowledge or instruct someone",
+  panHispanic: "ensenar",
+  variants: {
+    "es-ES": { term: "ensenar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_marry", englishGloss: "to enter into a marriage with someone",
+  panHispanic: "casarse",
+  variants: {
+    "es-ES": { term: "casarse", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_divorce", englishGloss: "to legally dissolve a marriage",
+  panHispanic: "divorciarse",
+  variants: {
+    "es-ES": { term: "divorciarse", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_be_born", englishGloss: "to come into existence by birth",
+  panHispanic: "nacer",
+  variants: {
+    "es-ES": { term: "nacer", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_die", englishGloss: "to cease living",
+  panHispanic: "morir",
+  variants: {
+    "es-ES": { term: "morir", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_run", englishGloss: "to move swiftly on foot",
+  panHispanic: "correr",
+  variants: {
+    "es-ES": { term: "correr", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_walk", englishGloss: "to move on foot at a regular pace",
+  variants: {
+    "es-ES": { term: "caminar", frequency: 1, register: "universal", notes: "pasear used for leisure walking" },
+    "es-AD": { term: "caminar", frequency: 1, register: "universal" },
+    "es-MX": { term: "caminar", frequency: 1, register: "universal" },
+    "es-AR": { term: "caminar", frequency: 1, register: "universal" },
+    "es-CO": { term: "caminar", frequency: 1, register: "universal" },
+    "es-CU": { term: "caminar", frequency: 1, register: "universal" },
+    "es-PE": { term: "caminar", frequency: 1, register: "universal" },
+    "es-CL": { term: "caminar", frequency: 1, register: "universal" },
+    "es-VE": { term: "caminar", frequency: 1, register: "universal" },
+    "es-UY": { term: "caminar", frequency: 1, register: "universal" },
+    "es-PY": { term: "caminar", frequency: 1, register: "universal" },
+    "es-BO": { term: "caminar", frequency: 1, register: "universal" },
+    "es-EC": { term: "caminar", frequency: 1, register: "universal" },
+    "es-GT": { term: "caminar", frequency: 1, register: "universal" },
+    "es-HN": { term: "caminar", frequency: 1, register: "universal" },
+    "es-SV": { term: "caminar", frequency: 1, register: "universal" },
+    "es-NI": { term: "caminar", frequency: 1, register: "universal" },
+    "es-CR": { term: "caminar", frequency: 1, register: "universal" },
+    "es-PA": { term: "caminar", frequency: 1, register: "universal" },
+    "es-DO": { term: "caminar", frequency: 1, register: "universal" },
+    "es-PR": { term: "caminar", frequency: 1, register: "universal" },
+    "es-US": { term: "caminar", frequency: 1, register: "universal" },
+    "es-GQ": { term: "caminar", frequency: 1, register: "universal" },
+    "es-PH": { term: "caminar", frequency: 1, register: "universal" },
+    "es-BZ": { term: "caminar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_sleep", englishGloss: "to rest in a state of reduced consciousness",
+  panHispanic: "dormir",
+  variants: {
+    "es-ES": { term: "dormir", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_wake_up", englishGloss: "to cease sleeping and become conscious",
+  panHispanic: "despertar",
+  variants: {
+    "es-ES": { term: "despertar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "actions", concept: "to_work_job", englishGloss: "to perform labor or duties for employment",
+  variants: {
+    "es-ES": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-AD": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-MX": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-CO": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-CU": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-PE": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-CL": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-VE": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-PY": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-BO": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-EC": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-GT": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-HN": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-SV": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-NI": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-CR": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-PA": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-DO": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-PR": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-US": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-GQ": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-PH": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-BZ": { term: "trabajar", frequency: 1, register: "universal" },
+    "es-AR": { term: "trabajar", frequency: 1, register: "universal", notes: "also laburar informal lunfardo" },
+    "es-UY": { term: "trabajar", frequency: 1, register: "universal", notes: "also laburar informal" },
+  }},
+
+{ field: "actions", concept: "to_shop", englishGloss: "to visit stores to purchase goods",
+  panHispanic: "ir de compras",
+  variants: {
+    "es-ES": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-MX": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-AR": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-CO": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-PE": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-CL": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-VE": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-UY": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-EC": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-GT": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-CR": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-DO": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-PR": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-US": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-GQ": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-PH": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-BZ": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-CU": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-PY": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-BO": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-HN": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-SV": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-NI": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-PA": { term: "ir de compras", frequency: 1, register: "universal" },
+    "es-AD": { term: "ir de compras", frequency: 1, register: "universal" },
+  }},
+
+// --- education ---
+
+{ field: "education", concept: "school", englishGloss: "institution for educating children",
+  variants: {
+    "es-ES": { term: "escuela", frequency: 1, register: "universal", notes: "colegio used for private or specific levels" },
+    "es-AD": { term: "escuela", frequency: 1, register: "universal" },
+    "es-MX": { term: "escuela", frequency: 1, register: "universal", notes: "colegio for private school" },
+    "es-AR": { term: "escuela", frequency: 1, register: "universal" },
+    "es-CO": { term: "escuela", frequency: 1, register: "universal" },
+    "es-CU": { term: "escuela", frequency: 1, register: "universal" },
+    "es-PE": { term: "escuela", frequency: 1, register: "universal" },
+    "es-CL": { term: "escuela", frequency: 1, register: "universal" },
+    "es-UY": { term: "liceo", frequency: 2, register: "universal", notes: "for secondary school" },
+    "es-VE": { term: "liceo", frequency: 2, register: "universal", notes: "for secondary school" },
+    "es-PY": { term: "escuela", frequency: 1, register: "universal" },
+    "es-BO": { term: "escuela", frequency: 1, register: "universal" },
+    "es-EC": { term: "escuela", frequency: 1, register: "universal" },
+    "es-GT": { term: "escuela", frequency: 1, register: "universal" },
+    "es-HN": { term: "escuela", frequency: 1, register: "universal" },
+    "es-SV": { term: "escuela", frequency: 1, register: "universal" },
+    "es-NI": { term: "escuela", frequency: 1, register: "universal" },
+    "es-CR": { term: "escuela", frequency: 1, register: "universal" },
+    "es-PA": { term: "escuela", frequency: 1, register: "universal" },
+    "es-DO": { term: "escuela", frequency: 1, register: "universal" },
+    "es-PR": { term: "escuela", frequency: 1, register: "universal" },
+    "es-US": { term: "escuela", frequency: 1, register: "universal" },
+    "es-GQ": { term: "escuela", frequency: 1, register: "universal" },
+    "es-PH": { term: "escuela", frequency: 1, register: "universal" },
+    "es-BZ": { term: "escuela", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "university", englishGloss: "institution of higher education and research",
+  panHispanic: "universidad",
+  variants: {
+    "es-ES": { term: "universidad", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "exam_test", englishGloss: "formal test of knowledge or ability in a subject",
+  variants: {
+    "es-ES": { term: "examen", frequency: 1, register: "universal" },
+    "es-AD": { term: "examen", frequency: 1, register: "universal" },
+    "es-MX": { term: "examen", frequency: 1, register: "universal" },
+    "es-AR": { term: "examen", frequency: 1, register: "universal" },
+    "es-CO": { term: "examen", frequency: 1, register: "universal" },
+    "es-CU": { term: "examen", frequency: 1, register: "universal" },
+    "es-PE": { term: "examen", frequency: 1, register: "universal" },
+    "es-CL": { term: "examen", frequency: 1, register: "universal" },
+    "es-VE": { term: "examen", frequency: 1, register: "universal" },
+    "es-UY": { term: "examen", frequency: 1, register: "universal" },
+    "es-PY": { term: "examen", frequency: 1, register: "universal" },
+    "es-BO": { term: "examen", frequency: 1, register: "universal" },
+    "es-EC": { term: "examen", frequency: 1, register: "universal" },
+    "es-GT": { term: "examen", frequency: 1, register: "universal" },
+    "es-HN": { term: "examen", frequency: 1, register: "universal" },
+    "es-SV": { term: "examen", frequency: 1, register: "universal" },
+    "es-NI": { term: "examen", frequency: 1, register: "universal" },
+    "es-CR": { term: "examen", frequency: 1, register: "universal" },
+    "es-PA": { term: "examen", frequency: 1, register: "universal" },
+    "es-DO": { term: "examen", frequency: 1, register: "universal" },
+    "es-PR": { term: "examen", frequency: 1, register: "universal" },
+    "es-US": { term: "examen", frequency: 1, register: "universal" },
+    "es-GQ": { term: "examen", frequency: 1, register: "universal" },
+    "es-PH": { term: "examen", frequency: 1, register: "universal" },
+    "es-BZ": { term: "examen", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "grade_score", englishGloss: "mark or score assigned to academic work",
+  variants: {
+    "es-ES": { term: "nota", frequency: 1, register: "universal" },
+    "es-AD": { term: "nota", frequency: 1, register: "universal" },
+    "es-MX": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-AR": { term: "nota", frequency: 1, register: "universal" },
+    "es-CO": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-CU": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-PE": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-CL": { term: "nota", frequency: 1, register: "universal" },
+    "es-VE": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-UY": { term: "nota", frequency: 1, register: "universal" },
+    "es-PY": { term: "nota", frequency: 1, register: "universal" },
+    "es-BO": { term: "nota", frequency: 1, register: "universal" },
+    "es-EC": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-GT": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-HN": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-SV": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-NI": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-CR": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-PA": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-DO": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-PR": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-US": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-GQ": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-PH": { term: "calificacion", frequency: 1, register: "universal" },
+    "es-BZ": { term: "calificacion", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "scholarship", englishGloss: "financial grant for a student to pursue education",
+  panHispanic: "beca",
+  variants: {
+    "es-ES": { term: "beca", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "graduation", englishGloss: "ceremony marking completion of a degree or program",
+  panHispanic: "graduacion",
+  variants: {
+    "es-ES": { term: "graduacion", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "diploma", englishGloss: "document certifying completion of a course of study",
+  panHispanic: "diploma",
+  variants: {
+    "es-ES": { term: "diploma", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "semester", englishGloss: "half-year academic term",
+  panHispanic: "semestre",
+  variants: {
+    "es-ES": { term: "semestre", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "classroom", englishGloss: "room where classes are taught",
+  variants: {
+    "es-ES": { term: "aula", frequency: 1, register: "universal" },
+    "es-AD": { term: "aula", frequency: 1, register: "universal" },
+    "es-MX": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-AR": { term: "aula", frequency: 1, register: "universal" },
+    "es-CO": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-CU": { term: "aula", frequency: 1, register: "universal" },
+    "es-PE": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-CL": { term: "sala de clases", frequency: 1, register: "universal" },
+    "es-VE": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-UY": { term: "aula", frequency: 1, register: "universal" },
+    "es-PY": { term: "aula", frequency: 1, register: "universal" },
+    "es-BO": { term: "aula", frequency: 1, register: "universal" },
+    "es-EC": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-GT": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-HN": { term: "aula", frequency: 1, register: "universal" },
+    "es-SV": { term: "aula", frequency: 1, register: "universal" },
+    "es-NI": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-CR": { term: "aula", frequency: 1, register: "universal" },
+    "es-PA": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-DO": { term: "aula", frequency: 1, register: "universal" },
+    "es-PR": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-US": { term: "salon de clases", frequency: 1, register: "universal" },
+    "es-GQ": { term: "aula", frequency: 1, register: "universal" },
+    "es-PH": { term: "aula", frequency: 1, register: "universal" },
+    "es-BZ": { term: "salon de clases", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "library", englishGloss: "building or room containing books for borrowing or reference",
+  panHispanic: "biblioteca",
+  variants: {
+    "es-ES": { term: "biblioteca", frequency: 1, register: "universal", notes: "NOT libreria which means bookstore" },
+  }},
+
+{ field: "education", concept: "professor_teacher", englishGloss: "person who teaches in a school or university",
+  variants: {
+    "es-ES": { term: "profesor", frequency: 1, register: "universal", notes: "profe informal; maestro for primary" },
+    "es-AD": { term: "profesor", frequency: 1, register: "universal" },
+    "es-MX": { term: "profesor", frequency: 1, register: "universal", notes: "maestro common for primary school" },
+    "es-AR": { term: "profesor", frequency: 1, register: "universal", notes: "profe informal" },
+    "es-CO": { term: "profesor", frequency: 1, register: "universal" },
+    "es-CU": { term: "profesor", frequency: 1, register: "universal" },
+    "es-PE": { term: "profesor", frequency: 1, register: "universal" },
+    "es-CL": { term: "profesor", frequency: 1, register: "universal" },
+    "es-VE": { term: "profesor", frequency: 1, register: "universal" },
+    "es-UY": { term: "profesor", frequency: 1, register: "universal" },
+    "es-PY": { term: "profesor", frequency: 1, register: "universal" },
+    "es-BO": { term: "profesor", frequency: 1, register: "universal" },
+    "es-EC": { term: "profesor", frequency: 1, register: "universal" },
+    "es-GT": { term: "maestro", frequency: 1, register: "universal", notes: "common for all levels" },
+    "es-HN": { term: "maestro", frequency: 1, register: "universal", notes: "common for all levels" },
+    "es-SV": { term: "maestro", frequency: 1, register: "universal", notes: "common for all levels" },
+    "es-NI": { term: "maestro", frequency: 1, register: "universal", notes: "common for all levels" },
+    "es-CR": { term: "profesor", frequency: 1, register: "universal" },
+    "es-PA": { term: "profesor", frequency: 1, register: "universal" },
+    "es-DO": { term: "profesor", frequency: 1, register: "universal" },
+    "es-PR": { term: "profesor", frequency: 1, register: "universal" },
+    "es-US": { term: "profesor", frequency: 1, register: "universal" },
+    "es-GQ": { term: "profesor", frequency: 1, register: "universal" },
+    "es-PH": { term: "profesor", frequency: 1, register: "universal" },
+    "es-BZ": { term: "profesor", frequency: 1, register: "universal" },
+  }},
+
+{ field: "education", concept: "student", englishGloss: "person who is studying at a school or university",
+  panHispanic: "estudiante",
+  variants: {
+    "es-ES": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-AD": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-CO": { term: "estudiante", frequency: 1, register: "universal", notes: "alumno also common" },
+    "es-VE": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-PE": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-CL": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-UY": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-PY": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-BO": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-EC": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-GT": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-HN": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-SV": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-NI": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-CR": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-PA": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-DO": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-PR": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-US": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-GQ": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-PH": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-BZ": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-CU": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-AR": { term: "estudiante", frequency: 1, register: "universal" },
+    "es-MX": { term: "alumno", frequency: 1, register: "universal", notes: "very common for school students" },
+  }},
+
+
+{ field: "clothing", concept: "pants", englishGloss: "trousers/leg garment",
+  panHispanic: "pantalón",
+  variants: {
+    "es-ES": { term: "pantalón", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "dress", englishGloss: "one-piece garment for women/girls",
+  panHispanic: "vestido",
+  variants: {
+    "es-ES": { term: "vestido", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "shoes", englishGloss: "footwear",
+  panHispanic: "zapatos",
+  variants: {
+    "es-ES": { term: "zapatos", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "boots", englishGloss: "sturdy footwear covering the foot and ankle or leg",
+  panHispanic: "botas",
+  variants: {
+    "es-ES": { term: "botas", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "hat_cap", englishGloss: "head covering / brimmed hat or cap",
+  variants: {
+    "es-ES": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-MX": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-AR": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-CO": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-VE": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-CL": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-PE": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-UY": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-PY": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-BO": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-EC": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-CU": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-DO": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-PR": { term: "cachucha", frequency: 1, register: "informal", notes: "cap specifically" },
+    "es-US": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-GT": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-HN": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-SV": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-NI": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-CR": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-PA": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-GQ": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-PH": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-BZ": { term: "sombrero", frequency: 1, register: "universal" },
+    "es-AD": { term: "sombrero", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "coat_overcoat", englishGloss: "warm outer garment",
+  variants: {
+    "es-ES": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-AD": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-MX": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-AR": { term: "campera", frequency: 1, register: "universal" },
+    "es-CO": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-VE": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-CL": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-PE": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-UY": { term: "campera", frequency: 1, register: "universal" },
+    "es-PY": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-BO": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-EC": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-CU": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-DO": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-PR": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-US": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-GT": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-HN": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-SV": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-NI": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-CR": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-PA": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-GQ": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-PH": { term: "abrigo", frequency: 1, register: "universal" },
+    "es-BZ": { term: "abrigo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "scarf", englishGloss: "fabric worn around the neck",
+  panHispanic: "bufanda",
+  variants: {
+    "es-ES": { term: "bufanda", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "gloves", englishGloss: "hand covering for warmth or protection",
+  panHispanic: "guantes",
+  variants: {
+    "es-ES": { term: "guantes", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "belt", englishGloss: "strap worn around the waist",
+  panHispanic: "cinturón",
+  variants: {
+    "es-ES": { term: "cinturón", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "tie_necktie", englishGloss: "necktie worn with formal attire",
+  panHispanic: "corbata",
+  variants: {
+    "es-ES": { term: "corbata", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "sandals", englishGloss: "open footwear held by straps",
+  panHispanic: "sandalias",
+  variants: {
+    "es-ES": { term: "sandalias", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "flip_flops", englishGloss: "casual thong sandals / rubber slides",
+  variants: {
+    "es-ES": { term: "chanclas", frequency: 1, register: "universal" },
+    "es-AD": { term: "chanclas", frequency: 1, register: "universal" },
+    "es-MX": { term: "chanclas", frequency: 1, register: "universal" },
+    "es-AR": { term: "ojotas", frequency: 1, register: "universal" },
+    "es-CO": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-VE": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-CL": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-PE": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-UY": { term: "ojotas", frequency: 1, register: "universal" },
+    "es-PY": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-BO": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-EC": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-CU": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-DO": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-PR": { term: "yinas", frequency: 1, register: "informal" },
+    "es-US": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-GT": { term: "chanclas", frequency: 1, register: "universal" },
+    "es-HN": { term: "chanclas", frequency: 1, register: "universal" },
+    "es-SV": { term: "chanclas", frequency: 1, register: "universal" },
+    "es-NI": { term: "chanclas", frequency: 1, register: "universal" },
+    "es-CR": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-PA": { term: "cutarras", frequency: 1, register: "informal" },
+    "es-GQ": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-PH": { term: "chancletas", frequency: 1, register: "universal" },
+    "es-BZ": { term: "chancletas", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "hoodie_sweatshirt", englishGloss: "hooded sweatshirt / pullover with hood",
+  variants: {
+    "es-ES": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-AD": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-MX": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-AR": { term: "canguro", frequency: 1, register: "universal" },
+    "es-CO": { term: "buzo", frequency: 1, register: "universal" },
+    "es-VE": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-CL": { term: "polar", frequency: 1, register: "universal" },
+    "es-PE": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-UY": { term: "canguro", frequency: 1, register: "universal" },
+    "es-PY": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-BO": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-EC": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-CU": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-DO": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-PR": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-US": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-GT": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-HN": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-SV": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-NI": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-CR": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-PA": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-GQ": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-PH": { term: "sudadera", frequency: 1, register: "universal" },
+    "es-BZ": { term: "sudadera", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "sweater", englishGloss: "knitted garment for the upper body",
+  variants: {
+    "es-ES": { term: "jersey", frequency: 1, register: "universal" },
+    "es-AD": { term: "jersey", frequency: 1, register: "universal" },
+    "es-MX": { term: "suéter", frequency: 1, register: "universal" },
+    "es-AR": { term: "pulóver", frequency: 1, register: "universal" },
+    "es-CO": { term: "suéter", frequency: 1, register: "universal" },
+    "es-VE": { term: "suéter", frequency: 1, register: "universal" },
+    "es-CL": { term: "suéter", frequency: 1, register: "universal" },
+    "es-PE": { term: "suéter", frequency: 1, register: "universal" },
+    "es-UY": { term: "pulóver", frequency: 1, register: "universal" },
+    "es-PY": { term: "suéter", frequency: 1, register: "universal" },
+    "es-BO": { term: "suéter", frequency: 1, register: "universal" },
+    "es-EC": { term: "suéter", frequency: 1, register: "universal" },
+    "es-CU": { term: "suéter", frequency: 1, register: "universal" },
+    "es-DO": { term: "suéter", frequency: 1, register: "universal" },
+    "es-PR": { term: "suéter", frequency: 1, register: "universal" },
+    "es-US": { term: "suéter", frequency: 1, register: "universal" },
+    "es-GT": { term: "suéter", frequency: 1, register: "universal" },
+    "es-HN": { term: "suéter", frequency: 1, register: "universal" },
+    "es-SV": { term: "suéter", frequency: 1, register: "universal" },
+    "es-NI": { term: "suéter", frequency: 1, register: "universal" },
+    "es-CR": { term: "suéter", frequency: 1, register: "universal" },
+    "es-PA": { term: "suéter", frequency: 1, register: "universal" },
+    "es-GQ": { term: "suéter", frequency: 1, register: "universal" },
+    "es-PH": { term: "suéter", frequency: 1, register: "universal" },
+    "es-BZ": { term: "suéter", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "vest", englishGloss: "sleeveless upper-body garment",
+  panHispanic: "chaleco",
+  variants: {
+    "es-ES": { term: "chaleco", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "raincoat", englishGloss: "waterproof outer coat",
+  variants: {
+    "es-ES": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-AD": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-MX": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-AR": { term: "piloto", frequency: 1, register: "universal" },
+    "es-CO": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-VE": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-CL": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-PE": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-UY": { term: "piloto", frequency: 2, register: "universal" },
+    "es-PY": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-BO": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-EC": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-CU": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-DO": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-PR": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-US": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-GT": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-HN": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-SV": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-NI": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-CR": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-PA": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-GQ": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-PH": { term: "impermeable", frequency: 1, register: "universal" },
+    "es-BZ": { term: "impermeable", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "uniform", englishGloss: "standardized outfit for work/school",
+  panHispanic: "uniforme",
+  variants: {
+    "es-ES": { term: "uniforme", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "bracelet", englishGloss: "jewelry worn around the wrist",
+  panHispanic: "pulsera",
+  variants: {
+    "es-ES": { term: "pulsera", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "ring_jewelry", englishGloss: "circular jewelry worn on the finger",
+  panHispanic: "anillo",
+  variants: {
+    "es-ES": { term: "anillo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "necklace", englishGloss: "jewelry worn around the neck",
+  panHispanic: "collar",
+  variants: {
+    "es-ES": { term: "collar", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "zip_hoodie", englishGloss: "hooded sweatshirt with a front zipper",
+  variants: {
+    "es-ES": { term: "sudadera con cremallera", frequency: 1, register: "universal" },
+    "es-AD": { term: "sudadera con cremallera", frequency: 1, register: "universal" },
+    "es-MX": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-AR": { term: "campera de friza", frequency: 1, register: "universal" },
+    "es-CO": { term: "buzo con cierre", frequency: 1, register: "universal" },
+    "es-VE": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-CL": { term: "polar con cierre", frequency: 1, register: "universal" },
+    "es-PE": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-UY": { term: "canguro con cierre", frequency: 1, register: "universal" },
+    "es-PY": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-BO": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-EC": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-CU": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-DO": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-PR": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-US": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-GT": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-HN": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-SV": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-NI": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-CR": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-PA": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-GQ": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-PH": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+    "es-BZ": { term: "sudadera con cierre", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "rain_boots", englishGloss: "waterproof boots for rain",
+  variants: {
+    "es-ES": { term: "botas de agua", frequency: 1, register: "universal" },
+    "es-AD": { term: "botas de agua", frequency: 1, register: "universal" },
+    "es-MX": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-AR": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-CO": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-VE": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-CL": { term: "botas de agua", frequency: 1, register: "universal" },
+    "es-PE": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-UY": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-PY": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-BO": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-EC": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-CU": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-DO": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-PR": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-US": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-GT": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-HN": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-SV": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-NI": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-CR": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-PA": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-GQ": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-PH": { term: "botas de lluvia", frequency: 1, register: "universal" },
+    "es-BZ": { term: "botas de lluvia", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "apron", englishGloss: "protective garment worn over clothes",
+  panHispanic: "delantal",
+  variants: {
+    "es-ES": { term: "delantal", frequency: 1, register: "universal" },
+  }},
+
+// --- body_parts ---
+
+{ field: "body_parts", concept: "arm", englishGloss: "upper limb of the body",
+  panHispanic: "brazo",
+  variants: {
+    "es-ES": { term: "brazo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "leg", englishGloss: "lower limb of the body",
+  panHispanic: "pierna",
+  variants: {
+    "es-ES": { term: "pierna", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "hand", englishGloss: "terminal part of the arm",
+  panHispanic: "mano",
+  variants: {
+    "es-ES": { term: "mano", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "foot", englishGloss: "terminal part of the leg",
+  panHispanic: "pie",
+  variants: {
+    "es-ES": { term: "pie", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "eye", englishGloss: "organ of sight",
+  panHispanic: "ojo",
+  variants: {
+    "es-ES": { term: "ojo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "ear", englishGloss: "organ of hearing",
+  panHispanic: "oreja",
+  variants: {
+    "es-ES": { term: "oreja", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "nose", englishGloss: "organ of smell on the face",
+  panHispanic: "nariz",
+  variants: {
+    "es-ES": { term: "nariz", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "mouth", englishGloss: "opening in the face for eating/speaking",
+  panHispanic: "boca",
+  variants: {
+    "es-ES": { term: "boca", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "tooth_teeth", englishGloss: "hard structures in the mouth for biting",
+  panHispanic: "diente",
+  variants: {
+    "es-ES": { term: "diente", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "finger", englishGloss: "digit of the hand",
+  panHispanic: "dedo",
+  variants: {
+    "es-ES": { term: "dedo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "knee", englishGloss: "joint between thigh and lower leg",
+  panHispanic: "rodilla",
+  variants: {
+    "es-ES": { term: "rodilla", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "shoulder", englishGloss: "joint connecting arm to torso",
+  panHispanic: "hombro",
+  variants: {
+    "es-ES": { term: "hombro", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "back_body", englishGloss: "rear surface of the torso",
+  panHispanic: "espalda",
+  variants: {
+    "es-ES": { term: "espalda", frequency: 1, register: "universal" },
+  }},
+
+{ field: "body_parts", concept: "stomach", englishGloss: "abdomen / belly",
+  variants: {
+    "es-ES": { term: "estómago", frequency: 1, register: "universal" },
+    "es-AD": { term: "estómago", frequency: 1, register: "universal" },
+    "es-MX": { term: "estómago", frequency: 1, register: "universal" },
+    "es-AR": { term: "panza", frequency: 1, register: "informal" },
+    "es-CO": { term: "barriga", frequency: 1, register: "informal" },
+    "es-VE": { term: "barriga", frequency: 1, register: "informal" },
+    "es-CL": { term: "guata", frequency: 1, register: "informal" },
+    "es-PE": { term: "barriga", frequency: 1, register: "informal" },
+    "es-UY": { term: "panza", frequency: 1, register: "informal" },
+    "es-PY": { term: "barriga", frequency: 1, register: "informal" },
+    "es-BO": { term: "barriga", frequency: 1, register: "informal" },
+    "es-EC": { term: "barriga", frequency: 1, register: "informal" },
+    "es-CU": { term: "barriga", frequency: 1, register: "informal" },
+    "es-DO": { term: "barriga", frequency: 1, register: "informal" },
+    "es-PR": { term: "barriga", frequency: 1, register: "informal" },
+    "es-US": { term: "estómago", frequency: 1, register: "universal" },
+    "es-GT": { term: "barriga", frequency: 1, register: "informal" },
+    "es-HN": { term: "barriga", frequency: 1, register: "informal" },
+    "es-SV": { term: "barriga", frequency: 1, register: "informal" },
+    "es-NI": { term: "barriga", frequency: 1, register: "informal" },
+    "es-CR": { term: "barriga", frequency: 1, register: "informal" },
+    "es-PA": { term: "barriga", frequency: 1, register: "informal" },
+    "es-GQ": { term: "barriga", frequency: 1, register: "informal" },
+    "es-PH": { term: "estómago", frequency: 1, register: "universal" },
+    "es-BZ": { term: "barriga", frequency: 1, register: "informal" },
+  }},
+
+// --- people ---
+
+{ field: "people", concept: "man", englishGloss: "adult male person",
+  panHispanic: "hombre",
+  variants: {
+    "es-ES": { term: "hombre", frequency: 1, register: "universal" },
+  }},
+
+{ field: "people", concept: "woman", englishGloss: "adult female person",
+  variants: {
+    "es-ES": { term: "mujer", frequency: 1, register: "universal" },
+    "es-AD": { term: "mujer", frequency: 1, register: "universal" },
+    "es-MX": { term: "mujer", frequency: 1, register: "universal" },
+    "es-AR": { term: "mujer", frequency: 1, register: "universal" },
+    "es-CO": { term: "mujer", frequency: 1, register: "universal" },
+    "es-VE": { term: "mujer", frequency: 1, register: "universal" },
+    "es-CL": { term: "mujer", frequency: 1, register: "universal" },
+    "es-PE": { term: "mujer", frequency: 1, register: "universal" },
+    "es-UY": { term: "mujer", frequency: 1, register: "universal" },
+    "es-PY": { term: "mujer", frequency: 1, register: "universal" },
+    "es-BO": { term: "mujer", frequency: 1, register: "universal" },
+    "es-EC": { term: "mujer", frequency: 1, register: "universal" },
+    "es-CU": { term: "mujer", frequency: 1, register: "universal" },
+    "es-DO": { term: "mujer", frequency: 1, register: "universal" },
+    "es-PR": { term: "mujer", frequency: 1, register: "universal" },
+    "es-US": { term: "mujer", frequency: 1, register: "universal" },
+    "es-GT": { term: "mujer", frequency: 1, register: "universal" },
+    "es-HN": { term: "mujer", frequency: 1, register: "universal" },
+    "es-SV": { term: "mujer", frequency: 1, register: "universal" },
+    "es-NI": { term: "mujer", frequency: 1, register: "universal" },
+    "es-CR": { term: "mujer", frequency: 1, register: "universal" },
+    "es-PA": { term: "mujer", frequency: 1, register: "universal" },
+    "es-GQ": { term: "mujer", frequency: 1, register: "universal" },
+    "es-PH": { term: "mujer", frequency: 1, register: "universal" },
+    "es-BZ": { term: "mujer", frequency: 1, register: "universal" },
+  }},
+
+{ field: "people", concept: "teenager", englishGloss: "adolescent person roughly 13-19 years old",
+  variants: {
+    "es-ES": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-AD": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-MX": { term: "chavo", frequency: 1, register: "informal", notes: "chavo/chava" },
+    "es-AR": { term: "pibe", frequency: 1, register: "informal", notes: "pibe/piba" },
+    "es-CO": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-VE": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-CL": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-PE": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-UY": { term: "pibe", frequency: 1, register: "informal", notes: "pibe/piba" },
+    "es-PY": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-BO": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-EC": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-CU": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-DO": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-PR": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-US": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-GT": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-HN": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-SV": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-NI": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-CR": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-PA": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-GQ": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-PH": { term: "adolescente", frequency: 1, register: "universal" },
+    "es-BZ": { term: "adolescente", frequency: 1, register: "universal" },
+  }},
+
+{ field: "people", concept: "elderly_person", englishGloss: "older adult / senior person",
+  variants: {
+    "es-ES": { term: "anciano", frequency: 1, register: "formal" },
+    "es-AD": { term: "anciano", frequency: 1, register: "formal" },
+    "es-MX": { term: "anciano", frequency: 1, register: "formal" },
+    "es-AR": { term: "anciano", frequency: 1, register: "formal" },
+    "es-CO": { term: "adulto mayor", frequency: 1, register: "formal" },
+    "es-VE": { term: "anciano", frequency: 1, register: "formal" },
+    "es-CL": { term: "adulto mayor", frequency: 1, register: "formal" },
+    "es-PE": { term: "adulto mayor", frequency: 1, register: "formal" },
+    "es-UY": { term: "anciano", frequency: 1, register: "formal" },
+    "es-PY": { term: "anciano", frequency: 1, register: "formal" },
+    "es-BO": { term: "anciano", frequency: 1, register: "formal" },
+    "es-EC": { term: "anciano", frequency: 1, register: "formal" },
+    "es-CU": { term: "anciano", frequency: 1, register: "formal" },
+    "es-DO": { term: "anciano", frequency: 1, register: "formal" },
+    "es-PR": { term: "anciano", frequency: 1, register: "formal" },
+    "es-US": { term: "anciano", frequency: 1, register: "formal" },
+    "es-GT": { term: "anciano", frequency: 1, register: "formal" },
+    "es-HN": { term: "anciano", frequency: 1, register: "formal" },
+    "es-SV": { term: "anciano", frequency: 1, register: "formal" },
+    "es-NI": { term: "anciano", frequency: 1, register: "formal" },
+    "es-CR": { term: "adulto mayor", frequency: 1, register: "formal" },
+    "es-PA": { term: "anciano", frequency: 1, register: "formal" },
+    "es-GQ": { term: "anciano", frequency: 1, register: "formal" },
+    "es-PH": { term: "anciano", frequency: 1, register: "formal" },
+    "es-BZ": { term: "anciano", frequency: 1, register: "formal" },
+  }},
+
+{ field: "people", concept: "neighbor", englishGloss: "person living nearby",
+  panHispanic: "vecino",
+  variants: {
+    "es-ES": { term: "vecino", frequency: 1, register: "universal" },
+  }},
+
+{ field: "people", concept: "boss", englishGloss: "person in charge / supervisor",
+  variants: {
+    "es-ES": { term: "jefe", frequency: 1, register: "universal" },
+    "es-AD": { term: "jefe", frequency: 1, register: "universal" },
+    "es-MX": { term: "jefe", frequency: 1, register: "universal" },
+    "es-AR": { term: "jefe", frequency: 1, register: "universal" },
+    "es-CO": { term: "jefe", frequency: 1, register: "universal" },
+    "es-VE": { term: "jefe", frequency: 1, register: "universal" },
+    "es-CL": { term: "jefe", frequency: 1, register: "universal" },
+    "es-PE": { term: "jefe", frequency: 1, register: "universal" },
+    "es-UY": { term: "jefe", frequency: 1, register: "universal" },
+    "es-PY": { term: "patrón", frequency: 1, register: "informal" },
+    "es-BO": { term: "patrón", frequency: 1, register: "informal" },
+    "es-EC": { term: "jefe", frequency: 1, register: "universal" },
+    "es-CU": { term: "jefe", frequency: 1, register: "universal" },
+    "es-DO": { term: "jefe", frequency: 1, register: "universal" },
+    "es-PR": { term: "jefe", frequency: 1, register: "universal" },
+    "es-US": { term: "jefe", frequency: 1, register: "universal" },
+    "es-GT": { term: "jefe", frequency: 1, register: "universal" },
+    "es-HN": { term: "jefe", frequency: 1, register: "universal" },
+    "es-SV": { term: "jefe", frequency: 1, register: "universal" },
+    "es-NI": { term: "jefe", frequency: 1, register: "universal" },
+    "es-CR": { term: "jefe", frequency: 1, register: "universal" },
+    "es-PA": { term: "jefe", frequency: 1, register: "universal" },
+    "es-GQ": { term: "jefe", frequency: 1, register: "universal" },
+    "es-PH": { term: "jefe", frequency: 1, register: "universal" },
+    "es-BZ": { term: "jefe", frequency: 1, register: "universal" },
+  }},
+
+{ field: "people", concept: "employee", englishGloss: "person who works for an employer",
+  panHispanic: "empleado",
+  variants: {
+    "es-ES": { term: "empleado", frequency: 1, register: "universal" },
+  }},
+
+{ field: "people", concept: "colleague", englishGloss: "co-worker / fellow worker",
+  panHispanic: "colega",
+  variants: {
+    "es-ES": { term: "compañero de trabajo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "people", concept: "stranger", englishGloss: "unknown person",
+  panHispanic: "desconocido",
+  variants: {
+    "es-ES": { term: "desconocido", frequency: 1, register: "universal" },
+  }},
+
+{ field: "people", concept: "couple_pair", englishGloss: "two people in a romantic relationship or paired together",
+  panHispanic: "pareja",
+  variants: {
+    "es-ES": { term: "pareja", frequency: 1, register: "universal" },
+  }},
+
+{ field: "people", concept: "twin", englishGloss: "one of two siblings born together",
+  panHispanic: "gemelo",
+  variants: {
+    "es-ES": { term: "gemelo", frequency: 1, register: "universal" },
+  }},
+
+
+{ field: "transport", concept: "motorcycle", englishGloss: "two-wheeled motor vehicle",
+  panHispanic: "moto",
+  variants: {
+    "es-ES": { term: "motocicleta", frequency: 1, register: "formal" },
+    "es-AD": { term: "motocicleta", frequency: 1, register: "formal" },
+    "es-MX": { term: "moto", frequency: 1, register: "universal" },
+    "es-AR": { term: "moto", frequency: 1, register: "universal" },
+    "es-CO": { term: "moto", frequency: 1, register: "universal" },
+    "es-CU": { term: "moto", frequency: 1, register: "universal" },
+    "es-PE": { term: "moto", frequency: 1, register: "universal" },
+    "es-CL": { term: "moto", frequency: 1, register: "universal" },
+    "es-VE": { term: "moto", frequency: 1, register: "universal" },
+    "es-UY": { term: "moto", frequency: 1, register: "universal" },
+    "es-PY": { term: "moto", frequency: 1, register: "universal" },
+    "es-BO": { term: "moto", frequency: 1, register: "universal" },
+    "es-EC": { term: "moto", frequency: 1, register: "universal" },
+    "es-GT": { term: "moto", frequency: 1, register: "universal" },
+    "es-HN": { term: "moto", frequency: 1, register: "universal" },
+    "es-SV": { term: "moto", frequency: 1, register: "universal" },
+    "es-NI": { term: "moto", frequency: 1, register: "universal" },
+    "es-CR": { term: "moto", frequency: 1, register: "universal" },
+    "es-PA": { term: "moto", frequency: 1, register: "universal" },
+    "es-DO": { term: "moto", frequency: 1, register: "universal" },
+    "es-PR": { term: "moto", frequency: 1, register: "universal" },
+    "es-US": { term: "moto", frequency: 1, register: "universal" },
+    "es-GQ": { term: "moto", frequency: 1, register: "universal" },
+    "es-PH": { term: "moto", frequency: 1, register: "universal" },
+    "es-BZ": { term: "moto", frequency: 1, register: "universal" },
+  }},
+
+{ field: "transport", concept: "ferry", englishGloss: "boat that transports passengers and vehicles across water",
+  panHispanic: "ferri",
+  variants: {
+    "es-ES": { term: "ferri", frequency: 1, register: "universal" },
+    "es-MX": { term: "ferry", frequency: 1, register: "universal" },
+    "es-AR": { term: "ferry", frequency: 1, register: "universal" },
+    "es-CO": { term: "ferry", frequency: 1, register: "universal" },
+    "es-CL": { term: "ferry", frequency: 1, register: "universal" },
+    "es-VE": { term: "ferry", frequency: 1, register: "universal" },
+  }},
+
+// --- technology ---
+
+{ field: "technology", concept: "monitor", englishGloss: "visual display unit for a computer",
+  panHispanic: "monitor",
+  variants: {
+    "es-ES": { term: "pantalla", frequency: 1, register: "universal" },
+    "es-AD": { term: "pantalla", frequency: 1, register: "universal" },
+    "es-MX": { term: "monitor", frequency: 1, register: "universal", notes: "also pantalla for the screen itself" },
+    "es-AR": { term: "monitor", frequency: 1, register: "universal" },
+    "es-CO": { term: "monitor", frequency: 1, register: "universal" },
+    "es-CL": { term: "monitor", frequency: 1, register: "universal" },
+    "es-VE": { term: "monitor", frequency: 1, register: "universal" },
+    "es-PE": { term: "monitor", frequency: 1, register: "universal" },
+    "es-UY": { term: "monitor", frequency: 1, register: "universal" },
+    "es-EC": { term: "monitor", frequency: 1, register: "universal" },
+    "es-GT": { term: "monitor", frequency: 1, register: "universal" },
+    "es-CR": { term: "monitor", frequency: 1, register: "universal" },
+    "es-PA": { term: "monitor", frequency: 1, register: "universal" },
+    "es-DO": { term: "monitor", frequency: 1, register: "universal" },
+    "es-PR": { term: "monitor", frequency: 1, register: "universal" },
+    "es-US": { term: "monitor", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "router", englishGloss: "device that routes network traffic and provides wireless connectivity",
+  panHispanic: "router",
+  variants: {
+    "es-ES": { term: "router", frequency: 1, register: "universal" },
+    "es-MX": { term: "router", frequency: 1, register: "universal" },
+    "es-AR": { term: "router", frequency: 1, register: "universal" },
+    "es-CO": { term: "router", frequency: 1, register: "universal" },
+    "es-CL": { term: "router", frequency: 1, register: "universal" },
+    "es-VE": { term: "router", frequency: 1, register: "universal" },
+    "es-PE": { term: "router", frequency: 1, register: "universal" },
+    "es-UY": { term: "router", frequency: 1, register: "universal" },
+    "es-PY": { term: "router", frequency: 1, register: "universal" },
+    "es-BO": { term: "router", frequency: 1, register: "universal" },
+    "es-EC": { term: "router", frequency: 1, register: "universal" },
+    "es-GT": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-HN": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-SV": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-NI": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-CR": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-PA": { term: "enrutador", frequency: 2, register: "formal" },
+    "es-CU": { term: "router", frequency: 1, register: "universal" },
+    "es-DO": { term: "router", frequency: 1, register: "universal" },
+    "es-PR": { term: "router", frequency: 1, register: "universal" },
+    "es-US": { term: "router", frequency: 1, register: "universal" },
+    "es-GQ": { term: "router", frequency: 1, register: "universal" },
+    "es-PH": { term: "router", frequency: 1, register: "universal" },
+    "es-BZ": { term: "router", frequency: 1, register: "universal" },
+    "es-AD": { term: "router", frequency: 1, register: "universal" },
+  }},
+
+{ field: "technology", concept: "streaming", englishGloss: "platform delivering media content over the internet",
+  panHispanic: "plataforma de streaming",
+  variants: {
+    "es-ES": { term: "plataforma de streaming", frequency: 1, register: "universal" },
+    "es-MX": { term: "servicio de streaming", frequency: 1, register: "universal" },
+    "es-AR": { term: "plataforma de streaming", frequency: 1, register: "universal" },
+    "es-CO": { term: "servicio de streaming", frequency: 1, register: "universal" },
+  }},
+
+// --- household ---
+
+{ field: "household", concept: "rug", englishGloss: "fabric floor covering",
+  panHispanic: "alfombra",
+  variants: {
+    "es-ES": { term: "alfombra", frequency: 1, register: "universal" },
+    "es-MX": { term: "tapete", frequency: 1, register: "universal" },
+    "es-GT": { term: "tapete", frequency: 1, register: "universal" },
+    "es-HN": { term: "tapete", frequency: 1, register: "universal" },
+    "es-SV": { term: "tapete", frequency: 1, register: "universal" },
+    "es-NI": { term: "tapete", frequency: 1, register: "universal" },
+    "es-CR": { term: "tapete", frequency: 1, register: "universal" },
+    "es-PA": { term: "tapete", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "painkiller", englishGloss: "medication to relieve pain",
+  panHispanic: "analgésico",
+  variants: {
+    "es-ES": { term: "analgésico", frequency: 1, register: "formal", notes: "informally calmante is also used" },
+    "es-CO": { term: "calmante", frequency: 1, register: "universal" },
+    "es-VE": { term: "calmante", frequency: 1, register: "universal" },
+    "es-MX": { term: "analgésico", frequency: 1, register: "formal" },
+    "es-AR": { term: "analgésico", frequency: 1, register: "formal" },
+    "es-CL": { term: "analgésico", frequency: 1, register: "formal" },
+    "es-PE": { term: "analgésico", frequency: 1, register: "formal" },
+  }},
+
+{ field: "medicine_health", concept: "wheelchair_access", englishGloss: "accessibility ramp or entrance for wheelchairs",
+  panHispanic: "acceso para sillas de ruedas",
+  variants: {
+    "es-ES": { term: "acceso para sillas de ruedas", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "bandage", englishGloss: "strip of material used to bind a wound",
+  panHispanic: "vendaje",
+  variants: {
+    "es-ES": { term: "vendaje", frequency: 1, register: "universal" },
+    "es-MX": { term: "vendaje", frequency: 1, register: "universal", notes: "also curita for adhesive bandage" },
+    "es-AR": { term: "vendaje", frequency: 1, register: "universal" },
+    "es-CO": { term: "vendaje", frequency: 1, register: "universal" },
+    "es-CL": { term: "vendaje", frequency: 1, register: "universal" },
+    "es-PE": { term: "vendaje", frequency: 1, register: "universal" },
+    "es-VE": { term: "vendaje", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "sling_medical", englishGloss: "fabric support for an injured arm",
+  panHispanic: "cabestrillo",
+  variants: {
+    "es-ES": { term: "cabestrillo", frequency: 1, register: "universal" },
+    "es-MX": { term: "cabestrillo", frequency: 1, register: "universal" },
+    "es-AR": { term: "cabestrillo", frequency: 1, register: "universal" },
+    "es-CO": { term: "cabestrillo", frequency: 1, register: "universal" },
+    "es-CL": { term: "cabestrillo", frequency: 1, register: "universal" },
+    "es-VE": { term: "cabestrillo", frequency: 1, register: "universal" },
+  }},
+
+// --- family_kinship ---
+
+{ field: "family_kinship", concept: "stepson", englishGloss: "spouse's son from a previous relationship",
+  panHispanic: "hijastro",
+  variants: {
+    "es-ES": { term: "hijastro", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "stepdaughter", englishGloss: "spouse's daughter from a previous relationship",
+  panHispanic: "hijastra",
+  variants: {
+    "es-ES": { term: "hijastra", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "great_grandfather", englishGloss: "father of one's grandparent",
+  panHispanic: "bisabuelo",
+  variants: {
+    "es-ES": { term: "bisabuelo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "great_grandmother", englishGloss: "mother of one's grandparent",
+  panHispanic: "bisabuela",
+  variants: {
+    "es-ES": { term: "bisabuela", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "godfather_mom", englishGloss: "man who sponsors a child at baptism",
+  panHispanic: "padrino",
+  variants: {
+    "es-ES": { term: "padrino", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "godmother_mom", englishGloss: "woman who sponsors a child at baptism",
+  panHispanic: "madrina",
+  variants: {
+    "es-ES": { term: "madrina", frequency: 1, register: "universal" },
+  }},
+
+// --- finance_banking ---
+
+{ field: "finance_banking", concept: "income", englishGloss: "money received as earnings",
+  panHispanic: "ingreso",
+  variants: {
+    "es-ES": { term: "ingreso", frequency: 1, register: "universal" },
+    "es-MX": { term: "ingreso", frequency: 1, register: "universal" },
+    "es-AR": { term: "ingreso", frequency: 1, register: "universal" },
+    "es-CO": { term: "ingreso", frequency: 1, register: "universal" },
+    "es-CL": { term: "ingreso", frequency: 1, register: "universal" },
+    "es-VE": { term: "ingreso", frequency: 1, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "coin", englishGloss: "flat piece of metal used as money",
+  panHispanic: "moneda",
+  variants: {
+    "es-ES": { term: "moneda", frequency: 1, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "change_money", englishGloss: "money returned after paying more than the amount due",
+  panHispanic: "cambio",
+  variants: {
+    "es-ES": { term: "cambio", frequency: 1, register: "universal" },
+    "es-MX": { term: "cambio", frequency: 1, register: "universal" },
+    "es-AR": { term: "vuelto", frequency: 1, register: "universal" },
+    "es-UY": { term: "vuelto", frequency: 1, register: "universal" },
+    "es-PY": { term: "vuelto", frequency: 1, register: "universal" },
+    "es-CO": { term: "cambio", frequency: 1, register: "universal" },
+    "es-VE": { term: "cambio", frequency: 1, register: "universal" },
+    "es-CL": { term: "vuelto", frequency: 1, register: "universal" },
+    "es-PE": { term: "cambio", frequency: 1, register: "universal" },
+    "es-EC": { term: "cambio", frequency: 1, register: "universal" },
+    "es-BO": { term: "cambio", frequency: 1, register: "universal" },
+    "es-GT": { term: "cambio", frequency: 1, register: "universal" },
+    "es-HN": { term: "cambio", frequency: 1, register: "universal" },
+    "es-SV": { term: "cambio", frequency: 1, register: "universal" },
+    "es-NI": { term: "cambio", frequency: 1, register: "universal" },
+    "es-CR": { term: "cambio", frequency: 1, register: "universal" },
+    "es-PA": { term: "cambio", frequency: 1, register: "universal" },
+    "es-CU": { term: "cambio", frequency: 1, register: "universal" },
+    "es-DO": { term: "cambio", frequency: 1, register: "universal" },
+    "es-PR": { term: "cambio", frequency: 1, register: "universal" },
+    "es-US": { term: "cambio", frequency: 1, register: "universal" },
+    "es-GQ": { term: "cambio", frequency: 1, register: "universal" },
+    "es-PH": { term: "cambio", frequency: 1, register: "universal" },
+    "es-BZ": { term: "cambio", frequency: 1, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "check", englishGloss: "written order directing a bank to pay money",
+  panHispanic: "cheque",
+  variants: {
+    "es-ES": { term: "cheque", frequency: 1, register: "universal" },
+    "es-MX": { term: "cheque", frequency: 1, register: "universal" },
+    "es-AR": { term: "cheque", frequency: 1, register: "universal" },
+    "es-CO": { term: "cheque", frequency: 1, register: "universal" },
+    "es-CL": { term: "cheque", frequency: 1, register: "universal" },
+    "es-VE": { term: "cheque", frequency: 1, register: "universal" },
+    "es-PE": { term: "cheque", frequency: 1, register: "universal" },
+  }},
+
+// --- nature ---
+
+{ field: "nature", concept: "rainbow", englishGloss: "multicolored arc in the sky after rain",
+  panHispanic: "arcoíris",
+  variants: {
+    "es-ES": { term: "arcoíris", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "storm", englishGloss: "severe weather with wind and rain",
+  panHispanic: "tormenta",
+  variants: {
+    "es-ES": { term: "tormenta", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "fog", englishGloss: "thick cloud near the ground",
+  panHispanic: "niebla",
+  variants: {
+    "es-ES": { term: "niebla", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "earthquake", englishGloss: "seismic tremor",
+  panHispanic: "terremoto",
+  variants: {
+    "es-ES": { term: "terremoto", frequency: 1, register: "universal" },
+    "es-MX": { term: "sismo", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "hurricane", englishGloss: "tropical cyclone",
+  panHispanic: "huracán",
+  variants: {
+    "es-ES": { term: "huracán", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "island", englishGloss: "land surrounded by water",
+  panHispanic: "isla",
+  variants: {
+    "es-ES": { term: "isla", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "desert", englishGloss: "arid sandy region",
+  panHispanic: "desierto",
+  variants: {
+    "es-ES": { term: "desierto", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "forest_wood", englishGloss: "large area covered with trees",
+  panHispanic: "bosque",
+  variants: {
+    "es-ES": { term: "bosque", frequency: 1, register: "universal" },
+    "es-CO": { term: "selva", frequency: 1, register: "universal", notes: "for tropical forest" },
+    "es-VE": { term: "selva", frequency: 1, register: "universal", notes: "for tropical forest" },
+  } },
+
+{ field: "nature", concept: "field_countryside", englishGloss: "open rural land",
+  panHispanic: "campo",
+  variants: {
+    "es-ES": { term: "campo", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "beach_shore", englishGloss: "sandy area beside the sea",
+  panHispanic: "playa",
+  variants: {
+    "es-ES": { term: "playa", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "wave", englishGloss: "ridge of water moving across the sea",
+  panHispanic: "ola",
+  variants: {
+    "es-ES": { term: "ola", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "stone_rock", englishGloss: "hard solid mineral matter",
+  panHispanic: "piedra",
+  variants: {
+    "es-ES": { term: "piedra", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "dust", englishGloss: "fine dry particles of earth",
+  panHispanic: "polvo",
+  variants: {
+    "es-ES": { term: "polvo", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "waterfall", englishGloss: "cascade of water from a height",
+  panHispanic: "cascada",
+  variants: {
+    "es-ES": { term: "cascada", frequency: 1, register: "universal" },
+  } },
+
+{ field: "education", concept: "degree", englishGloss: "academic qualification",
+  panHispanic: "título",
+  variants: {
+    "es-ES": { term: "título", frequency: 1, register: "universal" },
+  } },
+
+{ field: "education", concept: "pencil", englishGloss: "writing instrument with graphite",
+  panHispanic: "lápiz",
+  variants: {
+    "es-ES": { term: "lápiz", frequency: 1, register: "universal" },
+  } },
+
+{ field: "education", concept: "eraser", englishGloss: "tool for removing pencil marks",
+  panHispanic: "borrador",
+  variants: {
+    "es-ES": { term: "goma de borrar", frequency: 1, register: "universal" },
+    "es-MX": { term: "borrador", frequency: 1, register: "universal" },
+    "es-AR": { term: "goma", frequency: 1, register: "universal" },
+    "es-CO": { term: "borrador", frequency: 1, register: "universal" },
+  } },
+
+{ field: "education", concept: "chalk", englishGloss: "white writing stick for blackboards",
+  panHispanic: "tiza",
+  variants: {
+    "es-ES": { term: "tiza", frequency: 1, register: "universal" },
+  } },
+
+{ field: "education", concept: "blackboard", englishGloss: "dark surface for writing with chalk",
+  panHispanic: "pizarra",
+  variants: {
+    "es-ES": { term: "pizarra", frequency: 1, register: "universal" },
+    "es-MX": { term: "pizarrón", frequency: 1, register: "universal" },
+    "es-CO": { term: "tablero", frequency: 1, register: "universal" },
+    "es-AR": { term: "pizarrón", frequency: 1, register: "universal" },
+  } },
+
+{ field: "education", concept: "recess", englishGloss: "school break time",
+  panHispanic: "recreo",
+  variants: {
+    "es-ES": { term: "recreo", frequency: 1, register: "universal" },
+    "es-MX": { term: "receso", frequency: 1, register: "universal" },
+    "es-AR": { term: "recreo", frequency: 1, register: "universal" },
+    "es-CO": { term: "descanso", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "elbow", englishGloss: "joint connecting upper and lower arm",
+  panHispanic: "codo",
+  variants: {
+    "es-ES": { term: "codo", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "wrist", englishGloss: "joint connecting hand and forearm",
+  panHispanic: "muñeca",
+  variants: {
+    "es-ES": { term: "muñeca", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "ankle", englishGloss: "joint connecting foot and leg",
+  panHispanic: "tobillo",
+  variants: {
+    "es-ES": { term: "tobillo", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "heel", englishGloss: "back part of the foot",
+  panHispanic: "talón",
+  variants: {
+    "es-ES": { term: "talón", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "chest", englishGloss: "front of the body between neck and abdomen",
+  panHispanic: "pecho",
+  variants: {
+    "es-ES": { term: "pecho", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "hip", englishGloss: "joint connecting leg to torso",
+  panHispanic: "cadera",
+  variants: {
+    "es-ES": { term: "cadera", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "thumb", englishGloss: "short thick first finger",
+  panHispanic: "pulgar",
+  variants: {
+    "es-ES": { term: "pulgar", frequency: 1, register: "universal" },
+    "es-MX": { term: "pulgar", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "toe", englishGloss: "any of the five digits of the foot",
+  panHispanic: "dedo del pie",
+  variants: {
+    "es-ES": { term: "dedo del pie", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "tongue", englishGloss: "fleshy organ in the mouth",
+  panHispanic: "lengua",
+  variants: {
+    "es-ES": { term: "lengua", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "lips", englishGloss: "fleshy edges of the mouth",
+  panHispanic: "labios",
+  variants: {
+    "es-ES": { term: "labios", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "cheek", englishGloss: "fleshy side of the face",
+  panHispanic: "mejilla",
+  variants: {
+    "es-ES": { term: "mejilla", frequency: 1, register: "universal" },
+    "es-MX": { term: "cachete", frequency: 1, register: "universal" },
+    "es-AR": { term: "mejilla", frequency: 1, register: "universal" },
+    "es-CO": { term: "cachete", frequency: 1, register: "universal" },
+  } },
+
+{ field: "body_parts", concept: "eyebrow", englishGloss: "arch of hair above the eye",
+  panHispanic: "ceja",
+  variants: {
+    "es-ES": { term: "ceja", frequency: 1, register: "universal" },
+  } },
+
+{ field: "people", concept: "girl_child", englishGloss: "female child",
+  panHispanic: "niña",
+  variants: {
+    "es-ES": { term: "niña", frequency: 1, register: "universal" },
+    "es-AR": { term: "piba", frequency: 1, register: "informal" },
+    "es-MX": { term: "chava", frequency: 1, register: "informal" },
+  } },
+
+{ field: "people", concept: "boy_child", englishGloss: "male child",
+  panHispanic: "niño",
+  variants: {
+    "es-ES": { term: "niño", frequency: 1, register: "universal" },
+  } },
+
+{ field: "people", concept: "adult", englishGloss: "fully grown person",
+  panHispanic: "adulto",
+  variants: {
+    "es-ES": { term: "adulto", frequency: 1, register: "universal" },
+  } },
+
+{ field: "people", concept: "citizen", englishGloss: "member of a state or nation",
+  panHispanic: "ciudadano",
+  variants: {
+    "es-ES": { term: "ciudadano", frequency: 1, register: "universal" },
+  } },
+
+{ field: "people", concept: "customer_client", englishGloss: "person who buys goods or services",
+  panHispanic: "cliente",
+  variants: {
+    "es-ES": { term: "cliente", frequency: 1, register: "universal" },
+  } },
+
+{ field: "finance_banking", concept: "loan_mortgage", englishGloss: "borrowed money to be repaid",
+  panHispanic: "préstamo",
+  variants: {
+    "es-ES": { term: "préstamo", frequency: 1, register: "universal" },
+  } },
+
+{ field: "finance_banking", concept: "insurance_policy", englishGloss: "contract for financial protection",
+  panHispanic: "seguro",
+  variants: {
+    "es-ES": { term: "seguro", frequency: 1, register: "universal" },
+  } },
+
+{ field: "finance_banking", concept: "tax_payment", englishGloss: "government levy on income or goods",
+  panHispanic: "impuesto",
+  variants: {
+    "es-ES": { term: "impuesto", frequency: 1, register: "universal" },
+  } },
+
+{ field: "finance_banking", concept: "currency_money", englishGloss: "system of money in use",
+  panHispanic: "moneda",
+  variants: {
+    "es-ES": { term: "moneda", frequency: 1, register: "universal" },
+  } },
+
+{ field: "finance_banking", concept: "cash_register", englishGloss: "machine for holding money in a shop",
+  panHispanic: "caja registradora",
+  variants: {
+    "es-ES": { term: "caja registradora", frequency: 1, register: "universal" },
+  } },
+
+
+{ field: "food", concept: "vanilla", englishGloss: "vanilla flavor/bean",
+  panHispanic: "vainilla",
+  variants: {
+    "es-ES": { term: "vainilla", frequency: 1, register: "universal" },
+  } },
+
+{ field: "food", concept: "cinnamon", englishGloss: "sweet spice from bark",
+  panHispanic: "canela",
+  variants: {
+    "es-ES": { term: "canela", frequency: 1, register: "universal" },
+  } },
+
+{ field: "transport", concept: "scooter", englishGloss: "two-wheeled motor vehicle",
+  panHispanic: "escúter",
+  variants: {
+    "es-ES": { term: "escúter", frequency: 1, register: "universal" },
+    "es-MX": { term: "moto", frequency: 1, register: "universal" },
+    "es-AR": { term: "moto", frequency: 1, register: "universal" },
+  } },
+
+{ field: "transport", concept: "helmet", englishGloss: "protective headgear",
+  panHispanic: "casco",
+  variants: {
+    "es-ES": { term: "casco", frequency: 1, register: "universal" },
+  } },
+
+{ field: "technology", concept: "projector", englishGloss: "device that projects images",
+  panHispanic: "proyector",
+  variants: {
+    "es-ES": { term: "proyector", frequency: 1, register: "universal" },
+  } },
+
+{ field: "technology", concept: "mouse_device", englishGloss: "computer pointing device",
+  panHispanic: "ratón",
+  variants: {
+    "es-ES": { term: "ratón", frequency: 1, register: "universal" },
+    "es-MX": { term: "mouse", frequency: 1, register: "universal" },
+    "es-CO": { term: "mouse", frequency: 1, register: "universal" },
+    "es-AR": { term: "mouse", frequency: 1, register: "universal" },
+  } },
+
+{ field: "actions", concept: "to_sing", englishGloss: "produce musical sounds with voice",
+  panHispanic: "cantar",
+  variants: {
+    "es-ES": { term: "cantar", frequency: 1, register: "universal" },
+  } },
+
+{ field: "actions", concept: "to_dance", englishGloss: "move rhythmically to music",
+  panHispanic: "bailar",
+  variants: {
+    "es-ES": { term: "bailar", frequency: 1, register: "universal" },
+  } },
+
+{ field: "social", concept: "shy", englishGloss: "feeling nervous around others",
+  panHispanic: "tímido",
+  variants: {
+    "es-ES": { term: "tímido", frequency: 1, register: "universal" },
+  } },
+
+{ field: "social", concept: "proud", englishGloss: "feeling deep satisfaction",
+  panHispanic: "orgulloso",
+  variants: {
+    "es-ES": { term: "orgulloso", frequency: 1, register: "universal" },
+  } },
+
+{ field: "medicine_health", concept: "pharmacist", englishGloss: "person who dispenses medicine",
+  panHispanic: "farmacéutico",
+  variants: {
+    "es-ES": { term: "farmacéutico", frequency: 1, register: "universal" },
+    "es-CO": { term: "droguista", frequency: 1, register: "informal" },
+  } },
+
+{ field: "medicine_health", concept: "cough", englishGloss: "sudden expulsion of air from lungs",
+  panHispanic: "tos",
+  variants: {
+    "es-ES": { term: "tos", frequency: 1, register: "universal" },
+  } },
+
+{ field: "finance_banking", concept: "wallet_purse", englishGloss: "small flat case for money",
+  panHispanic: "cartera",
+  variants: {
+    "es-ES": { term: "cartera", frequency: 1, register: "universal" },
+    "es-CO": { term: "billetera", frequency: 1, register: "universal" },
+    "es-VE": { term: "billetera", frequency: 1, register: "universal" },
+    "es-CL": { term: "billetera", frequency: 1, register: "universal" },
+  } },
+
+{ field: "finance_banking", concept: "exchange_rate", englishGloss: "value of one currency against another",
+  panHispanic: "tipo de cambio",
+  variants: {
+    "es-ES": { term: "tipo de cambio", frequency: 1, register: "universal" },
+  } },
+
+{ field: "nature", concept: "volcano", englishGloss: "mountain that erupts lava",
+  panHispanic: "volcán",
+  variants: {
+    "es-ES": { term: "volcán", frequency: 1, register: "universal" },
+  } },
+
+{ field: "clothing", concept: "pajamas", englishGloss: "sleepwear",
+  panHispanic: "pijama",
+  variants: {
+    "es-ES": { term: "pijama", frequency: 1, register: "universal" },
+  } }
 
 ];
