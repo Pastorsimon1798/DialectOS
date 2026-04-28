@@ -68,6 +68,76 @@ function scorePatterns<T extends string>(
   return { value: best.value as T, matchedSignals: best.matchedSignals };
 }
 
+const VOCABULARY_SWAPS: Partial<Record<SpanishDialect, Array<[string, string]>>> = {
+  "es-MX": [
+    ["ordenador", "computadora"], ["coche", "carro"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "lentes"], ["conducir", "manejar"],
+    ["autobús", "camión"], ["maletero", "cajuela"], ["piso (apartment)", "departamento"],
+    ["bolígrafo", "pluma"], ["patata", "papa"], ["frigorífico", "refrigerador"],
+  ],
+  "es-AR": [
+    ["ordenador", "computadora"], ["coche", "auto"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "anteojos"], ["conducir", "manejar"],
+    ["autobús", "colectivo/bondi"], ["maletero", "baúl"], ["piso (apartment)", "departamento"],
+    ["patata", "papa"], ["fresa", "frutilla"], ["frigorífico", "heladera"],
+  ],
+  "es-CO": [
+    ["ordenador", "computador"], ["coche", "carro"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "lentes"], ["conducir", "manejar"],
+    ["autobús", "bus"], ["maletero", "maletero"], ["piso (apartment)", "apartamento"],
+    ["bolígrafo", "esfero"], ["patata", "papa"], ["plátano", "banano"],
+  ],
+  "es-CL": [
+    ["ordenador", "computador"], ["coche", "auto"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "lentes"], ["conducir", "manejar"],
+    ["autobús", "micro"], ["aguacate", "palta"], ["patata", "papa"],
+    ["fresa", "frutilla"], ["camiseta", "polera"], ["frigorífico", "refrigerador"],
+  ],
+  "es-PR": [
+    ["ordenador", "computadora"], ["coche", "carro"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "lentes"], ["conducir", "manejar"],
+    ["autobús", "guagua"], ["maletero", "maletero"], ["piso (apartment)", "apartamento"],
+    ["patata", "papa"], ["judía", "habichuela"], ["frigorífico", "refrigerador"],
+  ],
+  "es-CU": [
+    ["ordenador", "computadora"], ["coche", "carro"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "lentes"], ["conducir", "manejar"],
+    ["autobús", "guagua"], ["maletero", "maletero"], ["piso (apartment)", "apartamento"],
+    ["patata", "papa"], ["judía", "habichuela"], ["frigorífico", "refrigerador"],
+  ],
+  "es-DO": [
+    ["ordenador", "computadora"], ["coche", "carro"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "espejuelos"], ["conducir", "manejar"],
+    ["autobús", "guagua"], ["maletero", "maletero"], ["piso (apartment)", "apartamento"],
+    ["patata", "papa"], ["judía", "habichuela"], ["frigorífico", "refrigerador"],
+  ],
+  "es-VE": [
+    ["ordenador", "computadora"], ["coche", "carro"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "lentes"], ["conducir", "manejar"],
+    ["autobús", "bus/carrito"], ["maletero", "maletero"], ["piso (apartment)", "apartamento"],
+    ["patata", "papa"], ["judía", "caraota"], ["bolígrafo", "lapicero"],
+  ],
+  "es-PE": [
+    ["ordenador", "computadora"], ["coche", "carro"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "lentes/anteojos"], ["conducir", "manejar"],
+    ["autobús", "bus/micro"], ["patata", "papa"], ["fresa", "frutilla"],
+    ["bolígrafo", "pluma"], ["judía", "poroto"], ["frigorífico", "refrigerador"],
+  ],
+  "es-EC": [
+    ["ordenador", "computador"], ["coche", "carro"], ["zumo", "jugo"],
+    ["móvil", "celular"], ["gafas", "lentes"], ["conducir", "manejar"],
+    ["autobús", "bus"], ["patata", "papa"], ["bolígrafo", "esfero"],
+    ["plátano", "banano"], ["judía", "frejol"], ["frigorífico", "refrigerador"],
+  ],
+};
+
+function buildVocabularySwapPrompt(dialect: SpanishDialect): string | undefined {
+  const swaps = VOCABULARY_SWAPS[dialect];
+  if (!swaps || swaps.length === 0) return undefined;
+  const entries = swaps.map(([from, to]) => `${from} → ${to}`).join("; ");
+  return `Key vocabulary for ${dialect} (use these regional terms instead of Peninsular Spanish): ${entries}.`;
+}
+
 function buildOutputConstraintPrompt(text: string, dialect: SpanishDialect): string | undefined {
   const constraints: string[] = [
     "Do not copy forbidden examples, taboo examples, or ambiguity warnings into the output.",
@@ -166,6 +236,7 @@ export function buildSemanticTranslationContext(options: BuildSemanticContextOpt
     options.documentKind ? `Document kind: ${options.documentKind}.` : undefined,
     options.sectionType ? `Current section type: ${options.sectionType}.` : undefined,
     dialectTerms ? `Use regional vocabulary naturally where appropriate; examples/signals: ${dialectTerms}.` : undefined,
+    buildVocabularySwapPrompt(options.dialect),
     grammarGuidance ? `Dialect grammar and style profile: ${grammarGuidance}` : undefined,
     qualityPrompt ? `Dialect quality contract: ${qualityPrompt}` : undefined,
     lexicalAmbiguityGuidance,

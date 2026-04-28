@@ -67,9 +67,9 @@ const blocks = [
   extractFunction(d, 'getWordBoundaries'),
   extractFunction(d, 'detectDialect'),
   getLines(m, 32, 35),     // VOSOTROS_ADAPTATION
-  getLines(m, 38, 302),    // TECH_ADAPTATIONS
-  getLines(m, 308, 337),   // DIALECT_ADAPTATIONS
-  getLines(m, 354, 365),   // applyAdaptations
+  getLines(m, 38, 348),    // TECH_ADAPTATIONS
+  getLines(m, 354, 383),   // DIALECT_ADAPTATIONS
+  getLines(m, 400, 411),   // applyAdaptations
 ];
 
 function stripTS(code) {
