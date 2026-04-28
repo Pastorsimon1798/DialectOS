@@ -30,7 +30,7 @@ This runs adversarial tests and writes:
 - `progress.json` — live progress
 - `results.json` — aggregate scores
 
-**Certified models for v0.2.0:**
+**Certified models for v0.3.0:**
 - `glm-4.5-air` (cloud, Anthropic-compatible)
 - `qwen3.5-9b` (local, via LM Studio)
 
@@ -40,7 +40,7 @@ This runs adversarial tests and writes:
 - Leísmo/laísmo/loísmo grammar detection
 - Semantic backstop catches drift
 - Translation memory with SHA-256 cache
-- 746 tests
+- 1034 tests
 
 **Repo:** https://github.com/Pastorsimon1798/DialectOS
 

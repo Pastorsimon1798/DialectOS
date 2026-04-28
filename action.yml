@@ -1,0 +1,66 @@
+name: "DialectOS Translation Validation"
+description: "Validate Spanish translations against dialect quality checks"
+branding:
+  icon: "check-circle"
+  color: "blue"
+
+inputs:
+  dialect:
+    description: "Spanish dialect code to validate against (e.g., es-ES, es-MX, es-AR)"
+    required: true
+    default: "es-ES"
+  source-dir:
+    description: "Directory containing source and translated files"
+    required: false
+    default: "."
+  target-patterns:
+    description: "Comma-separated glob patterns for translated files (e.g., '**/*.es.json','**/*-es.md')"
+    required: false
+    default: ""
+  glossary-file:
+    description: "Path to JSON glossary file for terminology checks"
+    required: false
+    default: ""
+  fail-on-blocking:
+    description: "Fail the action on blocking issues (vs. any issue)"
+    required: false
+    default: "true"
+  format:
+    description: "Output format (text or json)"
+    required: false
+    default: "text"
+  strict:
+    description: "Treat all issues (not just blocking) as failures"
+    required: false
+    default: "false"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+        cache: "pnpm"
+
+    - name: Build DialectOS
+      shell: bash
+      run: pnpm install --frozen-lockfile && pnpm -r build
+      working-directory: ${{ github.action_path }}/..
+
+    - name: Validate translations
+      shell: bash
+      run: |
+        node ${{ github.action_path }}/../scripts/ci-validate.mjs \
+          --dialect="${{ inputs.dialect }}" \
+          --source-dir="${{ inputs.source-dir }}" \
+          --target-patterns="${{ inputs.target-patterns }}" \
+          --glossary-file="${{ inputs.glossary-file }}" \
+          --fail-on-blocking="${{ inputs.fail-on-blocking }}" \
+          --format="${{ inputs.format }}" \
+          --strict="${{ inputs.strict }}"

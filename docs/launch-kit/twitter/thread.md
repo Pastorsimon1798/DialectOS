@@ -45,7 +45,7 @@ It runs as:
 - A CLI tool
 - A Node.js library
 
-25 dialects. 17 MCP tools. 746 tests.
+25 dialects. 17 MCP tools. 1034 tests.
 
 ---
 
@@ -100,7 +100,7 @@ Circuit breaker + rate limiter + translation memory (SHA-256 cache).
 ---
 
 ## Tweet 9 (Open Source)
-- 746 tests across 7 packages
+- 1034 tests across 7 packages
 - BSL 1.1 (free for most use)
 - Becomes Apache-2.0 in 2030
 - TypeScript, pnpm workspace

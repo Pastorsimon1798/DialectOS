@@ -36,4 +36,4 @@ If you're using Claude Desktop, Cursor, or any MCP client and want **native tran
 
 **Why this matters:** Instead of copy-pasting into ChatGPT and hoping it knows Puerto Rican Spanish, you get **deterministic, tested, dialect-aware translation** with quality gates.
 
-Open source, 746 tests, works with any OpenAI/Anthropic/local LLM.
+Open source, 1034 tests, works with any OpenAI/Anthropic/local LLM.

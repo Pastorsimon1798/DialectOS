@@ -52,4 +52,4 @@ dialectos i18n manage-variants ./locales/es-MX.json --target es-AR
 - Supports gender-neutral language (elles, latine)
 - Applies quality gates to catch drift
 
-746 tests, open source (BSL 1.1).
+1034 tests, open source (BSL 1.1).

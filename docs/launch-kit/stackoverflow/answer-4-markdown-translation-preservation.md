@@ -45,4 +45,4 @@ translate_markdown({
 - No HTML injection in output
 - Semantic meaning intact
 
-746 tests, open source (BSL 1.1 → Apache-2.0 in 2030).
+1034 tests, open source (BSL 1.1 → Apache-2.0 in 2030).

@@ -5,6 +5,57 @@ All notable changes to DialectOS are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-04-27
+
+### Added
+
+#### Quality Assurance Mode (`dialectos validate`)
+- `dialectos validate` — standalone command to validate existing translations against dialect quality checks
+- Extracted `validateTranslation()` pipeline function from translate-api-docs into reusable module
+- Supports `--source-file`, `--translated-file`, `--dialect`, `--glossary-file`, `--protect-tokens`, `--format text|json`, `--strict`, `--locale`
+- `ValidationReport` type with quality score, semantic check, lexical compliance, output judge, and structure validation
+- CLI exits 0 on pass, 1 on blocking issues (or any issue with `--strict`)
+- Refactored translate-api-docs to use shared `validateTranslation()` internally
+
+#### Translation Corpus
+- `TranslationCorpus` class for dialect-indexed JSONL storage at `~/.cache/dialectos/corpus/`
+- `CorpusEntry` and `CorrectionEntry` types for structured storage
+- `CorpusStats` with per-dialect counts and quality distribution
+- Atomic writes via temp file + rename (same pattern as TranslationMemory)
+- Path validation via `@dialectos/security`
+- `dialectos corpus stats` — corpus size, quality distribution, dialect coverage
+- `dialectos corpus export --dialect <d> --output <path>` — export JSONL
+- `--corpus` flag on `translate` and `translate-api-docs` commands for opt-in capture
+
+#### Public Dialect Quality Benchmark
+- Expanded adversarial fixtures from 130 to 205 samples across all 25 dialects
+- 3 new adversarial categories: `negation-preservation`, `formality-consistency`, `cultural-adaptation`
+- 75 new samples (3 per dialect) with dialect-specific cultural data, voseo/vosotros-aware formality, and negation traps
+- `scripts/benchmark.mjs` runner evaluating fixtures via `validateTranslation()` pipeline
+- `dialectos benchmark run` and `dialectos benchmark report` CLI commands
+- `benchmarks/README.md` with methodology, contribution guide, and score interpretation
+- 50+ critical-severity samples for certification threshold
+
+#### GitHub Action for Translation CI
+- `action.yml` composite action for CI validation of Spanish translations
+- Inputs: `dialect`, `source-dir`, `target-patterns`, `glossary-file`, `fail-on-blocking`, `format`, `strict`
+- `scripts/ci-validate.mjs` — detects changed locale files and runs validation per file
+- `.github/workflows/validate-pr.yml` — PR validation with multi-dialect matrix (es-ES, es-MX, es-AR, es-CO)
+- Posts validation comment on PR via `actions/github-script@v7`
+- `docs/github-action.md` with usage guide and multi-dialect matrix example
+
+#### Auto-Glossary from Corrections
+- `generateGlossarySuggestions()` engine — groups corrections by source phrase + corrected term
+- `wordDiff()` for position-by-position word comparison between original and corrected translations
+- Confidence scoring: 0.4 × dialect factor + 0.6 × frequency factor
+- `dialectos glossary suggest` — generates suggestions from corpus corrections with `--interactive` mode
+- `dialectos glossary diff <before> <after>` — compares two glossary JSON files (added/removed/changed)
+- Correction capture wired into validate and translate commands
+
+### Changed
+- All 7 packages bumped from `0.2.0` to `0.3.0`
+- Adversarial fixture test updated with 3 new categories and critical threshold raised to 50
+
 ## [0.2.0] - 2026-04-27
 
 ### Added
@@ -130,5 +181,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Structured JSON error handling
 - Graceful shutdown on SIGINT/SIGTERM
 
+[0.3.0]: https://github.com/Pastorsimon1798/DialectOS/releases/tag/v0.3.0
 [0.2.0]: https://github.com/Pastorsimon1798/DialectOS/releases/tag/v0.2.0
 [0.1.0]: https://github.com/Pastorsimon1798/DialectOS/releases/tag/v0.1.0

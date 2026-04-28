@@ -59,6 +59,12 @@ function mockTranslate(source, dialect, sample = {}) {
   const formalSupport = sample.register === "formal" && /\b(password|support|payment)\b/i.test(source);
 
   return source
+    .replace(/\bDo not delete the database without a backup\./i, "No elimine la base de datos sin una copia de seguridad.")
+    .replace(/\bYou can update your account settings in the profile page\./i,
+      VOSEO_DIALECTS.has(dialect) ? "Podés actualizar la configuración de tu cuenta en la página de perfil." :
+      VOSOTROS_DIALECTS.has(dialect) ? "Podéis actualizar la configuración de vuestra cuenta en la página de perfil." :
+      "Puedes actualizar la configuración de tu cuenta en la página de perfil.")
+    .replace(/\bThe traditional dish for the holiday celebration includes (.+?)\./i, "El plato tradicional para la celebración festiva incluye $1.")
     .replace(/\bPark the car near the office\./i, "Estacione el carro cerca de la oficina.")
     .replace(/\bUse Belizean Spanish for public service copy\./i, "Use español beliceño para textos de servicio público.")
     .replace(/\bPreserve Philippine names in the file\./i, "Preserve los nombres filipinos en el archivo.")

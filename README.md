@@ -13,7 +13,7 @@ quality gates that catch semantic drift before it reaches users.
 Translate, detect, and adapt content across **25 regional Spanish variants** while preserving markdown structure, code comments, and locale file formatting.
 
 [![CI](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml/badge.svg)](https://github.com/Pastorsimon1798/DialectOS/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-737%20passing-brightgreen)](https://github.com/Pastorsimon1798/DialectOS/actions)
+[![Tests](https://img.shields.io/badge/tests-1034%20passing-brightgreen)](https://github.com/Pastorsimon1798/DialectOS/actions)
 [![License](https://img.shields.io/badge/license-BSL%201.1-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](package.json)
 [![pnpm](https://img.shields.io/badge/pnpm-9.15.0-orange)](package.json)
@@ -54,6 +54,10 @@ DialectOS is available as a paid Spanish localization launch audit. We certify y
 | Formality checking (tú vs usted) | ❌ | ❌ | ✅ **Cross-dialect consistency** |
 | Adversarial quality gates | ❌ | ❌ | ✅ **Semantic drift + structure validation** |
 | LLM-first dialect adaptation | ❌ Generic MT | ⚠️ Limited dialect control | ✅ **Any OpenAI/Anthropic/LM Studio local LLM + dialect contracts** |
+| Translation validation (any provider) | ❌ | ❌ | ✅ **`dialectos validate` — standalone correctness check** |
+| GitHub CI integration | ❌ | ❌ | ✅ **Composite action for PR validation** |
+| Auto-glossary from corrections | ❌ | ❌ | ✅ **Learns from user feedback** |
+| Public benchmark suite | ❌ | ❌ | ✅ **205 adversarial samples across 25 dialects** |
 
 ---
 
@@ -116,7 +120,7 @@ Add to your Claude Desktop, Cursor, or any MCP client:
 
 ### Recommended certified models
 
-For `v0.2.0`, the recommended default cloud model is `glm-4.5-air` through the Z.ai international Anthropic-compatible endpoint. It passed basic, expanded adversarial, and long-document certification. Use `glm-5.1` when you want the higher-confidence/premium option, and `qwen3.5-9b` via LM Studio for local/offline certification.
+For `v0.3.0`, the recommended default cloud model is `glm-4.5-air` through the Z.ai international Anthropic-compatible endpoint. It passed basic, expanded adversarial, and long-document certification. Use `glm-5.1` when you want the higher-confidence/premium option, and `qwen3.5-9b` via LM Studio for local/offline certification.
 
 ```bash
 export LLM_API_URL="https://api.z.ai/api/anthropic/v1/messages"
@@ -183,6 +187,24 @@ dialectos translate "Hello world" --dialect es-MX
 # Translate a README preserving structure
 dialectos translate-readme README.md --dialect es-AR --output README.ar.md
 
+# Validate an existing translation
+dialectos validate --source "Click the button" --translated "Haz clic en el botón" --dialect es-MX
+
+# Validate translation files
+dialectos validate --source-file en.json --translated-file es-MX.json --dialect es-MX --format json
+
+# View translation corpus statistics
+dialectos corpus stats
+
+# Run dialect quality benchmark
+dialectos benchmark run --dialects es-MX,es-AR,es-ES
+
+# Generate glossary suggestions from corrections
+dialectos glossary suggest --min-occurrences 3
+
+# Compare two glossary versions
+dialectos glossary diff glossary-v1.json glossary-v2.json
+
 # Detect missing i18n keys
 dialectos i18n detect-missing ./locales/en.json ./locales/es.json
 
@@ -197,7 +219,7 @@ git clone https://github.com/Pastorsimon1798/DialectOS.git
 cd DialectOS
 pnpm install
 pnpm build
-pnpm test        # 746 tests passing
+pnpm test        # 1034 tests passing
 ```
 
 ---
@@ -239,15 +261,15 @@ pnpm test        # 746 tests passing
 
 | Package | Version | Description | Tests |
 |---------|---------|-------------|-------|
-| [`@dialectos/mcp`](packages/mcp) | `0.2.0` | 17 MCP tools (stdio server) | 86 |
-| [`@dialectos/cli`](packages/cli) | `0.2.0` | CLI commands for semantic translation workflows | 320 |
-| [`@dialectos/providers`](packages/providers) | `0.2.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker | 71 |
-| [`@dialectos/security`](packages/security) | `0.2.0` | Rate limiting, SSRF protection, sanitization | 66 |
-| [`@dialectos/types`](packages/types) | `0.2.0` | Shared TypeScript types + glossary, profile, certification, and quality data | 54 |
-| [`@dialectos/locale-utils`](packages/locale-utils) | `0.2.0` | Locale file diff/merge utilities | 55 |
-| [`@dialectos/markdown-parser`](packages/markdown-parser) | `0.2.0` | Structure-preserving markdown parser | 74 |
+| [`@dialectos/mcp`](packages/mcp) | `0.3.0` | 17 MCP tools (stdio server) | 86 |
+| [`@dialectos/cli`](packages/cli) | `0.3.0` | CLI: translate, validate, corpus, benchmark, glossary | 545 |
+| [`@dialectos/providers`](packages/providers) | `0.3.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker + corpus | 152 |
+| [`@dialectos/security`](packages/security) | `0.3.0` | Rate limiting, SSRF protection, sanitization | 68 |
+| [`@dialectos/types`](packages/types) | `0.3.0` | Shared TypeScript types + glossary, profile, certification, and quality data | 54 |
+| [`@dialectos/locale-utils`](packages/locale-utils) | `0.3.0` | Locale file diff/merge utilities | 55 |
+| [`@dialectos/markdown-parser`](packages/markdown-parser) | `0.3.0` | Structure-preserving markdown parser | 74 |
 
-**Total: 746 tests across 7 packages plus the full-app docs, demo-server, and static-hardening contracts**
+**Total: 1034 tests across 7 packages plus the full-app docs, demo-server, and static-hardening contracts**
 
 ---
 
@@ -305,11 +327,11 @@ See [`SECURITY.md`](SECURITY.md) for details.
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
 │                   @dialectos/cli                               │
-│   translate-readme • translate-api-docs • i18n • dialects   │
+│   translate • validate • corpus • benchmark • glossary     │
 │   ├─ Policy profiles (strict/balanced/permissive)           │
 │   ├─ Quality gates (token/glossary/structure/semantic)      │
-│   ├─ Checkpoint resumption                                  │
-│   └─ Telemetry & health reports                             │
+│   ├─ Translation corpus + auto-glossary                     │
+│   └─ Checkpoint resumption + telemetry                      │
 └──────────────────────┬──────────────────────────────────────┘
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
@@ -355,6 +377,10 @@ Quality Score = tokenIntegrity×25% + glossaryFidelity×30% + structureIntegrity
 | Formality checking (tú vs usted) | ❌ | ❌ | ✅ **Cross-dialect consistency** |
 | Adversarial quality gates | ❌ | ❌ | ✅ **Semantic drift + structure validation** |
 | LLM-first dialect adaptation | ❌ Generic MT | ⚠️ Limited dialect control | ✅ **Any OpenAI/Anthropic/LM Studio local LLM + dialect contracts** |
+| Translation validation (any provider) | ❌ | ❌ | ✅ **`dialectos validate` — standalone correctness check** |
+| GitHub CI integration | ❌ | ❌ | ✅ **Composite action for PR validation** |
+| Auto-glossary from corrections | ❌ | ❌ | ✅ **Learns from user feedback** |
+| Public benchmark suite | ❌ | ❌ | ✅ **205 adversarial samples across 25 dialects** |
 | Open source | ❌ | ❌ | ✅ **BSL 1.1 → Apache-2.0 in 2030** |
 | Free | ✅ | Partial | ✅ |
 
@@ -389,7 +415,7 @@ Yes. BSL 1.1 allows production use. See [LICENSE](LICENSE) for details.
 
 **How accurate is the translation?**
 DialectOS applies 4 quality gates (token integrity, glossary fidelity, structure integrity,
-semantic similarity) and adversarial tests. 746 tests verify correctness across dialects.
+semantic similarity) and adversarial tests. 1034 tests verify correctness across dialects.
 
 ## 🏷️ Badges
 
@@ -398,6 +424,36 @@ Add this badge to your project if you use DialectOS for translation:
 ```markdown
 [![Translated with DialectOS](https://img.shields.io/badge/translated%20with-DialectOS-d89b2b)](https://github.com/Pastorsimon1798/DialectOS)
 ```
+
+## ⚡ GitHub Action
+
+Validate Spanish translations in CI on every pull request:
+
+```yaml
+- uses: Pastorsimon1798/DialectOS/action@v0.3.0
+  with:
+    dialect: es-MX
+    source-dir: locales/en
+    target-patterns: 'locales/es-MX/*.json'
+    fail-on-blocking: true
+```
+
+Multi-dialect matrix:
+
+```yaml
+strategy:
+  matrix:
+    dialect: [es-ES, es-MX, es-AR, es-CO]
+steps:
+  - uses: Pastorsimon1798/DialectOS/action@v0.3.0
+    with:
+      dialect: ${{ matrix.dialect }}
+      fail-on-blocking: true
+```
+
+See [`docs/github-action.md`](docs/github-action.md) for full configuration options.
+
+---
 
 ## 🤝 Contributing
 

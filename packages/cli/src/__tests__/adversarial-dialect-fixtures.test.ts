@@ -28,11 +28,14 @@ const categories = new Set([
   "intent-ambiguity",
   "morphology-trap",
   "negative-control",
+  "negation-preservation",
   "over-localization",
   "register-trap",
+  "formality-consistency",
   "structure-preservation",
   "taboo-copy",
   "under-localization",
+  "cultural-adaptation",
 ]);
 
 function loadFixture(file: string): { dialect: SpanishDialect; samples: AdversarialDialectSample[] } {
@@ -52,7 +55,7 @@ describe("adversarial dialect fixtures", () => {
     const samples = fixtures.flatMap((file) => loadFixture(file).samples);
     expect(samples.length).toBeGreaterThanOrEqual(100);
     expect(new Set(samples.map((sample) => sample.category))).toEqual(categories);
-    expect(samples.filter((sample) => sample.severity === "critical").length).toBeGreaterThanOrEqual(40);
+    expect(samples.filter((sample) => sample.severity === "critical").length).toBeGreaterThanOrEqual(50);
   });
 
   for (const file of fixtures) {

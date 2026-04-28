@@ -1,6 +1,6 @@
 # Reddit Post: r/selfhosted
 
-**Title:** DialectOS — Self-hosted Spanish dialect translation via MCP (25 variants, 746 tests)
+**Title:** DialectOS — Self-hosted Spanish dialect translation via MCP (25 variants, 1034 tests)
 
 **Body:**
 
@@ -36,7 +36,7 @@ LLM_API_FORMAT="lmstudio" \
 pnpm dialect:eval -- --live --provider=llm
 ```
 
-**Tech stack:** TypeScript, pnpm workspace, 7 packages, 746 tests.
+**Tech stack:** TypeScript, pnpm workspace, 7 packages, 1034 tests.
 
 **License:** BSL 1.1 (free for most use, becomes Apache-2.0 in 2030).
 

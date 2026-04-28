@@ -1,6 +1,6 @@
 {
   "name": "@dialectos/locale-utils",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "i18n file operations — flatten, unflatten, diff, atomic write",
   "type": "module",
   "main": "dist/index.js",

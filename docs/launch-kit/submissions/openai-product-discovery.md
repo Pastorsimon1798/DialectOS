@@ -25,7 +25,7 @@ DialectOS is an open-source Spanish dialect translation server built on the Mode
 - Gender-neutral language support (elles, latine, -e/-x)
 - Adversarial quality gates (semantic drift, negation preservation, structure validation)
 - Works with OpenAI, Anthropic, DeepL, and local LLMs
-- 746 tests across 7 TypeScript packages
+- 1034 tests across 7 TypeScript packages
 - BSL 1.1 license (free for most use, Apache-2.0 in 2030)
 
 **Use Cases:**

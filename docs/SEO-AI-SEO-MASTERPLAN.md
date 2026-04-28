@@ -93,7 +93,7 @@ Add to `docs/index.html` `<head>`:
 ```html
 <!-- Open Graph -->
 <meta property="og:title" content="DialectOS — Spanish Dialect Translation Server (MCP + CLI)">
-<meta property="og:description" content="Translate across 25 Spanish regional variants with structure preservation, quality gates, and MCP native integration. 746 tests. 17 MCP tools.">
+<meta property="og:description" content="Translate across 25 Spanish regional variants with structure preservation, quality gates, and MCP native integration. 1034 tests. 17 MCP tools.">
 <meta property="og:image" content="https://pastorsimon1798.github.io/DialectOS/assets/og-image.png">
 <meta property="og:url" content="https://pastorsimon1798.github.io/DialectOS">
 <meta property="og:type" content="website">
@@ -311,7 +311,7 @@ translation, glossary enforcement, and adversarial quality gates.
 - Formality checking (tú vs usted)
 - Semantic drift detection
 - Translation memory with SHA-256 keyed caching
-- 746 tests across 7 packages
+- 1034 tests across 7 packages
 
 ## Use Cases
 - Localizing SaaS apps for Latin American markets
@@ -419,7 +419,7 @@ MCP is THE hottest topic in AI tooling right now (April 2026). Being "the first 
 
 ### Secret Weapon #3: The 746 Tests Badge
 Your test count is insane for a 0.1.0 project. Flaunt it:
-- "746 tests passing" badge in README
+- "1034 tests passing" badge in README
 - "More tests than stars" self-deprecating tweet
 - "We test harder than we market" — use as a brand voice
 

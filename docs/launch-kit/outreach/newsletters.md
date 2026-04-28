@@ -19,7 +19,7 @@ It exposes 17 MCP (Model Context Protocol) tools so AI assistants like Claude ca
 
 **Key details:**
 - 7 packages in a pnpm workspace
-- 746 tests
+- 1034 tests
 - Structure-preserving markdown translation
 - Adversarial quality gates (catches semantic drift)
 - Works with OpenAI, Anthropic, or local LLMs
@@ -55,7 +55,7 @@ It started from a real production issue: we shipped Spain Spanish translations t
 - 17 MCP tools exposed over stdio JSON-RPC
 - Provider registry with circuit breaker pattern
 - Translation memory with SHA-256 keyed caching
-- 746 tests across 7 packages
+- 1034 tests across 7 packages
 
 **Repo:** https://github.com/Pastorsimon1798/DialectOS
 
@@ -113,7 +113,7 @@ I'd like to recommend DialectOS for your newsletter — it's an open-source Span
 **Why it fits Console:**
 - Developer-first (TypeScript, CLI, MCP server)
 - Solves a real problem (generic Spanish translation fails in production)
-- High test coverage (746 tests)
+- High test coverage (1034 tests)
 - Clean architecture (pnpm workspace, provider registry, circuit breaker)
 
 **Repo:** https://github.com/Pastorsimon1798/DialectOS

@@ -1,0 +1,59 @@
+name: Validate Translations
+
+on:
+  pull_request:
+    paths:
+      - '**/*.es.json'
+      - '**/*.es-*.json'
+      - '**/*-es.md'
+      - '**/*-es-*.md'
+      - 'locales/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dialect:
+          - es-ES
+          - es-MX
+          - es-AR
+          - es-CO
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Build
+        run: pnpm install --frozen-lockfile && pnpm -r build
+
+      - name: Validate ${{ matrix.dialect }}
+        run: |
+          node scripts/ci-validate.mjs \
+            --dialect=${{ matrix.dialect }} \
+            --source-dir=. \
+            --format=text
+
+      - name: Post validation comment
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            import { readFileSync, existsSync } from 'node:fs';
+            const commentPath = 'dialectos-validation-comment.md';
+            if (existsSync(commentPath)) {
+              const body = readFileSync(commentPath, 'utf-8');
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }

@@ -1,0 +1,1925 @@
+{
+  "generatedAt": "2026-04-28T00:21:56.876Z",
+  "provider": "mock-semantic",
+  "live": false,
+  "fixtureDir": "packages/cli/src/__tests__/fixtures/dialect-adversarial",
+  "total": 130,
+  "passed": 86,
+  "failed": 44,
+  "avgQualityScore": 92,
+  "byCategory": {
+    "dialect-collision": {
+      "total": 13,
+      "passed": 11
+    },
+    "false-friend": {
+      "total": 17,
+      "passed": 16
+    },
+    "intent-ambiguity": {
+      "total": 14,
+      "passed": 13
+    },
+    "morphology-trap": {
+      "total": 13,
+      "passed": 4
+    },
+    "negative-control": {
+      "total": 13,
+      "passed": 4
+    },
+    "over-localization": {
+      "total": 12,
+      "passed": 11
+    },
+    "register-trap": {
+      "total": 12,
+      "passed": 12
+    },
+    "structure-preservation": {
+      "total": 12,
+      "passed": 12
+    },
+    "taboo-copy": {
+      "total": 12,
+      "passed": 3
+    },
+    "under-localization": {
+      "total": 12,
+      "passed": 0
+    }
+  },
+  "byDialect": {
+    "es-AD": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-AR": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-BO": {
+      "total": 5,
+      "passed": 3
+    },
+    "es-BZ": {
+      "total": 5,
+      "passed": 3
+    },
+    "es-CL": {
+      "total": 6,
+      "passed": 4
+    },
+    "es-CO": {
+      "total": 5,
+      "passed": 3
+    },
+    "es-CR": {
+      "total": 5,
+      "passed": 3
+    },
+    "es-CU": {
+      "total": 5,
+      "passed": 2
+    },
+    "es-DO": {
+      "total": 5,
+      "passed": 2
+    },
+    "es-EC": {
+      "total": 5,
+      "passed": 3
+    },
+    "es-ES": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-GQ": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-GT": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-HN": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-MX": {
+      "total": 6,
+      "passed": 4
+    },
+    "es-NI": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-PA": {
+      "total": 5,
+      "passed": 3
+    },
+    "es-PE": {
+      "total": 5,
+      "passed": 3
+    },
+    "es-PH": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-PR": {
+      "total": 8,
+      "passed": 3
+    },
+    "es-PY": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-SV": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-US": {
+      "total": 5,
+      "passed": 3
+    },
+    "es-UY": {
+      "total": 5,
+      "passed": 4
+    },
+    "es-VE": {
+      "total": 5,
+      "passed": 3
+    }
+  },
+  "bySeverity": {
+    "critical": {
+      "total": 67,
+      "passed": 56
+    },
+    "high": {
+      "total": 63,
+      "passed": 30
+    }
+  },
+  "results": [
+    {
+      "id": "ad-transit-paraphrase",
+      "dialect": "es-AD",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "ad-placeholder-url",
+      "dialect": "es-AD",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "ad-no-slang-negative-control",
+      "dialect": "es-AD",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "ad-plural-vosotros",
+      "dialect": "es-AD",
+      "category": "morphology-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "You can all update your passwords now.",
+      "output": "You can all update your passwords now.",
+      "passed": false,
+      "failures": [
+        "Missing required output: vosotros, podéis, vuestras",
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "ad-pickup-package",
+      "dialect": "es-AD",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 92
+    },
+    {
+      "id": "ar-transit-paraphrase",
+      "dialect": "es-AR",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "ar-placeholder-url",
+      "dialect": "es-AR",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "ar-no-slang-negative-control",
+      "dialect": "es-AR",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "ar-informal-voseo",
+      "dialect": "es-AR",
+      "category": "morphology-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "You can update your account now.",
+      "output": "Vos podés actualizar tu cuenta ahora.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "ar-pickup-package",
+      "dialect": "es-AR",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "bo-transit-paraphrase",
+      "dialect": "es-BO",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "bo-placeholder-url",
+      "dialect": "es-BO",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "bo-no-slang-negative-control",
+      "dialect": "es-BO",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "bo-hot-sauce-llajwa",
+      "dialect": "es-BO",
+      "category": "morphology-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Buy hot sauce for lunch.",
+      "output": "Buy hot sauce for lunch.",
+      "passed": false,
+      "failures": [
+        "Missing required output: llajwa, llajua"
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "bo-pickup-package",
+      "dialect": "es-BO",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "bz-transit-paraphrase",
+      "dialect": "es-BZ",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "bz-placeholder-url",
+      "dialect": "es-BZ",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "bz-no-slang-negative-control",
+      "dialect": "es-BZ",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "bz-formal-support",
+      "dialect": "es-BZ",
+      "category": "taboo-copy",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Contact support if the payment fails.",
+      "output": "Contact support if the payment fails.",
+      "passed": false,
+      "failures": [
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "bz-pickup-package",
+      "dialect": "es-BZ",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "cl-transit-paraphrase",
+      "dialect": "es-CL",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "cl-placeholder-url",
+      "dialect": "es-CL",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "cl-no-slang-negative-control",
+      "dialect": "es-CL",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "cl-avocado-palta",
+      "dialect": "es-CL",
+      "category": "morphology-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Buy avocado for lunch.",
+      "output": "Compra aguacate para el almuerzo.",
+      "passed": false,
+      "failures": [
+        "Forbidden term: aguacate",
+        "Missing required output: palta",
+        "Judge [critical] taboo-safety: Forbidden term present: aguacate"
+      ],
+      "warnings": [],
+      "qualityScore": 83
+    },
+    {
+      "id": "cl-pickup-package",
+      "dialect": "es-CL",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "cl-baby-guagua",
+      "dialect": "es-CL",
+      "category": "false-friend",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "The baby is sleeping.",
+      "output": "El bebé está durmiendo.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "co-transit-paraphrase",
+      "dialect": "es-CO",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "co-placeholder-url",
+      "dialect": "es-CO",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "co-no-slang-negative-control",
+      "dialect": "es-CO",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "co-computer-computador",
+      "dialect": "es-CO",
+      "category": "taboo-copy",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Use the computer to open the file.",
+      "output": "Usa la computadora para abrir el archivo.",
+      "passed": false,
+      "failures": [
+        "Missing required output: computador"
+      ],
+      "warnings": [],
+      "qualityScore": 94
+    },
+    {
+      "id": "co-pickup-package",
+      "dialect": "es-CO",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "cr-transit-paraphrase",
+      "dialect": "es-CR",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "cr-placeholder-url",
+      "dialect": "es-CR",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "cr-no-slang-negative-control",
+      "dialect": "es-CR",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "cr-formal-support",
+      "dialect": "es-CR",
+      "category": "morphology-trap",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Contact support if the payment fails.",
+      "output": "Contact support if the payment fails.",
+      "passed": false,
+      "failures": [
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "cr-pickup-package",
+      "dialect": "es-CR",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "cu-transit-paraphrase",
+      "dialect": "es-CU",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Get on the bus to the office.",
+      "output": "Get on the bus to the office.",
+      "passed": false,
+      "failures": [
+        "Missing required group: toma, tomar, aborda, abordar",
+        "Missing required output: guagua",
+        "Judge [major] accuracy: Output is unchanged despite English source text.",
+        "Judge [critical] accuracy: Missing required semantic trait for es-CU; expected one of: toma, tomar, aborda, abordar"
+      ],
+      "warnings": [],
+      "qualityScore": 77
+    },
+    {
+      "id": "cu-placeholder-url",
+      "dialect": "es-CU",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "cu-no-slang-negative-control",
+      "dialect": "es-CU",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "cu-formal-support",
+      "dialect": "es-CU",
+      "category": "morphology-trap",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Contact support if the payment fails.",
+      "output": "Contact support if the payment fails.",
+      "passed": false,
+      "failures": [
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "cu-pickup-package",
+      "dialect": "es-CU",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "do-transit-paraphrase",
+      "dialect": "es-DO",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": false,
+      "failures": [
+        "Missing required output: guagua"
+      ],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "do-placeholder-url",
+      "dialect": "es-DO",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "do-no-slang-negative-control",
+      "dialect": "es-DO",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "do-formal-support",
+      "dialect": "es-DO",
+      "category": "morphology-trap",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Contact support if the payment fails.",
+      "output": "Contact support if the payment fails.",
+      "passed": false,
+      "failures": [
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "do-pickup-package",
+      "dialect": "es-DO",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "ec-transit-paraphrase",
+      "dialect": "es-EC",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "ec-placeholder-url",
+      "dialect": "es-EC",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "ec-no-slang-negative-control",
+      "dialect": "es-EC",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "ec-computer-computador",
+      "dialect": "es-EC",
+      "category": "taboo-copy",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Use the computer to open the file.",
+      "output": "Usa la computadora para abrir el archivo.",
+      "passed": false,
+      "failures": [
+        "Missing required output: computador"
+      ],
+      "warnings": [],
+      "qualityScore": 94
+    },
+    {
+      "id": "ec-pickup-package",
+      "dialect": "es-EC",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "es-transit-paraphrase",
+      "dialect": "es-ES",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "es-placeholder-url",
+      "dialect": "es-ES",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "es-no-slang-negative-control",
+      "dialect": "es-ES",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "es-plural-vosotros",
+      "dialect": "es-ES",
+      "category": "morphology-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "You can all update your passwords now.",
+      "output": "You can all update your passwords now.",
+      "passed": false,
+      "failures": [
+        "Missing required output: vosotros, podéis, vuestras",
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "es-pickup-package",
+      "dialect": "es-ES",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 92
+    },
+    {
+      "id": "gq-transit-paraphrase",
+      "dialect": "es-GQ",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "gq-placeholder-url",
+      "dialect": "es-GQ",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "gq-no-slang-negative-control",
+      "dialect": "es-GQ",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "gq-yam-name",
+      "dialect": "es-GQ",
+      "category": "morphology-trap",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Use yam in the recipe.",
+      "output": "Use yam in the recipe.",
+      "passed": false,
+      "failures": [
+        "Missing required output: ñame",
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "gq-pickup-package",
+      "dialect": "es-GQ",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 92
+    },
+    {
+      "id": "gt-transit-paraphrase",
+      "dialect": "es-GT",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "gt-placeholder-url",
+      "dialect": "es-GT",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "gt-no-slang-negative-control",
+      "dialect": "es-GT",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "gt-informal-voseo",
+      "dialect": "es-GT",
+      "category": "morphology-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "You can update your account now.",
+      "output": "Vos podés actualizar tu cuenta ahora.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "gt-pickup-package",
+      "dialect": "es-GT",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "hn-transit-paraphrase",
+      "dialect": "es-HN",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "hn-placeholder-url",
+      "dialect": "es-HN",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "hn-no-slang-negative-control",
+      "dialect": "es-HN",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "hn-informal-voseo",
+      "dialect": "es-HN",
+      "category": "taboo-copy",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "You can update your account now.",
+      "output": "Vos podés actualizar tu cuenta ahora.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "hn-pickup-package",
+      "dialect": "es-HN",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "mx-transit-paraphrase",
+      "dialect": "es-MX",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "mx-placeholder-url",
+      "dialect": "es-MX",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "mx-no-slang-negative-control",
+      "dialect": "es-MX",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "mx-pickup-file",
+      "dialect": "es-MX",
+      "category": "taboo-copy",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Pick up the file before deployment.",
+      "output": "Recoge el archivo antes del despliegue.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 85
+    },
+    {
+      "id": "mx-pickup-package",
+      "dialect": "es-MX",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "mx-pr-china-orange-normalization",
+      "dialect": "es-MX",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Jugo de china is on the Puerto Rican menu.",
+      "output": "El jugo de naranja está en el menú puertorriqueño.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "ni-transit-paraphrase",
+      "dialect": "es-NI",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "ni-placeholder-url",
+      "dialect": "es-NI",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "ni-no-slang-negative-control",
+      "dialect": "es-NI",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "ni-informal-voseo",
+      "dialect": "es-NI",
+      "category": "taboo-copy",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "You can update your account now.",
+      "output": "Vos podés actualizar tu cuenta ahora.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "ni-pickup-package",
+      "dialect": "es-NI",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "pa-transit-paraphrase",
+      "dialect": "es-PA",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "pa-placeholder-url",
+      "dialect": "es-PA",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "pa-no-slang-negative-control",
+      "dialect": "es-PA",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "pa-formal-support",
+      "dialect": "es-PA",
+      "category": "taboo-copy",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Contact support if the payment fails.",
+      "output": "Contact support if the payment fails.",
+      "passed": false,
+      "failures": [
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "pa-pickup-package",
+      "dialect": "es-PA",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "pe-transit-paraphrase",
+      "dialect": "es-PE",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "pe-placeholder-url",
+      "dialect": "es-PE",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "pe-no-slang-negative-control",
+      "dialect": "es-PE",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "pe-formal-support",
+      "dialect": "es-PE",
+      "category": "taboo-copy",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Contact support if the payment fails.",
+      "output": "Contact support if the payment fails.",
+      "passed": false,
+      "failures": [
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "pe-pickup-package",
+      "dialect": "es-PE",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "ph-transit-paraphrase",
+      "dialect": "es-PH",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "ph-placeholder-url",
+      "dialect": "es-PH",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "ph-no-slang-negative-control",
+      "dialect": "es-PH",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "ph-philippine-names",
+      "dialect": "es-PH",
+      "category": "morphology-trap",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Preserve Philippine names in the file.",
+      "output": "Preserve Philippine names in the file.",
+      "passed": false,
+      "failures": [
+        "Missing required output: filipinos, Filipinas, filipinas",
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "ph-pickup-package",
+      "dialect": "es-PH",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 92
+    },
+    {
+      "id": "pr-transit-paraphrase",
+      "dialect": "es-PR",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Ride the bus to the office.",
+      "output": "Ride the bus to the office.",
+      "passed": false,
+      "failures": [
+        "Missing required group: toma, tomar, aborda, abordar",
+        "Missing required output: guagua",
+        "Judge [major] accuracy: Output is unchanged despite English source text.",
+        "Judge [critical] accuracy: Missing required semantic trait for es-PR; expected one of: toma, tomar, aborda, abordar"
+      ],
+      "warnings": [],
+      "qualityScore": 77
+    },
+    {
+      "id": "pr-placeholder-url",
+      "dialect": "es-PR",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "pr-no-slang-negative-control",
+      "dialect": "es-PR",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "pr-formal-support",
+      "dialect": "es-PR",
+      "category": "taboo-copy",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Contact support if the payment fails.",
+      "output": "Contact support if the payment fails.",
+      "passed": false,
+      "failures": [
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "pr-pickup-package",
+      "dialect": "es-PR",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "pr-tidy-room",
+      "dialect": "es-PR",
+      "category": "intent-ambiguity",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Pick up the room before guests arrive.",
+      "output": "Pick up the room before guests arrive.",
+      "passed": false,
+      "failures": [
+        "Missing required group: cuarto, habitación",
+        "Missing required group: recoge, recoger, ordena, ordenar, arregla, arreglar",
+        "Missing required group: cuarto, habitación",
+        "Missing required group: recoge, recoger, ordena, ordenar, arregla, arreglar",
+        "Judge [major] accuracy: Output is unchanged despite English source text.",
+        "Judge [critical] accuracy: Missing required semantic trait for es-PR; expected one of: cuarto, habitación",
+        "Judge [critical] accuracy: Missing required semantic trait for es-PR; expected one of: recoge, recoger, ordena, ordenar, arregla, arreglar",
+        "Judge [critical] accuracy: Missing required semantic trait for es-PR; expected one of: cuarto, habitación",
+        "Judge [critical] accuracy: Missing required semantic trait for es-PR; expected one of: recoge, recoger, ordena, ordenar, arregla, arreglar"
+      ],
+      "warnings": [],
+      "qualityScore": 73
+    },
+    {
+      "id": "pr-orange-juice-china",
+      "dialect": "es-PR",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Orange juice is ready.",
+      "output": "Orange juice is ready.",
+      "passed": false,
+      "failures": [
+        "Missing required group: jugo",
+        "Missing required group: china",
+        "Missing required group: jugo, zumo",
+        "Missing required group: china, naranja",
+        "Judge [critical] accuracy: Missing required semantic trait for es-PR; expected one of: jugo",
+        "Judge [critical] accuracy: Missing required semantic trait for es-PR; expected one of: china",
+        "Judge [critical] accuracy: Missing required semantic trait for es-PR; expected one of: jugo, zumo",
+        "Judge [critical] accuracy: Missing required semantic trait for es-PR; expected one of: china, naranja"
+      ],
+      "warnings": [],
+      "qualityScore": 60
+    },
+    {
+      "id": "pr-baby-not-guagua",
+      "dialect": "es-PR",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "The baby is sleeping.",
+      "output": "El bebé está durmiendo.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "py-transit-paraphrase",
+      "dialect": "es-PY",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "py-placeholder-url",
+      "dialect": "es-PY",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "py-no-slang-negative-control",
+      "dialect": "es-PY",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "py-informal-voseo",
+      "dialect": "es-PY",
+      "category": "taboo-copy",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "You can update your account now.",
+      "output": "Vos podés actualizar tu cuenta ahora.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "py-pickup-package",
+      "dialect": "es-PY",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "sv-transit-paraphrase",
+      "dialect": "es-SV",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "sv-placeholder-url",
+      "dialect": "es-SV",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "sv-no-slang-negative-control",
+      "dialect": "es-SV",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "sv-informal-voseo",
+      "dialect": "es-SV",
+      "category": "morphology-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "You can update your account now.",
+      "output": "Vos podés actualizar tu cuenta ahora.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "sv-pickup-package",
+      "dialect": "es-SV",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "us-transit-paraphrase",
+      "dialect": "es-US",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "us-placeholder-url",
+      "dialect": "es-US",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "us-no-slang-negative-control",
+      "dialect": "es-US",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "us-public-parking",
+      "dialect": "es-US",
+      "category": "taboo-copy",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Park the car near the office.",
+      "output": "Estaciona el coche cerca de la oficina.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 85
+    },
+    {
+      "id": "us-pickup-package",
+      "dialect": "es-US",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "uy-transit-paraphrase",
+      "dialect": "es-UY",
+      "category": "dialect-collision",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "uy-placeholder-url",
+      "dialect": "es-UY",
+      "category": "false-friend",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "uy-no-slang-negative-control",
+      "dialect": "es-UY",
+      "category": "intent-ambiguity",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "uy-informal-voseo",
+      "dialect": "es-UY",
+      "category": "morphology-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "You can update your account now.",
+      "output": "Vos podés actualizar tu cuenta ahora.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "uy-pickup-package",
+      "dialect": "es-UY",
+      "category": "negative-control",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    },
+    {
+      "id": "ve-transit-paraphrase",
+      "dialect": "es-VE",
+      "category": "over-localization",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Catch the bus to the office.",
+      "output": "Toma el autobús a la oficina.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 90
+    },
+    {
+      "id": "ve-placeholder-url",
+      "dialect": "es-VE",
+      "category": "register-trap",
+      "severity": "critical",
+      "provider": "mock-semantic",
+      "source": "Hi {userName}, your %{count} files are ready at https://example.com/app.",
+      "output": "Hola {userName}, tus %{count} archivos están listos en https://example.com/app.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 97
+    },
+    {
+      "id": "ve-no-slang-negative-control",
+      "dialect": "es-VE",
+      "category": "structure-preservation",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Do not use slang in this customer support message.",
+      "output": "No use jerga en este mensaje de soporte al cliente.",
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 98
+    },
+    {
+      "id": "ve-formal-support",
+      "dialect": "es-VE",
+      "category": "taboo-copy",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Contact support if the payment fails.",
+      "output": "Contact support if the payment fails.",
+      "passed": false,
+      "failures": [
+        "Judge [major] accuracy: Output is unchanged despite English source text."
+      ],
+      "warnings": [],
+      "qualityScore": 80
+    },
+    {
+      "id": "ve-pickup-package",
+      "dialect": "es-VE",
+      "category": "under-localization",
+      "severity": "high",
+      "provider": "mock-semantic",
+      "source": "Pick up the package from reception.",
+      "output": "Recoge el paquete de recepción.",
+      "passed": false,
+      "failures": [],
+      "warnings": [],
+      "qualityScore": 89
+    }
+  ]
+}

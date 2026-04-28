@@ -68,7 +68,7 @@ The first MCP server for Spanish dialects. Translate to 25 regional variants wit
 **Name:** DialectOS
 **Description:**
 
-Spanish dialect translation server with 25 regional variants, MCP integration, and adversarial quality gates. Open source, 746 tests.
+Spanish dialect translation server with 25 regional variants, MCP integration, and adversarial quality gates. Open source, 1034 tests.
 
 **Category:** Translation
 **Website:** https://github.com/Pastorsimon1798/DialectOS

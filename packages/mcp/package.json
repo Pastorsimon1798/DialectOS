@@ -1,6 +1,6 @@
 {
   "name": "@dialectos/mcp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "MCP adapter for DialectOS — thin wrapper around CLI/core",
   "type": "module",
   "main": "dist/index.js",

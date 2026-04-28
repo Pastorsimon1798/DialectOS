@@ -18,6 +18,10 @@ import { executeManageVariants } from "./commands/i18n/manage-variants.js";
 import { executeCheckFormality } from "./commands/i18n/check-formality.js";
 import { executeApplyGenderNeutral } from "./commands/i18n/apply-gender-neutral.js";
 import { executeResearchRegionalTerm } from "./commands/research.js";
+import { executeCorpusStats, executeCorpusExport } from "./commands/corpus.js";
+import { executeBenchmarkRun, executeBenchmarkReport } from "./commands/benchmark.js";
+import { executeGlossaryDiff } from "./commands/glossary-diff.js";
+import { executeValidate } from "./commands/validate.js";
 import { getDefaultProviderRegistry } from "./lib/provider-factory.js";
 import { writeError, writeOutput } from "./lib/output.js";
 import { SecurityError, createSafeError } from "@dialectos/security";
@@ -31,7 +35,7 @@ const program = new Command();
 program
   .name("dialectos")
   .description("Spanish translation CLI with dialect awareness")
-  .version("0.2.0");
+  .version("0.3.0");
 
 // Translate command
 program
@@ -50,6 +54,7 @@ program
   .option("--glossary-mode <mode>", "Glossary mode: off|strict", "off")
   .option("--protect-identities", "Auto-protect handles/domains/usernames", true)
   .option("--no-protect-identities", "Disable auto identity protection")
+  .option("--corpus", "Record translations to corpus for learning", false)
   .action(async (text, options) => {
     try {
       const registry = getDefaultProviderRegistry();
@@ -59,6 +64,42 @@ program
           return registry.getAuto("es", { dialect: options.dialect || "es-ES" });
         }
         return registry.get(providerName);
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+// validate command
+program
+  .command("validate")
+  .description("Validate existing Spanish translations against quality checks")
+  .argument("[translated]", "Translated text to validate (use --translated-file for files)")
+  .requiredOption("--dialect <dialect>", "Spanish dialect to validate against (e.g., es-ES, es-MX, es-AR)")
+  .option("--source-file <path>", "Source (original) file for comparison")
+  .option("--source <text>", "Source text for comparison")
+  .option("--translated-file <path>", "Translated file to validate")
+  .option("--glossary-file <file>", "JSON glossary file for terminology checks")
+  .option("--protect-tokens <file>", "JSON file with protected tokens")
+  .option("--format <format>", "Output format (text or json)", "text")
+  .option("--strict", "Exit 1 on any issue (not just blocking)", false)
+  .option("--locale <path>", "Validate an i18n locale JSON file")
+  .option("--locale-base <path>", "Base locale file for source text (used with --locale)")
+  .action(async (translated, cmdOptions) => {
+    try {
+      const sourceText = cmdOptions.source;
+      await executeValidate(sourceText, translated, {
+        sourceFile: cmdOptions.sourceFile,
+        translatedFile: cmdOptions.translatedFile,
+        dialect: cmdOptions.dialect as SpanishDialect,
+        glossaryFile: cmdOptions.glossaryFile,
+        protectTokens: cmdOptions.protectTokens,
+        format: cmdOptions.format,
+        strict: cmdOptions.strict,
+        locale: cmdOptions.locale,
+        localeBase: cmdOptions.localeBase,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -113,6 +154,7 @@ program
   .option("--no-resume", "Ignore existing checkpoint")
   .option("--failure-policy <policy>", "Section failure policy: strict|allow-partial")
   .option("--policy <profile>", "Policy profile: strict|balanced|permissive", "balanced")
+  .option("--corpus", "Record translations to corpus for learning", false)
   .hook("preAction", (thisCommand: Command) => {
     const policy = thisCommand.opts().failurePolicy;
     if (policy && !["strict", "allow-partial"].includes(policy)) {
@@ -147,9 +189,83 @@ program
         resume: profile.resume,
         failurePolicy: profile.failurePolicy,
         policy: profile.profile,
+        corpus: options.corpus as boolean,
       };
 
       await executeTranslateApiDocs(input, mergedOptions.dialect!, mergedOptions, () => registry);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+// corpus command group
+const corpusCommand = program
+  .command("corpus")
+  .description("Translation corpus management commands");
+
+corpusCommand
+  .command("stats")
+  .description("Show corpus statistics (entries, quality distribution, dialect coverage)")
+  .action(async () => {
+    try {
+      await executeCorpusStats();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+corpusCommand
+  .command("export")
+  .description("Export corpus entries to a JSONL file")
+  .requiredOption("--output <path>", "Output JSONL file path")
+  .option("--dialect <dialect>", "Export only a specific dialect (default: all)")
+  .action(async (options) => {
+    try {
+      await executeCorpusExport({
+        dialect: options.dialect,
+        output: options.output,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+// benchmark command group
+const benchmarkCommand = program
+  .command("benchmark")
+  .description("Dialect quality benchmark commands");
+
+benchmarkCommand
+  .command("run")
+  .description("Run dialect quality benchmark against adversarial fixtures")
+  .option("--provider <provider>", "Translation provider (mock-semantic for dry-run)", "mock-semantic")
+  .option("--dialects <dialects>", "Comma-separated dialect codes to test")
+  .option("--categories <categories>", "Comma-separated categories to test")
+  .option("--out <dir>", "Output directory for results")
+  .option("--live", "Use a live translation provider", false)
+  .action(async (options) => {
+    try {
+      await executeBenchmarkRun(options);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+benchmarkCommand
+  .command("report")
+  .description("Display a benchmark results report")
+  .argument("<file>", "Path to benchmark results.json")
+  .action(async (file) => {
+    try {
+      await executeBenchmarkReport({ file });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       writeError(message);
@@ -250,6 +366,59 @@ glossaryCommand
   .action(async (options) => {
     try {
       await executeGlossaryGet(options);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+// glossary suggest command
+glossaryCommand
+  .command("suggest")
+  .description("Suggest glossary entries from corpus corrections")
+  .option("--min-occurrences <n>", "Minimum correction occurrences to suggest", "3")
+  .option("--min-confidence <n>", "Minimum confidence threshold (0-1)", "0.6")
+  .option("--format <format>", "Output format (text or json)", "text")
+  .action(async (options) => {
+    try {
+      const { TranslationCorpus } = await import("@dialectos/providers");
+      const { generateGlossarySuggestions } = await import("./lib/glossary-suggest.js");
+      const corpus = new TranslationCorpus();
+      const corrections = await corpus.getCorrections();
+      const suggestions = generateGlossarySuggestions(corrections, {
+        minOccurrences: parseInt(options.minOccurrences, 10),
+        minConfidence: parseFloat(options.minConfidence),
+      });
+
+      if (options.format === "json") {
+        writeOutput(JSON.stringify(suggestions, null, 2));
+      } else {
+        if (suggestions.length === 0) {
+          writeOutput("No glossary suggestions found. Need at least 3 corrections per term.");
+        } else {
+          writeOutput(`Found ${suggestions.length} glossary suggestion(s):`);
+          for (const s of suggestions) {
+            writeOutput(`  ${s.sourceTerm} → ${s.suggestedTarget} (confidence: ${(s.confidence * 100).toFixed(0)}%, count: ${s.evidence.correctionCount}, dialects: ${s.evidence.uniqueDialects.join(",")})`);
+          }
+        }
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+// glossary diff command
+glossaryCommand
+  .command("diff")
+  .description("Compare two glossary files")
+  .argument("<before>", "Original glossary file")
+  .argument("<after>", "Updated glossary file")
+  .action(async (before, after) => {
+    try {
+      await executeGlossaryDiff(before, after);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       writeError(message);

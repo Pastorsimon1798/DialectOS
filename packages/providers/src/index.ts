@@ -23,6 +23,11 @@ export { LibreTranslateProvider } from "./providers/libre-translate.js";
 export { MyMemoryProvider } from "./providers/my-memory.js";
 export { LLMProvider } from "./providers/llm.js";
 
+// Translation corpus
+export { TranslationCorpus } from "./translation-corpus.js";
+export type { TranslationCorpusOptions } from "./translation-corpus.js";
+export type { CorpusEntry, CorrectionEntry, CorpusStats } from "./corpus-types.js";
+
 // Chaos testing
 export { ChaosProvider } from "./chaos-provider.js";
 export type { ChaosScenario, ChaosMode } from "./chaos-provider.js";

@@ -170,5 +170,124 @@
       "recepción"
     ],
     "notes": "Pick up package should preserve pickup/package intent and not become download."
+  },
+  {
+    "id": "gq-negation-do-not",
+    "category": "negation-preservation",
+    "severity": "critical",
+    "tags": [
+      "negation",
+      "semantic"
+    ],
+    "source": "Do not delete the database without a backup.",
+    "domain": "technical",
+    "register": "formal",
+    "documentKind": "plain",
+    "requiredContext": [
+      "Negation must survive translation",
+      "es-GQ"
+    ],
+    "forbiddenContext": [],
+    "forbiddenOutputTerms": [
+      "coger",
+      "vos",
+      "vosotros"
+    ],
+    "preferredOutputAny": [
+      "no elimine",
+      "no elimines",
+      "no borre",
+      "no borres"
+    ],
+    "notes": "Negation (do not) must be preserved. Dropping negation in a technical warning could cause data loss.",
+    "requiredOutputGroups": [
+      [
+        "base",
+        "datos",
+        "base de datos"
+      ],
+      [
+        "copia",
+        "seguridad",
+        "respaldo"
+      ]
+    ]
+  },
+  {
+    "id": "gq-formality-account",
+    "category": "formality-consistency",
+    "severity": "high",
+    "tags": [
+      "formality",
+      "register",
+      "account"
+    ],
+    "source": "You can update your account settings in the profile page.",
+    "domain": "technical",
+    "register": "informal",
+    "documentKind": "plain",
+    "requiredContext": [
+      "Informal register consistency",
+      "es-GQ"
+    ],
+    "forbiddenContext": [],
+    "forbiddenOutputTerms": [
+      "coger",
+      "vos",
+      "vosotros"
+    ],
+    "preferredOutputAny": [
+      "puedes",
+      "actualiza",
+      "configura"
+    ],
+    "notes": "Informal register must be consistent throughout. Use tú forms.",
+    "requiredOutputGroups": [
+      [
+        "cuenta",
+        "perfil",
+        "configuración"
+      ]
+    ]
+  },
+  {
+    "id": "gq-cultural-food",
+    "category": "cultural-adaptation",
+    "severity": "medium",
+    "tags": [
+      "cultural",
+      "food",
+      "adaptation"
+    ],
+    "source": "The traditional dish for the holiday celebration includes sucú.",
+    "domain": "general",
+    "register": "auto",
+    "documentKind": "plain",
+    "requiredContext": [
+      "Cultural food term preservation",
+      "es-GQ",
+      "sucú"
+    ],
+    "forbiddenContext": [],
+    "forbiddenOutputTerms": [
+      "coger",
+      "vos",
+      "vosotros"
+    ],
+    "preferredOutputAny": [
+      "sucú",
+      "platillo",
+      "plato",
+      "comida"
+    ],
+    "notes": "Cultural food term 'sucú' should be preserved or appropriately adapted for es-GQ context.",
+    "requiredOutputGroups": [
+      [
+        "celebración",
+        "fiesta",
+        "festividad",
+        "holiday"
+      ]
+    ]
   }
 ]

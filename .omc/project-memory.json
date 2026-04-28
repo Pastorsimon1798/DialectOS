@@ -1,0 +1,456 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1777311734388,
+  "projectRoot": "/Users/simongonzalezdecruz/workspaces/DialectOS",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": ">=20.0.0",
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
+    "frameworks": [],
+    "packageManager": "pnpm",
+    "runtime": "Node.js 20.0.0"
+  },
+  "build": {
+    "buildCommand": "pnpm build",
+    "testCommand": "pnpm test",
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {
+      "build": "pnpm -r build",
+      "test": "node scripts/build-demo.cjs --check && node --test docs/__tests__/*.test.mjs scripts/__tests__/*.test.mjs && pnpm -r test",
+      "check:generated": "node scripts/build-demo.cjs --check",
+      "demo": "pnpm build && node scripts/demo-server.mjs",
+      "test:coverage": "pnpm -r test:coverage",
+      "clean": "pnpm -r clean",
+      "dialect:eval": "node scripts/dialect-eval.mjs",
+      "dialect:certify": "node scripts/dialect-certify.mjs",
+      "dialect:certify:adversarial": "node scripts/dialect-certify-adversarial.mjs",
+      "dialect:certify:documents": "node scripts/dialect-certify-documents.mjs",
+      "dialect:report": "node scripts/dialect-report.mjs",
+      "dialect:research": "node packages/cli/dist/index.js research-regional-term"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": true,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "examples",
+      "scripts"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "audits": {
+      "path": "audits",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1777311734379,
+      "keyFiles": [
+        "2026-04-23-demo-adversarial-hardening.md",
+        "ADVERSARIAL-AUDIT-2026-04-20.md",
+        "sample-customer-report.md"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 8,
+      "lastAccessed": 1777311734379,
+      "keyFiles": [
+        "SEO-AI-SEO-MASTERPLAN.md",
+        "dialectos-engine.js",
+        "full-app-demo.md",
+        "index.html",
+        "robots.txt"
+      ]
+    },
+    "examples": {
+      "path": "examples",
+      "purpose": "Example code",
+      "fileCount": 0,
+      "lastAccessed": 1777311734382,
+      "keyFiles": []
+    },
+    "packages": {
+      "path": "packages",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1777311734382,
+      "keyFiles": []
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 7,
+      "lastAccessed": 1777311734382,
+      "keyFiles": [
+        "build-demo.cjs",
+        "demo-server.mjs",
+        "dialect-certify-adversarial.mjs",
+        "dialect-certify-documents.mjs",
+        "dialect-certify.mjs"
+      ]
+    },
+    "docs/__tests__": {
+      "path": "docs/__tests__",
+      "purpose": "Test files",
+      "fileCount": 1,
+      "lastAccessed": 1777311734383,
+      "keyFiles": [
+        "demo-contract.test.mjs"
+      ]
+    },
+    "docs/assets": {
+      "path": "docs/assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1777311734383,
+      "keyFiles": [
+        "dialectos-logo.svg",
+        "og-image.png"
+      ]
+    },
+    "packages/types": {
+      "path": "packages/types",
+      "purpose": "Type definitions",
+      "fileCount": 3,
+      "lastAccessed": 1777311734383,
+      "keyFiles": [
+        "README.md",
+        "package.json",
+        "tsconfig.json"
+      ]
+    },
+    "scripts/__tests__": {
+      "path": "scripts/__tests__",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1777311734384,
+      "keyFiles": [
+        "demo-server.test.mjs",
+        "static-hardening.test.mjs"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "packages/cli/src/index.ts",
+      "accessCount": 30,
+      "lastAccessed": 1777338269870,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/commands/translate-api-docs.ts",
+      "accessCount": 17,
+      "lastAccessed": 1777335333121,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 13,
+      "lastAccessed": 1777339836876,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/commands/translate.ts",
+      "accessCount": 11,
+      "lastAccessed": 1777335428568,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/glossary-enforcement.ts",
+      "accessCount": 8,
+      "lastAccessed": 1777334515346,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/output-judge.ts",
+      "accessCount": 7,
+      "lastAccessed": 1777334437807,
+      "type": "file"
+    },
+    {
+      "path": "packages/providers/src/translation-memory.ts",
+      "accessCount": 7,
+      "lastAccessed": 1777335083999,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 7,
+      "lastAccessed": 1777339333501,
+      "type": "file"
+    },
+    {
+      "path": "packages/providers/src/registry.ts",
+      "accessCount": 6,
+      "lastAccessed": 1777321076785,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/quality-score.ts",
+      "accessCount": 6,
+      "lastAccessed": 1777334437754,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/semantic-backstop.ts",
+      "accessCount": 6,
+      "lastAccessed": 1777334446491,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/lexical-ambiguity.ts",
+      "accessCount": 6,
+      "lastAccessed": 1777334446949,
+      "type": "file"
+    },
+    {
+      "path": "packages/types/src/dialect-profiles.ts",
+      "accessCount": 5,
+      "lastAccessed": 1777320737450,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/token-protection.ts",
+      "accessCount": 5,
+      "lastAccessed": 1777321038721,
+      "type": "file"
+    },
+    {
+      "path": "packages/types/src/index.ts",
+      "accessCount": 5,
+      "lastAccessed": 1777334488564,
+      "type": "file"
+    },
+    {
+      "path": "packages/providers/src/index.ts",
+      "accessCount": 5,
+      "lastAccessed": 1777335142359,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/semantic-context.ts",
+      "accessCount": 4,
+      "lastAccessed": 1777320737694,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/telemetry.ts",
+      "accessCount": 4,
+      "lastAccessed": 1777321029663,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/translation-policy.ts",
+      "accessCount": 4,
+      "lastAccessed": 1777321046652,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/semantic-similarity.ts",
+      "accessCount": 4,
+      "lastAccessed": 1777321070521,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/resilient-translation.ts",
+      "accessCount": 4,
+      "lastAccessed": 1777321087787,
+      "type": "file"
+    },
+    {
+      "path": "packages/types/src/dialect-quality.ts",
+      "accessCount": 4,
+      "lastAccessed": 1777321137030,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/package.json",
+      "accessCount": 4,
+      "lastAccessed": 1777338270823,
+      "type": "file"
+    },
+    {
+      "path": "packages/mcp/package.json",
+      "accessCount": 4,
+      "lastAccessed": 1777338282693,
+      "type": "file"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "accessCount": 3,
+      "lastAccessed": 1777316922938,
+      "type": "file"
+    },
+    {
+      "path": "packages/providers/src/cached-provider.ts",
+      "accessCount": 3,
+      "lastAccessed": 1777320710867,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/checkpoint.ts",
+      "accessCount": 3,
+      "lastAccessed": 1777320737659,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/translation-memory.ts",
+      "accessCount": 3,
+      "lastAccessed": 1777320748315,
+      "type": "file"
+    },
+    {
+      "path": "packages/providers/src/types.ts",
+      "accessCount": 3,
+      "lastAccessed": 1777321070460,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/__tests__/output-judge.test.ts",
+      "accessCount": 3,
+      "lastAccessed": 1777334940574,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/__tests__/fixtures/dialect-adversarial/es-MX.json",
+      "accessCount": 3,
+      "lastAccessed": 1777335640108,
+      "type": "file"
+    },
+    {
+      "path": "packages/security/package.json",
+      "accessCount": 3,
+      "lastAccessed": 1777338282850,
+      "type": "file"
+    },
+    {
+      "path": "packages/types/package.json",
+      "accessCount": 3,
+      "lastAccessed": 1777338282881,
+      "type": "file"
+    },
+    {
+      "path": "packages/providers/src/providers/llm.ts",
+      "accessCount": 2,
+      "lastAccessed": 1777320494209,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/dialect-info.ts",
+      "accessCount": 2,
+      "lastAccessed": 1777320514781,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/__tests__/adversarial-fixtures.test.ts",
+      "accessCount": 2,
+      "lastAccessed": 1777320809490,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/output.ts",
+      "accessCount": 2,
+      "lastAccessed": 1777321087752,
+      "type": "file"
+    },
+    {
+      "path": "packages/locale-utils/package.json",
+      "accessCount": 2,
+      "lastAccessed": 1777338283619,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/glossary-data.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777319658687,
+      "type": "file"
+    },
+    {
+      "path": "packages/security/src/index.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777319670016,
+      "type": "file"
+    },
+    {
+      "path": "packages/mcp/src/tools/docs.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777319682086,
+      "type": "file"
+    },
+    {
+      "path": "packages/mcp/src/tools/i18n.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777319682671,
+      "type": "file"
+    },
+    {
+      "path": "packages/mcp/src/tools/translator.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777319682880,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/__tests__/semantic-backstop-torture.test.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777320504853,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/__tests__/token-protection.test.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777320504875,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/lib/grammar-detection.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777320504918,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/__tests__/lexical-ambiguity.test.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777320514703,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/__tests__/resilient-translation.test.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777320514771,
+      "type": "file"
+    },
+    {
+      "path": "packages/cli/src/__tests__/fixtures/dialect-adversarial/es-AR.json",
+      "accessCount": 1,
+      "lastAccessed": 1777320535126,
+      "type": "file"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "accessCount": 1,
+      "lastAccessed": 1777320711805,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

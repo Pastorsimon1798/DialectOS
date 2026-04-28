@@ -44,7 +44,7 @@ Text: "4 quality gates + semantic backstop. Auto-reject negation drops."
 **Image 5: The Numbers**
 Title: "Built for Audits"
 Visual: Metrics dashboard
-Text: "746 tests · 25 dialects · 17 MCP tools · 0 silent fallbacks"
+Text: "1034 tests · 25 dialects · 17 MCP tools · 0 silent fallbacks"
 
 ---
 
@@ -62,7 +62,7 @@ We built this after a real production incident: we shipped Spain Spanish to Mexi
 
 2. **Adversarial quality gates** — We don't trust translations blindly. If "Do not click" becomes "Haz clic" (the opposite meaning), it's auto-rejected. We maintain a corpus of semantic traps and run them against every release.
 
-3. **746 tests for v0.2.0** — We test harder than we market. Grammar detection (voseo, leísmo, laísmo), semantic backstop, translation memory torture tests — everything is tested.
+3. **1034 tests for v0.3.0** — We test harder than we market. Grammar detection (voseo, leísmo, laísmo), semantic backstop, translation memory torture tests — everything is tested.
 
 **Tech stack:** TypeScript monorepo, pnpm workspace, 7 packages, stdio MCP.
 

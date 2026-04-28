@@ -55,6 +55,6 @@ DialectOS is an open-source MCP server for Spanish regional dialect translation:
 - 17 MCP tools for translation, i18n, glossary, and research workflows
 - Structure-preserving markdown translation (tables, code blocks, links)
 - Adversarial quality gates (semantic drift, negation preservation, structure validation)
-- 746 tests across 7 packages
+- 1034 tests across 7 packages
 - BSL 1.1 license (free for most use, Apache-2.0 in 2030)
 ```

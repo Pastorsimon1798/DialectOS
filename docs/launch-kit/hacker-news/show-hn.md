@@ -32,7 +32,7 @@ Every translation passes 4 checks:
 
 A semantic backstop catches borderline scores. If "Do not click" becomes "Haz clic" (opposite meaning), it's auto-rejected.
 
-**Tech:** TypeScript monorepo, 7 packages, 746 tests, pnpm workspace, stdio MCP.
+**Tech:** TypeScript monorepo, 7 packages, 1034 tests, pnpm workspace, stdio MCP.
 
 **Demo:** https://pastorsimon1798.github.io/DialectOS
 

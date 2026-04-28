@@ -15,13 +15,13 @@ Most translation tools treat Spanish as a monolith. If you ship es-ES to Mexico,
 DialectOS is a Model Context Protocol server that understands 25 Spanish regional variants. It preserves markdown structure, enforces glossaries, and has quality gates that catch semantic drift.
 
 **What it does:**
-- 16 MCP tools for AI assistants (Claude, Cursor, etc.)
+- 17 MCP tools for AI assistants (Claude, Cursor, etc.)
 - Translate to es-MX, es-AR, es-CO, es-ES, and 21 more
 - Structure-preserving markdown translation (tables, code blocks, links)
 - i18n operations: detect missing keys, batch translate, check formality
 - LLM-first provider routing with DeepL/LibreTranslate/MyMemory as fallback utilities
 
-**Tech stack:** TypeScript, pnpm monorepo, 746 tests, Vitest
+**Tech stack:** TypeScript, pnpm monorepo, 1034 tests, Vitest
 
 **Repo:** https://github.com/Pastorsimon1798/DialectOS
 
@@ -50,7 +50,7 @@ The problem: ship es-ES to Mexico and users think you're being rude.
 DialectOS knows the difference and translates accordingly.
 
 **Tweet 3:**
-16 MCP tools means Claude, Cursor, and any MCP client can translate natively.
+17 MCP tools means Claude, Cursor, and any MCP client can translate natively.
 
 No wrappers. No glue code. Just works.
 
@@ -65,7 +65,7 @@ Security matters when you're piping content through translation APIs.
 - 18 CVEs resolved, zero current vulnerabilities
 
 **Tweet 5:**
-746 tests. 7 packages. pnpm monorepo. TypeScript.
+1034 tests. 7 packages. pnpm monorepo. TypeScript.
 
 Source available. BSL 1.1 license (Apache-2.0 on 2030-04-20).
 
@@ -91,7 +91,7 @@ I built DialectOS because existing translation APIs treat Spanish as a single la
 - i18n utilities (detect missing keys, batch translate, formality check)
 - Security hardened (SSRF protection, circuit breakers, rate limiting)
 
-**Tech:** TypeScript, pnpm monorepo, 746 tests
+**Tech:** TypeScript, pnpm monorepo, 1034 tests
 
 **License:** BSL 1.1 (becomes Apache-2.0 on 2030-04-20)
 
@@ -113,7 +113,7 @@ For teams building multilingual products, this means:
 - ✅ Markdown, tables, and code blocks stay intact
 - ✅ Quality gates catch semantic drift before release
 
-Source available, BSL 1.1 licensed, 746 tests passing.
+Source available, BSL 1.1 licensed, 1034 tests passing.
 
 https://github.com/Pastorsimon1798/DialectOS
 
@@ -130,13 +130,13 @@ DialectOS translates content across 25 Spanish regional variants while preservin
 
 **Key features:**
 - 25 Spanish dialects (es-MX, es-AR, es-CO, es-ES, etc.)
-- 16 MCP tools for AI assistants
+- 17 MCP tools for AI assistants
 - Structure-preserving markdown translation
 - i18n operations (missing key detection, batch translation, formality checking)
 - LLM-first provider routing plus fallback utilities
 - Security hardened with SSRF protection and circuit breakers
 
-**Tech stack:** TypeScript, pnpm monorepo, 746 tests
+**Tech stack:** TypeScript, pnpm monorepo, 1034 tests
 
 **License:** BSL 1.1 (source available, becomes Apache-2.0 on 2030-04-20)
 

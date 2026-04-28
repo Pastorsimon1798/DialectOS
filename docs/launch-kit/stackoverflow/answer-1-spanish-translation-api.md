@@ -29,6 +29,6 @@ dialectos translate "Hello world" --dialect es-PR
 - Glossary enforcement
 - Adversarial quality gates (catches semantic drift, negation drops)
 - Works with OpenAI, Anthropic, DeepL, or local LLMs
-- 746 tests, BSL 1.1 license
+- 1034 tests, BSL 1.1 license
 
 **For existing APIs:** You can use DialectOS as a wrapper — it adds dialect prompts, quality scoring, and fallback chains on top of your existing provider.

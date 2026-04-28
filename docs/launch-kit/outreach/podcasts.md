@@ -92,7 +92,7 @@ DialectOS is a Spanish dialect translation system that applies adversarial quali
 - Negation preservation as a hard gate
 - Provider registry with circuit breaker + fallback chains
 - Translation memory with deterministic caching
-- 746 tests including adversarial fixtures
+- 1034 tests including adversarial fixtures
 
 **Why it matters for AI:**
 As more apps use LLMs for translation, quality validation becomes critical. We're building the testing infrastructure that generic translation APIs skip.

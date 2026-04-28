@@ -9,6 +9,7 @@ import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@dialectos/types";
 import { parseMarkdown, reconstructMarkdown, extractTranslatableText } from "@dialectos/markdown-parser";
 import { validateFilePath, validateContentLength } from "@dialectos/security";
 import type { ProviderRegistry } from "@dialectos/providers";
+import { TranslationCorpus } from "@dialectos/providers";
 import { writeOutput, writeError, writeInfo, sanitizeConsoleOutput } from "../lib/output.js";
 import {
   loadProtectedTokens,
@@ -22,6 +23,7 @@ import {
   type GlossaryMode,
 } from "../lib/glossary-enforcement.js";
 import { validateMarkdownStructure } from "../lib/structure-validator.js";
+import { validateTranslation } from "../lib/validate-translation.js";
 import {
   loadCheckpoint,
   saveCheckpoint,
@@ -128,6 +130,8 @@ export interface TranslateApiDocsOptions {
   failurePolicy?: "strict" | "allow-partial";
   /** Operator policy profile */
   policy?: PolicyProfile;
+  /** Record translations to corpus */
+  corpus?: boolean;
 }
 
 /**
@@ -357,28 +361,16 @@ export async function executeTranslateApiDocs(
     // Reconstruct markdown with translated content
     const translated = reconstructMarkdown(parsed.sections, sectionResult.sections);
 
-    const validation = validateMarkdownStructure(content, translated);
-    if (options?.validateStructure !== false) {
-      if (!validation.valid) {
-        const msg = `Structure validation failed: ${validation.violations.join("; ")}`;
-        if ((options?.structureMode || "strict") === "strict") {
-          throw new Error(msg);
-        }
-        console.warn(msg);
-      }
-    }
-
-    // Log quality score before writing output
-    const lexicalExpectations = buildLexicalAmbiguityExpectations(content, validatedDialect);
-    const lexicalCompliance = checkLexicalCompliance(translated, lexicalExpectations);
-    const quality = calculateQualityScore(
-      content,
+    // Run unified validation pipeline
+    const report = validateTranslation({
+      source: content,
       translated,
+      dialect: validatedDialect,
       protectedTokens,
-      glossary?.mappings || {},
-      validation.valid,
-      lexicalCompliance.score
-    );
+      glossary: glossary?.mappings || {},
+      isMarkdown: true,
+    });
+
     const policy = resolvePolicy(options?.policy || "balanced", {
       failurePolicy: options?.failurePolicy,
       validateStructure: options?.validateStructure,
@@ -387,21 +379,25 @@ export async function executeTranslateApiDocs(
       protectIdentities,
       resume,
     });
-    const semanticGateApplies = content.trim().length >= 120 || translated.trim().length >= 120;
-    if (semanticGateApplies && shouldFailSemanticQuality(policy, quality.semanticSimilarity)) {
-      throw new Error(formatSemanticQualityError(policy, quality.semanticSimilarity));
+
+    // Enforce structure validation policy
+    if (options?.validateStructure !== false && report.structureValidation && !report.structureValidation.valid) {
+      const msg = `Structure validation failed: ${report.structureValidation.violations.join("; ")}`;
+      if ((options?.structureMode || "strict") === "strict") {
+        throw new Error(msg);
+      }
+      console.warn(msg);
     }
 
-    // Run full output judge (prompt leak, placeholder preservation, forbidden terms, etc.)
-    const judge = judgeTranslationOutput({
-      source: content,
-      register: "auto",
-      documentKind: "api-docs",
-      forbiddenOutputTerms: lexicalExpectations.forbiddenOutputTerms,
-      requiredOutputGroups: lexicalExpectations.requiredOutputGroups,
-    }, validatedDialect, translated);
-    if (judge.blockingIssues.length > 0) {
-      const judgeMsg = `Output judge failed: ${judge.blockingIssues.map((i) => i.message).join("; ")}`;
+    // Enforce semantic quality gate
+    const semanticGateApplies = content.trim().length >= 120 || translated.trim().length >= 120;
+    if (semanticGateApplies && shouldFailSemanticQuality(policy, report.qualityScore.semanticSimilarity)) {
+      throw new Error(formatSemanticQualityError(policy, report.qualityScore.semanticSimilarity));
+    }
+
+    // Enforce output judge policy
+    if (report.outputJudge.blockingIssues.length > 0) {
+      const judgeMsg = `Output judge failed: ${report.outputJudge.blockingIssues.map((i) => i.message).join("; ")}`;
       if (policy.failurePolicy === "strict") {
         throw new Error(judgeMsg);
       }
@@ -409,15 +405,33 @@ export async function executeTranslateApiDocs(
     }
 
     console.error(
-      `[quality] score=${quality.score} token=${(quality.tokenIntegrity * 100).toFixed(
+      `[quality] score=${report.qualityScore.score} token=${(report.qualityScore.tokenIntegrity * 100).toFixed(
         0
-      )}% glossary=${(quality.glossaryFidelity * 100).toFixed(0)}% structure=${
-        quality.structureIntegrity === 1 ? "pass" : "fail"
-      } semantic=${(quality.semanticSimilarity * 100).toFixed(0)}% lexical=${(quality.lexicalCompliance * 100).toFixed(0)}% judge=${judge.blockingIssues.length === 0 ? "pass" : "fail"}`
+      )}% glossary=${(report.qualityScore.glossaryFidelity * 100).toFixed(0)}% structure=${
+        report.qualityScore.structureIntegrity === 1 ? "pass" : "fail"
+      } semantic=${(report.qualityScore.semanticSimilarity * 100).toFixed(0)}% lexical=${(report.qualityScore.lexicalCompliance * 100).toFixed(0)}% judge=${report.outputJudge.blockingIssues.length === 0 ? "pass" : "fail"}`
     );
 
     // Write output
     await writeOutput(translated, options?.output);
+
+    // Record to corpus if enabled
+    if (options?.corpus) {
+      try {
+        const corpus = new TranslationCorpus();
+        await corpus.append({
+          source: content,
+          translated,
+          dialect: validatedDialect,
+          provider: providerName,
+          qualityScore: report.qualityScore.score,
+          timestamp: new Date().toISOString(),
+          accepted: report.valid,
+        });
+      } catch {
+        // Corpus write failure should not block the command
+      }
+    }
 
     // Clean up checkpoint file after successful completion
     try {

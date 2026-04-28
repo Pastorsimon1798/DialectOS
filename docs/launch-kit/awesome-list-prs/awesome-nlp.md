@@ -41,5 +41,5 @@ DialectOS is an open-source translation engine focused on Spanish regional diale
 - Adversarial quality gates (semantic drift, negation, structure validation)
 - i18n locale file diff/merge
 - Gender-neutral language support
-- 746 tests
+- 1034 tests
 ```

@@ -1,6 +1,6 @@
 {
   "name": "dialectos",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "DialectOS \u2014 Spanish dialect translation server (MCP + CLI)",
   "type": "module",

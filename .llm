@@ -2,37 +2,64 @@
 # Format: https://llm.txt (proposed standard)
 
 ## What is DialectOS?
-DialectOS is an open-source Spanish dialect translation server built on the Model
+DialectOS is an open-source Spanish dialect translation correctness layer built on the Model
 Context Protocol (MCP). It provides 17 translation tools for AI assistants and a CLI
 for developers. It supports 25 regional Spanish variants with structure-preserving
-translation, glossary enforcement, and adversarial quality gates.
+translation, glossary enforcement, adversarial quality gates, and standalone validation.
 
 ## Key Capabilities
 - Translate to 25 Spanish dialects (es-MX, es-AR, es-CO, es-ES, es-PR, etc.)
+- Validate existing translations from any provider (`dialectos validate`)
 - Preserve markdown structure (tables, code blocks, links)
 - i18n locale file diff/merge
 - Gender-neutral language support (elles, latine, -e/-x)
 - Formality checking (tú vs usted)
 - Semantic drift detection
 - Translation memory with SHA-256 keyed caching
-- 746 tests across 7 packages
+- Translation corpus — dialect-indexed JSONL storage for translations and corrections
+- Auto-glossary — learns terminology corrections from user feedback
+- Public benchmark — 205 adversarial samples across 25 dialects and 13 categories
+- GitHub Action — CI validation on every pull request
+- 1034 tests across 7 packages
 
 ## Use Cases
+- Validating that translations are correct for a specific dialect (standalone, no provider switch needed)
 - Localizing SaaS apps for Latin American markets
 - Translating technical documentation to regional Spanish
 - Maintaining consistent terminology across dialects
 - Quality-gating AI-generated translations
+- CI validation of locale files on every PR
 - MCP-native translation workflows in Claude/Cursor
+
+## CLI Commands
+- `dialectos translate` — translate text to a specific dialect
+- `dialectos translate-readme` — full README translation with structure preservation
+- `dialectos translate-api-docs` — API documentation translation
+- `dialectos validate` — validate existing translations against quality checks
+- `dialectos corpus stats` — view translation corpus statistics
+- `dialectos corpus export` — export corpus to JSONL
+- `dialectos benchmark run` — run dialect quality benchmark
+- `dialectos benchmark report` — render benchmark results
+- `dialectos glossary suggest` — auto-generate glossary from corrections
+- `dialectos glossary diff` — compare two glossary versions
+- `dialectos i18n detect-missing` — find missing locale keys
+- `dialectos i18n batch-translate` — translate to multiple dialects
+- `dialectos dialects list` — list all 25 supported dialects
+- `dialectos dialects detect` — detect dialect from sample text
 
 ## Comparison with Alternatives
 | Feature | Google Translate | DeepL | DialectOS |
 |---------|----------------|-------|-----------|
 | Spanish dialects | 1 (generic) | ~5 | 25 |
-| MCP integration | No | No | Yes |
+| MCP integration | No | No | Yes (17 tools) |
 | Markdown preservation | No | No | Yes |
 | i18n locale support | No | No | Yes |
 | Gender-neutral output | No | No | Yes |
 | Quality gates | No | No | Yes |
+| Standalone validation | No | No | Yes |
+| CI integration | No | No | Yes (GitHub Action) |
+| Auto-glossary | No | No | Yes |
+| Public benchmark | No | No | Yes (205 adversarial samples) |
 | Open source | No | No | Yes |
 
 ## License
@@ -42,3 +69,4 @@ BSL 1.1 (free for most use). Becomes Apache-2.0 on 2030-04-20.
 - Repository: https://github.com/Pastorsimon1798/DialectOS
 - Documentation: https://pastorsimon1798.github.io/DialectOS
 - Issues: https://github.com/Pastorsimon1798/DialectOS/issues
+- GitHub Action: https://github.com/Pastorsimon1798/DialectOS/blob/main/action.yml

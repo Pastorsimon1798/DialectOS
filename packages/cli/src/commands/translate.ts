@@ -7,6 +7,7 @@ import * as fs from "node:fs";
 import { Readable } from "node:stream";
 import type { TranslationProvider } from "@dialectos/types";
 import type { SpanishDialect, ProviderName, FormalityLevel } from "@dialectos/types";
+import { TranslationCorpus } from "@dialectos/providers";
 import { DEFAULT_DIALECT, ALL_SPANISH_DIALECTS } from "@dialectos/types";
 import { validateFilePath, validateContentLength, checkFileSize } from "@dialectos/security";
 import { writeOutput, writeError } from "../lib/output.js";
@@ -47,6 +48,8 @@ export interface TranslateCommandOptions {
   glossaryMode?: GlossaryMode;
   /** Auto-protect identities */
   protectIdentities?: boolean;
+  /** Record translations to corpus */
+  corpus?: boolean;
 }
 
 /**
@@ -206,6 +209,25 @@ export async function executeTranslate(
 
     // Write output
     await writeOutput(restored, options.output);
+
+    // Record to corpus if enabled
+    if (options.corpus) {
+      try {
+        const corpus = new TranslationCorpus();
+        await corpus.append({
+          source: text,
+          translated: restored,
+          dialect,
+          formality,
+          provider: result.provider,
+          qualityScore: -1,
+          timestamp: new Date().toISOString(),
+          accepted: true,
+        });
+      } catch {
+        // Corpus write failure should not block the command
+      }
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     writeError(message);

@@ -42,4 +42,4 @@ dialectos i18n apply-gender-neutral ./locales/es-MX.json --style inclusive
 - Dialect appropriateness (some regions resist -e endings)
 - Glossary enforcement (brand terms stay unchanged)
 
-Open source, 746 tests.
+Open source, 1034 tests.

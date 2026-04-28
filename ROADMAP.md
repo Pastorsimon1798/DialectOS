@@ -10,7 +10,7 @@ Become the **most accurate open-source engine for Spanish dialect detection and 
 
 ### Detection Accuracy
 - [ ] **Reduce cross-dialect false positives** — "chévere", "pana", "guagua" appear in multiple dialects; weight context and co-occurrence signals
-- [ ] **Grammar feature detection** — Detect voseo ("vos" + verb conjugations), leísmo/laísmo/loísmo, yeísmo distinctions
+- [ ] **Grammar feature detection** — ~~Detect voseo ("vos" + verb conjugations), leísmo/laísmo/loísmo, yeísmo distinctions~~ ✅ v0.2.0
 - [ ] **Confidence calibration** — Better score thresholds so low-confidence input falls back to neutral rather than guessing
 - [ ] **Labeled benchmark corpus** — Hand-label 500+ text samples per dialect for accuracy testing
 
@@ -27,9 +27,9 @@ Become the **most accurate open-source engine for Spanish dialect detection and 
 ## 📅 Medium Term (3–6 Months)
 
 ### Provider Quality
-- [ ] **Dialect-specific prompts for LLM providers** — Feed dialect keywords + register markers into GPT-4/Claude prompts for better translations
-- [ ] **Provider quality benchmarks per dialect** — Measure which provider (DeepL, GPT-4, LibreTranslate) handles each dialect best
-- [ ] **Translation memory / caching** — Cache previously translated strings keyed by (text, dialect, register) to reduce API costs
+- [x] **Dialect-specific prompts for LLM providers** — Feed dialect keywords + register markers into GPT-4/Claude prompts for better translations
+- [x] **Provider quality benchmarks per dialect** — Measure which provider (DeepL, GPT-4, LibreTranslate) handles each dialect best
+- [x] **Translation memory / caching** — Cache previously translated strings keyed by (text, dialect, register) to reduce API costs
 
 ### Community & Data
 - [ ] **Community keyword contributions** — Accept PRs adding verified slang/formal terms per dialect
@@ -44,7 +44,7 @@ Become the **most accurate open-source engine for Spanish dialect detection and 
 
 ### Quality & Trust
 - [ ] **Human evaluation pipeline** — Native speakers rate translation quality per dialect; feed scores back into provider selection
-- [ ] **Adversarial robustness** — Test detection against code-switching (Spanglish, Portuñol), typos, and social media shorthand
+- [x] **Adversarial robustness** — Test detection against code-switching (Spanglish, Portuñol), typos, and social media shorthand
 
 ## 🗳️ How to Influence the Roadmap
 
@@ -55,6 +55,23 @@ Become the **most accurate open-source engine for Spanish dialect detection and 
 
 ## ✅ Recently Completed
 
+### v0.3.0 (2026-04-27)
+- [x] **`dialectos validate`** — Standalone translation validation with quality gates, semantic check, and output judge
+- [x] **Translation corpus** — Dialect-indexed JSONL storage for translations and corrections with CLI commands
+- [x] **Public benchmark suite** — 205 adversarial samples across 25 dialects and 13 categories with benchmark runner
+- [x] **GitHub Action** — Composite CI action for PR translation validation with multi-dialect matrix
+- [x] **Auto-glossary from corrections** — Suggestion engine + `dialectos glossary suggest/diff` commands
+- [x] **1034 tests** across 7 packages
+
+### v0.2.0 (2026-04-27)
+- [x] **Grammar detection** — Voseo, leísmo/laísmo/loísmo, yeísmo with exact bigram matching
+- [x] **Semantic backstop** — Negation preservation, keyword overlap, structural parity checking
+- [x] **Translation memory** — Persistent cache with TTL, LRU eviction, and atomic writes
+- [x] **Adversarial hardening** — 125 samples, torture tests, public demo hardening
+- [x] **LLM primary provider** — Dialect-specific prompts, Anthropic API, LM Studio certification
+- [x] **Certification harness** — Incremental runner, adversarial certification, customer reports
+
+### v0.1.0 (2026-04-20)
 - [x] **25 Spanish dialects** — Expanded from 20 to 25 (added `es-GQ`, `es-US`, `es-PH`, `es-BZ`, `es-AD`)
 - [x] **Formal vs slang register differentiation** — `detectRegister()`, `--register` CLI flag, MCP `register` param
 - [x] **Comprehensive dialect adaptations** — 200+ vocabulary rules in `manage-variants` covering all 25 dialects

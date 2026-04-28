@@ -87,7 +87,7 @@ Each produces:
 
 ## Numbers
 
-- **746 tests** across 7 packages
+- **1034 tests** across 7 packages
 - **18 CVEs** resolved
 - **4 quality gates** with semantic backstop
 - **6 adversarial trap categories**
