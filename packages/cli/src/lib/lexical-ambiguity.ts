@@ -236,7 +236,7 @@ export const LEXICAL_AMBIGUITY_RULES: readonly LexicalAmbiguityRule[] = [
       requiredOutputGroups: [
         ["concha", "caracol", "caparazón", "valva", "cáscara", "cobertura"],
       ],
-      forbiddenOutputTerms: dialect === "es-AR" || dialect === "es-UY" || dialect === "es-CL" || dialect === "es-PE" ? ["concha"] : [],
+      forbiddenOutputTerms: dialect === "es-AR" || dialect === "es-UY" || dialect === "es-CL" || dialect === "es-PE" || dialect === "es-BO" || dialect === "es-PY" ? ["concha"] : [],
     }),
   },
 
@@ -388,7 +388,7 @@ export const LEXICAL_AMBIGUITY_RULES: readonly LexicalAmbiguityRule[] = [
 
   {
     id: "pinga-vulgar",
-    dialects: ["es-CU", "es-DO", "es-PR"],
+    dialects: ["es-CU", "es-DO", "es-PR", "es-VE"],
     sourcePattern: /\b(damn|fuck|shit|dick|prick|cock)\b/i,
     guidance: "Pinga is an extremely vulgar term (penis) used as a general intensifier in Cuban, Dominican, and Puerto Rican Spanish. Never translate any English term into pinga. Use maldición, demonio, or other register-appropriate intensifiers.",
     expectations: {
@@ -487,6 +487,110 @@ export const LEXICAL_AMBIGUITY_RULES: readonly LexicalAmbiguityRule[] = [
         ["idiota", "tonto", "estúpido", "necio"],
       ],
       forbiddenOutputTerms: ["pirobo"],
+    },
+  },
+
+  {
+    id: "chaqueta-jacket-mx",
+    dialects: ["es-MX"],
+    sourcePattern: /\b(jacket|coat)\b/i,
+    guidance: "In Mexican Spanish, 'chaqueta' is vulgar slang for masturbation. Always use 'chamarra' for jacket/coat in MX. This is one of the most dangerous dialectal traps.",
+    expectations: {
+      requiredOutputGroups: [
+        ["chamarra", "chaqueta"],
+      ],
+      forbiddenOutputTerms: ["chaqueta"],
+    },
+  },
+
+  {
+    id: "chaqueta-jacket-ar",
+    dialects: ["es-AR"],
+    sourcePattern: /\b(jacket|coat)\b/i,
+    guidance: "In Argentine Spanish, 'campera' is the standard term for jacket/coat. 'Chaqueta' is understood but less common.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [
+        ["campera", "chaqueta"],
+      ],
+      forbiddenOutputTerms: [],
+    }),
+  },
+
+  {
+    id: "negro-racial",
+    dialects: "all",
+    sourcePattern: /\b(black person|black man|black woman|african american|negro)\b/i,
+    guidance: "The word 'negro/negra' is the standard Spanish term for the color black and is used as a racial descriptor in many dialects. In formal contexts, use 'afrodescendiente' or 'persona afrodescendiente'. In some dialects (especially Caribbean), 'negro/negra' used as an address term can be offensive. Context determines register.",
+    expectations: {
+      requiredOutputGroups: [
+        ["negro", "negra", "afrodescendiente", "persona negra"],
+      ],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "gordo-affectionate",
+    dialects: "all",
+    sourcePattern: /\b(fat|overweight|chubby)\b/i,
+    guidance: "'Gordo/gorda' is used as an affectionate nickname in AR, UY, MX, and parts of Central America, but can be offensive as a descriptor elsewhere. In formal translation, use 'con sobrepeso' or 'persona con obesidad'. In informal contexts where the source is endearing, 'gordo/gorda' may be appropriate in the right dialects.",
+    expectations: {
+      requiredOutputGroups: [
+        ["gordo", "gorda", "con sobrepeso", "persona con obesidad", "regordete"],
+      ],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "bombilla-lightbulb",
+    dialects: ["es-AR", "es-UY", "es-PY"],
+    sourcePattern: /\b(lightbulb|bulb|lamp)\b/i,
+    guidance: "In Rioplatense Spanish, 'bombilla' refers to the metal straw used for drinking mate, not a lightbulb. Use 'foco' (MX, Central Am, most LatAm) or 'bombilla' (ES) for lightbulb. In AR/UY/PY, use 'lámpara' or 'foco' for lightbulb.",
+    expectations: {
+      requiredOutputGroups: [
+        ["foco", "lámpara", "ampolleta", "bombilla"],
+      ],
+      forbiddenOutputTerms: [],
+    },
+  },
+
+  {
+    id: "pajilla-straw",
+    dialects: ["es-PR", "es-DO", "es-VE"],
+    sourcePattern: /\b(straw|drinking straw)\b/i,
+    guidance: "'Pajilla' is the standard term for drinking straw in Puerto Rico, but in DO and VE it can have vulgar connotations. Use 'pajita' (ES), 'popote' (MX), 'sorbete' (AR, UY, CL), 'pitillo' (CO, VE), or 'cañita' (PE) depending on dialect.",
+    expectations: (dialect) => ({
+      requiredOutputGroups: [
+        ["pajilla", "pitillo", "sorbete", "popote", "cañita"],
+      ],
+      forbiddenOutputTerms: dialect === "es-DO" || dialect === "es-VE" ? ["pajilla"] : [],
+    }),
+  },
+
+  {
+    id: "mamacita-catcall",
+    dialects: ["es-MX", "es-CO", "es-CU", "es-DO", "es-PR"],
+    sourcePattern: /\b(baby|sexy|hot girl|babe|sweetheart|honey)\b/i,
+    guidance: "'Mamacita' is a term of endearment that can also function as street harassment (catcalling) in MX, CO, and Caribbean dialects. In professional translation, avoid it entirely. Use 'cariño', 'mi amor', or 'querida' for endearment.",
+    expectations: {
+      requiredOutputGroups: [
+        ["cariño", "mi amor", "querida", "tesoro"],
+      ],
+      forbiddenOutputTerms: ["mamacita"],
+    },
+  },
+
+  {
+    id: "gringo-context",
+    dialects: ["es-MX", "es-GT", "es-HN", "es-SV", "es-NI", "es-CR", "es-PA"],
+    sourcePattern: /\b(foreigner|american|gringo|anglo)\b/i,
+    guidance: "'Gringo' is widely used in Mexico and Central America to refer to people from the US. It can be neutral, affectionate, or pejorative depending on tone and context. In formal translation, use 'estadounidense' for neutral reference. 'Gringo' is acceptable in informal contexts.",
+    expectations: {
+      requiredOutputGroups: [
+        ["estadounidense", "gringo", "norteamericano"],
+      ],
+      forbiddenOutputTerms: [],
     },
   },
 

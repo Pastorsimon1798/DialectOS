@@ -2,7 +2,8 @@ import type { SpanishDialect } from "./index.js";
 
 export type SemanticField =
   | "technology" | "transport" | "food" | "household" | "clothing"
-  | "actions" | "social" | "people" | "education" | "body_parts" | "nature";
+  | "actions" | "social" | "people" | "education" | "body_parts" | "nature"
+  | "medicine_health" | "family_kinship" | "finance_banking";
 
 export interface Variant {
   term: string;
@@ -95,7 +96,7 @@ export const DICTIONARY: DictionaryEntry[] = [
     "es-PA": { term: "lapicero", frequency: 1, register: "universal" },
     "es-GT": { term: "lapicero", frequency: 1, register: "universal" },
     "es-HN": { term: "lapicero", frequency: 1, register: "universal" },
-    "es-AR": { term: "birome", frequency: 1, register: "informal" },
+    "es-AR": { term: "birome", frequency: 1, register: "universal" },
     "es-UY": { term: "birome", frequency: 1, register: "informal" },
     "es-NI": { term: "lapicero", frequency: 2, register: "universal" },
     "es-SV": { term: "lapicero", frequency: 2, register: "universal" },
@@ -180,7 +181,7 @@ export const DICTIONARY: DictionaryEntry[] = [
     "es-MX": { term: "camión", frequency: 1, register: "informal" },
     "es-AR": { term: "colectivo", frequency: 1, register: "universal" },
     "es-CL": { term: "micro", frequency: 1, register: "universal" },
-    "es-PE": { term: "micro", frequency: 1, register: "informal" },
+    "es-PE": { term: "micro", frequency: 1, register: "universal" },
     "es-CU": { term: "guagua", frequency: 1, register: "informal" },
     "es-DO": { term: "guagua", frequency: 1, register: "informal" },
     "es-PR": { term: "guagua", frequency: 1, register: "informal" },
@@ -716,7 +717,7 @@ export const DICTIONARY: DictionaryEntry[] = [
     "es-NI": { term: "refrigerador", frequency: 1, register: "universal" },
     "es-CR": { term: "refrigerador", frequency: 1, register: "universal" },
     "es-PA": { term: "refrigerador", frequency: 1, register: "universal" },
-    "es-AR": { term: "heladera", frequency: 1, register: "informal" },
+    "es-AR": { term: "heladera", frequency: 1, register: "universal" },
     "es-UY": { term: "heladera", frequency: 1, register: "informal" },
   }},
 
@@ -827,8 +828,8 @@ export const DICTIONARY: DictionaryEntry[] = [
 { field: "household", concept: "faucet", englishGloss: "valve controlling water flow",
   panHispanic: "grifo",
   variants: {
-    "es-AR": { term: "llave", frequency: 1, register: "informal" },
-    "es-UY": { term: "llave", frequency: 1, register: "informal" },
+    "es-AR": { term: "llave", frequency: 1, register: "universal" },
+    "es-UY": { term: "llave", frequency: 1, register: "universal" },
     "es-CO": { term: "llave", frequency: 2, register: "informal" },
   }},
 
@@ -928,8 +929,8 @@ export const DICTIONARY: DictionaryEntry[] = [
 
 { field: "actions", concept: "drive", englishGloss: "operate a motor vehicle",
   variants: {
-    "es-ES": { term: "conducir", frequency: 1, register: "formal" },
-    "es-AD": { term: "conducir", frequency: 1, register: "formal" },
+    "es-ES": { term: "conducir", frequency: 1, register: "universal" },
+    "es-AD": { term: "conducir", frequency: 1, register: "universal" },
     "es-MX": { term: "manejar", frequency: 1, register: "universal" },
     "es-AR": { term: "manejar", frequency: 1, register: "universal" },
     "es-CO": { term: "manejar", frequency: 1, register: "universal" },
@@ -1396,6 +1397,490 @@ export const DICTIONARY: DictionaryEntry[] = [
   panHispanic: "charco",
   variants: {
     "es-MX": { term: "chapoteadero", frequency: 3, register: "informal" },
+  }},
+
+// --- Critical additions: transport ---
+
+{ field: "transport", concept: "gasoline", englishGloss: "motor vehicle fuel",
+  variants: {
+    "es-ES": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-MX": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-AR": { term: "nafta", frequency: 1, register: "universal" },
+    "es-CO": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-CU": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-PE": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-CL": { term: "bencina", frequency: 1, register: "universal" },
+    "es-VE": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-UY": { term: "nafta", frequency: 1, register: "universal" },
+    "es-PY": { term: "nafta", frequency: 1, register: "universal" },
+    "es-BO": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-EC": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-GT": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-HN": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-SV": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-NI": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-CR": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-PA": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-DO": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-PR": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-US": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-GQ": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-PH": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-BZ": { term: "gasolina", frequency: 1, register: "universal" },
+    "es-AD": { term: "gasolina", frequency: 1, register: "universal" },
+  }},
+
+{ field: "transport", concept: "subway", englishGloss: "underground urban rail transit",
+  panHispanic: "metro",
+  variants: {
+    "es-AR": { term: "subte", frequency: 1, register: "universal" },
+  }},
+
+{ field: "transport", concept: "highway", englishGloss: "major intercity road",
+  variants: {
+    "es-ES": { term: "autovía", frequency: 1, register: "universal" },
+    "es-AD": { term: "autovía", frequency: 1, register: "universal" },
+    "es-MX": { term: "autopista", frequency: 1, register: "universal" },
+    "es-AR": { term: "autopista", frequency: 1, register: "universal" },
+    "es-CO": { term: "autopista", frequency: 1, register: "universal" },
+    "es-CU": { term: "autopista", frequency: 1, register: "universal" },
+    "es-PE": { term: "autopista", frequency: 1, register: "universal" },
+    "es-CL": { term: "autopista", frequency: 1, register: "universal" },
+    "es-VE": { term: "autopista", frequency: 1, register: "universal" },
+    "es-UY": { term: "autopista", frequency: 1, register: "universal" },
+    "es-PY": { term: "autopista", frequency: 1, register: "universal" },
+    "es-BO": { term: "autopista", frequency: 1, register: "universal" },
+    "es-EC": { term: "autopista", frequency: 1, register: "universal" },
+    "es-GT": { term: "autopista", frequency: 1, register: "universal" },
+    "es-HN": { term: "autopista", frequency: 1, register: "universal" },
+    "es-SV": { term: "autopista", frequency: 1, register: "universal" },
+    "es-NI": { term: "autopista", frequency: 1, register: "universal" },
+    "es-CR": { term: "autopista", frequency: 1, register: "universal" },
+    "es-PA": { term: "autopista", frequency: 1, register: "universal" },
+    "es-DO": { term: "autopista", frequency: 1, register: "universal" },
+    "es-PR": { term: "autopista", frequency: 1, register: "universal" },
+    "es-US": { term: "autopista", frequency: 1, register: "universal" },
+    "es-GQ": { term: "autopista", frequency: 1, register: "universal" },
+    "es-PH": { term: "autopista", frequency: 1, register: "universal" },
+    "es-BZ": { term: "autopista", frequency: 1, register: "universal" },
+  }},
+
+{ field: "transport", concept: "traffic_light", englishGloss: "signaling device controlling road traffic",
+  panHispanic: "semáforo",
+  variants: {
+    "es-CU": { term: "luz", frequency: 1, register: "universal" },
+    "es-DO": { term: "luz", frequency: 1, register: "universal" },
+    "es-PR": { term: "luz", frequency: 1, register: "universal" },
+  }},
+
+{ field: "transport", concept: "toll", englishGloss: "fee for using a road or bridge",
+  panHispanic: "peaje",
+  variants: {
+    "es-MX": { term: "cuota", frequency: 1, register: "universal", notes: "carretera de cuota" },
+  }},
+
+{ field: "transport", concept: "driver_license", englishGloss: "official permit to drive a vehicle",
+  panHispanic: "licencia",
+  variants: {
+    "es-ES": { term: "carnet de conducir", frequency: 1, register: "universal" },
+    "es-AD": { term: "carnet de conducir", frequency: 1, register: "universal" },
+    "es-MX": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-AR": { term: "registro de conducir", frequency: 1, register: "universal" },
+    "es-CO": { term: "licencia de conducción", frequency: 1, register: "universal" },
+    "es-PE": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-CL": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-VE": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-UY": { term: "libreta de conducir", frequency: 1, register: "universal" },
+    "es-PY": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-BO": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-EC": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-CR": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-PA": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-DO": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-PR": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-US": { term: "licencia de conducir", frequency: 1, register: "universal" },
+    "es-GQ": { term: "permiso de conducir", frequency: 1, register: "universal" },
+  }},
+
+// --- Critical additions: household ---
+
+{ field: "household", concept: "toilet", englishGloss: "sanitary fixture for human waste",
+  panHispanic: "inodoro",
+  variants: {
+    "es-VE": { term: "poceta", frequency: 1, register: "universal" },
+    "es-CO": { term: "sanitario", frequency: 1, register: "universal" },
+    "es-MX": { term: "taza", frequency: 2, register: "informal" },
+    "es-CU": { term: "taza", frequency: 2, register: "informal" },
+    "es-DO": { term: "taza", frequency: 2, register: "informal" },
+    "es-PR": { term: "taza", frequency: 2, register: "informal" },
+  }},
+
+{ field: "household", concept: "stove", englishGloss: "appliance for cooking with heat",
+  panHispanic: "estufa",
+  variants: {
+    "es-ES": { term: "cocina", frequency: 1, register: "universal" },
+    "es-AD": { term: "cocina", frequency: 1, register: "universal" },
+    "es-MX": { term: "estufa", frequency: 1, register: "universal" },
+    "es-AR": { term: "cocina", frequency: 1, register: "universal" },
+    "es-CO": { term: "estufa", frequency: 1, register: "universal" },
+    "es-PE": { term: "cocina", frequency: 1, register: "universal" },
+    "es-CL": { term: "cocina", frequency: 1, register: "universal" },
+    "es-VE": { term: "cocina", frequency: 1, register: "universal" },
+    "es-UY": { term: "cocina", frequency: 1, register: "universal" },
+    "es-PY": { term: "cocina", frequency: 1, register: "universal" },
+    "es-BO": { term: "cocina", frequency: 1, register: "universal" },
+    "es-EC": { term: "cocina", frequency: 1, register: "universal" },
+  }},
+
+{ field: "household", concept: "shower", englishGloss: "device for bathing with spraying water",
+  panHispanic: "ducha",
+  variants: {
+    "es-MX": { term: "regadera", frequency: 1, register: "universal" },
+    "es-GT": { term: "regadera", frequency: 1, register: "universal" },
+    "es-HN": { term: "regadera", frequency: 1, register: "universal" },
+    "es-SV": { term: "regadera", frequency: 1, register: "universal" },
+    "es-NI": { term: "regadera", frequency: 1, register: "universal" },
+    "es-CR": { term: "regadera", frequency: 1, register: "universal" },
+    "es-PA": { term: "regadera", frequency: 1, register: "universal" },
+  }},
+
+// --- Critical additions: food ---
+
+{ field: "food", concept: "dinner", englishGloss: "main evening meal",
+  panHispanic: "cena",
+  variants: {
+    "es-MX": { term: "cena", frequency: 1, register: "universal" },
+    "es-ES": { term: "cena", frequency: 1, register: "universal" },
+    "es-AD": { term: "cena", frequency: 1, register: "universal" },
+    "es-CO": { term: "cena", frequency: 1, register: "universal" },
+    "es-AR": { term: "cena", frequency: 1, register: "universal" },
+    "es-CU": { term: "cena", frequency: 1, register: "universal" },
+    "es-PE": { term: "cena", frequency: 1, register: "universal" },
+    "es-CL": { term: "cena", frequency: 1, register: "universal" },
+    "es-VE": { term: "cena", frequency: 1, register: "universal" },
+    "es-UY": { term: "cena", frequency: 1, register: "universal" },
+    "es-PY": { term: "cena", frequency: 1, register: "universal" },
+    "es-BO": { term: "cena", frequency: 1, register: "universal" },
+    "es-EC": { term: "cena", frequency: 1, register: "universal" },
+    "es-GT": { term: "cena", frequency: 1, register: "universal" },
+    "es-HN": { term: "cena", frequency: 1, register: "universal" },
+    "es-SV": { term: "cena", frequency: 1, register: "universal" },
+    "es-NI": { term: "cena", frequency: 1, register: "universal" },
+    "es-CR": { term: "cena", frequency: 1, register: "universal" },
+    "es-PA": { term: "cena", frequency: 1, register: "universal" },
+    "es-DO": { term: "cena", frequency: 1, register: "universal" },
+    "es-PR": { term: "cena", frequency: 1, register: "universal" },
+    "es-US": { term: "cena", frequency: 1, register: "universal" },
+    "es-GQ": { term: "cena", frequency: 1, register: "universal" },
+    "es-PH": { term: "cena", frequency: 1, register: "universal" },
+    "es-BZ": { term: "cena", frequency: 1, register: "universal" },
+  }},
+
+{ field: "food", concept: "breakfast", englishGloss: "first meal of the day",
+  panHispanic: "desayuno",
+  variants: {
+    "es-CO": { term: "desayuno", frequency: 1, register: "universal", notes: "almuerzo can mean breakfast in rural CO" },
+  }},
+
+// --- Critical additions: clothing ---
+
+{ field: "clothing", concept: "socks", englishGloss: "knitted garment for the foot",
+  variants: {
+    "es-ES": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-AD": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-MX": { term: "calcetas", frequency: 1, register: "universal" },
+    "es-AR": { term: "medias", frequency: 1, register: "universal" },
+    "es-CO": { term: "medias", frequency: 1, register: "universal" },
+    "es-CU": { term: "medias", frequency: 1, register: "universal" },
+    "es-PE": { term: "medias", frequency: 1, register: "universal" },
+    "es-CL": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-VE": { term: "medias", frequency: 1, register: "universal" },
+    "es-UY": { term: "medias", frequency: 1, register: "universal" },
+    "es-PY": { term: "medias", frequency: 1, register: "universal" },
+    "es-BO": { term: "medias", frequency: 1, register: "universal" },
+    "es-EC": { term: "medias", frequency: 1, register: "universal" },
+    "es-GT": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-HN": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-SV": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-NI": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-CR": { term: "medias", frequency: 1, register: "universal" },
+    "es-PA": { term: "medias", frequency: 1, register: "universal" },
+    "es-DO": { term: "medias", frequency: 1, register: "universal" },
+    "es-PR": { term: "medias", frequency: 1, register: "universal" },
+    "es-US": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-GQ": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-PH": { term: "calcetines", frequency: 1, register: "universal" },
+    "es-BZ": { term: "calcetines", frequency: 1, register: "universal" },
+  }},
+
+{ field: "clothing", concept: "underpants", englishGloss: "undergarment for lower body",
+  panHispanic: "calzoncillos",
+  variants: {
+    "es-ES": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-AD": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-MX": { term: "calzones", frequency: 1, register: "universal" },
+    "es-AR": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-CO": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-VE": { term: "trusa", frequency: 1, register: "universal" },
+    "es-PE": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-CL": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-UY": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-PY": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-BO": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-EC": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-CR": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-PA": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-DO": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-PR": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-US": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-GQ": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-PH": { term: "calzoncillos", frequency: 1, register: "universal" },
+    "es-BZ": { term: "calzoncillos", frequency: 1, register: "universal" },
+  }},
+
+// --- medicine_health ---
+
+{ field: "medicine_health", concept: "bandage_aid", englishGloss: "small adhesive bandage for minor cuts",
+  variants: {
+    "es-ES": { term: "tirita", frequency: 1, register: "universal" },
+    "es-AD": { term: "tirita", frequency: 1, register: "universal" },
+    "es-MX": { term: "curita", frequency: 1, register: "universal" },
+    "es-AR": { term: "afterito", frequency: 1, register: "universal" },
+    "es-CO": { term: "curita", frequency: 1, register: "universal" },
+    "es-CU": { term: "curita", frequency: 1, register: "universal" },
+    "es-PE": { term: "curita", frequency: 1, register: "universal" },
+    "es-CL": { term: "curita", frequency: 1, register: "universal" },
+    "es-VE": { term: "curita", frequency: 1, register: "universal" },
+    "es-UY": { term: "afterito", frequency: 1, register: "universal" },
+    "es-PY": { term: "curita", frequency: 1, register: "universal" },
+    "es-BO": { term: "curita", frequency: 1, register: "universal" },
+    "es-EC": { term: "curita", frequency: 1, register: "universal" },
+    "es-GT": { term: "curita", frequency: 1, register: "universal" },
+    "es-HN": { term: "curita", frequency: 1, register: "universal" },
+    "es-SV": { term: "curita", frequency: 1, register: "universal" },
+    "es-NI": { term: "curita", frequency: 1, register: "universal" },
+    "es-CR": { term: "curita", frequency: 1, register: "universal" },
+    "es-PA": { term: "curita", frequency: 1, register: "universal" },
+    "es-DO": { term: "curita", frequency: 1, register: "universal" },
+    "es-PR": { term: "curita", frequency: 1, register: "universal" },
+    "es-US": { term: "curita", frequency: 1, register: "universal" },
+    "es-GQ": { term: "tirita", frequency: 1, register: "universal" },
+    "es-PH": { term: "curita", frequency: 1, register: "universal" },
+    "es-BZ": { term: "curita", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "cold_illness", englishGloss: "common viral respiratory illness",
+  panHispanic: "resfriado",
+  variants: {
+    "es-ES": { term: "resfriado", frequency: 1, register: "universal" },
+    "es-MX": { term: "resfriado", frequency: 1, register: "universal" },
+    "es-AR": { term: "resfrío", frequency: 1, register: "universal" },
+    "es-CO": { term: "gripa", frequency: 1, register: "universal" },
+    "es-CL": { term: "resfriado", frequency: 1, register: "universal" },
+    "es-VE": { term: "gripe", frequency: 1, register: "universal" },
+    "es-UY": { term: "resfrío", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "pharmacy", englishGloss: "shop where medicines are dispensed",
+  panHispanic: "farmacia",
+  variants: {
+    "es-CO": { term: "droguería", frequency: 1, register: "universal" },
+    "es-VE": { term: "farmacia", frequency: 1, register: "universal" },
+    "es-BO": { term: "farmacia", frequency: 1, register: "universal" },
+    "es-EC": { term: "farmacia", frequency: 1, register: "universal" },
+    "es-CL": { term: "farmacia", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "doctor_appointment", englishGloss: "scheduled visit to a doctor",
+  panHispanic: "cita médica",
+  variants: {
+    "es-AR": { term: "turno", frequency: 1, register: "universal" },
+    "es-UY": { term: "turno", frequency: 1, register: "universal" },
+    "es-PY": { term: "turno", frequency: 1, register: "universal" },
+    "es-CO": { term: "cita", frequency: 1, register: "universal" },
+    "es-MX": { term: "cita", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "emergency_room", englishGloss: "hospital department for urgent cases",
+  panHispanic: "urgencias",
+  variants: {
+    "es-MX": { term: "urgencias", frequency: 1, register: "universal" },
+    "es-AR": { term: "guardia", frequency: 1, register: "universal" },
+    "es-UY": { term: "guardia", frequency: 1, register: "universal" },
+    "es-CO": { term: "urgencias", frequency: 1, register: "universal" },
+    "es-VE": { term: "emergencia", frequency: 1, register: "universal" },
+    "es-CL": { term: "urgencia", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "prescription", englishGloss: "doctor's written order for medicine",
+  panHispanic: "receta médica",
+  variants: {
+    "es-MX": { term: "receta", frequency: 1, register: "universal" },
+    "es-AR": { term: "receta", frequency: 1, register: "universal" },
+    "es-CO": { term: "fórmula médica", frequency: 1, register: "universal" },
+    "es-VE": { term: "receta", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "fever", englishGloss: "elevated body temperature from illness",
+  panHispanic: "fiebre",
+  variants: {
+    "es-AR": { term: "fiebre", frequency: 1, register: "universal" },
+    "es-CO": { term: "fiebre", frequency: 1, register: "universal" },
+    "es-MX": { term: "fiebre", frequency: 1, register: "universal" },
+  }},
+
+{ field: "medicine_health", concept: "pill_medication", englishGloss: "small solid dose of medicine to swallow",
+  panHispanic: "pastilla",
+  variants: {
+    "es-MX": { term: "pastilla", frequency: 1, register: "universal" },
+    "es-AR": { term: "pastilla", frequency: 1, register: "universal" },
+    "es-CO": { term: "pastilla", frequency: 1, register: "universal" },
+    "es-CL": { term: "pastilla", frequency: 1, register: "universal" },
+  }},
+
+// --- family_kinship ---
+
+{ field: "family_kinship", concept: "grandfather", englishGloss: "parent of one's parent (male)",
+  panHispanic: "abuelo",
+  variants: {
+    "es-ES": { term: "abuelo", frequency: 1, register: "universal" },
+    "es-MX": { term: "abuelito", frequency: 2, register: "informal" },
+    "es-AR": { term: "abuelo", frequency: 1, register: "universal" },
+    "es-CO": { term: "abuelito", frequency: 2, register: "informal" },
+    "es-CU": { term: "abuelo", frequency: 1, register: "universal" },
+    "es-PE": { term: "abuelito", frequency: 2, register: "informal" },
+    "es-CL": { term: "abuelito", frequency: 2, register: "informal" },
+    "es-VE": { term: "abuelito", frequency: 2, register: "informal" },
+  }},
+
+{ field: "family_kinship", concept: "wife", englishGloss: "married woman in relation to her spouse",
+  panHispanic: "esposa",
+  variants: {
+    "es-ES": { term: "esposa", frequency: 1, register: "universal" },
+    "es-MX": { term: "esposa", frequency: 1, register: "universal" },
+    "es-AR": { term: "mujer", frequency: 1, register: "universal" },
+    "es-CO": { term: "esposa", frequency: 1, register: "universal" },
+    "es-CU": { term: "mujer", frequency: 1, register: "informal" },
+    "es-DO": { term: "mujer", frequency: 1, register: "informal" },
+    "es-PR": { term: "mujer", frequency: 1, register: "informal" },
+    "es-VE": { term: "esposa", frequency: 1, register: "universal" },
+    "es-UY": { term: "mujer", frequency: 1, register: "universal" },
+    "es-PY": { term: "esposa", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "husband", englishGloss: "married man in relation to his spouse",
+  panHispanic: "esposo",
+  variants: {
+    "es-ES": { term: "esposo", frequency: 1, register: "universal" },
+    "es-MX": { term: "esposo", frequency: 1, register: "universal" },
+    "es-AR": { term: "marido", frequency: 1, register: "universal" },
+    "es-CO": { term: "esposo", frequency: 1, register: "universal" },
+    "es-VE": { term: "esposo", frequency: 1, register: "universal" },
+    "es-UY": { term: "marido", frequency: 1, register: "universal" },
+    "es-PY": { term: "esposo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "brother_in_law", englishGloss: "brother of one's spouse or husband of one's sibling",
+  panHispanic: "cuñado",
+  variants: {
+    "es-ES": { term: "cuñado", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "father_in_law", englishGloss: "father of one's spouse",
+  panHispanic: "suegro",
+  variants: {
+    "es-ES": { term: "suegro", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "godfather", englishGloss: "man who sponsors a child at baptism",
+  panHispanic: "padrino",
+  variants: {
+    "es-AR": { term: "padrino", frequency: 1, register: "universal" },
+    "es-UY": { term: "padrino", frequency: 1, register: "universal" },
+    "es-PY": { term: "padrino", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "nephew_niece", englishGloss: "child of one's sibling",
+  panHispanic: "sobrino",
+  variants: {
+    "es-ES": { term: "sobrino", frequency: 1, register: "universal" },
+  }},
+
+{ field: "family_kinship", concept: "stepfather", englishGloss: "husband of one's mother who is not one's biological father",
+  panHispanic: "padrastro",
+  variants: {
+    "es-ES": { term: "padrastro", frequency: 1, register: "universal" },
+  }},
+
+// --- finance_banking ---
+
+{ field: "finance_banking", concept: "banknote", englishGloss: "paper money, paper currency",
+  panHispanic: "billete",
+  variants: {
+    "es-MX": { term: "billete", frequency: 1, register: "universal" },
+    "es-AR": { term: "billete", frequency: 1, register: "universal" },
+    "es-CO": { term: "billete", frequency: 1, register: "universal" },
+    "es-VE": { term: "billete", frequency: 1, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "bank_account", englishGloss: "financial account held at a bank",
+  panHispanic: "cuenta bancaria",
+  variants: {
+    "es-ES": { term: "cuenta bancaria", frequency: 1, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "loan", englishGloss: "money borrowed that must be repaid",
+  panHispanic: "préstamo",
+  variants: {
+    "es-CO": { term: "crédito", frequency: 2, register: "universal" },
+    "es-VE": { term: "crédito", frequency: 2, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "salary", englishGloss: "regular payment for employment",
+  panHispanic: "salario",
+  variants: {
+    "es-AR": { term: "sueldo", frequency: 1, register: "universal" },
+    "es-UY": { term: "sueldo", frequency: 1, register: "universal" },
+    "es-PY": { term: "salario", frequency: 1, register: "universal" },
+    "es-CO": { term: "salario", frequency: 1, register: "universal" },
+    "es-MX": { term: "sueldo", frequency: 1, register: "universal" },
+    "es-ES": { term: "sueldo", frequency: 1, register: "universal" },
+    "es-CL": { term: "sueldo", frequency: 1, register: "universal" },
+    "es-PE": { term: "sueldo", frequency: 1, register: "universal" },
+    "es-VE": { term: "sueldo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "receipt", englishGloss: "written proof of payment",
+  panHispanic: "recibo",
+  variants: {
+    "es-ES": { term: "recibo", frequency: 1, register: "universal" },
+    "es-MX": { term: "recibo", frequency: 1, register: "universal" },
+    "es-AR": { term: "recibo", frequency: 1, register: "universal" },
+    "es-CO": { term: "recibo", frequency: 1, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "tip_gratuity", englishGloss: "voluntary extra payment for service",
+  panHispanic: "propina",
+  variants: {
+    "es-ES": { term: "propina", frequency: 1, register: "universal" },
+    "es-MX": { term: "propina", frequency: 1, register: "universal" },
+    "es-AR": { term: "propina", frequency: 1, register: "universal" },
+    "es-CO": { term: "propina", frequency: 1, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "atm", englishGloss: "machine for withdrawing cash with a card",
+  panHispanic: "cajero automático",
+  variants: {
+    "es-AR": { term: "cajero automático", frequency: 1, register: "universal" },
+    "es-MX": { term: "cajero automático", frequency: 1, register: "universal" },
+    "es-ES": { term: "cajero automático", frequency: 1, register: "universal" },
+    "es-CO": { term: "cajero automático", frequency: 1, register: "universal" },
+  }},
+
+{ field: "finance_banking", concept: "debt", englishGloss: "money owed to someone",
+  panHispanic: "deuda",
+  variants: {
+    "es-ES": { term: "deuda", frequency: 1, register: "universal" },
   }},
 
 // --- contact: loanwords that are standard in their dialect's formal register ---

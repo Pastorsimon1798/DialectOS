@@ -334,6 +334,42 @@ export const SYNTACTIC_RULES: SyntacticRule[] = [
     rule: "Use 'de acuerdo con' (not 'de acuerdo a') for 'in agreement with' or 'according to'.",
     enforcement: "prompt-only",
   },
+  {
+    id: "queismo-dequeismo",
+    dialects: "all",
+    rule: "Use 'pienso que', 'creo que', 'digo que' (correct queísmo). Avoid dequeísmo: 'pienso de que', 'creo de que' is stigmatized. American Spanish tends toward correct queísmo; Peninsular Spanish has more dequeísmo in colloquial registers.",
+    enforcement: "prompt-only",
+  },
+  {
+    id: "voseo-imperative",
+    dialects: ["es-AR", "es-UY", "es-PY", "es-GT", "es-HN", "es-SV", "es-NI"],
+    rule: "Vos imperative: -ar→-á (hablá), -er→-é (tené), -ir→-í (vení). NOT the tú imperative. Irregular: andá (ir), sé (ser), di (decir). Do NOT use tú imperatives like 'habla', 'ten', 'ven' with vos.",
+    enforcement: "validate",
+  },
+  {
+    id: "future-tense-preference",
+    dialects: "all",
+    rule: "Colloquial speech prefers 'voy a + infinitive' (periphrastic future) across all dialects. Synthetic future (comeré, hablarás) is formal/literary. Caribbean and informal Latin American Spanish rarely use synthetic future in speech.",
+    enforcement: "prompt-only",
+  },
+  {
+    id: "gerund-duration",
+    dialects: ["es-US", "es-MX", "es-GT", "es-HN", "es-SV", "es-NI", "es-CR", "es-PA"],
+    rule: "Avoid English-influenced gerund of duration: 'estoy viviendo aquí hace 3 años' → use 'hace 3 años que vivo aquí' or 'llevo 3 años viviendo aquí'. The gerund of duration is a common anglicism in US and Central American Spanish.",
+    enforcement: "prompt-only",
+  },
+  {
+    id: "article-personal-names",
+    dialects: ["es-GT", "es-HN", "es-SV", "es-NI", "es-CR", "es-PA"],
+    rule: "Article before given names is standard: 'la María', 'el José'. This is grammatically correct in Central American Spanish and would sound wrong if omitted in informal registers. Do not apply in other dialects.",
+    enforcement: "prompt-only",
+  },
+  {
+    id: "past-tense-andean",
+    dialects: ["es-BO", "es-EC"],
+    rule: "Andean Spanish can use pretérito perfecto compuesto for recent past actions (hoy he comido) due to Quechua substrate influence, similar to Peninsular Spanish but for different linguistic reasons. This is NOT an error — it is a legitimate Andean feature.",
+    enforcement: "prompt-only",
+  },
 ];
 
 export function getSyntacticRules(dialect: SpanishDialect): SyntacticRule[] {

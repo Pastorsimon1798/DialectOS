@@ -136,14 +136,15 @@ export const TÚ_ONLY_DIALECTS: readonly SpanishDialect[] = [
   ...DIALECT_REGIONS.heritage.dialects,  // GQ, PH, BZ
 ];
 
-/** Dialects where "coger" is taboo/vulgar (all American except GQ and PH) */
+/** Dialects where "coger" is taboo/vulgar (all American except GQ, PH, and BZ) */
 export const COGER_TABOO_DIALECTS: readonly SpanishDialect[] = ALL_AMERICAN_DIALECTS.filter(
-  d => d !== "es-GQ" && d !== "es-PH",
+  d => d !== "es-GQ" && d !== "es-PH" && d !== "es-BZ",
 );
 
 /** Dialects with significant English contact phenomena in standard register */
 export const CONTACT_PHENOMENA_DIALECTS: readonly SpanishDialect[] = [
-  ...DIALECT_REGIONS.caribbean.dialects,  // CU, DO, PR
+  "es-DO", "es-PR",  // Caribbean (excluding CU — historical, not contemporary contact)
+  "es-VE",  // chevere, chequear, etc.
   "es-PA",  // Canal Zone English contact
   ...DIALECT_REGIONS.usLatino.dialects,  // US
   "es-BZ",  // English is co-official
@@ -154,6 +155,7 @@ export const PARQUEAR_DIALECTS: readonly SpanishDialect[] = [
   ...DIALECT_REGIONS.caribbean.dialects,  // CU, DO, PR
   "es-CR",  // Costa Rican standard
   "es-PA",  // Panamanian standard
+  "es-VE",  // Venezuelan standard informal
   ...DIALECT_REGIONS.usLatino.dialects,  // US
   "es-BZ",  // English co-official
 ];
