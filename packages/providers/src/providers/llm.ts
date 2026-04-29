@@ -113,9 +113,15 @@ function extractChatCompletionText(data: unknown): string | undefined {
       .trim();
     return text.length > 0 ? text : undefined;
   }
-  return typeof content === "string" && content.trim().length > 0
-    ? content.trim()
-    : undefined;
+  if (typeof content !== "string" || content.trim().length === 0) return undefined;
+  return stripReasoningTags(content.trim());
+}
+
+const REASONING_TAG_RE = /<think[\s>][\s\S]*?<\/think>|<thinking[\s>][\s\S]*?<\/thinking>|<tiz[\s>][\s\S]*?<\/tiz>/gi;
+
+function stripReasoningTags(text: string): string {
+  const stripped = text.replace(REASONING_TAG_RE, "").trim();
+  return stripped.length > 0 ? stripped : text;
 }
 
 function extractAnthropicText(data: unknown): string | undefined {
