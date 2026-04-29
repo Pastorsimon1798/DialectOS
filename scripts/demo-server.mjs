@@ -194,10 +194,13 @@ async function serveStatic(req, res, rootDir) {
 
 async function loadDefaultServices(rootDir) {
   const serviceUrl = pathToFileURL(path.join(rootDir, "packages/cli/dist/lib/web-demo-service.js")).href;
+  const factoryUrl = pathToFileURL(path.join(rootDir, "packages/cli/dist/lib/provider-factory.js")).href;
   const service = await import(serviceUrl);
+  const factory = await import(factoryUrl);
+  const registry = factory.createProviderRegistry(true);
   return {
-    status: () => service.getWebDemoProviderStatus(),
-    translate: (request) => service.translateForWebDemo(request),
+    status: () => service.getWebDemoProviderStatus(registry),
+    translate: (request) => service.translateForWebDemo(request, registry),
   };
 }
 
