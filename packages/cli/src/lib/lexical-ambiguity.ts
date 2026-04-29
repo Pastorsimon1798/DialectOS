@@ -571,7 +571,7 @@ export const LEXICAL_AMBIGUITY_RULES: readonly LexicalAmbiguityRule[] = [
   {
     id: "mamacita-catcall",
     dialects: ["es-MX", "es-CO", "es-CU", "es-DO", "es-PR"],
-    sourcePattern: /\b(baby|sexy|hot girl|babe|sweetheart|honey)\b/i,
+    sourcePattern: /\b(babe|sexy|hot girl|sweetheart|honey|hey baby|my baby|yo baby)\b/i,
     guidance: "'Mamacita' is a term of endearment that can also function as street harassment (catcalling) in MX, CO, and Caribbean dialects. In professional translation, avoid it entirely. Use 'cariño', 'mi amor', or 'querida' for endearment.",
     expectations: {
       requiredOutputGroups: [
@@ -879,7 +879,7 @@ export const LEXICAL_AMBIGUITY_RULES: readonly LexicalAmbiguityRule[] = [
   {
     id: "lata-can-pain",
     dialects: ["es-MX"],
-    sourcePattern: /\b(can|tin|canned|annoying|pain)\b/i,
+    sourcePattern: /\b(tin can|canned food|can of|tin of|annoying|pain|giving me pain)\b/i,
     guidance: "'Lata' means tin/can universally, but in Mexican Spanish 'dar la lata' means to annoy/be a pain. Context determines meaning. For metal containers, 'lata' is neutral.",
     expectations: {
       requiredOutputGroups: [["lata", "envase", "bote"]],
