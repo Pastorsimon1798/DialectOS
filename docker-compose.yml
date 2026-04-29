@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.demo
+    env_file: .env
     environment:
       DIALECTOS_DEMO_HOST: 0.0.0.0
       DIALECTOS_DEMO_PORT: 8080
@@ -12,6 +13,8 @@ services:
       LLM_ALLOW_LOCAL: "1"
     ports:
       - "8080:8080"
+    networks:
+      - proxy-net
     labels:
       - traefik.enable=true
       - traefik.http.routers.dialectos.entrypoints=websecure
@@ -38,6 +41,10 @@ services:
     command: ["pull", "${DIALECTOS_DEMO_MODEL:-qwen3.5-4b}"]
     depends_on:
       - ollama
+
+networks:
+  proxy-net:
+    external: true
 
 volumes:
   ollama-models:
