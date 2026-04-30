@@ -231,6 +231,20 @@ const GARBAGE_PATTERNS = [
   /\blet'?s begin/i,
   /\bof (the |your )?(provided |given |original )?text\b/i,
   /^\s*<<<\s*$/m,
+  // Weak-model hallucinations observed in benchmark runs
+  /^\s*elote\s*$/i,                      // Corn hallucination for baby/strawberry/elevator
+  /^\s*mazorca\s*$/i,                    // Another corn variant
+  /^\s*es-[a-z]{2}\s*$/i,                // Dialect code only (es-MX, es-AR, etc.)
+  /\/no_think/,                           // Qwen tag leaked into output
+  /^\s*voseo\s*:/i,                       // Dialect annotation instead of translation
+  /^\s*la respuesta es\s*:/i,             // Quiz-answer format
+  /\bnice\s+[a-z]+\b/i,                   // Spanglish (nice casa, nice carro)
+  /\bgood\s+[a-z]+\b/i,                   // Spanglish
+  // Meta-instruction outputs (model tells user how to translate instead of translating)
+  /\bpuede\s+decirlo\s+en\s+español\b/i,
+  /\bpuedes\s+decirlo\s+en\s+español\b/i,
+  /\bdilo\s+en\s+español\b/i,
+  /\btraduce\s+(esto|lo siguiente)\b/i,
 ];
 
 // Reasoning/thinking tags emitted by qwen3 and other thinking-capable models.
@@ -268,6 +282,20 @@ function isGarbageOutput(source: string, output: string): boolean {
   for (const pattern of GARBAGE_PATTERNS) {
     if (pattern.test(trimmed)) return true;
   }
+
+  // Detect mostly-English output (untranslated). Heuristic: if the output has
+  // no Spanish-specific characters and contains common English words, it's
+  // likely untranslated. Skip very short outputs to avoid false positives.
+  if (trimmed.length > 15) {
+    const hasSpanishChar = /[áéíóúñ¿¡]/i.test(trimmed);
+    const hasSpanishWord = /\b(el|la|un|una|los|las|es|está|son|muy|más|pero|porque|como|cuando|donde|qué|cómo|quién|cuál|este|ese|aquel|mi|tu|su|nuestro|vuestro|con|para|por|sin|sobre|entre|desde|hasta|hacia|durante|mediante|según|salvo|excepto|mismo|tal|cual|tan|tanto|todo|nada|algo|alguien|nadie|ninguno|cada|otro|mismo|tal|cual|bueno|mal|grande|pequeño|nuevo|viejo|primero|último|mismo|propio|único|cierto|varios|todos|ambos|algunos|muchos|pocos|demasiado|bastante|mucho|poco|nada|algo|tan|tanto|cómo|cuándo|dónde|por qué|para qué)\b/i.test(trimmed);
+    const commonEnglishWords = /\b(the|is|are|was|were|have|has|had|do|does|did|will|would|could|should|may|might|can|this|that|these|those|with|from|into|through|during|before|after|above|below|between|under|again|further|then|once|here|there|when|where|why|how|all|any|both|each|few|more|most|other|some|such|no|nor|not|only|own|same|so|than|too|very|just|now|also|back|down|off|over|out|up|about|because|but|if|or|since|though|while|although|unless|until|whether|either|neither|both|and|yet|still|however|therefore|moreover|furthermore|nevertheless|otherwise|meanwhile|instead|besides|actually|probably|certainly|definitely|absolutely|completely|totally|exactly|precisely|specifically|particularly|especially|generally|usually|normally|typically|frequently|often|sometimes|occasionally|rarely|seldom|never|always|constantly|continuously|repeatedly|regularly|daily|weekly|monthly|yearly|early|late|soon|recently|already|yet|still|before|after|later|earlier|formerly|previously|currently|presently|immediately|instantly|directly|straight|slowly|quickly|rapidly|suddenly|gradually|eventually|finally|initially|originally|primarily|mainly|mostly|largely|partly|slightly|somewhat|fairly|pretty|rather|quite|very|extremely|incredibly|unbelievably|amazingly|surprisingly|remarkably|notably|significantly|substantially|considerably|greatly|deeply|strongly|weakly|hardly|barely|scarcely|nearly|almost|practically|virtually|essentially|basically|fundamentally|ultimately|absolutely|relatively|comparatively|exceptionally|extraordinarily|tremendously|enormously|hugely|vastly|widely|narrowly|closely|loosely|tightly|firmly|softly|gently|roughly|smoothly|easily|difficultly|simply|complexly|plainly|clearly|obviously|evidently|apparently|seemingly|presumably|supposedly|allegedly|reportedly|supposedly|theoretically|hypothetically|potentially|possibly|perhaps|maybe|likely|probably|presumably|undoubtedly|unquestionably|indisputably|incontrovertibly|indefinitely|permanently|temporarily|briefly|shortly|momentarily|instantaneously|simultaneously|consecutively|sequentially|successively|alternately|reciprocally|mutually|jointly|collectively|individually|separately|independently|exclusively|inclusively|collectively|altogether|entirely|wholly|fully|partially|incompletely|adequately|insufficiently|sufficiently|appropriately|properly|correctly|incorrectly|wrongly|rightly|justly|unjustly|fairly|unfairly|equally|unequally|similarly|differently|likewise|otherwise|instead|alternatively|conversely|inversely|oppositely|contrarily|contrastingly|correspondingly|accordingly|consequently|subsequently|accordingly|thus|hence|thereby|whereby|whatsoever|whatsoever|whatever|whichever|whoever|whomever|whenever|wherever|however|whyever)\b/g;
+    const englishWordCount = (trimmed.match(commonEnglishWords) || []).length;
+    if (!hasSpanishChar && !hasSpanishWord && englishWordCount >= 3) {
+      return true;
+    }
+  }
+
   return false;
 }
 
