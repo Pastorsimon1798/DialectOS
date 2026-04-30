@@ -22,10 +22,12 @@ import { executeCorpusStats, executeCorpusExport } from "./commands/corpus.js";
 import { executeBenchmarkRun, executeBenchmarkReport } from "./commands/benchmark.js";
 import { executeGlossaryDiff } from "./commands/glossary-diff.js";
 import { executeValidate } from "./commands/validate.js";
+import { executeTranslateWebsite } from "./commands/translate-website.js";
+import { executeServe } from "./commands/serve.js";
 import { getDefaultProviderRegistry } from "./lib/provider-factory.js";
 import { writeError, writeOutput } from "./lib/output.js";
 import { SecurityError, createSafeError } from "@dialectos/security";
-import type { SpanishDialect } from "@dialectos/types";
+import type { SpanishDialect, ProviderName } from "@dialectos/types";
 import { parse, format } from "node:path";
 import { resolvePolicy, type PolicyProfile } from "./lib/translation-policy.js";
 
@@ -193,6 +195,57 @@ program
       };
 
       await executeTranslateApiDocs(input, mergedOptions.dialect!, mergedOptions, () => registry);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+// translate-website command
+program
+  .command("translate-website")
+  .description("Translate all translatable assets in a website directory")
+  .argument("<directory>", "Website directory to translate")
+  .option("--base <locale>", "Base locale code (e.g., en)", "en")
+  .option("--targets <dialects>", "Comma-separated target dialects (e.g., es-MX,es-AR,es-CO)", "es-ES")
+  .option("--provider <provider>", "Translation provider (llm, deepl, libre, mymemory, or auto)", "auto")
+  .option("--concurrency <n>", "Max concurrent API calls", "4")
+  .option("--no-cache", "Disable translation memory caching")
+  .option("--checkpoint-dir <path>", "Directory for checkpoint files")
+  .option("--dead-letter-dir <path>", "Directory for dead-letter queue files")
+  .action(async (directory, options) => {
+    try {
+      const registry = getDefaultProviderRegistry();
+      const targets = options.targets.split(",").map((t: string) => t.trim()) as SpanishDialect[];
+      const provider = registry.getAuto("es", { dialect: targets[0] || "es-ES" });
+
+      await executeTranslateWebsite(directory, targets, provider, {
+        baseLocale: options.base,
+        concurrency: parseInt(options.concurrency, 10) || 4,
+        useCache: options.cache !== false,
+        checkpointDir: options.checkpointDir,
+        deadLetterDir: options.deadLetterDir,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeError(message);
+      process.exit(1);
+    }
+  });
+
+// serve command
+program
+  .command("serve")
+  .description("Start the DialectOS demo HTTP server")
+  .option("--port <port>", "Port to listen on", "8080")
+  .option("--host <host>", "Host to bind to", "127.0.0.1")
+  .action(async (options) => {
+    try {
+      await executeServe({
+        port: parseInt(options.port, 10),
+        host: options.host,
+      });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       writeError(message);
@@ -480,6 +533,11 @@ i18nCommand
   .option("--base <locale>", "Base locale code (e.g., en)", "en")
   .option("--targets <dialects>", "Comma-separated target dialects (e.g., es-MX,es-AR,es-CO)", "es-ES")
   .option("--provider <provider>", "Translation provider (llm, deepl, libre, mymemory, or auto for automatic selection)", "auto")
+  .option("--concurrency <n>", "Max concurrent API calls", "4")
+  .option("--no-cache", "Disable translation memory caching")
+  .option("--checkpoint-file <path>", "Checkpoint file for resumable jobs")
+  .option("--dead-letter-file <path>", "Dead-letter queue file prefix for failures")
+  .option("--no-merge", "Overwrite target files instead of merging with existing translations")
   .action(async (directory, options) => {
     try {
       const registry = getDefaultProviderRegistry();
@@ -487,12 +545,27 @@ i18nCommand
       // Parse targets from comma-separated string
       const targets = options.targets.split(",").map((t: string) => t.trim()) as SpanishDialect[];
 
-      await executeBatchTranslate(directory, options.base, targets, undefined, (providerName) => {
-        if (!providerName) {
-          return registry.getAuto("es", { dialect: targets[0] || "es-ES" });
+      const providerName = options.provider === "auto" ? undefined : options.provider as ProviderName;
+
+      await executeBatchTranslate(
+        directory,
+        options.base,
+        targets,
+        providerName,
+        (name) => {
+          if (!name || name === "auto") {
+            return registry.getAuto("es", { dialect: targets[0] || "es-ES" });
+          }
+          return registry.get(name);
+        },
+        {
+          useCache: options.cache !== false,
+          concurrency: parseInt(options.concurrency, 10) || 4,
+          checkpointFile: options.checkpointFile,
+          deadLetterFile: options.deadLetterFile,
+          merge: options.merge !== false,
         }
-        return registry.get(providerName);
-      });
+      );
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       writeError(message);

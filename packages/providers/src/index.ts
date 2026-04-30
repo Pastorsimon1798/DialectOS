@@ -51,3 +51,20 @@ export type { FalseFriendWarning } from "./false-friends.js";
 // Lexical substitution and voseo adapter
 export { applyLexicalSubstitution } from "./lexical-substitution.js";
 export { applyVoseo } from "./voseo-adapter.js";
+
+// Bulk translation engine
+export { BulkTranslationEngine } from "./bulk/engine.js";
+export { Semaphore } from "./bulk/semaphore.js";
+export type {
+  BulkTranslationItem,
+  BulkTranslationSuccess,
+  BulkTranslationFailure,
+  BulkTranslationResult,
+  BulkTranslationProgress,
+  BulkCheckpoint,
+  BulkEngineOptions,
+} from "./bulk/types.js";
+
+// Quality gates
+export { runQualityGates, lengthSanityCheck, dialectComplianceCheck, personConsistencyCheck, haberTenerCheck } from "./quality-gates.js";
+export type { QualityGateResult, QualityGateContext, ModelTier } from "./quality-gates.js";

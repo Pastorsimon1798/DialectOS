@@ -23,6 +23,19 @@ const COMMON_HEADERS = {
   "referrer-policy": "strict-origin-when-cross-origin",
 };
 
+const CORS_HEADERS = {
+  "access-control-allow-origin": process.env.DIALECTOS_DEMO_CORS_ORIGIN || "*",
+  "access-control-allow-methods": "GET, POST, OPTIONS, HEAD",
+  "access-control-allow-headers": "content-type, authorization, x-requested-with",
+  "access-control-max-age": "86400",
+};
+
+function setCorsHeaders(res) {
+  for (const [key, value] of Object.entries(CORS_HEADERS)) {
+    res.setHeader(key, value);
+  }
+}
+
 const PUBLIC_STATIC_FILES = new Map([
   ["/", "docs/index.html"],
   ["/index.html", "docs/index.html"],
@@ -215,6 +228,17 @@ export function createDemoServer(options = {}) {
     try {
       const method = req.method || "GET";
       const url = new URL(req.url || "/", "http://127.0.0.1");
+
+      // Handle CORS preflight
+      if (method === "OPTIONS") {
+        setCorsHeaders(res);
+        res.writeHead(204, { "cache-control": "no-store" });
+        res.end();
+        return;
+      }
+
+      // Add CORS headers to all responses
+      setCorsHeaders(res);
 
       if ((method === "GET" || method === "HEAD") && url.pathname === "/favicon.ico") {
         res.writeHead(204, { "cache-control": "public, max-age=86400" });

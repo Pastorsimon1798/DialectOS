@@ -683,3 +683,64 @@ export function createSecureTempPath(targetPath: string): string {
 
   return tempPath;
 }
+
+// ============================================================================
+// Audit Logging
+// ============================================================================
+
+export interface AuditEvent {
+  timestamp: string;
+  severity: "info" | "warning" | "error" | "critical";
+  category: string;
+  action: string;
+  message: string;
+  details?: Record<string, unknown>;
+  sourceIp?: string;
+  userAgent?: string;
+}
+
+let auditLogPath: string | undefined = process.env.DIALECTOS_AUDIT_LOG;
+
+/**
+ * Set the audit log file path.
+ */
+export function setAuditLogPath(path: string): void {
+  auditLogPath = path;
+}
+
+/**
+ * Write a structured audit event to the audit log.
+ * Events are append-only JSONL.
+ */
+export function auditLog(event: Omit<AuditEvent, "timestamp">): void {
+  if (!auditLogPath) return;
+
+  const fullEvent: AuditEvent = {
+    timestamp: new Date().toISOString(),
+    ...event,
+  };
+
+  try {
+    fs.appendFileSync(auditLogPath, JSON.stringify(fullEvent) + "\n", "utf-8");
+  } catch {
+    // Audit logging is best-effort; failures should not break the application
+  }
+}
+
+/**
+ * Log a security event (path traversal attempt, SSRF probe, rate limit hit, etc.)
+ */
+export function auditSecurity(
+  action: string,
+  severity: AuditEvent["severity"],
+  message: string,
+  details?: Record<string, unknown>
+): void {
+  auditLog({
+    severity,
+    category: "security",
+    action,
+    message,
+    details,
+  });
+}

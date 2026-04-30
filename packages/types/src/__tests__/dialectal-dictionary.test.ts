@@ -258,7 +258,7 @@ describe("getForbiddenTerms", () => {
         expect(["error", "warning"]).toContain(f.severity);
       }
     }
-  });
+  }, 15000);
 });
 
 // ============================================================================

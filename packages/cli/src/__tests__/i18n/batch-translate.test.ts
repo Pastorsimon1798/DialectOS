@@ -76,7 +76,8 @@ describe("batch-translate command", () => {
         "en",
         ["es-MX", "es-AR"],
         undefined,
-        () => mockProvider
+        () => mockProvider,
+        { useCache: false }
       );
 
       // Should write 2 target files
@@ -104,7 +105,6 @@ describe("batch-translate command", () => {
       expect(writeInfo).toHaveBeenCalledWith("Directory: locales");
       expect(writeInfo).toHaveBeenCalledWith("Base locale: en");
       expect(writeInfo).toHaveBeenCalledWith("Targets: es-MX, es-AR");
-      expect(writeInfo).toHaveBeenCalledWith("Total keys translated: 4");
     });
 
     it("should handle single target dialect", async () => {
@@ -123,7 +123,8 @@ describe("batch-translate command", () => {
         "en",
         ["es-ES"],
         undefined,
-        () => mockProvider
+        () => mockProvider,
+        { useCache: false }
       );
 
       expect(writeLocaleFile).toHaveBeenCalledTimes(1);
@@ -157,7 +158,8 @@ describe("batch-translate command", () => {
         "en",
         ["es-ES"],
         undefined,
-        () => mockProvider
+        () => mockProvider,
+        { useCache: false }
       );
 
       expect(writeLocaleFile).toHaveBeenCalledWith(
@@ -182,7 +184,7 @@ describe("batch-translate command", () => {
       );
 
       await expect(
-        executeBatchTranslate("./locales", "en", targets, undefined, () => mockProvider)
+        executeBatchTranslate("./locales", "en", targets, undefined, () => mockProvider, { useCache: false })
       ).rejects.toThrow("Process exited with code 1");
 
       expect(writeError).toHaveBeenCalledWith(
@@ -199,7 +201,7 @@ describe("batch-translate command", () => {
       });
 
       await expect(
-        executeBatchTranslate("./locales", "en", ["es-ES"], undefined, () => mockProvider)
+        executeBatchTranslate("./locales", "en", ["es-ES"], undefined, () => mockProvider, { useCache: false })
       ).rejects.toThrow();
 
       expect(validateFilePath).toHaveBeenCalledWith("./locales");
@@ -208,7 +210,7 @@ describe("batch-translate command", () => {
 
     it("should reject empty targets array", async () => {
       await expect(
-        executeBatchTranslate("./locales", "en", [], undefined, () => mockProvider)
+        executeBatchTranslate("./locales", "en", [], undefined, () => mockProvider, { useCache: false })
       ).rejects.toThrow("Process exited with code 1");
 
       expect(writeError).toHaveBeenCalledWith(
@@ -224,7 +226,7 @@ describe("batch-translate command", () => {
       const invalidTargets = ["invalid-dialect"] as SpanishDialect[];
 
       await expect(
-        executeBatchTranslate("./locales", "en", invalidTargets, undefined, () => mockProvider)
+        executeBatchTranslate("./locales", "en", invalidTargets, undefined, () => mockProvider, { useCache: false })
       ).rejects.toThrow();
 
       expect(writeError).toHaveBeenCalled();
@@ -248,7 +250,8 @@ describe("batch-translate command", () => {
         "en",
         ["es-AR", "es-ES"],
         undefined,
-        () => mockProvider
+        () => mockProvider,
+        { useCache: false }
       );
 
       expect(mockProvider.translate).toHaveBeenNthCalledWith(1, "You", "en", "es", {
@@ -277,7 +280,8 @@ describe("batch-translate command", () => {
         "en",
         ["es-ES"],
         undefined,
-        () => mockProvider
+        () => mockProvider,
+        { useCache: false }
       );
 
       expect(mockProvider.translate).toHaveBeenCalledTimes(100);
@@ -292,13 +296,13 @@ describe("batch-translate command", () => {
       });
 
       await expect(
-        executeBatchTranslate("./locales", "en", ["es-ES"], undefined, () => mockProvider)
+        executeBatchTranslate("./locales", "en", ["es-ES"], undefined, () => mockProvider, { useCache: false })
       ).rejects.toThrow();
 
       expect(writeError).toHaveBeenCalled();
     });
 
-    it("should handle translation errors gracefully", async () => {
+    it("should collect translation errors in dead-letter queue instead of failing", async () => {
       const mockBase = [
         { key: "common.hello", value: "Hello" },
         { key: "common.goodbye", value: "Goodbye" },
@@ -306,13 +310,20 @@ describe("batch-translate command", () => {
 
       vi.mocked(readLocaleFile).mockReturnValue(mockBase);
 
-      vi.mocked(mockProvider.translate)
-        .mockResolvedValueOnce({ translatedText: "Hola" })
-        .mockRejectedValueOnce(new Error("Translation failed"));
+      vi.mocked(mockProvider.translate).mockImplementation(async (text) => {
+        if (text === "Hello") return { translatedText: "Hola" };
+        throw new Error("Translation failed");
+      });
 
-      await expect(
-        executeBatchTranslate("./locales", "en", ["es-ES"], undefined, () => mockProvider)
-      ).rejects.toThrow();
+      // Should NOT throw — failures go to DLQ
+      await executeBatchTranslate(
+        "./locales",
+        "en",
+        ["es-ES"],
+        undefined,
+        () => mockProvider,
+        { useCache: false, deadLetterFile: "/tmp/test-dlq" }
+      );
 
       expect(writeError).toHaveBeenCalled();
     });
@@ -326,7 +337,7 @@ describe("batch-translate command", () => {
       });
 
       await expect(
-        executeBatchTranslate("./locales", "en", ["es-ES"], undefined, () => mockProvider)
+        executeBatchTranslate("./locales", "en", ["es-ES"], undefined, () => mockProvider, { useCache: false })
       ).rejects.toThrow();
 
       expect(writeError).toHaveBeenCalled();

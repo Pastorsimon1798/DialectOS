@@ -31,6 +31,10 @@ jobs:
 
       - run: pnpm build
 
+      - name: Run npm audit
+        run: pnpm audit --audit-level=moderate
+        continue-on-error: true
+
       - name: Verify npm package contents
         run: |
           for pkg in packages/*; do
@@ -66,4 +70,4 @@ jobs:
       - run: pnpm build
 
       - name: Run adversarial fixture corpus
-        run: pnpm --filter=@espanol/cli test:adversarial
+        run: pnpm --filter=@dialectos/cli test:adversarial

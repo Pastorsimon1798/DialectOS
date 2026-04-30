@@ -15,6 +15,9 @@ FROM node:20-slim AS runtime
 ENV NODE_ENV=production \
     PORT=8080
 
+# Create non-root user for security
+RUN groupadd -r dialectos && useradd -r -g dialectos -d /app -s /sbin/nologin dialectos
+
 WORKDIR /app
 COPY --from=builder /app/packages/cli/dist ./packages/cli/dist
 COPY --from=builder /app/packages/cli/package.json ./packages/cli/package.json
@@ -38,6 +41,11 @@ COPY docs/index.html ./docs/index.html
 COPY docs/dialectos-engine.js ./docs/dialectos-engine.js
 COPY docs/assets ./docs/assets
 COPY docs/full-app-demo.md ./docs/full-app-demo.md
+
+# Set ownership to non-root user
+RUN chown -R dialectos:dialectos /app
+
+USER dialectos
 
 EXPOSE 8080
 

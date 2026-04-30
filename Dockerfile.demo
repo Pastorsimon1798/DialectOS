@@ -12,6 +12,11 @@ COPY README.md LICENSE ./
 
 RUN pnpm install --frozen-lockfile && pnpm build
 
+# Create non-root user for security
+RUN groupadd -r dialectos && useradd -r -g dialectos -d /app -s /sbin/nologin dialectos
+RUN chown -R dialectos:dialectos /app
+USER dialectos
+
 ENV DIALECTOS_DEMO_HOST=0.0.0.0
 ENV DIALECTOS_DEMO_PORT=8080
 EXPOSE 8080
