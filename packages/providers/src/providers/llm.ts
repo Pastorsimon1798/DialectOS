@@ -10,15 +10,9 @@
 import type { ProviderCapability, TranslateOptions, TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
 import { fetchWithRedirects } from "../fetch-utils.js";
-import { extractSentinels, restoreSentinels } from "../sentinel-extraction.js";
-import { applyAgreementFixes } from "../agreement-validator.js";
-import { normalizePunctuation } from "../punctuation-normalizer.js";
-import { fixAccentuation } from "../accentuation.js";
-import { normalizeCapitalization } from "../capitalization.js";
-import { normalizeTypography } from "../typography.js";
-import { applyLexicalSubstitution } from "../lexical-substitution.js";
-import { applyVoseo } from "../voseo-adapter.js";
+import { extractSentinels } from "../sentinel-extraction.js";
 import { runQualityGates } from "../quality-gates.js";
+import { DialectOutputPipeline, defaultDialectOutputPipeline } from "../pipeline/index.js";
 import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@dialectos/security";
 import { ALL_SPANISH_DIALECTS, languageCodeSchema, getVocabularyForDialect, getSyntacticRules } from "@dialectos/types";
 import type { SpanishDialect } from "@dialectos/types";
@@ -61,6 +55,8 @@ export interface LLMProviderOptions {
   windowMs?: number;
   /** Enable two-call pipeline: general Spanish grammar fix, then dialect adaptation. */
   twoCallMode?: boolean;
+  /** Override the default post-processing pipeline. */
+  pipeline?: DialectOutputPipeline;
 }
 
 function validateLLMEndpoint(urlStr: string, allowLocal: boolean): string {
@@ -458,45 +454,6 @@ function buildTargetedGrammarHint(text: string): string {
   return hints.join(" ");
 }
 
-// Cache: dialect → Map<lowercaseConcept, preferredTerm>
-const conceptCache = new Map<string, Map<string, string>>();
-
-function getConceptMap(dialect: SpanishDialect): Map<string, string> {
-  const key = dialect;
-  if (conceptCache.has(key)) return conceptCache.get(key)!;
-  const map = new Map<string, string>();
-  const swaps = getVocabularyForDialect(dialect);
-  for (const s of swaps) {
-    // Only index by exact concept name to avoid false positives from gloss words
-    map.set(s.concept.toLowerCase(), s.preferredTerm);
-  }
-  conceptCache.set(key, map);
-  return map;
-}
-
-/**
- * Fix untranslated English words that appear in the output.
- * Weak models sometimes leave English nouns untranslated (e.g., "elevator").
- * Only replaces exact concept-name matches to avoid false positives.
- */
-function fixUntranslatedWords(text: string, dialect: SpanishDialect): string {
-  const conceptMap = getConceptMap(dialect);
-  if (conceptMap.size === 0) return text;
-
-  // Tokenize and replace words that match dictionary concepts exactly
-  return text.replace(/\b([a-zA-Z]+)\b/g, (match) => {
-    const lower = match.toLowerCase();
-    const replacement = conceptMap.get(lower);
-    if (!replacement) return match;
-    // Preserve case pattern
-    if (match === match.toUpperCase()) return replacement.toUpperCase();
-    if (match[0] === match[0].toUpperCase()) {
-      return replacement[0].toUpperCase() + replacement.slice(1);
-    }
-    return replacement;
-  });
-}
-
 // Cache for Spanish→hint reverse lookup
 const spanishHintCache = new Map<SpanishDialect, Map<string, { concept: string; preferredTerm: string }>>();
 
@@ -615,6 +572,7 @@ export class LLMProvider implements TranslationProvider {
   private maxQueueSize: number;
   private queue: Array<() => void> = [];
   private twoCallMode: boolean;
+  private pipeline: DialectOutputPipeline;
 
   constructor(options: LLMProviderOptions = {}) {
     const model = options.model || process.env.LLM_MODEL || "";
@@ -658,6 +616,7 @@ export class LLMProvider implements TranslationProvider {
     this.maxConcurrency = parseInt(process.env.LLM_MAX_CONCURRENCY || "", 10) || 1;
     this.maxQueueSize = parseInt(process.env.LLM_MAX_QUEUE || "", 10) || 10;
     this.twoCallMode = options.twoCallMode ?? process.env.LLM_TWO_CALL_MODE === "1";
+    this.pipeline = options.pipeline ?? defaultDialectOutputPipeline;
   }
 
   getCircuitBreaker(): CircuitBreaker {
@@ -837,7 +796,11 @@ export class LLMProvider implements TranslationProvider {
       clearTimeout(timeoutId);
 
       return {
-        translatedText: this._runPostProcessing(translatedText, sentinels, options),
+        translatedText: this.pipeline.run(translatedText, {
+          dialect: options?.dialect as SpanishDialect,
+          formality: options?.formality,
+          sentinels,
+        }).text,
         provider: "llm",
         dialect: options?.dialect,
       };
@@ -888,7 +851,11 @@ export class LLMProvider implements TranslationProvider {
       clearTimeout(timeoutId);
 
       return {
-        translatedText: this._runPostProcessing(call2Output, sentinels, options),
+        translatedText: this.pipeline.run(call2Output, {
+          dialect: options?.dialect as SpanishDialect,
+          formality: options?.formality,
+          sentinels,
+        }).text,
         provider: "llm",
         dialect: options?.dialect,
       };
@@ -899,40 +866,6 @@ export class LLMProvider implements TranslationProvider {
       }
       throw new Error(sanitizeErrorMessage(error instanceof Error ? error.message : String(error)));
     }
-  }
-
-  private _runPostProcessing(
-    text: string,
-    sentinels: Map<string, string>,
-    options: TranslateOptions | undefined
-  ): string {
-    // Post-processing pipeline: deterministic fixes in order
-    // 1. Lexical substitution (wrong-dialect → right-dialect words)
-    // 2. Fix untranslated English words (weak model fallback)
-    // 3. Voseo verb swap (tú → vos for voseo dialects)
-    // 4. Agreement validation
-    // 5. Punctuation normalization
-    // 6. Accentuation correction
-    // 7. Capitalization normalization
-    // 8. Typography normalization
-    // 9. Sentinel restoration (always last)
-    const dialect = options?.dialect;
-    let result = text;
-
-    if (dialect) {
-      result = applyLexicalSubstitution(result, dialect);
-      result = fixUntranslatedWords(result, dialect);
-      result = applyVoseo(result, dialect, options?.formality);
-    }
-
-    result = applyAgreementFixes(result);
-    result = normalizePunctuation(result);
-    result = fixAccentuation(result);
-    result = normalizeCapitalization(result);
-    result = normalizeTypography(result);
-    result = restoreSentinels(result, sentinels);
-
-    return result;
   }
 
   private buildHeaders(): Record<string, string> {

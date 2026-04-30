@@ -76,3 +76,7 @@ export type { ProviderFactoryEnv } from "./factory.js";
 // Quality gates
 export { runQualityGates, lengthSanityCheck, dialectComplianceCheck, personConsistencyCheck, haberTenerCheck } from "./quality-gates.js";
 export type { QualityGateResult, QualityGateContext, ModelTier } from "./quality-gates.js";
+
+// Dialect output pipeline
+export { DialectOutputPipeline, defaultDialectOutputPipeline } from "./pipeline/index.js";
+export type { PipelineContext, PipelineStep, PipelineRunResult } from "./pipeline/index.js";
