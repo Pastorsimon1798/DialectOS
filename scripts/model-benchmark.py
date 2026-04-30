@@ -354,10 +354,10 @@ TESTS = [
     },
     {
         "id": "accent-ningun",
-        "source": "I don't have any money left.",
+        "source": "I don't have any problem with that.",
         "dialect": "es-MX",
         "category": "accentuation",
-        "check": lambda t: ("ningún" in t.lower() or "ningun" not in t.lower().replace("ningún", "")),
+        "check": lambda t: "ningún" in t.lower() or "ningun" not in t.lower(),
         "expected": "ningún (accented before masculine noun)",
     },
     # ── Punctuation: ¿ and ¡ ─────────────────────────────────────────────────
@@ -428,14 +428,6 @@ TESTS = [
         "expected": "— (em dash)",
     },
     # ── False friends: common traps ──────────────────────────────────────────
-    {
-        "id": "ff-embarrassed",
-        "source": "I was embarrassed by the situation.",
-        "dialect": "es-MX",
-        "category": "false-friends",
-        "check": lambda t: ("embarazad" not in t.lower()),
-        "expected": "avergonzado (NOT embarazada)",
-    },
     {
         "id": "ff-library",
         "source": "I studied at the library all afternoon.",

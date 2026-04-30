@@ -30,7 +30,7 @@ export function normalizeTypography(text: string): string {
   result = result.replace(/([.!?])\s{2,}/g, "$1 ");
 
   // Ensure space after comma (common LLM error in some models)
-  result = result.replace(/,(?=[^\s\d])/, ", ");
+  result = result.replace(/,(?=[^\s\d])/g, ", ");
 
   // Normalize multiple spaces to single
   result = result.replace(/ {2,}/g, " ");

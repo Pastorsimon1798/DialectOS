@@ -609,12 +609,15 @@ export class LLMProvider implements TranslationProvider {
       }
 
       // Post-processing pipeline: deterministic fixes in order
-      const restored = restoreSentinels(translatedText, sentinels);
-      const agreed = applyAgreementFixes(restored);
+      // Run all processors on tokenized text ({{ TOKEN }} placeholders are
+      // immune to regex matches), then restore sentinels last so URLs/code
+      // are never touched by the processors.
+      const agreed = applyAgreementFixes(translatedText);
       const punctuated = normalizePunctuation(agreed);
       const accented = fixAccentuation(punctuated);
       const capitalized = normalizeCapitalization(accented);
-      const finalText = normalizeTypography(capitalized);
+      const typographed = normalizeTypography(capitalized);
+      const finalText = restoreSentinels(typographed, sentinels);
 
       return {
         translatedText: finalText,
