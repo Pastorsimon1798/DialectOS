@@ -397,4 +397,8 @@ export * from "./dialect-regions.js";
 
 export * from "./verb-conjugations.js";
 
+export * from "./verb-conjugations-extra.js";
+
 export * from "./dialectal-vocabulary.js";
+
+export * from "./noun-gender.js";

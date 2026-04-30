@@ -31,3 +31,19 @@ export type { CorpusEntry, CorrectionEntry, CorpusStats } from "./corpus-types.j
 // Chaos testing
 export { ChaosProvider } from "./chaos-provider.js";
 export type { ChaosScenario, ChaosMode } from "./chaos-provider.js";
+
+// Sentinel extraction
+export { extractSentinels, restoreSentinels } from "./sentinel-extraction.js";
+export type { ExtractionResult } from "./sentinel-extraction.js";
+
+// Agreement validation
+export { validateAgreement, applyAgreementFixes } from "./agreement-validator.js";
+export type { AgreementWarning, AgreementResult } from "./agreement-validator.js";
+
+// Post-processing
+export { normalizePunctuation } from "./punctuation-normalizer.js";
+export { fixAccentuation } from "./accentuation.js";
+export { normalizeCapitalization } from "./capitalization.js";
+export { normalizeTypography } from "./typography.js";
+export { detectFalseFriends } from "./false-friends.js";
+export type { FalseFriendWarning } from "./false-friends.js";

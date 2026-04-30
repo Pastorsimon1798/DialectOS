@@ -10,8 +10,14 @@
 import type { ProviderCapability, TranslateOptions, TranslationProvider, TranslationResult } from "../types.js";
 import { CircuitBreaker } from "../circuit-breaker.js";
 import { fetchWithRedirects } from "../fetch-utils.js";
+import { extractSentinels, restoreSentinels } from "../sentinel-extraction.js";
+import { applyAgreementFixes } from "../agreement-validator.js";
+import { normalizePunctuation } from "../punctuation-normalizer.js";
+import { fixAccentuation } from "../accentuation.js";
+import { normalizeCapitalization } from "../capitalization.js";
+import { normalizeTypography } from "../typography.js";
 import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@dialectos/security";
-import { ALL_SPANISH_DIALECTS, languageCodeSchema, getVocabularyForDialect } from "@dialectos/types";
+import { ALL_SPANISH_DIALECTS, languageCodeSchema, getVocabularyForDialect, getSyntacticRules } from "@dialectos/types";
 import type { SpanishDialect } from "@dialectos/types";
 
 const DEFAULT_MAX_PAYLOAD_CHARS = 50000;
@@ -170,7 +176,7 @@ function buildStrictSystemPrompt(): string {
 }
 
 function buildCompactSystemPrompt(): string {
-  return "Translate the given text into Spanish. Respond with only the translated Spanish text.";
+  return "Translate to Spanish. Output ONLY the Spanish text. Follow the dialect vocabulary exactly. No English. No explanation.";
 }
 
 const GARBAGE_PATTERNS = [
@@ -302,23 +308,63 @@ function isCompactModel(model: string): boolean {
  * For compact models, extract only vocabulary entries whose concept or gloss
  * matches words in the source text. This avoids the 17KB+ vocabulary table
  * that overwhelms small models, while preserving dialect-critical terms.
+ *
+ * Scoring: exact whole-word concept match = 2 points, substring match = 1 point.
+ * Only the top-scored entries (score >= 2) are included to suppress noise
+ * from concepts like "usb_drive" matching on the word "drive".
  */
 function buildTargetedVocabHint(text: string, dialect: string): string {
   try {
     const swaps = getVocabularyForDialect(dialect as SpanishDialect);
     const sourceLower = text.toLowerCase();
-    const matches = swaps.filter(s => {
-      if (s.avoidTerms.length === 0) return false;
+    const sourceWords = new Set(sourceLower.split(/\s+/));
+
+    type ScoredSwap = { swap: typeof swaps[number]; score: number };
+    const scored: ScoredSwap[] = [];
+
+    for (const s of swaps) {
+      if (s.avoidTerms.length === 0) continue;
       const conceptWords = s.concept.split(/[_\s]+/).filter(w => w.length > 2);
-      return conceptWords.some(w => sourceLower.includes(w)) ||
-        (s.englishGloss.length > 2 && sourceLower.includes(s.englishGloss.toLowerCase()));
-    });
-    if (matches.length === 0) return "";
-    const hints = matches.map(s => {
-      const avoid = s.avoidTerms.length > 0 ? ` (not: ${s.avoidTerms.slice(0, 2).join(", ")})` : "";
+      let score = 0;
+
+      // Exact whole-word match on concept name (highest signal)
+      for (const w of conceptWords) {
+        if (sourceWords.has(w)) score += 2;
+        else if (sourceLower.includes(w)) score += 1;
+      }
+
+      // Tokenize englishGloss and check individual words
+      if (score === 0 && s.englishGloss.length > 2) {
+        const glossWords = s.englishGloss.toLowerCase().split(/[\s,;.()\/]+/).filter(w => w.length > 2);
+        for (const w of glossWords) {
+          if (sourceWords.has(w)) { score += 2; break; }
+        }
+      }
+
+      if (score >= 2) scored.push({ swap: s, score });
+    }
+
+    if (scored.length === 0) return "";
+    // Take top matches, cap at 6 to avoid overwhelming small context
+    scored.sort((a, b) => b.score - a.score);
+    const top = scored.slice(0, 6);
+    const hints = top.map(({ swap: s }) => {
+      const avoid = s.avoidTerms.length > 0 ? ` (NOT ${s.avoidTerms.slice(0, 2).join(", ")})` : "";
       return `${s.concept.replace(/_/g, " ")} → ${s.preferredTerm}${avoid}`;
     }).join("; ");
-    return `Dialect: ${dialect}. Use: ${hints}.`;
+
+    // Add grammar rules for the dialect — validate rules plus critical prompt-only ones
+    const rules = getSyntacticRules(dialect as SpanishDialect);
+    const grammarHints = rules
+      .filter(r => r.enforcement === "validate" || r.id === "plural-address-vosotros" || r.id === "plural-address-ustedes")
+      .map(r => r.rule)
+      .slice(0, 3);
+
+    const parts = [`Dialect: ${dialect}. Use: ${hints}.`];
+    if (grammarHints.length > 0) {
+      parts.push(grammarHints.join(" "));
+    }
+    return parts.join(" ");
   } catch {
     return "";
   }
@@ -500,7 +546,10 @@ export class LLMProvider implements TranslationProvider {
     const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
 
     try {
-      const userPrompt = buildUserPrompt(text, sourceLang, targetLang, options, this.model);
+      // Extract verbatim content (URLs, code, emails, file paths) before LLM inference.
+      // This shrinks the context the LLM must process and guarantees exact preservation.
+      const { text: strippedText, sentinels } = extractSentinels(text);
+      const userPrompt = buildUserPrompt(strippedText, sourceLang, targetLang, options, this.model);
       const headers = this.buildHeaders();
       if (this.apiFormat === "lmstudio" && this.lmStudioJitLoad) {
         await this.ensureLMStudioModelLoaded(headers, controller.signal);
@@ -559,8 +608,16 @@ export class LLMProvider implements TranslationProvider {
         throw new Error(`LLM response too long: ${translatedText.length} chars exceeds max ${MAX_RESPONSE_CHARS}`);
       }
 
+      // Post-processing pipeline: deterministic fixes in order
+      const restored = restoreSentinels(translatedText, sentinels);
+      const agreed = applyAgreementFixes(restored);
+      const punctuated = normalizePunctuation(agreed);
+      const accented = fixAccentuation(punctuated);
+      const capitalized = normalizeCapitalization(accented);
+      const finalText = normalizeTypography(capitalized);
+
       return {
-        translatedText,
+        translatedText: finalText,
         provider: "llm",
         dialect: options?.dialect,
       };

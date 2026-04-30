@@ -1,0 +1,218 @@
+/**
+ * Spanish noun gender database and lookup.
+ *
+ * Provides grammatical gender (m/f) for Spanish nouns using:
+ * 1. An exception map for nouns whose gender doesn't follow morphology
+ * 2. Morphological rules as fallback (most -o = m, most -a = f)
+ *
+ * Used by the agreement validator and prompt hint generation to catch
+ * article-noun mismatches like "el computadora" or "la mapa".
+ */
+
+export type NounGender = "m" | "f";
+
+// Nouns ending in -a that are MASCULINE (exception to the -a = feminine rule)
+const MASC_A_ENDINGS: ReadonlySet<string> = new Set([
+  "mapa", "problema", "sistema", "tema", "idioma", "drama", "clima",
+  "programa", "planeta", "poema", "tema", "lema", "diagrama", "telegrama",
+  "fantasma", "papa", "aroma", "axioma", "cinema", "croma", "dogma",
+  "ema", "enigma", "epigrama", "esquema", "estigma", "estratega",
+  "guru", "huracan", "lingua", "monarca", "paraguas", "piloto",
+  "sofa", "taxista", "testigo", "tranvia", "turista", "atleta",
+  "artista", "optimista", "periodista", "pianista", "ventilador",
+]);
+
+// Nouns ending in -o or consonant that are FEMININE (exception to the -o = masculine rule)
+const FEM_EXCEPTIONS: ReadonlySet<string> = new Set([
+  "mano", "foto", "moto", "radio", "flor", "labor", "color", "calor",
+  "sal", "val", "miel", "piel", "cual", "vall", "suerte", "noche",
+  "calle", "llave", "base", "clase", "clave", "especie", "face",
+  "frase", "gente", "latin", "ley", "luz", "mente", "muerte",
+  "nariz", "nube", "parte", "paz", "piedra", "pez", "prey",
+  "prueba", "purga", "red", "serie", "sed", "sed", "sidra",
+  "simiente", "sorpresa", "tarde", "torre", "trampa",
+  // Dialect-specific nouns with tricky gender
+  "guagua",  // feminine in Cuba/DR/PR/Canarias (bus)
+  "plata",   // feminine (money/silver) — not actually an exception but often confused
+]);
+
+// Direct gender map for nouns that don't follow any reliable rule.
+// Key = lowercase singular form, value = gender.
+const GENDER_OVERRIDES: ReadonlyMap<string, NounGender> = new Map([
+  // Technology
+  ["computadora", "f"], ["ordenador", "m"], ["computador", "m"],
+  ["celular", "m"], ["movil", "m"], ["telefono", "m"],
+  ["aplicacion", "f"], ["pagina", "f"], ["archivo", "m"],
+  ["carpeta", "f"], ["ventana", "f"], ["pantalla", "f"],
+  ["teclado", "m"], ["raton", "m"], ["impresora", "f"],
+  ["conexion", "f"], ["contrasena", "f"], ["cuenta", "f"],
+  ["servidor", "m"], ["base de datos", "f"], [" codigo", "m"],
+  ["enlace", "m"], ["correo", "m"], ["mensaje", "m"],
+  ["notificacion", "f"], ["configuracion", "f"], ["ajuste", "m"],
+
+  // Transport
+  ["carro", "m"], ["coche", "m"], ["auto", "m"], ["vehiculo", "m"],
+  ["autobus", "m"], ["colectivo", "m"], ["micro", "m"],
+  ["camion", "m"], ["bicicleta", "f"], ["motocicleta", "f"],
+  ["avion", "m"], ["tren", "m"], ["barco", "m"], ["metro", "m"],
+  ["estacion", "f"], ["parada", "f"], ["boleto", "m"], ["billete", "m"],
+  ["pasaje", "m"], ["viaje", "m"], ["ruta", "f"], ["calle", "f"],
+  ["avenida", "f"], ["carretera", "f"], ["autopista", "f"],
+
+  // Food & drink
+  ["zumo", "m"], ["jugo", "m"], ["agua", "f"], ["cafe", "m"],
+  ["cerveza", "f"], ["vino", "m"], ["refresco", "m"], ["bebida", "f"],
+  ["tarta", "f"], ["pastel", "m"], ["torta", "f"], ["bizcocho", "m"],
+  ["fruta", "f"], ["carne", "f"], ["pescado", "m"], ["pollo", "m"],
+  ["ensalada", "f"], ["sopa", "f"], ["pan", "m"], ["arroz", "m"],
+  ["huevo", "m"], ["leche", "f"], ["manteca", "f"], ["mantequilla", "f"],
+  ["verdura", "f"], ["legumbre", "f"], ["postre", "m"],
+
+  // Body parts
+  ["cabeza", "f"], ["brazo", "m"], ["pierna", "f"], ["mano", "f"],
+  ["pie", "m"], ["ojo", "m"], ["boca", "f"], ["nariz", "f"],
+  ["oreja", "f"], ["cuello", "m"], ["espalda", "f"], ["pecho", "m"],
+  ["corazon", "m"], ["estomago", "m"], ["hueso", "m"], ["sangre", "f"],
+  ["pelle", "f"], ["cara", "f"], ["diente", "m"], ["lengua", "f"],
+
+  // People & family
+  ["hombre", "m"], ["mujer", "f"], ["nino", "m"], ["nina", "f"],
+  ["bebe", "m"], ["madre", "f"], ["padre", "m"], ["hijo", "m"],
+  ["hija", "f"], ["hermano", "m"], ["hermana", "f"], ["abuelo", "m"],
+  ["abuela", "f"], ["tio", "m"], ["tia", "f"], ["primo", "m"],
+  ["prima", "f"], ["esposo", "m"], ["esposa", "f"], ["amigo", "m"],
+  ["amiga", "f"], ["persona", "f"], ["gente", "f"],
+
+  // Nature
+  ["arbol", "m"], ["flor", "f"], ["rio", "m"], ["mar", "m"],
+  ["montana", "f"], ["selva", "f"], ["bosque", "m"], ["playa", "f"],
+  ["sol", "m"], ["luna", "f"], ["estrella", "f"], ["cielo", "m"],
+  ["tierra", "f"], ["piedra", "f"], ["hoja", "f"], ["planta", "f"],
+
+  // Clothing
+  ["camisa", "f"], ["pantalon", "m"], ["vestido", "m"], ["falda", "f"],
+  ["zapato", "m"], ["sombrero", "m"], ["chaqueta", "f"], ["abrigo", "m"],
+  ["bufanda", "f"], ["guante", "m"], ["calcetin", "m"], ["corbata", "f"],
+
+  // Household
+  ["casa", "f"], ["puerta", "f"], ["mesa", "f"], ["silla", "f"],
+  ["cama", "f"], ["sofa", "m"], [" cocina", "f"], ["bano", "m"],
+  ["habitacion", "f"], ["cuarto", "m"], ["escalera", "f"], ["techo", "m"],
+  ["pared", "f"], ["ventana", "f"], ["llave", "f"], ["espejo", "m"],
+]);
+
+/**
+ * Try to convert a plural noun to its singular form.
+ * Returns the singular form, or the original if not clearly plural.
+ */
+function singularize(word: string): string {
+  // Words ending in -ces → -z (e.g., "voces" → "voz", "laces" → "laz")
+  if (word.endsWith("ces") && word.length > 4) {
+    return word.slice(0, -3) + "z";
+  }
+  // Words ending in -es (consonant-stem plurals): "ciudades" → "ciudad"
+  if (word.endsWith("es") && word.length > 3) {
+    const withoutEs = word.slice(0, -2);
+    // Check if singular form exists in overrides — if so, use it
+    if (GENDER_OVERRIDES.has(withoutEs)) return withoutEs;
+    // Otherwise just strip -es
+    return withoutEs;
+  }
+  // Words ending in -s (vowel-stem plurals): "carros" → "carro", "casas" → "casa"
+  if (word.endsWith("s") && word.length > 2) {
+    const withoutS = word.slice(0, -1);
+    // Don't strip -s from short words or words ending in consonant+s (already singular-ish)
+    if (GENDER_OVERRIDES.has(withoutS)) return withoutS;
+    // If it ends in vowel+s, strip the s
+    if (/[aeiou]$/.test(withoutS)) return withoutS;
+  }
+  return word;
+}
+
+/**
+ * Resolve the grammatical gender of a Spanish noun.
+ *
+ * Priority:
+ * 1. Explicit override map (known tricky nouns)
+ * 2. Exception lists (masculine -a nouns, feminine -o/consonant nouns)
+ * 3. Morphological rules (-o → m, -a → f, -ción/-dad → f, -aje/-or → m, etc.)
+ *
+ * Returns undefined for words that aren't recognizable as Spanish nouns.
+ */
+export function resolveNounGender(noun: string): NounGender | undefined {
+  const lower = noun.toLowerCase().replace(/[áéíóúñ]/g, (c) => c);
+
+  // 1. Check explicit overrides
+  const override = GENDER_OVERRIDES.get(lower);
+  if (override) return override;
+
+  // 2. Singularize if plural and try again
+  const singular = singularize(lower);
+  if (singular !== lower) {
+    const singularOverride = GENDER_OVERRIDES.get(singular);
+    if (singularOverride) return singularOverride;
+    // Check exceptions with singular form
+    if (MASC_A_ENDINGS.has(singular)) return "m";
+    if (FEM_EXCEPTIONS.has(singular)) return "f";
+    // Morphological rules on singular form
+    if (singular.endsWith("o")) return "m";
+    if (singular.endsWith("a")) return "f";
+    if (/(?:ción|sión|dad|tad|tud|umbre|icie|eza|encia|ancia)$/.test(singular)) return "f";
+    if (/(?:aje|or|ón|án|és)$/.test(singular)) return "m";
+  }
+
+  // Strip articles if present (e.g., "la casa" → "casa")
+  const stripped = lower.replace(/^(el|la|los|las|un|una|unos|unas)\s+/, "");
+
+  // 2. Check exception lists
+  if (MASC_A_ENDINGS.has(stripped)) return "m";
+  if (FEM_EXCEPTIONS.has(stripped)) return "f";
+
+  // 3. Morphological rules
+  if (stripped.endsWith("o")) return "m";
+  if (stripped.endsWith("a")) return "f";
+
+  // Feminine suffixes
+  if (/(?:ción|sión|dad|tad|tud|umbre|icie|eza|encia|ancia|logía|grafía)$/.test(stripped)) return "f";
+
+  // Masculine suffixes
+  if (/(?:aje|or|ón|án|és|al|il|ar|ero|orio|ico|ismo|ista)$/.test(stripped)) return "m";
+
+  // -e is mixed — no reliable rule
+  // -i, -u are rare for nouns
+
+  return undefined;
+}
+
+/**
+ * Check if an article matches a noun's gender.
+ * Returns true if they agree, false if they disagree, undefined if gender unknown.
+ */
+export function articleMatchesNoun(article: string, noun: string): boolean | undefined {
+  const gender = resolveNounGender(noun);
+  if (!gender) return undefined;
+
+  const art = article.toLowerCase();
+
+  const mascArticles = new Set(["el", "un", "del", "al", "los", "unos", "ese", "aquel", "este"]);
+  const femArticles = new Set(["la", "una", "de la", "a la", "las", "unas", "esa", "aquella", "esta"]);
+
+  if (gender === "m") return mascArticles.has(art) || !femArticles.has(art);
+  if (gender === "f") return femArticles.has(art) || !mascArticles.has(art);
+
+  return undefined;
+}
+
+/**
+ * Get the definite article for a noun based on its gender.
+ */
+export function definiteArticle(noun: string): string {
+  return resolveNounGender(noun) === "f" ? "la" : "el";
+}
+
+/**
+ * Get the indefinite article for a noun based on its gender.
+ */
+export function indefiniteArticle(noun: string): string {
+  return resolveNounGender(noun) === "f" ? "una" : "un";
+}
