@@ -21,7 +21,7 @@ vi.mock("node:fs", async () => {
   return {
     ...actual,
     readFileSync: vi.fn((path: string | URL, ...args: any[]) => {
-      if (typeof path === "string" && path.includes("dialectal-dictionary.json")) {
+      if (typeof path === "string" && (path.includes("dialectal-dictionary.json") || path.includes("verb-conjugations.json"))) {
         return actual.readFileSync(path, ...args);
       }
       return "# Hello World\n\nThis is a test paragraph.\n\n```javascript\nconsole.log('code');\n```";

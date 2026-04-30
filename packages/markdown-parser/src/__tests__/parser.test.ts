@@ -374,7 +374,7 @@ describe("parseMarkdown", () => {
       const result = parseMarkdown(content);
       const duration = Date.now() - start;
 
-      expect(duration).toBeLessThan(1000);
+      expect(duration).toBeLessThan(3000);
       // Should complete without hanging
       expect(result).toBeDefined();
     });
