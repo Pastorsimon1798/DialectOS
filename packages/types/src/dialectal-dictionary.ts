@@ -11907,6 +11907,23 @@ export const DICTIONARY: readonly DictionaryEntry[] = [
       "es-BZ": { term: "carro", frequency: 1, register: "universal" },
     },
   },
+  { field: "technology", concept: "elevator", englishGloss: "vertical transportation device in buildings",
+    panHispanic: "ascensor",
+    variants: {
+      "es-MX": { term: "elevador", frequency: 1, register: "universal" },
+      "es-US": { term: "elevador", frequency: 1, register: "universal" },
+      "es-GT": { term: "elevador", frequency: 2, register: "universal" },
+      "es-HN": { term: "elevador", frequency: 2, register: "universal" },
+      "es-SV": { term: "elevador", frequency: 2, register: "universal" },
+      "es-NI": { term: "elevador", frequency: 2, register: "universal" },
+      "es-CR": { term: "elevador", frequency: 2, register: "universal" },
+      "es-PA": { term: "elevador", frequency: 2, register: "universal" },
+      "es-DO": { term: "elevador", frequency: 2, register: "universal" },
+      "es-PR": { term: "elevador", frequency: 2, register: "universal" },
+      "es-CU": { term: "elevador", frequency: 2, register: "universal" },
+    },
+  },
+
   { field: "actions", concept: "to_leave_slang", englishGloss: "to leave, go away (informal)",
     panHispanic: "irse",
     variants: {

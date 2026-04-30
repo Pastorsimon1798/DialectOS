@@ -47,3 +47,7 @@ export { normalizeCapitalization } from "./capitalization.js";
 export { normalizeTypography } from "./typography.js";
 export { detectFalseFriends } from "./false-friends.js";
 export type { FalseFriendWarning } from "./false-friends.js";
+
+// Lexical substitution and voseo adapter
+export { applyLexicalSubstitution } from "./lexical-substitution.js";
+export { applyVoseo } from "./voseo-adapter.js";

@@ -50,7 +50,7 @@ const ALWAYS_ACCENT: ReadonlyMap<string, string> = new Map([
 // Only fix when context is clear
 const DIACRITIC_FIXES: ReadonlyArray<{
   pattern: RegExp;
-  replacement: string;
+  replacement: string | ((match: string) => string);
   description: string;
 }> = [
   // "si" at start of sentence or after comma/period when used as "yes" → "sí"

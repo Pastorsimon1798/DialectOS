@@ -16,6 +16,8 @@ import { normalizePunctuation } from "../punctuation-normalizer.js";
 import { fixAccentuation } from "../accentuation.js";
 import { normalizeCapitalization } from "../capitalization.js";
 import { normalizeTypography } from "../typography.js";
+import { applyLexicalSubstitution } from "../lexical-substitution.js";
+import { applyVoseo } from "../voseo-adapter.js";
 import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@dialectos/security";
 import { ALL_SPANISH_DIALECTS, languageCodeSchema, getVocabularyForDialect, getSyntacticRules } from "@dialectos/types";
 import type { SpanishDialect } from "@dialectos/types";
@@ -56,6 +58,8 @@ export interface LLMProviderOptions {
   resetTimeoutMs?: number;
   maxRequests?: number;
   windowMs?: number;
+  /** Enable two-call pipeline: general Spanish grammar fix, then dialect adaptation. */
+  twoCallMode?: boolean;
 }
 
 function validateLLMEndpoint(urlStr: string, allowLocal: boolean): string {
@@ -179,6 +183,37 @@ function buildCompactSystemPrompt(): string {
   return "Translate to Spanish. Output ONLY the Spanish text. Follow the dialect vocabulary exactly. No English. No explanation.";
 }
 
+/**
+ * Build a dialect-specific system prompt with targeted vocabulary hints.
+ * For compact/weak models, ALL instructions and hints go in the system prompt,
+ * and the user prompt contains ONLY the source text. Weak models cannot
+ * reliably separate instructions from content when mixed in the user prompt.
+ */
+function buildDialectSystemPrompt(
+  dialect: string,
+  text: string,
+  formality?: string
+): string {
+  const base = "You are a Spanish translation engine. Output ONLY the Spanish translation. No English. No preamble. No explanation. Start with the first Spanish word immediately.";
+  const hint = buildTargetedVocabHint(text, dialect);
+  const parts = [base];
+  if (hint) {
+    parts.push(hint);
+  }
+  if (formality && formality !== "auto") {
+    parts.push(`Use ${formality} register.`);
+  }
+  return parts.join(" ");
+}
+
+function buildGeneralGrammarSystemPrompt(): string {
+  return "You are a Spanish language editor. Your task is to produce clean, grammatically correct, standard Spanish text. If the input is in another language, translate it to Spanish. If the input is already Spanish, fix any grammar, spelling, punctuation, or syntax errors. Output ONLY the Spanish text — no preamble, explanations, alternatives, or English text.";
+}
+
+function buildDialectAdaptationSystemPrompt(): string {
+  return "You are a Spanish dialect adapter. Adapt the following standard Spanish text to the requested dialect. Apply the dialect vocabulary and grammar rules exactly. Output ONLY the adapted Spanish text — no preamble, explanations, alternatives, or English text.";
+}
+
 const GARBAGE_PATTERNS = [
   /```/,
   /^\s*(translation|traducci[oó]n)\s*:/i,
@@ -293,6 +328,8 @@ function isCompactModel(model: string): boolean {
   if (process.env.LLM_COMPACT_PROMPT === "0") return false;
 
   const lower = model.toLowerCase();
+  // MiniMax M-series models are weak/compact
+  if (lower.includes("minimax")) return true;
   // Effective-param markers (e.g., "e2b" = effective 2B)
   const effMatch = lower.match(/e(\d*\.?\d+)b/);
   if (effMatch && parseFloat(effMatch[1]) <= 8) return true;
@@ -370,19 +407,101 @@ function buildTargetedVocabHint(text: string, dialect: string): string {
   }
 }
 
+// Cache for Spanish→hint reverse lookup
+const spanishHintCache = new Map<SpanishDialect, Map<string, { concept: string; preferredTerm: string }>>();
+
+function buildSpanishHintMap(dialect: SpanishDialect): Map<string, { concept: string; preferredTerm: string }> {
+  const swaps = getVocabularyForDialect(dialect);
+  const map = new Map<string, { concept: string; preferredTerm: string }>();
+  for (const s of swaps) {
+    for (const avoid of s.avoidTerms) {
+      const key = avoid.toLowerCase();
+      // Only store the first match (shorter wrong terms may be shadowed by longer ones,
+      // but the lexical substitution post-processor will catch those)
+      if (!map.has(key)) {
+        map.set(key, { concept: s.concept, preferredTerm: s.preferredTerm });
+      }
+    }
+  }
+  return map;
+}
+
+function getSpanishHintMap(dialect: SpanishDialect): Map<string, { concept: string; preferredTerm: string }> {
+  let map = spanishHintCache.get(dialect);
+  if (!map) {
+    map = buildSpanishHintMap(dialect);
+    spanishHintCache.set(dialect, map);
+  }
+  return map;
+}
+
+/**
+ * Build dialect vocabulary hints by scanning SPANISH text for words
+ * that are wrong for the target dialect.
+ *
+ * This is much more effective than scanning English source text because
+ * we can directly detect wrong-dialect terms in the input.
+ */
+function buildSpanishVocabHint(text: string, dialect: string): string {
+  try {
+    const hintMap = getSpanishHintMap(dialect as SpanishDialect);
+    const textLower = text.toLowerCase();
+    const words = new Set(textLower.split(/[^\p{L}\p{N}]+/u).filter(w => w.length > 2));
+
+    const hints: string[] = [];
+    for (const word of words) {
+      const entry = hintMap.get(word);
+      if (entry) {
+        hints.push(`${entry.concept.replace(/_/g, " ")} → ${entry.preferredTerm} (NOT ${word})`);
+      }
+    }
+
+    if (hints.length === 0) return "";
+
+    // Add grammar rules
+    const rules = getSyntacticRules(dialect as SpanishDialect);
+    const grammarHints = rules
+      .filter(r => r.enforcement === "validate" || r.id === "plural-address-vosotros" || r.id === "plural-address-ustedes")
+      .map(r => r.rule)
+      .slice(0, 3);
+
+    const parts = [`Dialect: ${dialect}. Use: ${hints.slice(0, 10).join("; ")}.`];
+    if (grammarHints.length > 0) {
+      parts.push(grammarHints.join(" "));
+    }
+    return parts.join(" ");
+  } catch {
+    return "";
+  }
+}
+
 function buildUserPrompt(text: string, sourceLang: string, targetLang: string, options: TranslateOptions = {}, model?: string): string {
   const sanitized = sanitizeForPrompt(text);
   const compact = model ? isCompactModel(model) : false;
   const isQwen = model?.toLowerCase().includes("qwen") ?? false;
   const dialect = options.dialect || targetLang;
-  const ctx = compact
-    ? buildTargetedVocabHint(text, dialect)
-    : (options.context || undefined);
+
+  // For compact/weak models, ALL instructions and vocab hints go in the
+  // SYSTEM prompt (see buildDialectSystemPrompt). The user prompt must
+  // contain ONLY the source text — weak models cannot separate instructions
+  // from content when mixed together.
+  if (compact) {
+    return [
+      sanitized,
+      isQwen ? "/no_think" : undefined,
+    ].filter(Boolean).join("\n");
+  }
+
+  // Full models can handle instructions + context in the user prompt.
+  const ctx = options.context || undefined;
+  const instruction = `Translate the above text to ${dialect} Spanish${options.formality && options.formality !== "auto" ? ` (${options.formality} register)` : ""}.`;
+
   return [
-    isQwen ? "/no_think" : undefined,
-    `Translate to ${dialect} Spanish${!compact && options.formality && options.formality !== "auto" ? ` (${options.formality} register)` : ""}.`,
-    ctx,
     sanitized,
+    "",
+    isQwen ? "/no_think" : undefined,
+    instruction,
+    ctx,
   ].filter(Boolean).join("\n");
 }
 
@@ -405,6 +524,7 @@ export class LLMProvider implements TranslationProvider {
   private maxConcurrency: number;
   private maxQueueSize: number;
   private queue: Array<() => void> = [];
+  private twoCallMode: boolean;
 
   constructor(options: LLMProviderOptions = {}) {
     const model = options.model || process.env.LLM_MODEL || "";
@@ -447,6 +567,7 @@ export class LLMProvider implements TranslationProvider {
     );
     this.maxConcurrency = parseInt(process.env.LLM_MAX_CONCURRENCY || "", 10) || 1;
     this.maxQueueSize = parseInt(process.env.LLM_MAX_QUEUE || "", 10) || 10;
+    this.twoCallMode = options.twoCallMode ?? process.env.LLM_TWO_CALL_MODE === "1";
   }
 
   getCircuitBreaker(): CircuitBreaker {
@@ -516,122 +637,207 @@ export class LLMProvider implements TranslationProvider {
     await this.rateLimiter.acquire();
     await this.acquireSlot();
     try {
-      // Attempt 1: compact prompt for small models, normal for large
-      const sysPrompt = isCompactModel(this.model) ? buildCompactSystemPrompt() : buildSystemPrompt();
-      let result = await this._doTranslate(text, sourceLang, targetLang, options, sysPrompt);
+      // Extract sentinels once for the whole pipeline
+      const { text: strippedText, sentinels } = extractSentinels(text);
 
-      // If output looks like garbage, retry once with a stricter prompt
-      if (isGarbageOutput(text, result.translatedText)) {
-        result = await this._doTranslate(text, sourceLang, targetLang, options, buildStrictSystemPrompt());
+      let result: TranslationResult;
+      if (this.twoCallMode) {
+        result = await this._doTwoCallTranslate(strippedText, sourceLang, targetLang, options, sentinels);
+      } else {
+        // Attempt 1: dialect-aware system prompt for compact models (with vocab hints),
+        // generic system prompt for full models (hints in user prompt).
+        const dialect = options?.dialect || targetLang;
+        const sysPrompt = isCompactModel(this.model)
+          ? buildDialectSystemPrompt(dialect, strippedText, options?.formality)
+          : buildSystemPrompt();
+        result = await this._doSingleCallTranslate(strippedText, sourceLang, targetLang, options, sysPrompt, sentinels);
+
+        // If output looks like garbage, retry once with a stricter prompt
         if (isGarbageOutput(text, result.translatedText)) {
-          throw new Error("LLM produced garbage output after retry");
+          result = await this._doSingleCallTranslate(strippedText, sourceLang, targetLang, options, buildStrictSystemPrompt(), sentinels);
+          if (isGarbageOutput(text, result.translatedText)) {
+            throw new Error("LLM produced garbage output after retry");
+          }
         }
       }
 
       this.breaker.recordSuccess();
       return result;
+    } catch (error) {
+      this.breaker.recordFailure();
+      throw error;
     } finally {
       this.releaseSlot();
     }
   }
 
-  private async _doTranslate(
-    text: string,
+  private async _callLLM(
+    systemPrompt: string,
+    userPrompt: string,
+    signal: AbortSignal
+  ): Promise<string> {
+    const headers = this.buildHeaders();
+    if (this.apiFormat === "lmstudio" && this.lmStudioJitLoad) {
+      await this.ensureLMStudioModelLoaded(headers, signal);
+    }
+
+    const response = await fetchWithRedirects(this.inferenceUrl(), {
+      init: {
+        method: "POST",
+        headers,
+        body: JSON.stringify(this.buildRequestBody(systemPrompt, userPrompt)),
+        signal,
+      },
+      validateUrl: (url) => validateLLMEndpoint(url, this.allowLocal),
+    });
+
+    if (!response.ok) {
+      throw new Error(`LLM API error: ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType?.includes("application/json")) {
+      throw new Error("Invalid response content type");
+    }
+
+    const contentLength = response.headers.get("content-length");
+    const MAX_RESPONSE_BYTES = 2 * 1024 * 1024;
+    if (contentLength && parseInt(contentLength, 10) > MAX_RESPONSE_BYTES) {
+      throw new Error("LLM response exceeds maximum allowed size");
+    }
+
+    const data = (await Promise.race([
+      response.json(),
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("Response body timed out")), this.timeoutMs);
+      }),
+    ])) as unknown;
+
+    const rawText = this.extractResponseText(data);
+    const translatedText = stripPreamble(rawText || "");
+    if (!translatedText) {
+      throw new Error("LLM response did not include translated content");
+    }
+
+    const MAX_RESPONSE_CHARS = 100_000;
+    if (translatedText.length > MAX_RESPONSE_CHARS) {
+      throw new Error(`LLM response too long: ${translatedText.length} chars exceeds max ${MAX_RESPONSE_CHARS}`);
+    }
+
+    return translatedText;
+  }
+
+  private async _doSingleCallTranslate(
+    strippedText: string,
     sourceLang: string,
     targetLang: string,
     options: TranslateOptions | undefined,
-    systemPrompt: string
+    systemPrompt: string,
+    sentinels: Map<string, string>
   ): Promise<TranslationResult> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
 
     try {
-      // Extract verbatim content (URLs, code, emails, file paths) before LLM inference.
-      // This shrinks the context the LLM must process and guarantees exact preservation.
-      const { text: strippedText, sentinels } = extractSentinels(text);
       const userPrompt = buildUserPrompt(strippedText, sourceLang, targetLang, options, this.model);
-      const headers = this.buildHeaders();
-      if (this.apiFormat === "lmstudio" && this.lmStudioJitLoad) {
-        await this.ensureLMStudioModelLoaded(headers, controller.signal);
-      }
-
-      const response = await fetchWithRedirects(this.inferenceUrl(), {
-        init: {
-          method: "POST",
-          headers,
-          body: JSON.stringify(this.buildRequestBody(systemPrompt, userPrompt)),
-          signal: controller.signal,
-        },
-        validateUrl: (url) => validateLLMEndpoint(url, this.allowLocal),
-      });
-
-      if (!response.ok) {
-        clearTimeout(timeoutId);
-        throw new Error(`LLM API error: ${response.statusText}`);
-      }
-
-      const contentType = response.headers.get("content-type");
-      if (!contentType?.includes("application/json")) {
-        clearTimeout(timeoutId);
-        throw new Error("Invalid response content type");
-      }
-
-      // Guard against runaway response sizes before parsing JSON
-      const contentLength = response.headers.get("content-length");
-      const MAX_RESPONSE_BYTES = 2 * 1024 * 1024; // 2MB
-      if (contentLength && parseInt(contentLength, 10) > MAX_RESPONSE_BYTES) {
-        clearTimeout(timeoutId);
-        throw new Error("LLM response exceeds maximum allowed size");
-      }
-
-      // Keep timeout active while reading body — start a fresh timeout race
-      let bodyTimeoutId: ReturnType<typeof setTimeout> | undefined;
-      const data = (await Promise.race([
-        response.json(),
-        new Promise<never>((_, reject) => {
-          bodyTimeoutId = setTimeout(
-            () => reject(new Error("Response body timed out")),
-            this.timeoutMs
-          );
-        }),
-      ])) as unknown;
-      if (bodyTimeoutId) clearTimeout(bodyTimeoutId);
+      const translatedText = await this._callLLM(systemPrompt, userPrompt, controller.signal);
       clearTimeout(timeoutId);
-      const rawText = this.extractResponseText(data);
-      const translatedText = stripPreamble(rawText || "");
-      if (!translatedText) {
-        throw new Error("LLM response did not include translated content");
-      }
-      // Hard cap on translated text length to prevent downstream OOM/processing issues
-      const MAX_RESPONSE_CHARS = 100_000;
-      if (translatedText.length > MAX_RESPONSE_CHARS) {
-        throw new Error(`LLM response too long: ${translatedText.length} chars exceeds max ${MAX_RESPONSE_CHARS}`);
-      }
-
-      // Post-processing pipeline: deterministic fixes in order
-      // Run all processors on tokenized text ({{ TOKEN }} placeholders are
-      // immune to regex matches), then restore sentinels last so URLs/code
-      // are never touched by the processors.
-      const agreed = applyAgreementFixes(translatedText);
-      const punctuated = normalizePunctuation(agreed);
-      const accented = fixAccentuation(punctuated);
-      const capitalized = normalizeCapitalization(accented);
-      const typographed = normalizeTypography(capitalized);
-      const finalText = restoreSentinels(typographed, sentinels);
 
       return {
-        translatedText: finalText,
+        translatedText: this._runPostProcessing(translatedText, sentinels, options),
         provider: "llm",
         dialect: options?.dialect,
       };
     } catch (error) {
       clearTimeout(timeoutId);
-      this.breaker.recordFailure();
       if (error instanceof Error && error.name === "AbortError") {
         throw new Error("Request timed out");
       }
       throw new Error(sanitizeErrorMessage(error instanceof Error ? error.message : String(error)));
     }
+  }
+
+  private async _doTwoCallTranslate(
+    strippedText: string,
+    sourceLang: string,
+    targetLang: string,
+    options: TranslateOptions | undefined,
+    sentinels: Map<string, string>
+  ): Promise<TranslationResult> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs * 2);
+
+    try {
+      // Call 1: General Spanish grammar fix (dialect-agnostic)
+      const generalSystemPrompt = buildGeneralGrammarSystemPrompt();
+      const generalUserPrompt = strippedText;
+      const call1Output = await this._callLLM(generalSystemPrompt, generalUserPrompt, controller.signal);
+
+      // Call 2: Dialect adaptation with Spanish-input vocabulary hints
+      const dialect = options?.dialect || targetLang;
+      const spanishHint = buildSpanishVocabHint(call1Output, dialect);
+
+      // For compact models: put hints in system prompt, user prompt = only Spanish text
+      const isCompact = isCompactModel(this.model);
+      const dialectSystemPrompt = isCompact
+        ? `${buildDialectAdaptationSystemPrompt()} ${spanishHint}`.trim()
+        : buildDialectAdaptationSystemPrompt();
+      const dialectUserPrompt = isCompact
+        ? call1Output
+        : [
+            call1Output,
+            "",
+            `Adapt the above text to ${dialect} Spanish${options?.formality && options.formality !== "auto" ? ` (${options.formality} register)` : ""}.`,
+            spanishHint,
+          ].filter(Boolean).join("\n");
+
+      const call2Output = await this._callLLM(dialectSystemPrompt, dialectUserPrompt, controller.signal);
+      clearTimeout(timeoutId);
+
+      return {
+        translatedText: this._runPostProcessing(call2Output, sentinels, options),
+        provider: "llm",
+        dialect: options?.dialect,
+      };
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (error instanceof Error && error.name === "AbortError") {
+        throw new Error("Request timed out");
+      }
+      throw new Error(sanitizeErrorMessage(error instanceof Error ? error.message : String(error)));
+    }
+  }
+
+  private _runPostProcessing(
+    text: string,
+    sentinels: Map<string, string>,
+    options: TranslateOptions | undefined
+  ): string {
+    // Post-processing pipeline: deterministic fixes in order
+    // 1. Lexical substitution (wrong-dialect → right-dialect words)
+    // 2. Voseo verb swap (tú → vos for voseo dialects)
+    // 3. Agreement validation
+    // 4. Punctuation normalization
+    // 5. Accentuation correction
+    // 6. Capitalization normalization
+    // 7. Typography normalization
+    // 8. Sentinel restoration (always last)
+    const dialect = options?.dialect;
+    let result = text;
+
+    if (dialect) {
+      result = applyLexicalSubstitution(result, dialect);
+      result = applyVoseo(result, dialect, options?.formality);
+    }
+
+    result = applyAgreementFixes(result);
+    result = normalizePunctuation(result);
+    result = fixAccentuation(result);
+    result = normalizeCapitalization(result);
+    result = normalizeTypography(result);
+    result = restoreSentinels(result, sentinels);
+
+    return result;
   }
 
   private buildHeaders(): Record<string, string> {

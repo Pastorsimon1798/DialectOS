@@ -16,3 +16,8 @@ coverage/
 
 # Dialect eval generated artifacts
 audits/dialect-eval-*
+
+# Benchmark generated output
+benchmark_runs/*.json
+benchmark_results.json
+benchmark_report.md
