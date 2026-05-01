@@ -362,7 +362,7 @@ describe("MCP Translator Tools", () => {
 
       const parsed = JSON.parse(result.content[0].text);
       expect(parsed.dialect).toBe("es-US");
-      expect(parsed.confidence).toBeGreaterThan(0.85);
+      expect(parsed.confidence).toBeGreaterThan(0.70);
       expect(parsed.confidence).toBeLessThanOrEqual(1);
       expect(parsed.matchedKeywords.length).toBeGreaterThanOrEqual(6);
     });

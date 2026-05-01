@@ -1,90 +1,90 @@
 # Dialect Detection Benchmark Report
 
-- **Date**: 2026-05-01T04:22:48.619Z
+- **Date**: 2026-05-01T05:17:24.452Z
 - **Corpus**: /Users/simongonzalezdecruz/workspaces/DialectOS/packages/benchmarks/dialect-detection-corpus/samples.json
 - **Total samples**: 250
-- **Top-1 correct**: 110
-- **Top-3 correct**: 137
-- **Top-1 accuracy**: 44.0%
-- **Top-3 accuracy**: 54.8%
+- **Top-1 correct**: 129
+- **Top-3 correct**: 156
+- **Top-1 accuracy**: 51.6%
+- **Top-3 accuracy**: 62.4%
 - **Avg confidence**: 9.2%
 
 ## By Difficulty
 
 | Difficulty | Top-1 Acc | Top-3 Acc | Total |
 |------------|-----------|-----------|-------|
-| easy | 78.7% | 89.3% | 75 |
-| medium | 43.0% | 52.0% | 100 |
-| hard | 10.7% | 24.0% | 75 |
+| easy | 85.3% | 93.3% | 75 |
+| medium | 56.0% | 68.0% | 100 |
+| hard | 12.0% | 24.0% | 75 |
 
 ## By Dialect
 
 | Dialect | Top-1 Acc | Top-3 Acc | Total |
 |---------|-----------|-----------|-------|
-| es-AD | 20.0% | 20.0% | 10 |
-| es-AR | 80.0% | 90.0% | 10 |
+| es-AD | 50.0% | 50.0% | 10 |
+| es-AR | 90.0% | 100.0% | 10 |
 | es-BO | 50.0% | 50.0% | 10 |
 | es-BZ | 50.0% | 50.0% | 10 |
-| es-CL | 60.0% | 70.0% | 10 |
-| es-CO | 40.0% | 60.0% | 10 |
+| es-CL | 60.0% | 80.0% | 10 |
+| es-CO | 60.0% | 90.0% | 10 |
 | es-CR | 40.0% | 40.0% | 10 |
 | es-CU | 50.0% | 60.0% | 10 |
-| es-DO | 40.0% | 50.0% | 10 |
-| es-EC | 40.0% | 50.0% | 10 |
+| es-DO | 30.0% | 50.0% | 10 |
+| es-EC | 50.0% | 60.0% | 10 |
 | es-ES | 100.0% | 100.0% | 10 |
 | es-GQ | 40.0% | 40.0% | 10 |
 | es-GT | 40.0% | 60.0% | 10 |
-| es-HN | 30.0% | 50.0% | 10 |
-| es-MX | 40.0% | 60.0% | 10 |
-| es-NI | 30.0% | 40.0% | 10 |
-| es-PA | 20.0% | 20.0% | 10 |
-| es-PE | 50.0% | 60.0% | 10 |
-| es-PH | 30.0% | 30.0% | 10 |
+| es-HN | 40.0% | 60.0% | 10 |
+| es-MX | 60.0% | 70.0% | 10 |
+| es-NI | 40.0% | 40.0% | 10 |
+| es-PA | 40.0% | 40.0% | 10 |
+| es-PE | 60.0% | 80.0% | 10 |
+| es-PH | 40.0% | 40.0% | 10 |
 | es-PR | 30.0% | 50.0% | 10 |
-| es-PY | 30.0% | 80.0% | 10 |
-| es-SV | 30.0% | 30.0% | 10 |
-| es-US | 50.0% | 50.0% | 10 |
-| es-UY | 50.0% | 90.0% | 10 |
+| es-PY | 50.0% | 80.0% | 10 |
+| es-SV | 40.0% | 50.0% | 10 |
+| es-US | 60.0% | 60.0% | 10 |
+| es-UY | 60.0% | 90.0% | 10 |
 | es-VE | 60.0% | 70.0% | 10 |
 
 ## Hardest Dialects
 
 | Dialect | Top-1 Acc | Total |
 |---------|-----------|-------|
-| es-PA | 20.0% | 10 |
-| es-AD | 20.0% | 10 |
-| es-PY | 30.0% | 10 |
-| es-HN | 30.0% | 10 |
-| es-SV | 30.0% | 10 |
+| es-DO | 30.0% | 10 |
+| es-PR | 30.0% | 10 |
+| es-GT | 40.0% | 10 |
+| es-HN | 40.0% | 10 |
+| es-SV | 40.0% | 10 |
 
 ## Confusion Matrix (expected → predicted)
 
 | Expected \ Predicted | es-AD | es-AR | es-BO | es-BZ | es-CL | es-CO | es-CR | es-CU | es-DO | es-EC | es-ES | es-GQ | es-GT | es-HN | es-MX | es-NI | es-PA | es-PE | es-PH | es-PR | es-PY | es-SV | es-US | es-UY | es-VE |
 |------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|
-| es-AD | **2** | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **7** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-AR | 0 | **8** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-AD | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-AR | 0 | **9** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-BO | 0 | **2** | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-BZ | 0 | 0 | 0 | **5** | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-CL | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-CO | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-CO | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-CR | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-CU | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-DO | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-EC | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | **4** | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-DO | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | **7** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-EC | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | **5** | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-ES | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **10** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-GQ | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-GT | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-HN | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **1** | **6** | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-MX | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-NI | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **7** | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-PA | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **8** | 0 | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-PE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 | 0 | 0 | **1** | 0 | 0 |
-| es-PH | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | **1** | 0 | 0 | 0 | 0 |
+| es-HN | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-MX | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-NI | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-PA | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-PE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-PH | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-PR | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **7** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 |
-| es-PY | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 |
-| es-SV | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 |
-| es-US | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 |
-| es-UY | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 |
+| es-PY | 0 | **2** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 | 0 | 0 |
+| es-SV | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 |
+| es-US | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 |
+| es-UY | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 |
 | es-VE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** |
 
 ## Misclassifications
@@ -92,16 +92,6 @@
 - **es-MX** → **es-ES** (medium)
   - Text: "Pasa al auto, vamos por unos aguacates y plátanos."
   - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
-
-- **es-MX** → **es-ES** (medium)
-  - Text: "Dejé la pluma en la habitación de la computadora."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
-
-- **es-MX** → **es-ES** (medium)
-  - Text: "Ese vato es bien fresa, siempre trae ropa cara."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-US)
   - Matched: none
 
 - **es-MX** → **es-ES** (hard)
@@ -118,24 +108,13 @@
   - Matched: none
 
 - **es-AR** → **es-ES** (medium)
-  - Text: "Me da fiaca salir, prefiero quedarme en casa con maní."
-  - Matched: none
-
-- **es-AR** → **es-ES** (medium)
   - Text: "¿Vos podés pasarme el agua? Hace mucho calor hoy."
   - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
   - Matched: none
 
 - **es-CO** → **es-ES** (medium)
-  - Text: "El maní está rico, dame banano y lentes para leer."
-  - Matched: none
-
-- **es-CO** → **es-ES** (medium)
-  - Text: "Ese veci es mono, pero a veces es una vaina."
-  - Matched: none
-
-- **es-CO** → **es-ES** (medium)
-  - Text: "Llave, préstame el esfero para la clase de matemáticas."
+  - Text: "Vamos a tomar guaro, tengo guayabo de la fiesta."
+  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-CR)
   - Matched: none
 
 - **es-CO** → **es-ES** (hard)
@@ -175,12 +154,9 @@
   - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
   - Matched: none
 
-- **es-PE** → **es-US** (medium)
-  - Text: "Ese flaco es cholo pero tiene buen corazón."
-  - Matched: cholo
-
 - **es-PE** → **es-ES** (medium)
   - Text: "Oye pe, pasa la pluma que escribo rápido."
+  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-PE)
   - Matched: none
 
 - **es-PE** → **es-ES** (hard)
@@ -199,6 +175,7 @@
 
 - **es-CL** → **es-ES** (medium)
   - Text: "La raja, al tiro llego con los lentes y el maní."
+  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-CL)
   - Matched: none
 
 - **es-CL** → **es-ES** (medium)
@@ -247,21 +224,9 @@
   - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
   - Matched: none
 
-- **es-UY** → **es-AR** (hard)
-  - Text: "Cuando vengas, traé el mate que quedó en casa."
-  - Matched: none
-
 - **es-UY** → **es-ES** (hard)
   - Text: "Podés dejar el auto acá, no hay problema."
   - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
-
-- **es-PY** → **es-AR** (easy)
-  - Text: "Qué tranquilopa, de balde me hallo en este al pedo."
-  - Matched: none
-
-- **es-PY** → **es-AR** (medium)
-  - Text: "Ese chake está vai-vai después del gua'u."
   - Matched: none
 
 - **es-PY** → **es-ES** (medium)
@@ -292,6 +257,7 @@
 
 - **es-BO** → **es-ES** (medium)
   - Text: "Pasa los lentes y el frijol para el almuerzo."
+  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
   - Matched: none
 
 - **es-BO** → **es-AR** (hard)
@@ -307,18 +273,14 @@
   - Text: "Andá despacio por la calle empedrada."
   - Matched: none
 
-- **es-EC** → **es-CL** (easy)
-  - Text: "El chibolo dejó el computador en el departamento con papa."
-  - Matched: computador, papa, departamento
-
 - **es-EC** → **es-ES** (medium)
   - Text: "Pasa los lentes y el banano para el almuerzo."
+  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-EC)
   - Matched: none
 
-- **es-EC** → **es-ES** (medium)
+- **es-EC** → **es-CO** (medium)
   - Text: "Vamos en carro a buscar maní y guagua."
-  - Ambiguity: Input contains conflicting dialect markers (es-CU vs es-EC)
-  - Matched: none
+  - Matched: carro, maní
 
 - **es-EC** → **es-ES** (hard)
   - Text: "¿Sabes si el bus ya pasó?"
@@ -341,6 +303,7 @@
 
 - **es-GT** → **es-ES** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
+  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
   - Matched: none
 
 - **es-GT** → **es-ES** (medium)
@@ -364,12 +327,8 @@
 
 - **es-HN** → **es-ES** (easy)
   - Text: "Dejé la computadora en el departamento con papa y frijol."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
+  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
   - Matched: none
-
-- **es-HN** → **es-EC** (easy)
-  - Text: "Qué chuco, el ñaño no quiere chure ni choco."
-  - Matched: ñaño
 
 - **es-HN** → **es-ES** (medium)
   - Text: "Pasa los lentes que no veo el bus."
@@ -378,7 +337,7 @@
 
 - **es-HN** → **es-ES** (medium)
   - Text: "Vamos en carro a buscar papa y frijol."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
+  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
   - Matched: none
 
 - **es-HN** → **es-ES** (hard)
@@ -401,11 +360,8 @@
 
 - **es-SV** → **es-ES** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
+  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
   - Matched: none
-
-- **es-SV** → **es-MX** (medium)
-  - Text: "El chamba trajo chivo para el pacha."
-  - Matched: chamba
 
 - **es-SV** → **es-ES** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
@@ -427,17 +383,13 @@
   - Matched: none
 
 - **es-NI** → **es-ES** (easy)
-  - Text: "Nica, qué maje, el carro tiene pisto y cipote."
-  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-NI)
-  - Matched: none
-
-- **es-NI** → **es-ES** (easy)
   - Text: "Dejé la computadora en el departamento con papa."
   - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
   - Matched: none
 
 - **es-NI** → **es-ES** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
+  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
   - Matched: none
 
 - **es-NI** → **es-ES** (medium)
@@ -469,6 +421,7 @@
 
 - **es-CR** → **es-ES** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
+  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
   - Matched: none
 
 - **es-CR** → **es-ES** (hard)
@@ -491,15 +444,8 @@
   - Matched: none
 
 - **es-PA** → **es-ES** (medium)
-  - Text: "Ese sorrin es majare, siempre trae talla."
-  - Matched: none
-
-- **es-PA** → **es-ES** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
-  - Matched: none
-
-- **es-PA** → **es-ES** (medium)
-  - Text: "El pelar trajo aju para el tongo."
+  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
   - Matched: none
 
 - **es-PA** → **es-ES** (medium)
@@ -524,6 +470,11 @@
 - **es-DO** → **es-ES** (easy)
   - Text: "Dejé la computadora en el apartamento con auto y papa."
   - Ambiguity: Input contains conflicting dialect markers (es-VE vs es-DO)
+  - Matched: none
+
+- **es-DO** → **es-ES** (medium)
+  - Text: "Ese papichulo es vaina, siempre trae bandola."
+  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-DO)
   - Matched: none
 
 - **es-DO** → **es-ES** (medium)
@@ -610,10 +561,6 @@
   - Text: "¿Quieres que prepare algo de comer?"
   - Matched: none
 
-- **es-US** → **es-MX** (medium)
-  - Text: "Ese huero es fresa, siempre trae chafa."
-  - Matched: fresa
-
 - **es-US** → **es-ES** (medium)
   - Text: "El mijo trajo mija para la raza."
   - Matched: none
@@ -640,10 +587,6 @@
   - Text: "Pasa los lentes y la papa para la cena."
   - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
   - Matched: none
-
-- **es-PH** → **es-PY** (medium)
-  - Text: "El jaha trajo akon para el dele."
-  - Matched: jaha
 
 - **es-PH** → **es-ES** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
@@ -688,21 +631,9 @@
   - Text: "¿Quieres que vayamos juntos?"
   - Matched: none
 
-- **es-AD** → **es-AR** (easy)
-  - Text: "Qué caldea, el comú trajo parroquia y principado."
-  - Matched: none
-
-- **es-AD** → **es-ES** (medium)
-  - Text: "Ese vall es pas, siempre trae madriu."
-  - Matched: none
-
 - **es-AD** → **es-ES** (medium)
   - Text: "Pasa los lentes y la papa para la cena."
   - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
-
-- **es-AD** → **es-ES** (medium)
-  - Text: "El xaval trajo doncs para el aixo."
   - Matched: none
 
 - **es-AD** → **es-ES** (medium)
