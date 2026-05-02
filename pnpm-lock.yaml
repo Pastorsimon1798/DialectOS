@@ -83,8 +83,8 @@ importers:
         specifier: workspace:*
         version: link:../types
       isomorphic-dompurify:
-        specifier: ^3.11.0
-        version: 3.11.0
+        specifier: ^3.12.0
+        version: 3.12.0
       marked:
         specifier: ^18.0.2
         version: 18.0.2
@@ -161,8 +161,8 @@ importers:
   packages/security:
     dependencies:
       isomorphic-dompurify:
-        specifier: ^3.11.0
-        version: 3.11.0
+        specifier: ^3.12.0
+        version: 3.12.0
       zod:
         specifier: ^4.4.1
         version: 4.4.1
@@ -868,8 +868,8 @@ packages:
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  isomorphic-dompurify@3.11.0:
-    resolution: {integrity: sha512-il0sNhLnfawc6vKoMqnZX1JXzEzw0pP3DZWg7mM7VJNJ8cq6DCxeAjEcfjTazyBF8dkUn+rBsBPS5NQs4ZaI3g==}
+  isomorphic-dompurify@3.12.0:
+    resolution: {integrity: sha512-8n+j+6ypTHvriJwFOQ2qusQ6bzGjZVcR3jbe1pBpLcGI1dn4WIl0ctLBngqE5QttquQBAlKXwJeTMw+X7x7qKw==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
 
   jose@6.2.2:
@@ -1167,11 +1167,11 @@ packages:
     resolution: {integrity: sha512-Bf+ILmBgretUrdJxzXM0SgXLZ3XfiaUuOj/IKQHuTXip+05Xn+uyEYdVg0kYDipTBcLrCVyUzAPz7QmArb0mmw==}
     engines: {node: '>=14.0.0'}
 
-  tldts-core@7.0.29:
-    resolution: {integrity: sha512-W99NuU7b1DcG3uJ3v9k9VztCH3WialNbBkBft5wCs8V8mexu0XQqaZEYb9l9RNNzK8+3EJ9PKWB0/RUtTQ/o+Q==}
+  tldts-core@7.0.30:
+    resolution: {integrity: sha512-uiHN8PIB1VmWyS98eZYja4xzlYqeFZVjb4OuYlJQnZAuJhMw4PbKQOKgHKhBdJR3FE/t5mUQ1Kd80++B+qhD1Q==}
 
-  tldts@7.0.29:
-    resolution: {integrity: sha512-JIXCerhudr/N6OWLwLF1HVsTTUo7ry6qHa5eWZEkiMuxsIiAACL55tGLfqfHfoH7QaMQUW8fngD7u7TxWexYQg==}
+  tldts@7.0.30:
+    resolution: {integrity: sha512-ELrFxuqsDdHUwoh0XxDbxuLD3Wnz49Z57IFvTtvWy1hJdcMZjXLIuonjilCiWHlT2GbE4Wlv1wKVTzDFnXH1aw==}
     hasBin: true
 
   toidentifier@1.0.1:
@@ -1918,7 +1918,7 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  isomorphic-dompurify@3.11.0:
+  isomorphic-dompurify@3.12.0:
     dependencies:
       dompurify: 3.4.2
       jsdom: 29.1.1
@@ -2227,17 +2227,17 @@ snapshots:
 
   tinyrainbow@3.1.0: {}
 
-  tldts-core@7.0.29: {}
+  tldts-core@7.0.30: {}
 
-  tldts@7.0.29:
+  tldts@7.0.30:
     dependencies:
-      tldts-core: 7.0.29
+      tldts-core: 7.0.30
 
   toidentifier@1.0.1: {}
 
   tough-cookie@6.0.1:
     dependencies:
-      tldts: 7.0.29
+      tldts: 7.0.30
 
   tr46@6.0.0:
     dependencies:
