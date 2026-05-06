@@ -26,7 +26,7 @@ I'd love to come on the show to talk about DialectOS — an open-source Spanish 
 
 **About me:** Simon Gonzalez, builder of DialectOS. Previously [add relevant background].
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Available for recording any time. Would love to chat!
 
@@ -61,7 +61,7 @@ I'd like to pitch DialectOS for the show — it's an open-source translation eng
 - MCP and the future of AI tool integration
 - Testing strategies for translation software
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Would love to be considered.
 
@@ -97,7 +97,7 @@ DialectOS is a Spanish dialect translation system that applies adversarial quali
 **Why it matters for AI:**
 As more apps use LLMs for translation, quality validation becomes critical. We're building the testing infrastructure that generic translation APIs skip.
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Available any time. Would love to discuss!
 
@@ -126,7 +126,7 @@ I'd like to pitch DialectOS for an episode — it's an open-source Spanish diale
 - Quality gates for AI-generated content
 - Testing strategies for NLP applications
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Let me know if you're interested!
 
@@ -156,7 +156,7 @@ I'd love to do a deep dive on DialectOS — our open-source translation server's
 - Rate limiting + SSRF protection
 - Chaos harness for deterministic resilience testing
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Interested?
 

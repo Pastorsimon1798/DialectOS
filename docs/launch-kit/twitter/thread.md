@@ -81,7 +81,7 @@ Translate "Pick up the file" to Mexican Spanish:
 
 DialectOS applies dialect context + semantic gates.
 
-🔗 https://pastorsimon1798.github.io/DialectOS
+🔗 https://kyanitelabs.github.io/DialectOS
 
 ---
 
@@ -109,7 +109,7 @@ We test harder than we market.
 
 Star it if it helps your project ⭐
 
-🔗 https://github.com/Pastorsimon1798/DialectOS
+🔗 https://github.com/KyaniteLabs/DialectOS
 
 ---
 
@@ -122,7 +122,7 @@ Ship Mexican Spanish. Argentinian Spanish. Puerto Rican Spanish.
 
 Your users will notice.
 
-⭐ https://github.com/Pastorsimon1798/DialectOS
+⭐ https://github.com/KyaniteLabs/DialectOS
 
 ---
 

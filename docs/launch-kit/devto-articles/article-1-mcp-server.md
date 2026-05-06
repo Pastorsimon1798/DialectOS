@@ -100,8 +100,8 @@ dialectos translate "Hello world" --dialect es-MX
 
 - **1034 tests** across 7 packages
 - **BSL 1.1** — free for most use, becomes Apache-2.0 in 2030
-- [GitHub](https://github.com/Pastorsimon1798/DialectOS)
-- [Live Demo](https://pastorsimon1798.github.io/DialectOS)
+- [GitHub](https://github.com/KyaniteLabs/DialectOS)
+- [Live Demo](https://kyanitelabs.github.io/DialectOS)
 
 ---
 

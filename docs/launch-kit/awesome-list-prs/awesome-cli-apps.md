@@ -1,7 +1,7 @@
 # PR Draft: Add DialectOS to awesome-cli-apps
 
 **Repo to submit to:** `agarrharr/awesome-cli-apps`
-**Your fork:** `Pastorsimon1798/awesome-cli-apps` (fork if needed)
+**Your fork:** `simongonzalezdc/awesome-cli-apps` (fork if needed)
 **Branch to create:** `add-dialectos`
 
 ---
@@ -15,7 +15,7 @@ Find the section for **Translation / Internationalization** or **Text** tools.
 Add this line alphabetically:
 
 ```markdown
-- [DialectOS](https://github.com/Pastorsimon1798/DialectOS) - Spanish dialect translation CLI with 25 regional variants, markdown preservation, and quality gates.
+- [DialectOS](https://github.com/KyaniteLabs/DialectOS) - Spanish dialect translation CLI with 25 regional variants, markdown preservation, and quality gates.
 ```
 
 ## Step 2: Commit and push

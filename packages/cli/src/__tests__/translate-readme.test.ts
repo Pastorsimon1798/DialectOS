@@ -302,17 +302,17 @@ date: 2024-01-01
     });
 
     it("should preserve protected tokens when token file is provided", async () => {
-      const content = "# Kyanite Labs and @pastorsimon1798";
+      const content = "# Kyanite Labs and @simongonzalezdc";
       await fs.writeFile(inputFile, content);
       await fs.writeFile(tokensFile, JSON.stringify({
-        tokens: ["Kyanite Labs", "@pastorsimon1798"],
+        tokens: ["Kyanite Labs", "@simongonzalezdc"],
       }));
 
       const registry = new MockRegistry(
         new MockProvider((text) =>
           text
             .replace("Kyanite Labs", "Laboratorios Cianita")
-            .replace("@pastorsimon1798", "@pastoresimon1798")
+            .replace("@simongonzalezdc", "@translated-handle")
         )
       ) as ProviderRegistry;
 
@@ -326,9 +326,9 @@ date: 2024-01-01
 
       const result = await fs.readFile(outputFile, "utf-8");
       expect(result).toContain("Kyanite Labs");
-      expect(result).toContain("@pastorsimon1798");
+      expect(result).toContain("@simongonzalezdc");
       expect(result).not.toContain("Laboratorios Cianita");
-      expect(result).not.toContain("@pastoresimon1798");
+      expect(result).not.toContain("@translated-handle");
     });
 
     it("should enforce strict glossary mappings for domain terms", async () => {
@@ -362,13 +362,13 @@ date: 2024-01-01
     });
 
     it("should auto-protect identity tokens by default", async () => {
-      const content = "# Follow @pastorsimon1798 on kyanitelabs.tech";
+      const content = "# Follow @simongonzalezdc on kyanitelabs.tech";
       await fs.writeFile(inputFile, content);
 
       const registry = new MockRegistry(
         new MockProvider((text) =>
           text
-            .replace("@pastorsimon1798", "@pastoresimon1798")
+            .replace("@simongonzalezdc", "@translated-handle")
             .replace("kyanitelabs.tech", "kyanitelabs.es")
         )
       ) as ProviderRegistry;
@@ -376,9 +376,9 @@ date: 2024-01-01
       await executeCommand(registry, [inputFile, "--output", outputFile]);
 
       const result = await fs.readFile(outputFile, "utf-8");
-      expect(result).toContain("@pastorsimon1798");
+      expect(result).toContain("@simongonzalezdc");
       expect(result).toContain("kyanitelabs.tech");
-      expect(result).not.toContain("@pastoresimon1798");
+      expect(result).not.toContain("@translated-handle");
       expect(result).not.toContain("kyanitelabs.es");
     });
 

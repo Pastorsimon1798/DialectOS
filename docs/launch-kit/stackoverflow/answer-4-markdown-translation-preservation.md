@@ -15,7 +15,7 @@ Translating markdown docs is harder than plain text because you must preserve:
 
 **Most translation APIs destroy this.** They treat markdown as plain text.
 
-**[DialectOS](https://github.com/Pastorsimon1798/DialectOS)** has a dedicated `translate_markdown` tool that:
+**[DialectOS](https://github.com/KyaniteLabs/DialectOS)** has a dedicated `translate_markdown` tool that:
 
 1. Parses markdown into an AST
 2. Extracts only translatable text nodes

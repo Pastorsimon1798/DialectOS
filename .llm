@@ -66,7 +66,7 @@ translation, glossary enforcement, adversarial quality gates, and standalone val
 BSL 1.1 (free for most use). Becomes Apache-2.0 on 2030-04-20.
 
 ## Links
-- Repository: https://github.com/Pastorsimon1798/DialectOS
-- Documentation: https://pastorsimon1798.github.io/DialectOS
-- Issues: https://github.com/Pastorsimon1798/DialectOS/issues
-- GitHub Action: https://github.com/Pastorsimon1798/DialectOS/blob/main/action.yml
+- Repository: https://github.com/KyaniteLabs/DialectOS
+- Documentation: https://kyanitelabs.github.io/DialectOS
+- Issues: https://github.com/KyaniteLabs/DialectOS/issues
+- GitHub Action: https://github.com/KyaniteLabs/DialectOS/blob/main/action.yml

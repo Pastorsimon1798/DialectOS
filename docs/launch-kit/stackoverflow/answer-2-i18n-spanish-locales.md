@@ -29,7 +29,7 @@ locales/
 
 **But how do you keep them in sync?**
 
-[DialectOS](https://github.com/Pastorsimon1798/DialectOS) has tools for this exact problem:
+[DialectOS](https://github.com/KyaniteLabs/DialectOS) has tools for this exact problem:
 
 ```bash
 # Detect missing keys across dialect files

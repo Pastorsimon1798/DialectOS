@@ -50,6 +50,6 @@ npm install -g @dialectos/cli
 dialectos translate "Hello world" --dialect es-MX
 ```
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Feedback welcome! Especially on the MCP stdio implementation and the provider fallback chain.

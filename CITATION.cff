@@ -6,7 +6,7 @@ abstract: "The first Model Context Protocol server built specifically for Spanis
 authors:
   - family-names: "Gonzalez"
     given-names: "Simon"
-repository-code: "https://github.com/Pastorsimon1798/DialectOS"
+repository-code: "https://github.com/KyaniteLabs/DialectOS"
 license: BSL-1.1
 version: 0.3.0
 date-released: 2026-04-27

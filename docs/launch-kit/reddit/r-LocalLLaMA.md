@@ -42,6 +42,6 @@ This runs adversarial tests and writes:
 - Translation memory with SHA-256 cache
 - 1034 tests
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Has anyone else worked on dialect-aware prompting for local models? Curious about your approaches.

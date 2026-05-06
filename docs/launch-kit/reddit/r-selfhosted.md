@@ -24,7 +24,7 @@ Generic Spanish fails 24 out of 25 countries.
 **Self-hosting setup:**
 
 ```bash
-git clone https://github.com/Pastorsimon1798/DialectOS.git
+git clone https://github.com/KyaniteLabs/DialectOS.git
 cd DialectOS
 pnpm install
 pnpm build
@@ -40,7 +40,7 @@ pnpm dialect:eval -- --live --provider=llm
 
 **License:** BSL 1.1 (free for most use, becomes Apache-2.0 in 2030).
 
-Demo: https://pastorsimon1798.github.io/DialectOS
-Repo: https://github.com/Pastorsimon1798/DialectOS
+Demo: https://kyanitelabs.github.io/DialectOS
+Repo: https://github.com/KyaniteLabs/DialectOS
 
 Would love feedback from the selfhosted community!

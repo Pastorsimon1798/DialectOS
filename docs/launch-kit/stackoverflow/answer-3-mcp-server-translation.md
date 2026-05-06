@@ -8,7 +8,7 @@
 
 If you're using Claude Desktop, Cursor, or any MCP client and want **native translation tools**, you need an MCP server that exposes translation capabilities.
 
-**[DialectOS](https://github.com/Pastorsimon1798/DialectOS)** is the first MCP server built specifically for Spanish dialect translation. It exposes 17 tools:
+**[DialectOS](https://github.com/KyaniteLabs/DialectOS)** is the first MCP server built specifically for Spanish dialect translation. It exposes 17 tools:
 
 ```json
 {

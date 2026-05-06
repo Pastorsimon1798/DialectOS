@@ -12,7 +12,7 @@ If you need **dialect-aware Spanish translation** (not just generic "Spanish"), 
 - **DeepL** — ~5 Spanish variants (ES, MX, BR-PT, etc.)
 - **Azure Translator** — 1 Spanish option
 
-For **25 regional Spanish variants** with quality gates, consider **[DialectOS](https://github.com/Pastorsimon1798/DialectOS)** — an open-source MCP server and CLI:
+For **25 regional Spanish variants** with quality gates, consider **[DialectOS](https://github.com/KyaniteLabs/DialectOS)** — an open-source MCP server and CLI:
 
 ```bash
 npm install -g @dialectos/cli

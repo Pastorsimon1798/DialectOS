@@ -2,7 +2,7 @@
 
 **Title:** Show HN: DialectOS — MCP server for 25 Spanish dialects with quality gates
 
-**URL:** https://github.com/Pastorsimon1798/DialectOS
+**URL:** https://github.com/KyaniteLabs/DialectOS
 
 **Best time to post:** Tuesday or Thursday, 7-9 AM PT
 
@@ -34,6 +34,6 @@ A semantic backstop catches borderline scores. If "Do not click" becomes "Haz cl
 
 **Tech:** TypeScript monorepo, 7 packages, 1034 tests, pnpm workspace, stdio MCP.
 
-**Demo:** https://pastorsimon1798.github.io/DialectOS
+**Demo:** https://kyanitelabs.github.io/DialectOS
 
 Would love feedback on the architecture, the quality gate design, or any Spanish localization war stories.

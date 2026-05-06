@@ -452,17 +452,17 @@ describe("translate-api-docs command", () => {
       mockReadFile.mockImplementation((filePath: string) => {
         if (filePath === tokenFile) {
           return Promise.resolve(JSON.stringify({
-            tokens: ["Kyanite Labs", "@pastorsimon1798"],
+            tokens: ["Kyanite Labs", "@simongonzalezdc"],
           }));
         }
-        return Promise.resolve("Kyanite Labs by @pastorsimon1798");
+        return Promise.resolve("Kyanite Labs by @simongonzalezdc");
       });
       mockParseMarkdown.mockReturnValue({
         sections: [
           {
             type: "paragraph",
-            content: "Kyanite Labs by @pastorsimon1798",
-            raw: "Kyanite Labs by @pastorsimon1798",
+            content: "Kyanite Labs by @simongonzalezdc",
+            raw: "Kyanite Labs by @simongonzalezdc",
             translatable: true,
           },
         ],
@@ -474,7 +474,7 @@ describe("translate-api-docs command", () => {
       (mockProvider.translate as any).mockImplementation(async (inputText: string) => ({
         translatedText: inputText
           .replace("Kyanite Labs", "Laboratorios Cianita")
-          .replace("@pastorsimon1798", "@pastoresimon1798"),
+          .replace("@simongonzalezdc", "@translated-handle"),
         detectedLanguage: "en",
         provider: "mymemory",
       }));
@@ -486,7 +486,7 @@ describe("translate-api-docs command", () => {
       );
 
       expect(mockWriteOutput).toHaveBeenCalledWith(expect.stringContaining("Kyanite Labs"));
-      expect(mockWriteOutput).toHaveBeenCalledWith(expect.stringContaining("@pastorsimon1798"));
+      expect(mockWriteOutput).toHaveBeenCalledWith(expect.stringContaining("@simongonzalezdc"));
     });
 
     it("should enforce strict glossary mappings in API doc translation", async () => {
