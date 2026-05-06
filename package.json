@@ -2,7 +2,7 @@
   "name": "dialectos",
   "version": "0.3.0",
   "private": true,
-  "description": "DialectOS \u2014 Spanish dialect translation server (MCP + CLI)",
+  "description": "Spanish dialect localization MCP server and CLI for 25 regional variants, glossary enforcement, structure preservation, and QA gates.",
   "type": "module",
   "scripts": {
     "build": "pnpm -r build",
@@ -20,6 +20,8 @@
   },
   "keywords": [
     "spanish",
+    "spanish-localization",
+    "latam-spanish",
     "translation",
     "i18n",
     "localization",
@@ -28,6 +30,7 @@
     "cli",
     "dialect",
     "regional-spanish",
+    "dialect-translation",
     "es-mx",
     "es-ar",
     "es-co",
@@ -39,6 +42,8 @@
     "gender-neutral",
     "ai-tools",
     "llm-tools",
+    "mcp-server",
+    "translation-qa",
     "typescript",
     "deepl",
     "libretranslate",
@@ -51,12 +56,12 @@
   "packageManager": "pnpm@9.15.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pastorsimon1798/DialectOS.git"
+    "url": "https://github.com/KyaniteLabs/DialectOS.git"
   },
   "bugs": {
-    "url": "https://github.com/Pastorsimon1798/DialectOS/issues"
+    "url": "https://github.com/KyaniteLabs/DialectOS/issues"
   },
-  "homepage": "https://pastorsimon1798.github.io/DialectOS",
+  "homepage": "https://kyanitelabs.github.io/DialectOS/",
   "pnpm": {
     "overrides": {
       "picomatch@>=4.0.0 <4.0.4": ">=4.0.4",
