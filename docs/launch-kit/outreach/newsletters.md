@@ -25,8 +25,8 @@ It exposes 17 MCP (Model Context Protocol) tools so AI assistants like Claude ca
 - Works with OpenAI, Anthropic, or local LLMs
 - BSL 1.1 license
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
-**Demo:** https://pastorsimon1798.github.io/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
+**Demo:** https://kyanitelabs.github.io/DialectOS
 
 Would love to be featured in an upcoming issue. Happy to provide more details or a guest post.
 
@@ -57,7 +57,7 @@ It started from a real production issue: we shipped Spain Spanish translations t
 - Translation memory with SHA-256 keyed caching
 - 1034 tests across 7 packages
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Would be great to get coverage in Node Weekly.
 
@@ -88,7 +88,7 @@ MCP (Model Context Protocol) is exploding right now. We built what might be the 
 **Why it matters:**
 Most AI translation produces generic Spanish. But Mexican Spanish, Argentinian voseo, and Puerto Rican Spanish are fundamentally different. DialectOS adds dialect-aware prompts + quality validation.
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Interested in covering this?
 
@@ -116,7 +116,7 @@ I'd like to recommend DialectOS for your newsletter — it's an open-source Span
 - High test coverage (1034 tests)
 - Clean architecture (pnpm workspace, provider registry, circuit breaker)
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Would love to be considered.
 
@@ -147,7 +147,7 @@ We're building DialectOS — an open-source translation engine for Spanish regio
 
 It exposes 17 MCP tools, supports 25 dialects, and applies adversarial quality gates to catch semantic drift in AI translations.
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Would love to be featured.
 

@@ -35,7 +35,7 @@ SSH to the Hostinger VPS. Install Docker if not present (see Dclutter's README f
 
 ```bash
 # Clone the repo on the VPS
-git clone https://github.com/Pastorsimon1798/DialectOS.git
+git clone https://github.com/KyaniteLabs/DialectOS.git
 cd DialectOS/server/deploy/hostinger-vps
 
 # Configure
@@ -52,7 +52,7 @@ docker compose --env-file env.hostinger ps
 
 ## Connecting the GitHub Pages demo
 
-The landing page at `pastorsimon1798.github.io/DialectOS` automatically tries the VPS API
+The landing page at `kyanitelabs.github.io/DialectOS` automatically tries the VPS API
 when the local `/api/status` endpoint is unreachable. No extra configuration needed —
 the page falls back to client-side vocabulary adaptation if the VPS is down.
 

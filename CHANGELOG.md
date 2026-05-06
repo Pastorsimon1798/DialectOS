@@ -206,6 +206,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Structured JSON error handling
 - Graceful shutdown on SIGINT/SIGTERM
 
-[0.3.0]: https://github.com/Pastorsimon1798/DialectOS/releases/tag/v0.3.0
-[0.2.0]: https://github.com/Pastorsimon1798/DialectOS/releases/tag/v0.2.0
-[0.1.0]: https://github.com/Pastorsimon1798/DialectOS/releases/tag/v0.1.0
+[0.3.0]: https://github.com/KyaniteLabs/DialectOS/releases/tag/v0.3.0
+[0.2.0]: https://github.com/KyaniteLabs/DialectOS/releases/tag/v0.2.0
+[0.1.0]: https://github.com/KyaniteLabs/DialectOS/releases/tag/v0.1.0

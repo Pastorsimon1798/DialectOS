@@ -35,6 +35,6 @@ We shipped Spain Spanish to Mexico. Users thought we were being rude. Generic Sp
 
 **Supported dialects:** es-ES, es-MX, es-AR, es-CO, es-CL, es-PE, es-VE, es-UY, es-PR, es-CU, es-DO, es-PA, es-CR, es-GT, es-HN, es-SV, es-NI, es-EC, es-BO, es-PY, es-GQ, es-US, es-PH, es-BZ, es-AD
 
-Repo: https://github.com/Pastorsimon1798/DialectOS
+Repo: https://github.com/KyaniteLabs/DialectOS
 
 What's the most confusing Spanish regional word you've encountered?

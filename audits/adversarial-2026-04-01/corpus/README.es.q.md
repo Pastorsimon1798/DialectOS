@@ -67,7 +67,7 @@ Añada a su configuración del cliente MCP (por ejemplo, Claude Desktop `  claud
 ### De la Fuente
 
 ```bash
-git clone https://github.com/Pastorsimon1798/DialectOS.git
+git clone https://github.com/KyaniteLabs/DialectOS.git
 cd DialectOS
 pnpm install
 pnpm build

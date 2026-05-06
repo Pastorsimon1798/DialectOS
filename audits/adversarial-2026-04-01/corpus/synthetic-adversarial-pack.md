@@ -14,9 +14,9 @@ Paragraph with `inline_code()`, [link text](https://example.com/path?q=abc), and
 export const API_URL = "https://api.example.com/v1";
 ```
 
-- Bullet one with HANDLE @pastorsimon1798
+- Bullet one with HANDLE @simongonzalezdc
 - Bullet two with DOMAIN kyanitelabs.tech
-- Bullet three with owner/repo pastorsimon1798/DialectOS
+- Bullet three with owner/repo KyaniteLabs/DialectOS
 
 ## Injection-like content
 

@@ -23,7 +23,7 @@ DialectOS is a Model Context Protocol server that understands 25 Spanish regiona
 
 **Tech stack:** TypeScript, pnpm monorepo, 1034 tests, Vitest
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS
 
 Would love feedback from anyone working on multilingual products!
 
@@ -71,7 +71,7 @@ Source available. BSL 1.1 license (Apache-2.0 on 2030-04-20).
 
 If you're building multilingual products, give it a look.
 
-⭐ https://github.com/Pastorsimon1798/DialectOS
+⭐ https://github.com/KyaniteLabs/DialectOS
 
 ---
 
@@ -95,7 +95,7 @@ I built DialectOS because existing translation APIs treat Spanish as a single la
 
 **License:** BSL 1.1 (becomes Apache-2.0 on 2030-04-20)
 
-https://github.com/Pastorsimon1798/DialectOS
+https://github.com/KyaniteLabs/DialectOS
 
 ---
 
@@ -115,7 +115,7 @@ For teams building multilingual products, this means:
 
 Source available, BSL 1.1 licensed, 1034 tests passing.
 
-https://github.com/Pastorsimon1798/DialectOS
+https://github.com/KyaniteLabs/DialectOS
 
 #i18n #localization #mcp #ai #typescript #opensource
 
@@ -152,4 +152,4 @@ It runs as a Model Context Protocol server, making it the first translation infr
 
 The project includes security hardening (SSRF protection, circuit breakers, adversarial testing), quality gates (semantic drift detection, glossary enforcement), and a full CLI for CI/CD pipelines.
 
-https://github.com/Pastorsimon1798/DialectOS
+https://github.com/KyaniteLabs/DialectOS

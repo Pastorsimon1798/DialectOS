@@ -16,7 +16,7 @@ Spanish is a heavily gendered language. Most translation tools default to mascul
 | latino | latine | U.S. Latinx communities |
 | amigos | amigues | Progressive |
 
-**[DialectOS](https://github.com/Pastorsimon1798/DialectOS)** has a dedicated `apply_gender_neutral` tool:
+**[DialectOS](https://github.com/KyaniteLabs/DialectOS)** has a dedicated `apply_gender_neutral` tool:
 
 ```bash
 dialectos i18n apply-gender-neutral ./locales/es-MX.json --style inclusive

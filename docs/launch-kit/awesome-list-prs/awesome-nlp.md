@@ -1,7 +1,7 @@
 # PR Draft: Add DialectOS to awesome-nlp
 
 **Repo to submit to:** `keon/awesome-nlp`
-**Your fork:** `Pastorsimon1798/awesome-nlp` (fork if needed)
+**Your fork:** `simongonzalezdc/awesome-nlp` (fork if needed)
 **Branch to create:** `add-dialectos`
 
 ---
@@ -15,7 +15,7 @@ Find the section for **Translation** or **Multilingual NLP** tools.
 Add this line alphabetically:
 
 ```markdown
-- [DialectOS](https://github.com/Pastorsimon1798/DialectOS) - Spanish dialect translation server with 25 regional variants, MCP integration, structure-preserving markdown translation, and adversarial quality gates.
+- [DialectOS](https://github.com/KyaniteLabs/DialectOS) - Spanish dialect translation server with 25 regional variants, MCP integration, structure-preserving markdown translation, and adversarial quality gates.
 ```
 
 ## Step 2: Commit and push

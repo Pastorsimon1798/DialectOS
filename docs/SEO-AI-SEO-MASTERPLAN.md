@@ -65,7 +65,7 @@
 # Change: "20 regional variants" → "25 regional variants"
 
 # 2. Fix FUNDING.yml — remove placeholder comment, add real options
-github: [Pastorsimon1798]
+github: [simongonzalezdc]
 # Add: ko_fi, patreon, or buy_me_a_coffee when ready
 
 # 3. Add 10 more GitHub topics via repo settings page
@@ -94,18 +94,18 @@ Add to `docs/index.html` `<head>`:
 <!-- Open Graph -->
 <meta property="og:title" content="DialectOS — Spanish Dialect Translation Server (MCP + CLI)">
 <meta property="og:description" content="Translate across 25 Spanish regional variants with structure preservation, quality gates, and MCP native integration. 1034 tests. 17 MCP tools.">
-<meta property="og:image" content="https://pastorsimon1798.github.io/DialectOS/assets/og-image.png">
-<meta property="og:url" content="https://pastorsimon1798.github.io/DialectOS">
+<meta property="og:image" content="https://kyanitelabs.github.io/DialectOS/assets/og-image.png">
+<meta property="og:url" content="https://kyanitelabs.github.io/DialectOS">
 <meta property="og:type" content="website">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="DialectOS — Spanish Dialect Translation Server">
 <meta name="twitter:description" content="25 Spanish variants. MCP-native. Quality gates. Structure-preserving translation.">
-<meta name="twitter:image" content="https://pastorsimon1798.github.io/DialectOS/assets/og-image.png">
+<meta name="twitter:image" content="https://kyanitelabs.github.io/DialectOS/assets/og-image.png">
 
 <!-- Canonical -->
-<link rel="canonical" href="https://pastorsimon1798.github.io/DialectOS/">
+<link rel="canonical" href="https://kyanitelabs.github.io/DialectOS/">
 
 <!-- Schema.org JSON-LD -->
 <script type="application/ld+json">
@@ -117,8 +117,8 @@ Add to `docs/index.html` `<head>`:
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Any",
   "softwareVersion": "0.1.1",
-  "license": "https://github.com/Pastorsimon1798/DialectOS/blob/main/LICENSE",
-  "codeRepository": "https://github.com/Pastorsimon1798/DialectOS",
+  "license": "https://github.com/KyaniteLabs/DialectOS/blob/main/LICENSE",
+  "codeRepository": "https://github.com/KyaniteLabs/DialectOS",
   "programmingLanguage": ["TypeScript", "JavaScript"],
   "featureList": [
     "25 Spanish regional dialects",
@@ -147,16 +147,16 @@ Create `docs/robots.txt`:
 ```
 User-agent: *
 Allow: /
-Sitemap: https://pastorsimon1798.github.io/DialectOS/sitemap.xml
+Sitemap: https://kyanitelabs.github.io/DialectOS/sitemap.xml
 ```
 
 Create `docs/sitemap.xml`:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://pastorsimon1798.github.io/DialectOS/</loc><priority>1.0</priority></url>
-  <url><loc>https://github.com/Pastorsimon1798/DialectOS</loc><priority>0.9</priority></url>
-  <url><loc>https://github.com/Pastorsimon1798/DialectOS#readme</loc><priority>0.8</priority></url>
+  <url><loc>https://kyanitelabs.github.io/DialectOS/</loc><priority>1.0</priority></url>
+  <url><loc>https://github.com/KyaniteLabs/DialectOS</loc><priority>0.9</priority></url>
+  <url><loc>https://github.com/KyaniteLabs/DialectOS#readme</loc><priority>0.8</priority></url>
 </urlset>
 ```
 
@@ -203,7 +203,7 @@ DialectOS exposes 17 translation tools through MCP.
 
 **Add a "Built with DialectOS" badge**:
 ```markdown
-[![Translated with DialectOS](https://img.shields.io/badge/translated%20with-DialectOS-d89b2b)](https://github.com/Pastorsimon1798/DialectOS)
+[![Translated with DialectOS](https://img.shields.io/badge/translated%20with-DialectOS-d89b2b)](https://github.com/KyaniteLabs/DialectOS)
 ```
 
 **Add comparison table** (LLMs LOVE these):
@@ -287,8 +287,8 @@ DialectOS exposes 17 translation tools through MCP.
   - genre: translation software (QXXX)
   - programming language: TypeScript (QXXX)
   - license: Business Source License 1.1 (QXXX)
-  - official website: https://github.com/Pastorsimon1798/DialectOS
-  - source code repository: https://github.com/Pastorsimon1798/DialectOS
+  - official website: https://github.com/KyaniteLabs/DialectOS
+  - source code repository: https://github.com/KyaniteLabs/DialectOS
   - developer: Simon Gonzalez
 
 **3. Create .llm file**
@@ -324,9 +324,9 @@ translation, glossary enforcement, and adversarial quality gates.
 BSL 1.1 (free for most use). Becomes Apache-2.0 on 2030-04-20.
 
 ## Links
-- Repository: https://github.com/Pastorsimon1798/DialectOS
-- Documentation: https://pastorsimon1798.github.io/DialectOS
-- Issues: https://github.com/Pastorsimon1798/DialectOS/issues
+- Repository: https://github.com/KyaniteLabs/DialectOS
+- Documentation: https://kyanitelabs.github.io/DialectOS
+- Issues: https://github.com/KyaniteLabs/DialectOS/issues
 ```
 
 **4. Get Listed in AI Tool Directories**

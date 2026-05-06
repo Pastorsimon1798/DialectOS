@@ -158,4 +158,4 @@ Your users will notice. And they'll thank you for it.
 
 *Simon Gonzalez is the builder of DialectOS, an open-source Spanish dialect translation server. 25 dialects, 1034 tests, and a mission to fix Spanish localization.*
 
-**Repo:** https://github.com/Pastorsimon1798/DialectOS
+**Repo:** https://github.com/KyaniteLabs/DialectOS

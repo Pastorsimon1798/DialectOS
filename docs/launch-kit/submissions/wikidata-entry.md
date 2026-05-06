@@ -36,8 +36,8 @@
 | genre (P136) | translation software | Search for exact QID |
 | programming language (P277) | TypeScript (Q978185) | |
 | license (P275) | Business Source License 1.1 | May need to create this item |
-| official website (P856) | https://github.com/Pastorsimon1798/DialectOS | |
-| source code repository (P1324) | https://github.com/Pastorsimon1798/DialectOS | |
+| official website (P856) | https://github.com/KyaniteLabs/DialectOS | |
+| source code repository (P1324) | https://github.com/KyaniteLabs/DialectOS | |
 | developer (P178) | Simon Gonzalez | Create person item if needed |
 | software version (P348) | 0.1.1 | |
 | operating system (P306) | cross-platform (Q285308) | |

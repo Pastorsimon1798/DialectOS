@@ -73,7 +73,7 @@ DialectOS supports all of these:
 2. **Pick target markets** — Translate to the specific dialect, not "Spanish"
 3. **Use quality gates** — Check for semantic drift, negation drops, structure breaks
 
-[DialectOS](https://github.com/Pastorsimon1798/DialectOS) handles all of this as an MCP server and CLI tool. 25 dialects, structure preservation, adversarial quality gates, 1034 tests.
+[DialectOS](https://github.com/KyaniteLabs/DialectOS) handles all of this as an MCP server and CLI tool. 25 dialects, structure preservation, adversarial quality gates, 1034 tests.
 
 ---
 

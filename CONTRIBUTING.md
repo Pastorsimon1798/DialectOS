@@ -12,7 +12,7 @@ Thank you for your interest in contributing! DialectOS is a community-driven pro
 ### Setup
 
 ```bash
-git clone https://github.com/Pastorsimon1798/DialectOS.git
+git clone https://github.com/KyaniteLabs/DialectOS.git
 cd DialectOS
 pnpm install
 pnpm build
@@ -106,7 +106,7 @@ This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDU
 
 ## ❓ Questions?
 
-- Open a [GitHub Discussion](https://github.com/Pastorsimon1798/DialectOS/discussions)
+- Open a [GitHub Discussion](https://github.com/KyaniteLabs/DialectOS/discussions)
 - Or reach out via the issue tracker
 
 Thank you for making DialectOS better! 🌎

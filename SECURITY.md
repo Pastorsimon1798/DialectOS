@@ -10,7 +10,7 @@
 
 **Please do not open public issues for security vulnerabilities.**
 
-Instead, report security concerns via [GitHub Security Advisories](https://github.com/Pastorsimon1798/DialectOS/security/advisories/new) or email the maintainer directly.
+Instead, report security concerns via [GitHub Security Advisories](https://github.com/KyaniteLabs/DialectOS/security/advisories/new) or email the maintainer directly.
 
 We will:
 1. Acknowledge receipt within 48 hours

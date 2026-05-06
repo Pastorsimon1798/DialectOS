@@ -14,7 +14,7 @@ DialectOS is an open-source Spanish dialect translation server built on the Mode
 
 **Category:** Developer Tools
 
-**Website:** https://github.com/Pastorsimon1798/DialectOS
+**Website:** https://github.com/KyaniteLabs/DialectOS
 
 **Additional Details:**
 
