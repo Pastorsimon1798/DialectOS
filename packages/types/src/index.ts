@@ -1,5 +1,20 @@
 import { z } from "zod";
 
+/**
+ * @dialectos/types — Spanish language types, schemas, and runtime data.
+ *
+ * This package serves a dual role:
+ * 1. **Pure types and schemas** (defined inline below): TypeScript interfaces,
+ *    type aliases, and Zod validation schemas used across all DialectOS packages.
+ * 2. **Runtime data modules** (re-exported below): dialect vocabulary tables,
+ *    verb conjugations, noun gender database, dialect profiles, glossary data,
+ *    and certification/quality scoring logic.
+ *
+ * The runtime data lives in dedicated modules and is loaded on demand.
+ * Consumers that only need types can import from sub-paths to avoid pulling
+ * in the full data set (e.g., `import type { SpanishDialect } from "@dialectos/types"`).
+ */
+
 // ============================================================================
 // Spanish Dialect Types
 // ============================================================================
@@ -381,26 +396,29 @@ export const translationRequestSchema = z.object({
  */
 export const batchTargetsSchema = z.array(dialectSchema).min(1, "At least one target dialect is required").max(25, "Cannot exceed 25 target dialects");
 
-export * from "./glossary-data.js";
+// ============================================================================
+// Runtime Data Modules
+//
+// These modules contain dialect vocabulary tables, conjugation data,
+// noun gender databases, and other runtime data/functions. They are
+// re-exported for convenience but can also be imported directly from
+// their sub-paths for more targeted imports.
+// ============================================================================
 
-export * from "./dialect-profiles.js";
-
-export * from "./dialect-quality.js";
-
-export * from "./certification.js";
-
+// --- Validation and result helpers ---
+export * from "./result.js";
 export * from "./validation.js";
 
-export * from "./dialectal-dictionary.js";
-
+// --- Dialect metadata and profiles ---
+export * from "./dialect-profiles.js";
 export * from "./dialect-regions.js";
+export * from "./dialect-quality.js";
+export * from "./certification.js";
 
-export * from "./verb-conjugations.js";
-
-export * from "./verb-conjugations-extra.js";
-
+// --- Dialect vocabulary and grammar data ---
 export * from "./dialectal-vocabulary.js";
-
+export * from "./dialectal-dictionary.js";
+export * from "./glossary-data.js";
+export * from "./verb-conjugations.js";
+export * from "./verb-conjugations-extra.js";
 export * from "./noun-gender.js";
-
-export * from "./result.js";

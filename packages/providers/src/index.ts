@@ -7,6 +7,9 @@
 // Core types
 export * from "./types.js";
 
+// Morphology helpers
+export { applyCase, spanishPluralize } from "./morphology.js";
+
 // Circuit breaker and retry
 export { CircuitBreaker } from "./circuit-breaker.js";
 export { RetryPolicy } from "./retry.js";
@@ -22,6 +25,7 @@ export { DeepLProvider } from "./providers/deepl.js";
 export { LibreTranslateProvider } from "./providers/libre-translate.js";
 export { MyMemoryProvider } from "./providers/my-memory.js";
 export { LLMProvider } from "./providers/llm.js";
+export { extractResponseText } from "./providers/llm-response.js";
 
 // Translation corpus
 export { TranslationCorpus } from "./translation-corpus.js";

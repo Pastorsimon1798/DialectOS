@@ -10,6 +10,7 @@
 
 import type { SpanishDialect } from "@dialectos/types";
 import { getVocabularyForDialect, resolveNounGender } from "@dialectos/types";
+import { applyCase, spanishPluralize } from "./morphology.js";
 
 interface SwapRule {
   wrongTerm: string;
@@ -53,39 +54,6 @@ function getSwapRules(dialect: SpanishDialect): SwapRule[] {
     swapCache.set(dialect, rules);
   }
   return rules;
-}
-
-/** Preserve the original casing pattern when swapping a word. */
-function applyCase(original: string, replacement: string): string {
-  if (original === original.toLowerCase()) return replacement.toLowerCase();
-  if (original === original.toUpperCase()) return replacement.toUpperCase();
-  if (original[0] === original[0].toUpperCase() && original.slice(1) === original.slice(1).toLowerCase()) {
-    return replacement[0].toUpperCase() + replacement.slice(1).toLowerCase();
-  }
-  if (original[0] === original[0].toUpperCase()) {
-    return replacement[0].toUpperCase() + replacement.slice(1);
-  }
-  return replacement;
-}
-
-/**
- * Apply Spanish pluralization rules to a singular noun.
- * Covers the common cases: vowel + s, consonant + es, z → ces.
- */
-function spanishPluralize(singular: string): string {
-  const lower = singular.toLowerCase();
-  if (lower.endsWith("z")) {
-    return singular.slice(0, -1) + "c" + singular.slice(-1).replace("z", "es").replace("Z", "ES");
-  }
-  if (lower.endsWith("ión") || lower.endsWith("ion")) {
-    // Already ends in a form that pluralizes with -es; just add s
-    return singular + "es";
-  }
-  if (/[aeiouáéíóú]$/i.test(singular)) {
-    return singular + "s";
-  }
-  // Default: consonant ending → add -es
-  return singular + "es";
 }
 
 /**

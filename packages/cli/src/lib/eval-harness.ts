@@ -12,7 +12,7 @@ import { basename, join } from "node:path";
 import { buildLexicalAmbiguityExpectations } from "./lexical-ambiguity.js";
 import { judgeTranslationOutput } from "./output-judge.js";
 import { validateTranslation } from "./validate-translation.js";
-import { createProviderRegistry } from "./provider-factory.js";
+import { createProviderRegistry } from "@dialectos/providers";
 import { buildSemanticTranslationContext } from "./semantic-context.js";
 
 // Re-export utilities so scripts can import everything from one module

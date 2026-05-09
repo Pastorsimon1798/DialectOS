@@ -9,6 +9,12 @@
  * article-noun mismatches like "el computadora" or "la mapa".
  */
 
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 export type NounGender = "m" | "f";
 
 // Nouns ending in -a that are MASCULINE (exception to the -a = feminine rule)
@@ -37,69 +43,14 @@ const FEM_EXCEPTIONS: ReadonlySet<string> = new Set([
 ]);
 
 // Direct gender map for nouns that don't follow any reliable rule.
-// Key = lowercase singular form, value = gender.
-const GENDER_OVERRIDES: ReadonlyMap<string, NounGender> = new Map([
-  // Technology
-  ["computadora", "f"], ["ordenador", "m"], ["computador", "m"],
-  ["celular", "m"], ["movil", "m"], ["telefono", "m"],
-  ["aplicacion", "f"], ["pagina", "f"], ["archivo", "m"],
-  ["carpeta", "f"], ["ventana", "f"], ["pantalla", "f"],
-  ["teclado", "m"], ["raton", "m"], ["impresora", "f"],
-  ["conexion", "f"], ["contrasena", "f"], ["cuenta", "f"],
-  ["servidor", "m"], ["base de datos", "f"], [" codigo", "m"],
-  ["enlace", "m"], ["correo", "m"], ["mensaje", "m"],
-  ["notificacion", "f"], ["configuracion", "f"], ["ajuste", "m"],
+// Loaded from gender-overrides.json at runtime.
+const genderOverrideData: Record<string, string> = JSON.parse(
+  readFileSync(join(__dirname, "gender-overrides.json"), "utf-8")
+);
 
-  // Transport
-  ["carro", "m"], ["coche", "m"], ["auto", "m"], ["vehiculo", "m"],
-  ["autobus", "m"], ["colectivo", "m"], ["micro", "m"],
-  ["camion", "m"], ["bicicleta", "f"], ["motocicleta", "f"],
-  ["avion", "m"], ["tren", "m"], ["barco", "m"], ["metro", "m"],
-  ["estacion", "f"], ["parada", "f"], ["boleto", "m"], ["billete", "m"],
-  ["pasaje", "m"], ["viaje", "m"], ["ruta", "f"], ["calle", "f"],
-  ["avenida", "f"], ["carretera", "f"], ["autopista", "f"],
-
-  // Food & drink
-  ["zumo", "m"], ["jugo", "m"], ["agua", "f"], ["cafe", "m"],
-  ["cerveza", "f"], ["vino", "m"], ["refresco", "m"], ["bebida", "f"],
-  ["tarta", "f"], ["pastel", "m"], ["torta", "f"], ["bizcocho", "m"],
-  ["fruta", "f"], ["carne", "f"], ["pescado", "m"], ["pollo", "m"],
-  ["ensalada", "f"], ["sopa", "f"], ["pan", "m"], ["arroz", "m"],
-  ["huevo", "m"], ["leche", "f"], ["manteca", "f"], ["mantequilla", "f"],
-  ["verdura", "f"], ["legumbre", "f"], ["postre", "m"],
-
-  // Body parts
-  ["cabeza", "f"], ["brazo", "m"], ["pierna", "f"], ["mano", "f"],
-  ["pie", "m"], ["ojo", "m"], ["boca", "f"], ["nariz", "f"],
-  ["oreja", "f"], ["cuello", "m"], ["espalda", "f"], ["pecho", "m"],
-  ["corazon", "m"], ["estomago", "m"], ["hueso", "m"], ["sangre", "f"],
-  ["pelle", "f"], ["cara", "f"], ["diente", "m"], ["lengua", "f"],
-
-  // People & family
-  ["hombre", "m"], ["mujer", "f"], ["nino", "m"], ["nina", "f"],
-  ["bebe", "m"], ["madre", "f"], ["padre", "m"], ["hijo", "m"],
-  ["hija", "f"], ["hermano", "m"], ["hermana", "f"], ["abuelo", "m"],
-  ["abuela", "f"], ["tio", "m"], ["tia", "f"], ["primo", "m"],
-  ["prima", "f"], ["esposo", "m"], ["esposa", "f"], ["amigo", "m"],
-  ["amiga", "f"], ["persona", "f"], ["gente", "f"],
-
-  // Nature
-  ["arbol", "m"], ["flor", "f"], ["rio", "m"], ["mar", "m"],
-  ["montana", "f"], ["selva", "f"], ["bosque", "m"], ["playa", "f"],
-  ["sol", "m"], ["luna", "f"], ["estrella", "f"], ["cielo", "m"],
-  ["tierra", "f"], ["piedra", "f"], ["hoja", "f"], ["planta", "f"],
-
-  // Clothing
-  ["camisa", "f"], ["pantalon", "m"], ["vestido", "m"], ["falda", "f"],
-  ["zapato", "m"], ["sombrero", "m"], ["chaqueta", "f"], ["abrigo", "m"],
-  ["bufanda", "f"], ["guante", "m"], ["calcetin", "m"], ["corbata", "f"],
-
-  // Household
-  ["casa", "f"], ["puerta", "f"], ["mesa", "f"], ["silla", "f"],
-  ["cama", "f"], ["sofa", "m"], [" cocina", "f"], ["bano", "m"],
-  ["habitacion", "f"], ["cuarto", "m"], ["escalera", "f"], ["techo", "m"],
-  ["pared", "f"], ["ventana", "f"], ["llave", "f"], ["espejo", "m"],
-]);
+const GENDER_OVERRIDES: ReadonlyMap<string, NounGender> = new Map(
+  Object.entries(genderOverrideData) as [string, NounGender][]
+);
 
 /**
  * Try to convert a plural noun to its singular form.

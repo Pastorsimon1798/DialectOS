@@ -41,8 +41,8 @@ import {
   ProviderRegistry,
 } from "@dialectos/providers";
 import { ToolResult } from "../lib/types.js";
-import { createProviderRegistry } from "../lib/provider-factory.js";
-import { prepareProviderRequest } from "../lib/provider-request.js";
+import { createProviderRegistry } from "@dialectos/providers";
+import type { TranslateOptions } from "@dialectos/types";
 
 // ============================================================================
 // Types
@@ -381,8 +381,7 @@ async function handleTranslateMissingKeys(
       if (!baseEntry) continue;
 
       try {
-        const prepared = prepareProviderRequest(
-          registry,
+        const prepared = registry.prepareRequest(
           provider.name,
           baseEntry.value,
           "en",
@@ -509,8 +508,7 @@ async function handleBatchTranslateLocales(
         // Translate missing keys
         for (const entry of missingEntries) {
           try {
-            const prepared = prepareProviderRequest(
-              registry,
+            const prepared = registry.prepareRequest(
               provider.name,
               entry.value,
               "en",

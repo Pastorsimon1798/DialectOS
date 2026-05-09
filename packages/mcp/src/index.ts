@@ -19,7 +19,7 @@ import { registerI18nTools } from "./tools/i18n.js";
 import { registerTranslatorTools } from "./tools/translator.js";
 import { setupGlobalHandlers } from "./lib/error-handler.js";
 import { loadConfig, getConfigPath, type MCPConfig } from "./lib/config.js";
-import { createProviderRegistry } from "./lib/provider-factory.js";
+import { createProviderRegistry } from "@dialectos/providers";
 import { RateLimiter } from "@dialectos/security";
 
 const packageJson = JSON.parse(

@@ -1,6 +1,12 @@
 # @dialectos/types
 
-Shared TypeScript types and schemas for DialectOS.
+Shared TypeScript types, Zod schemas, and Spanish dialect runtime data for DialectOS.
+
+This package serves a dual role:
+1. **Pure types and schemas** — TypeScript interfaces, type aliases, and Zod validators used across all packages.
+2. **Runtime data** — dialect vocabulary tables, verb conjugations, noun gender database, dialect profiles, glossary data, and certification/quality scoring.
+
+Runtime data modules can be imported directly from their sub-paths for more targeted imports (e.g., `import { getVocabularyForDialect } from "@dialectos/types/dialectal-vocabulary"`).
 
 ## Exports
 

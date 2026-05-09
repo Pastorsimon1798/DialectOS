@@ -30,7 +30,7 @@ vi.mock("../tools/translator.js", () => ({
   registerTranslatorTools: vi.fn(),
 }));
 
-vi.mock("../lib/provider-factory.js", () => ({
+vi.mock("@dialectos/providers", () => ({
   createProviderRegistry: vi.fn().mockReturnValue({}),
 }));
 

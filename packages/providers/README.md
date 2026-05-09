@@ -60,6 +60,37 @@ LLM_API_FORMAT="lmstudio"
 
 LM Studio mode calls the native `/api/v1/models`, `/api/v1/models/load`, and `/api/v1/chat` endpoints so a downloaded local model can be loaded on demand before dialect evaluation.
 
+## Post-Processing Pipeline
+
+Every translation passes through `DialectOutputPipeline` for deterministic fixes:
+
+```typescript
+import { DialectOutputPipeline, validateAgreement, applyLexicalSubstitution, applyVoseo } from "@dialectos/providers";
+
+// Validate article-noun agreement
+const { warnings, passed } = validateAgreement("el computadora nueva");
+// → { warnings: [{ type: "gender", found: "el computadora", suggestion: "la computadora" }], passed: false }
+
+// Apply dialect-specific vocabulary
+const adapted = applyLexicalSubstitution("Toma el autobús al trabajo", "es-CU");
+// → "Toma la guagua al trabajo"
+```
+
+### Morphology helpers
+
+```typescript
+import { applyCase, spanishPluralize } from "@dialectos/providers";
+
+applyCase("Computadora", "ordenador");  // → "Ordenador"
+spanishPluralize("luz");               // → "luces"
+```
+
+### Quality gates
+
+```typescript
+import { runQualityGates, lengthSanityCheck, dialectComplianceCheck } from "@dialectos/providers";
+```
+
 ## Capability Negotiation
 
 ```typescript

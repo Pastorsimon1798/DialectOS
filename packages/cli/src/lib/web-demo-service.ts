@@ -6,7 +6,7 @@ import { detectDialect } from "./dialect-info.js";
 import { buildLexicalAmbiguityExpectations } from "./lexical-ambiguity.js";
 import { detectIdioms, checkIdiomCompliance } from "./idiom-detection.js";
 import { judgeTranslationOutput } from "./output-judge.js";
-import { createProviderRegistry } from "./provider-factory.js";
+import { createProviderRegistry } from "@dialectos/providers";
 import { buildSemanticTranslationContext } from "./semantic-context.js";
 
 export interface WebDemoTranslateRequest {
@@ -56,7 +56,7 @@ function validateWebDemoProvider(provider: string | undefined): string | undefin
 }
 
 export function getWebDemoProviderStatus(
-  registry: ProviderRegistry = createProviderRegistry(true)
+  registry: ProviderRegistry = createProviderRegistry(undefined, true)
 ): WebDemoProviderStatus {
   const providers = registry.listProviders();
   const semanticProviders = providers.filter((name) =>
@@ -78,7 +78,7 @@ export function getWebDemoProviderStatus(
 
 export async function translateForWebDemo(
   request: WebDemoTranslateRequest,
-  registry: ProviderRegistry = createProviderRegistry(true)
+  registry: ProviderRegistry = createProviderRegistry(undefined, true)
 ): Promise<WebDemoTranslateResult> {
   const startedAt = Date.now();
   const text = request.text.trim();

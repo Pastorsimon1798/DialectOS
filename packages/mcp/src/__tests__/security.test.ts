@@ -12,7 +12,7 @@ vi.mock("node:fs", async () => {
   return {
     ...actual,
     readFileSync: vi.fn((path: string | URL, ...args: any[]) => {
-      if (typeof path === "string" && (path.includes("dialectal-dictionary.json") || path.includes("verb-conjugations.json"))) {
+      if (typeof path === "string" && path.endsWith(".json")) {
         return actual.readFileSync(path, ...args);
       }
       return "# Hello World";
@@ -82,6 +82,7 @@ vi.mock("@dialectos/providers", () => ({
       get: vi.fn(),
       getAuto: vi.fn(),
       register: vi.fn(),
+      prepareRequest: vi.fn().mockReturnValue({ sourceLang: "en", targetLang: "es-ES", options: {}, warnings: [] }),
     };
   }),
   DeepLProvider: vi.fn(),
@@ -130,6 +131,7 @@ describe("MCP Security Tests", () => {
       get: vi.fn(),
       getAuto: vi.fn(),
       register: vi.fn(),
+      prepareRequest: vi.fn().mockReturnValue({ sourceLang: "en", targetLang: "es-ES", options: {}, warnings: [] }),
     } as unknown as ProviderRegistry;
 
     // Mock provider translate

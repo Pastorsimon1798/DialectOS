@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, renameSync, rmSync,
 import { join } from "node:path";
 
 import type { I18nEntry, LocaleDiff } from "@dialectos/types";
-import { createSecureTempPath } from "@dialectos/security";
+import { createSecureTempPath, SecurityError, ErrorCode, MAX_KEYS, MAX_RECURSION_DEPTH } from "@dialectos/security";
 
 // Mock fs module BEFORE importing the functions under test
 vi.mock("node:fs", async (importOriginal) => {
@@ -66,17 +66,13 @@ vi.mock("@dialectos/types", () => ({
   LocaleDiff,
 }));
 
-// Import SecurityError and types from the actual implementation
+// Import locale utilities from the actual implementation
 import {
   readLocaleFile,
   diffLocales,
   writeLocaleFile,
   flattenLocale,
   unflattenLocale,
-  SecurityError,
-  ErrorCode,
-  MAX_KEYS,
-  MAX_RECURSION_DEPTH,
 } from "../index";
 
 // Mock the types module

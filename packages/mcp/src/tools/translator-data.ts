@@ -3,14 +3,16 @@ import { ALL_SPANISH_DIALECTS, type SpanishDialect } from "@dialectos/types";
 import type { McpRegionalLexemeProposal, ResearchRegionalTermParams, McpRegionalResearchSource } from "./translator-types.js";
 
 /**
- * Metadata for all 25 Spanish dialects with detection keywords
+ * DialectMetadata entries keyed by code for O(1) lookup.
+ * Build-time completeness: ensures every ALL_SPANISH_DIALECTS entry is present.
  */
-export const DIALECT_METADATA: Array<{
-  code: SpanishDialect;
-  name: string;
-  description: string;
-  keywords: string[];
-}> = [
+type DialectMetaEntry = { code: SpanishDialect; name: string; description: string; keywords: string[] };
+
+/**
+ * Metadata for all 25 Spanish dialects with detection keywords.
+ * Completeness is enforced against ALL_SPANISH_DIALECTS at the bottom of this file.
+ */
+export const DIALECT_METADATA: DialectMetaEntry[] = [
   {
     code: "es-ES",
     name: "Castilian Spanish (Spain)",
@@ -551,6 +553,13 @@ export const DIALECT_METADATA: Array<{
     ],
   },
 ];
+
+// Compile-time + runtime completeness check: every dialect must be present.
+const _metadataCodes = new Set(DIALECT_METADATA.map((d) => d.code));
+const _missing = ALL_SPANISH_DIALECTS.filter((d) => !_metadataCodes.has(d));
+if (_missing.length > 0) {
+  throw new Error(`DIALECT_METADATA missing entries for: ${_missing.join(", ")}`);
+}
 
 export function parseMcpDialectList(value: string): SpanishDialect[] {
   return value.split(",").map((item) => item.trim()).filter(Boolean).map((item) => {

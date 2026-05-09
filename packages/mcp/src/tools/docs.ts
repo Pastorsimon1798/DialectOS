@@ -31,11 +31,10 @@ import {
 import type { ProviderRegistry } from "@dialectos/providers";
 import { ToolResult } from "../lib/types.js";
 import type { BaseToolOptions } from "../lib/types.js";
-import { createProviderRegistry as createProviderRegistryImpl } from "../lib/provider-factory.js";
-import { prepareProviderRequest } from "../lib/provider-request.js";
+import { createProviderRegistry } from "@dialectos/providers";
 
 // Re-export for backward compatibility
-export { createProviderRegistryImpl as createProviderRegistry };
+export { createProviderRegistry };
 
 // ============================================================================
 // Types
@@ -120,8 +119,7 @@ async function handleTranslateMarkdown(
       } else {
         try {
           // Translate the content
-          const prepared = prepareProviderRequest(
-            registry,
+          const prepared = registry.prepareRequest(
             provider.name,
             section.content,
             "en",
@@ -292,8 +290,7 @@ async function handleTranslateApiDocs(
       } else {
         try {
           // For API docs, add context about documentation
-          const prepared = prepareProviderRequest(
-            registry,
+          const prepared = registry.prepareRequest(
             provider.name,
             section.content,
             "en",
@@ -401,8 +398,7 @@ async function handleCreateBilingualDoc(
       } else {
         try {
           // Translate the content
-          const prepared = prepareProviderRequest(
-            registry,
+          const prepared = registry.prepareRequest(
             provider.name,
             section.content,
             "en",
@@ -484,7 +480,7 @@ export function registerDocsTools(
   options: DocsToolsOptions = {}
 ): void {
   // Create registry if not provided
-  const registry = options.registry || createProviderRegistryImpl();
+  const registry = options.registry || createProviderRegistry();
 
   // Create rate limiter if not provided
   const rateLimiter = options.rateLimiter || new RateLimiter(60, 60000);

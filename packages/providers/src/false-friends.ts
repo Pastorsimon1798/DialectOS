@@ -9,6 +9,12 @@
  * but has different meanings (e.g., embarrassed ≠ embarazada).
  */
 
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 export interface FalseFriendWarning {
   /** The word found in the text */
   found: string;
@@ -20,49 +26,19 @@ export interface FalseFriendWarning {
   correctWord: string;
 }
 
-// Common false friends: English word → Spanish false friend → correct translation
-const FALSE_FRIENDS: ReadonlyArray<{
+interface FalseFriendEntry {
   english: string;
   falseFriend: string;
   spanishMeaning: string;
   correctWord: string;
-}> = [
-  { english: "embarrassed", falseFriend: "embarazada", spanishMeaning: "pregnant", correctWord: "avergonzado/a" },
-  { english: "embarrassing", falseFriend: "embarazoso", spanishMeaning: "troublesome/awkward", correctWord: "vergonzoso" },
-  { english: "constipated", falseFriend: "constipado", spanishMeaning: "having a cold", correctWord: "estreñido" },
-  { english: "constipation", falseFriend: "constipación", spanishMeaning: "cold/flu", correctWord: "estreñimiento" },
-  { english: "success", falseFriend: "suceso", spanishMeaning: "event/incident", correctWord: "éxito" },
-  { english: "successful", falseFriend: "suceso", spanishMeaning: "event/incident", correctWord: "exitoso" },
-  { english: "actually", falseFriend: "actualmente", spanishMeaning: "currently", correctWord: "en realidad" },
-  { english: "assist", falseFriend: "asistir", spanishMeaning: "to attend", correctWord: "ayudar" },
-  { english: "attendance", falseFriend: "asistencia", spanishMeaning: "presence/help", correctWord: "asistencia" },
-  { english: "billion", falseFriend: "billón", spanishMeaning: "trillion (10^12)", correctWord: "mil millones" },
-  { english: "carpet", falseFriend: "carpeta", spanishMeaning: "folder", correctWord: "alfombra" },
-  { english: "college", falseFriend: "colegio", spanishMeaning: "school (K-12)", correctWord: "universidad" },
-  { english: "deception", falseFriend: "decepción", spanishMeaning: "disappointment", correctWord: "engaño" },
-  { english: "disappointed", falseFriend: "decepcionado", spanishMeaning: "disappointed (correct!) → but often overused", correctWord: "decepcionado" },
-  { english: "discuss", falseFriend: "discutir", spanishMeaning: "to argue/fight", correctWord: "debatir / hablar de" },
-  { english: "discussion", falseFriend: "discusión", spanishMeaning: "argument/fight", correctWord: "debate / conversación" },
-  { english: "exit", falseFriend: "éxito", spanishMeaning: "success", correctWord: "salida" },
-  { english: "fabric", falseFriend: "fábrica", spanishMeaning: "factory", correctWord: "tela" },
-  { english: "lecture", falseFriend: "lectura", spanishMeaning: "reading", correctWord: "conferencia" },
-  { english: "library", falseFriend: "librería", spanishMeaning: "bookstore", correctWord: "biblioteca" },
-  { english: "parents", falseFriend: "parientes", spanishMeaning: "relatives", correctWord: "padres" },
-  { english: "pretend", falseFriend: "pretender", spanishMeaning: "to intend/attempt", correctWord: "fingir" },
-  { english: "qualify", falseFriend: "calificar", spanishMeaning: "to grade/rate", correctWord: "cualificar" },
-  { english: "realize", falseFriend: "realizar", spanishMeaning: "to carry out", correctWord: "darse cuenta" },
-  { english: "remove", falseFriend: "remover", spanishMeaning: "to stir", correctWord: "quitar" },
-  { english: "resume", falseFriend: "resumir", spanishMeaning: "to summarize", correctWord: "reanudar" },
-  { english: "sensible", falseFriend: "sensible", spanishMeaning: "sensitive", correctWord: "sensato" },
-  { english: "sensitive", falseFriend: "sensible", spanishMeaning: "sensitive (actually correct in some contexts)", correctWord: "sensible" },
-  { english: "soup", falseFriend: "sopa", spanishMeaning: "soup (correct!)", correctWord: "sopa" },
-  { english: "topic", falseFriend: "tópico", spanishMeaning: "cliché", correctWord: "tema" },
-  { english: "tuna", falseFriend: "tuna", spanishMeaning: "prickly pear", correctWord: "atún" },
-  { english: "vision", falseFriend: "visión", spanishMeaning: "vision (correct!)", correctWord: "visión" },
-];
+}
+
+const FALSE_FRIENDS: readonly FalseFriendEntry[] = JSON.parse(
+  readFileSync(join(__dirname, "data", "false-friends.json"), "utf-8")
+);
 
 // Build a lookup map from Spanish false friend word → entry
-const FALSE_FRIEND_LOOKUP: ReadonlyMap<string, typeof FALSE_FRIENDS[number]> = new Map(
+const FALSE_FRIEND_LOOKUP: ReadonlyMap<string, FalseFriendEntry> = new Map(
   FALSE_FRIENDS.filter((ff) => ff.english !== "attendance" && ff.english !== "disappointed" && ff.english !== "soup" && ff.english !== "vision")
     .map((ff) => [ff.falseFriend.toLowerCase(), ff])
 );
