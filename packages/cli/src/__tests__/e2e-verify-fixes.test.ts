@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, vi } from "vitest";
-import { LLMProvider } from "@dialectos/providers";
+import { LLMProvider, extractResponseText } from "@dialectos/providers";
 import { executeTranslate } from "../commands/translate.js";
 import { buildSemanticTranslationContext } from "../lib/semantic-context.js";
 import { buildLexicalAmbiguityExpectations, checkLexicalCompliance } from "../lib/lexical-ambiguity.js";
@@ -51,19 +51,16 @@ describe("LLM path execution verification", () => {
   });
 
   it("parses OpenAI string and array content blocks", () => {
-    const provider = new LLMProvider({ endpoint: "https://example.com/v1", model: "test" });
-    const extract = (provider as any)["extractResponseText"].bind(provider);
-
-    expect(extract({ choices: [{ message: { content: "Hola mundo" } }] }))
+    expect(extractResponseText("openai", { choices: [{ message: { content: "Hola mundo" } }] }))
       .toBe("Hola mundo");
 
-    expect(extract({ choices: [{ message: { content: [
+    expect(extractResponseText("openai", { choices: [{ message: { content: [
       { type: "text", text: "Hola " },
       { type: "text", text: "mundo" }
     ] } }] }))
       .toBe("Hola mundo");
 
-    expect(extract({ choices: [{ message: { content: [] } }] }))
+    expect(extractResponseText("openai", { choices: [{ message: { content: [] } }] }))
       .toBeUndefined();
   });
 

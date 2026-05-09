@@ -14,6 +14,7 @@ import {
   FULL_VOSEO_DIALECTS,
   REGIONAL_VOSEO_DIALECTS,
 } from "@dialectos/types";
+import { applyCase } from "./morphology.js";
 
 interface VoseoSwap {
   tuForm: string;
@@ -64,19 +65,6 @@ function getVoseoSwaps(dialect: SpanishDialect): VoseoSwap[] {
     voseoCache.set(dialect, swaps);
   }
   return swaps;
-}
-
-/** Preserve the original casing pattern when swapping a word. */
-function applyCase(original: string, replacement: string): string {
-  if (original === original.toLowerCase()) return replacement.toLowerCase();
-  if (original === original.toUpperCase()) return replacement.toUpperCase();
-  if (original[0] === original[0].toUpperCase() && original.slice(1) === original.slice(1).toLowerCase()) {
-    return replacement[0].toUpperCase() + replacement.slice(1).toLowerCase();
-  }
-  if (original[0] === original[0].toUpperCase()) {
-    return replacement[0].toUpperCase() + replacement.slice(1);
-  }
-  return replacement;
 }
 
 /** Build a regex that matches a word with word boundaries. */

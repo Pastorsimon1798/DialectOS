@@ -19,7 +19,6 @@ import {
 } from "@dialectos/security";
 import type { I18nEntry, LocaleDiff } from "@dialectos/types";
 
-export { validateJsonPath, sanitizeErrorMessage, createSecureTempPath, SecurityError, ErrorCode, MAX_KEYS, MAX_RECURSION_DEPTH };
 export type { I18nEntry, LocaleDiff };
 
 // ============================================================================

@@ -14,8 +14,25 @@ import { extractSentinels } from "../sentinel-extraction.js";
 import { runQualityGates } from "../quality-gates.js";
 import { DialectOutputPipeline, defaultDialectOutputPipeline } from "../pipeline/index.js";
 import { RateLimiter, sanitizeErrorMessage, HTTP_TIMEOUT, validateContentLength, SecurityError, ErrorCode } from "@dialectos/security";
-import { ALL_SPANISH_DIALECTS, languageCodeSchema, getVocabularyForDialect, getSyntacticRules } from "@dialectos/types";
+import { ALL_SPANISH_DIALECTS, languageCodeSchema } from "@dialectos/types";
 import type { SpanishDialect } from "@dialectos/types";
+
+import {
+  isCompactModel,
+  detectModelTier,
+  buildSystemPrompt,
+  buildStrictSystemPrompt,
+  buildDialectSystemPrompt,
+  buildGeneralGrammarSystemPrompt,
+  buildDialectAdaptationSystemPrompt,
+  buildSpanishVocabHint,
+  buildUserPrompt,
+} from "./llm-prompts.js";
+
+import {
+  extractResponseText,
+  stripPreamble,
+} from "./llm-response.js";
 
 const DEFAULT_MAX_PAYLOAD_CHARS = 50000;
 const DEFAULT_MAX_REQUESTS = 60;
@@ -98,181 +115,6 @@ function validateLLMEndpoint(urlStr: string, allowLocal: boolean): string {
   return urlStr;
 }
 
-function extractChatCompletionText(data: unknown): string | undefined {
-  if (!data || typeof data !== "object") return undefined;
-  const choices = (data as { choices?: unknown }).choices;
-  if (!Array.isArray(choices) || choices.length === 0) return undefined;
-  const first = choices[0] as { message?: { content?: unknown }; text?: unknown } | undefined;
-  const content = first?.message?.content ?? first?.text;
-  // Modern OpenAI responses may return content as an array of parts
-  if (Array.isArray(content)) {
-    const text = content
-      .map((part) => {
-        if (!part || typeof part !== "object") return "";
-        const typed = part as { type?: unknown; text?: unknown };
-        if (typed.type === "text" && typeof typed.text === "string") {
-          return typed.text;
-        }
-        // Fallback: any object with a text field
-        const maybeText = typed.text;
-        return typeof maybeText === "string" ? maybeText : "";
-      })
-      .join("")
-      .trim();
-    return text.length > 0 ? text : undefined;
-  }
-  if (typeof content !== "string" || content.trim().length === 0) return undefined;
-  return stripReasoningTags(content.trim());
-}
-
-const REASONING_TAG_RE = /<think[\s>][\s\S]*?<\/think>|<thinking[\s>][\s\S]*?<\/thinking>|<tiz[\s>][\s\S]*?<\/tiz>/gi;
-
-function stripReasoningTags(text: string): string {
-  const stripped = text.replace(REASONING_TAG_RE, "").trim();
-  return stripped.length > 0 ? stripped : text;
-}
-
-function extractAnthropicText(data: unknown): string | undefined {
-  if (!data || typeof data !== "object") return undefined;
-  const content = (data as { content?: unknown }).content;
-  if (!Array.isArray(content)) return undefined;
-
-  const text = content
-    .map((part) => {
-      if (!part || typeof part !== "object") return "";
-      const maybeText = (part as { text?: unknown }).text;
-      return typeof maybeText === "string" ? maybeText : "";
-    })
-    .join("")
-    .trim();
-
-  return text.length > 0 ? text : undefined;
-}
-
-function extractLMStudioText(data: unknown): string | undefined {
-  if (!data || typeof data !== "object") return undefined;
-  const output = (data as { output?: unknown }).output;
-  if (!Array.isArray(output)) return undefined;
-
-  const text = output
-    .map((item) => {
-      if (!item || typeof item !== "object") return "";
-      const typed = item as { type?: unknown; content?: unknown };
-      return typed.type === "message" && typeof typed.content === "string"
-        ? typed.content
-        : "";
-    })
-    .join("")
-    .trim();
-
-  return text.length > 0 ? text : undefined;
-}
-
-function buildSystemPrompt(): string {
-  return "You are a Spanish translation engine for DialectOS. Translate to the requested dialect. Output ONLY the Spanish translation — no preamble, explanations, alternatives, or English text.";
-}
-
-function buildStrictSystemPrompt(dialect?: string, text?: string): string {
-  const base = "Translate to Spanish. Output ONLY the Spanish text. No English. No preamble. No explanation. Start with the first Spanish word immediately.";
-  if (!dialect || !text) return base;
-  const hint = buildTargetedVocabHint(text, dialect);
-  return hint ? `${base}\n${hint}` : base;
-}
-
-function buildCompactSystemPrompt(): string {
-  return "Translate to Spanish. Output ONLY the Spanish text. Follow the dialect vocabulary exactly. No English. No explanation.";
-}
-
-/**
- * Build a dialect-specific system prompt with targeted vocabulary hints.
- * For compact/weak models, ALL instructions and hints go in the system prompt,
- * and the user prompt contains ONLY the source text. Weak models cannot
- * reliably separate instructions from content when mixed in the user prompt.
- */
-function buildDialectSystemPrompt(
-  dialect: string,
-  text: string,
-  formality?: string
-): string {
-  const base = "You are a Spanish translation engine. Translate the input text to Spanish. Output ONLY the Spanish translation — no preamble, no explanation, no English. Preserve grammatical person: I → yo, you → tú/vos, he/she → él/ella, we → nosotros, they → ellos.";
-  const vocabHint = buildTargetedVocabHint(text, dialect);
-  const parts = [base];
-  if (vocabHint) {
-    parts.push(vocabHint);
-  }
-  if (formality && formality !== "auto") {
-    parts.push(`Use ${formality} register.`);
-  }
-  return parts.join(" ");
-}
-
-function buildGeneralGrammarSystemPrompt(): string {
-  return "You are a Spanish language editor. Your task is to produce clean, grammatically correct, standard Spanish text. If the input is in another language, translate it to Spanish. If the input is already Spanish, fix any grammar, spelling, punctuation, or syntax errors. Output ONLY the Spanish text — no preamble, explanations, alternatives, or English text.";
-}
-
-function buildDialectAdaptationSystemPrompt(): string {
-  return "You are a Spanish dialect adapter. Adapt the following standard Spanish text to the requested dialect. Apply the dialect vocabulary and grammar rules exactly. Output ONLY the adapted Spanish text — no preamble, explanations, alternatives, or English text.";
-}
-
-
-
-// Reasoning/thinking tags emitted by qwen3 and other thinking-capable models.
-const THINK_TAG_PATTERN = /<think[^>]*>[\s\S]*?<\/think\s*>/g;
-
-// Common conversational preambles small models emit before the actual translation.
-const PREAMBLE_PATTERNS: Array<[RegExp, string]> = [
-  [/^[\s\S]*?(Sure,? I can help[^\n]*\n+)/i, ""],
-  [/^[\s\S]*?(Okay,? I understand[^\n]*\n+)/i, ""],
-  [/^[\s\S]*?(Here is (a |the )?(translated |Spanish )?[^\n]*:\s*\n+)/i, ""],
-  [/^[\s\S]*?(Here's (a |the )?(translated |Spanish )?[^\n]*:\s*\n+)/i, ""],
-  [/^[\s\S]*?(Below is (a |the )?[^\n]*:\s*\n+)/i, ""],
-  [/^[\s\S]*?(Let me (help|translate|provide|begin)[^\n]*\n+)/i, ""],
-  [/^[\s\S]*?(Let's begin[^\n]*\n+)/i, ""],
-  [/^\s*<<<\s*\n/m, ""],
-  [/\n\s*>>>\s*$/m, ""],
-  // Spanish conversational preambles (weak models)
-  [/^\s*¡?Bienvenido!?\s*\n*/i, ""],
-  [/^\s*Entiendo\.?\s*Estoy listo[^\n]*\n+/i, ""],
-  [/^\s*Claro,?\s*(puedo|te puedo)[^\n]*\n+/i, ""],
-];
-
-function stripPreamble(text: string): string {
-  let result = text;
-  // Strip reasoning/thinking tags first (qwen3, etc.)
-  result = result.replace(THINK_TAG_PATTERN, "");
-  for (const [pattern, replacement] of PREAMBLE_PATTERNS) {
-    result = result.replace(pattern, replacement);
-  }
-  return result.trim();
-}
-
-function detectModelTier(model: string): "tiny" | "small" | "medium" | "large" {
-  if (process.env.LLM_COMPACT_PROMPT === "1") return "small";
-  if (process.env.LLM_COMPACT_PROMPT === "0") return "large";
-
-  const lower = model.toLowerCase();
-  if (lower.includes("minimax")) return "small";
-  if (/\d+m\b/.test(lower)) return "tiny";
-
-  const effMatch = lower.match(/e(\d*\.?\d+)b/);
-  if (effMatch) {
-    const params = parseFloat(effMatch[1]);
-    if (params <= 1) return "tiny";
-    if (params <= 8) return "small";
-    return "medium";
-  }
-
-  const paramMatch = lower.match(/(\d*\.?\d+)b/);
-  if (paramMatch) {
-    const params = parseFloat(paramMatch[1]);
-    if (params <= 1) return "tiny";
-    if (params <= 8) return "small";
-    return "medium";
-  }
-
-  return "large";
-}
-
 async function checkQuality(
   sourceText: string,
   translatedText: string,
@@ -290,266 +132,6 @@ async function checkQuality(
     return { passed: false, details: failed.map((f) => `${f.name}: ${f.details}`).join("; ") };
   }
   return { passed: true };
-}
-
-const SANITIZE_MAP: Array<[RegExp, string]> = [
-  [/—/g, "-"],           // em-dash → hyphen
-  [/–/g, "-"],           // en-dash → hyphen
-  [/‘|’/g, "'"],    // smart single quotes
-  [/“|”/g, '"'],    // smart double quotes
-  [/€/g, "EUR"],         // € → EUR
-  [/£/g, "GBP"],         // £ → GBP
-  [/¥/g, "JPY"],         // ¥ → JPY
-  [/…/g, "..."],         // … → ...
-];
-
-// Chat template format markers that can be abused for prompt injection
-const FORMAT_INJECTION_PATTERNS: Array<[RegExp, string]> = [
-  [/<\|im_start\|>\s*(system|assistant|user)\b[^<]*<\|im_end\|>/gi, ""],  // ChatML blocks
-  [/<\|im_start\|>/gi, ""],           // ChatML start
-  [/<\|im_end\|>/gi, ""],             // ChatML end
-  [/\[INST\][\s\S]*?\[\/INST\]/gi, ""],  // Llama/Mistral blocks
-  [/\[INST\]/gi, ""],                 // Llama [INST]
-  [/\[\/INST\]/gi, ""],               // Llama [/INST]
-  [/###\s*Instruction:/gi, ""],       // Alpaca
-  [/###\s*Response:/gi, ""],          // Alpaca
-  [/###\s*System:/gi, ""],            // Alpaca variant
-  [/<system>[\s\S]*?<\/system>/gi, ""],   // XML-style system tags
-  [/<system>/gi, ""],                 // orphan <system>
-  [/<\/system>/gi, ""],               // orphan </system>
-  [/<\|assistant\|>/gi, ""],          // Phi/Gemma style
-  [/<\|user\|>/gi, ""],               // Phi/Gemma style
-  [/<\|system\|>/gi, ""],             // Phi/Gemma style
-  [/^\s*(SYSTEM|ASSISTANT|USER|INSTRUCTION)\s*:\s*/gm, ""],  // Role prefix lines
-];
-
-function stripFormatInjection(text: string): string {
-  let result = text;
-  for (const [pattern, replacement] of FORMAT_INJECTION_PATTERNS) {
-    result = result.replace(pattern, replacement);
-  }
-  return result;
-}
-
-function sanitizeForPrompt(text: string): string {
-  let result = stripFormatInjection(text);
-  for (const [pattern, replacement] of SANITIZE_MAP) {
-    result = result.replace(pattern, replacement);
-  }
-  return result;
-}
-
-/**
- * Detect models too small for full semantic-context prompts.
- * Models ≤ 8B params (or specified in MB) get a compact prompt that
- * skips the heavy dialect context — they echo it instead of translating.
- */
-function isCompactModel(model: string): boolean {
-  if (process.env.LLM_COMPACT_PROMPT === "1") return true;
-  if (process.env.LLM_COMPACT_PROMPT === "0") return false;
-
-  const lower = model.toLowerCase();
-  // MiniMax M-series models are weak/compact
-  if (lower.includes("minimax")) return true;
-  // Effective-param markers (e.g., "e2b" = effective 2B)
-  const effMatch = lower.match(/e(\d*\.?\d+)b/);
-  if (effMatch && parseFloat(effMatch[1]) <= 8) return true;
-  // Total-param markers (e.g., "0.6b", "1.2b", "8b")
-  const paramMatch = lower.match(/(\d*\.?\d+)b/);
-  if (paramMatch && parseFloat(paramMatch[1]) <= 8) return true;
-  // Models specified in MB (e.g., "461M") are always compact
-  if (/\d+m\b/.test(lower)) return true;
-  return false;
-}
-
-/**
- * For compact models, extract only vocabulary entries whose concept or gloss
- * matches words in the source text. This avoids the 17KB+ vocabulary table
- * that overwhelms small models, while preserving dialect-critical terms.
- *
- * Scoring: exact whole-word concept match = 2 points, substring match = 1 point.
- * Only the top-scored entries (score >= 2) are included to suppress noise
- * from concepts like "usb_drive" matching on the word "drive".
- */
-function buildTargetedVocabHint(text: string, dialect: string): string {
-  try {
-    const swaps = getVocabularyForDialect(dialect as SpanishDialect);
-    const sourceLower = text.toLowerCase();
-    const sourceWords = new Set(sourceLower.split(/\s+/));
-
-    type ScoredSwap = { swap: typeof swaps[number]; score: number };
-    const scored: ScoredSwap[] = [];
-
-    for (const s of swaps) {
-      if (s.avoidTerms.length === 0) continue;
-      const conceptWords = s.concept.split(/[_\s]+/).filter(w => w.length > 2);
-      let score = 0;
-
-      // Exact whole-word match on concept name (highest signal)
-      for (const w of conceptWords) {
-        if (sourceWords.has(w)) score += 2;
-        else if (sourceLower.includes(w)) score += 1;
-      }
-
-      // Tokenize englishGloss and check individual words
-      if (score === 0 && s.englishGloss.length > 2) {
-        const glossWords = s.englishGloss.toLowerCase().split(/[\s,;.()\/]+/).filter(w => w.length > 2);
-        for (const w of glossWords) {
-          if (sourceWords.has(w)) { score += 2; break; }
-        }
-      }
-
-      if (score >= 2) scored.push({ swap: s, score });
-    }
-
-    if (scored.length === 0) return "";
-    // Take top matches, cap at 6 to avoid overwhelming small context
-    scored.sort((a, b) => b.score - a.score);
-    const top = scored.slice(0, 6);
-    const hints = top.map(({ swap: s }) => {
-      const avoid = s.avoidTerms.length > 0 ? ` (NOT ${s.avoidTerms.slice(0, 2).join(", ")})` : "";
-      return `${s.concept.replace(/_/g, " ")} → ${s.preferredTerm}${avoid}`;
-    }).join("; ");
-
-    // Add grammar rules for the dialect — validate rules plus critical prompt-only ones
-    const rules = getSyntacticRules(dialect as SpanishDialect);
-    const grammarHints = rules
-      .filter(r => r.enforcement === "validate" || r.id === "plural-address-vosotros" || r.id === "plural-address-ustedes")
-      .map(r => r.rule)
-      .slice(0, 3);
-
-    const parts = [`Dialect: ${dialect}. Use: ${hints}.`];
-    if (grammarHints.length > 0) {
-      parts.push(grammarHints.join(" "));
-    }
-    return parts.join(" ");
-  } catch {
-    return "";
-  }
-}
-
-/**
- * Build targeted grammar hints based on specific English patterns in the source.
- * Weak models often fail on ambiguous constructions; explicit rules help.
- */
-function buildTargetedGrammarHint(text: string): string {
-  const hints: string[] = [];
-  const lower = text.toLowerCase();
-
-  // Possessive "have" vs auxiliary "have" — weak models confuse these
-  if (/\b(you|i|we|they)\s+have\s+a\b/.test(lower)) {
-    hints.push('Possessive "have" (owning something) = "tener". Do not use "haber".');
-  }
-
-  // "You" at sentence start — weak models sometimes flip to first person (answering mode)
-  if (/^you\b/i.test(text.trim())) {
-    hints.push('Preserve "you" as tú/vos. Do not change to "yo" (I).');
-  }
-
-  // Question form — weak models sometimes answer instead of translate
-  if (/^do\s+you\b/i.test(text.trim()) || /^are\s+you\b/i.test(text.trim()) || /^can\s+you\b/i.test(text.trim())) {
-    hints.push('Translate the question exactly. Do not answer it.');
-  }
-
-  return hints.join(" ");
-}
-
-// Cache for Spanish→hint reverse lookup
-const spanishHintCache = new Map<SpanishDialect, Map<string, { concept: string; preferredTerm: string }>>();
-
-function buildSpanishHintMap(dialect: SpanishDialect): Map<string, { concept: string; preferredTerm: string }> {
-  const swaps = getVocabularyForDialect(dialect);
-  const map = new Map<string, { concept: string; preferredTerm: string }>();
-  for (const s of swaps) {
-    for (const avoid of s.avoidTerms) {
-      const key = avoid.toLowerCase();
-      // Only store the first match (shorter wrong terms may be shadowed by longer ones,
-      // but the lexical substitution post-processor will catch those)
-      if (!map.has(key)) {
-        map.set(key, { concept: s.concept, preferredTerm: s.preferredTerm });
-      }
-    }
-  }
-  return map;
-}
-
-function getSpanishHintMap(dialect: SpanishDialect): Map<string, { concept: string; preferredTerm: string }> {
-  let map = spanishHintCache.get(dialect);
-  if (!map) {
-    map = buildSpanishHintMap(dialect);
-    spanishHintCache.set(dialect, map);
-  }
-  return map;
-}
-
-/**
- * Build dialect vocabulary hints by scanning SPANISH text for words
- * that are wrong for the target dialect.
- *
- * This is much more effective than scanning English source text because
- * we can directly detect wrong-dialect terms in the input.
- */
-function buildSpanishVocabHint(text: string, dialect: string): string {
-  try {
-    const hintMap = getSpanishHintMap(dialect as SpanishDialect);
-    const textLower = text.toLowerCase();
-    const words = new Set(textLower.split(/[^\p{L}\p{N}]+/u).filter(w => w.length > 2));
-
-    const hints: string[] = [];
-    for (const word of words) {
-      const entry = hintMap.get(word);
-      if (entry) {
-        hints.push(`${entry.concept.replace(/_/g, " ")} → ${entry.preferredTerm} (NOT ${word})`);
-      }
-    }
-
-    if (hints.length === 0) return "";
-
-    // Add grammar rules
-    const rules = getSyntacticRules(dialect as SpanishDialect);
-    const grammarHints = rules
-      .filter(r => r.enforcement === "validate" || r.id === "plural-address-vosotros" || r.id === "plural-address-ustedes")
-      .map(r => r.rule)
-      .slice(0, 3);
-
-    const parts = [`Dialect: ${dialect}. Use: ${hints.slice(0, 10).join("; ")}.`];
-    if (grammarHints.length > 0) {
-      parts.push(grammarHints.join(" "));
-    }
-    return parts.join(" ");
-  } catch {
-    return "";
-  }
-}
-
-function buildUserPrompt(text: string, sourceLang: string, targetLang: string, options: TranslateOptions = {}, model?: string): string {
-  const sanitized = sanitizeForPrompt(text);
-  const compact = model ? isCompactModel(model) : false;
-  const isQwen = model?.toLowerCase().includes("qwen") ?? false;
-  const dialect = options.dialect || targetLang;
-
-  // For compact/weak models, ALL instructions and vocab hints go in the
-  // SYSTEM prompt (see buildDialectSystemPrompt). The user prompt must
-  // contain ONLY the source text — weak models cannot separate instructions
-  // from content when mixed together.
-  if (compact) {
-    return [
-      sanitized,
-      isQwen ? "/no_think" : undefined,
-    ].filter(Boolean).join("\n");
-  }
-
-  // Full models can handle instructions + context in the user prompt.
-  const ctx = options.context || undefined;
-  const instruction = `Translate the above text to ${dialect} Spanish${options.formality && options.formality !== "auto" ? ` (${options.formality} register)` : ""}.`;
-
-  return [
-    sanitized,
-    "",
-    isQwen ? "/no_think" : undefined,
-    instruction,
-    ctx,
-  ].filter(Boolean).join("\n");
 }
 
 export class LLMProvider implements TranslationProvider {
@@ -686,22 +268,18 @@ export class LLMProvider implements TranslationProvider {
     await this.rateLimiter.acquire();
     await this.acquireSlot();
     try {
-      // Extract sentinels once for the whole pipeline
       const { text: strippedText, sentinels } = extractSentinels(text);
 
       let result: TranslationResult;
       if (this.twoCallMode) {
         result = await this._doTwoCallTranslate(strippedText, sourceLang, targetLang, options, sentinels);
       } else {
-        // Attempt 1: dialect-aware system prompt for compact models (with vocab hints),
-        // generic system prompt for full models (hints in user prompt).
         const dialect = options?.dialect || targetLang;
         const sysPrompt = isCompactModel(this.model)
           ? buildDialectSystemPrompt(dialect, strippedText, options?.formality)
           : buildSystemPrompt();
         result = await this._doSingleCallTranslate(strippedText, sourceLang, targetLang, options, sysPrompt, sentinels);
 
-        // Run quality gates; if any fail, retry once with a stricter prompt
         const quality = await checkQuality(text, result.translatedText, dialect, this.model);
         if (!quality.passed) {
           const retryPrompt = buildStrictSystemPrompt(dialect, strippedText);
@@ -765,7 +343,7 @@ export class LLMProvider implements TranslationProvider {
       }),
     ])) as unknown;
 
-    const rawText = this.extractResponseText(data);
+    const rawText = extractResponseText(this.apiFormat, data);
     const translatedText = stripPreamble(rawText || "");
     if (!translatedText) {
       throw new Error("LLM response did not include translated content");
@@ -824,16 +402,13 @@ export class LLMProvider implements TranslationProvider {
     const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs * 2);
 
     try {
-      // Call 1: General Spanish grammar fix (dialect-agnostic)
       const generalSystemPrompt = buildGeneralGrammarSystemPrompt();
       const generalUserPrompt = strippedText;
       const call1Output = await this._callLLM(generalSystemPrompt, generalUserPrompt, controller.signal);
 
-      // Call 2: Dialect adaptation with Spanish-input vocabulary hints
       const dialect = options?.dialect || targetLang;
       const spanishHint = buildSpanishVocabHint(call1Output, dialect);
 
-      // For compact models: put hints in system prompt, user prompt = only Spanish text
       const isCompact = isCompactModel(this.model);
       const dialectSystemPrompt = isCompact
         ? `${buildDialectAdaptationSystemPrompt()} ${spanishHint}`.trim()
@@ -918,17 +493,6 @@ export class LLMProvider implements TranslationProvider {
         { role: "user", content: userPrompt },
       ],
     };
-  }
-
-  private extractResponseText(data: unknown): string | undefined {
-    switch (this.apiFormat) {
-      case "anthropic":
-        return extractAnthropicText(data);
-      case "lmstudio":
-        return extractLMStudioText(data);
-      default:
-        return extractChatCompletionText(data);
-    }
   }
 
   private normalizeEndpoint(endpoint: string): string {

@@ -17,7 +17,6 @@ import {
   ProviderRegistry,
 } from "@dialectos/providers";
 import { ToolResult } from "../lib/types.js";
-import { prepareProviderRequest } from "../lib/provider-request.js";
 import { DIALECT_METADATA, researchRegionalTermMcp, serperSearch } from "./translator-data.js";
 import { detectDialect } from "./dialect-detector.js";
 
@@ -61,8 +60,7 @@ export async function handleTranslateText(
     if (params.informal) formality = "informal";
 
     // Translate
-    const prepared = prepareProviderRequest(
-      registry,
+    const prepared = registry.prepareRequest(
       provider.name,
       params.text,
       "en",
@@ -210,8 +208,7 @@ export async function handleTranslateCodeComment(
 
     for (const comment of comments) {
       try {
-        const prepared = prepareProviderRequest(
-          registry,
+        const prepared = registry.prepareRequest(
           provider.name,
           comment.content,
           "en",
@@ -326,8 +323,7 @@ export async function handleTranslateReadme(
         }
       } else {
         try {
-          const prepared = prepareProviderRequest(
-            registry,
+          const prepared = registry.prepareRequest(
             provider.name,
             section.content,
             "en",

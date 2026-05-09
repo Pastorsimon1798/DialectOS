@@ -1,0 +1,40 @@
+{
+  "simpleFixes": [
+    { "source": "\\btambien\\b", "flags": "g", "replacement": "también" },
+    { "source": "\\bTambien\\b", "flags": "g", "replacement": "También" },
+    { "source": "\\bademas\\b", "flags": "g", "replacement": "además" },
+    { "source": "\\bAdemas\\b", "flags": "g", "replacement": "Además" },
+    { "source": "\\bporfavor\\b", "flags": "gi", "replacement": "por favor" },
+    { "source": "\\bquizas\\b", "flags": "g", "replacement": "quizás" },
+    { "source": "\\bQuizas\\b", "flags": "g", "replacement": "Quizás" },
+    { "source": "\\bjamas\\b", "flags": "g", "replacement": "jamás" },
+    { "source": "\\bJamas\\b", "flags": "g", "replacement": "Jamás" },
+    { "source": "\\balgun\\b", "flags": "g", "replacement": "algún" },
+    { "source": "\\bAlgun\\b", "flags": "g", "replacement": "Algún" },
+    { "source": "\\bningun\\b", "flags": "g", "replacement": "ningún" },
+    { "source": "\\bNingun\\b", "flags": "g", "replacement": "Ningún" }
+  ],
+  "diacriticFixes": [
+    {
+      "type": "string",
+      "source": "\\bSi\\b,\\s",
+      "flags": "g",
+      "replacement": "Sí, ",
+      "description": "Sí at start before comma"
+    },
+    {
+      "type": "string",
+      "source": "\\bsi\\b,\\s",
+      "flags": "g",
+      "replacement": "sí, ",
+      "description": "sí before comma"
+    },
+    {
+      "type": "function",
+      "source": "\\bTu\\s+(puedes|quieres|necesitas|tienes|sabes|vas|eres|estas|has|debes|crees|sientes)\\b",
+      "flags": "gi",
+      "functionBody": "return match === match.toUpperCase() ? match : match.replace(/^Tu/, 'Tú');",
+      "description": "Tú before common verbs"
+    }
+  ]
+}

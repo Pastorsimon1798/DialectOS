@@ -10,7 +10,24 @@
  * stylistic choices. This is a CHECK layer, not a constraint layer.
  */
 
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
 import { resolveNounGender, type NounGender } from "@dialectos/types";
+import { spanishPluralize } from "./morphology.js";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+interface WordListData {
+  commonNonNouns: string[];
+  invariantNouns: string[];
+  invariantAdjectives: string[];
+}
+
+const wordListData: WordListData = JSON.parse(
+  readFileSync(join(__dirname, "data", "spanish-word-lists.json"), "utf-8")
+);
 
 export interface AgreementWarning {
   type: "gender" | "number";
@@ -97,7 +114,7 @@ export function validateAgreement(text: string): AgreementResult {
         // Only flag if the noun is clearly singular (doesn't end in s)
         // Some nouns are invariant (e.g., "crisis", "lunes")
         if (!_isInvariantNoun(noun)) {
-          const pluralNoun = _makePlural(noun);
+          const pluralNoun = spanishPluralize(noun);
           if (pluralNoun !== noun) {
             warnings.push({
               type: "number",
@@ -125,7 +142,7 @@ export function validateAgreement(text: string): AgreementResult {
     if (nounIsPlural && !adjIsPlural && adj.length > 3) {
       // Don't flag invariable adjectives (e.g., "verde", "joven", "grande")
       if (!_isInvariantAdjective(adj)) {
-        const pluralAdj = _makePlural(adj);
+        const pluralAdj = spanishPluralize(adj);
         if (pluralAdj !== adj) {
           warnings.push({
             type: "number",
@@ -160,23 +177,12 @@ export function applyAgreementFixes(text: string): string {
 
 // --- Helpers ---
 
+const commonNonNouns = new Set(wordListData.commonNonNouns);
+const INVARIANT_NOUNS = new Set(wordListData.invariantNouns);
+const INVARIANT_ADJECTIVES = new Set(wordListData.invariantAdjectives);
+
 function _looksLikeNonNoun(word: string): boolean {
   if (word.length <= 2) return true;
-
-  const commonNonNouns = new Set([
-    "que", "de", "en", "y", "a", "es", "se", "no", "por", "con",
-    "para", "como", "pero", "su", "mas", "si", "yo", "el", "lo",
-    "le", "me", "te", "nos", "les", "ya", "esta", "ese", "aquel",
-    "todo", "cada", "otro", "mismo", "mucho", "poco", "tanto",
-    "donde", "cuando", "aqui", "alli", "hoy", "ayer", "manana",
-    "siempre", "nunca", "tambien", "muy", "bien", "mal", "puede",
-    "tiene", "hace", "sido", "visto", "dado", "hecho", "dicho",
-    "puesto", "primero", "segundo", "tercero", "ultimo", "nuevo",
-    "viejo", "grande", "pequeno", "bueno", "malo", "mejor", "peor",
-    "principal", "general", "total", "social", "debe", "quiere",
-    "sabe", "viene", "creo", "parece", "dice", "haz", "pon",
-    "anda", "ando", "iendo", "ado", "ido",
-  ]);
 
   if (commonNonNouns.has(word)) return true;
   if (word.endsWith("mente")) return true;
@@ -184,36 +190,10 @@ function _looksLikeNonNoun(word: string): boolean {
   return false;
 }
 
-// Nouns that don't change form in plural
-const INVARIANT_NOUNS = new Set([
-  "crisis", "lunes", "martes", "miercoles", "jueves", "viernes",
-  "paraguas", "tijeras", "gafas", "pijama", "especies", "series",
-  "analysis", "sis", "bus",
-]);
-
 function _isInvariantNoun(noun: string): boolean {
   return INVARIANT_NOUNS.has(noun);
 }
 
-// Adjectives that don't change form in plural
-const INVARIANT_ADJECTIVES = new Set([
-  "verde", "joven", "grande", "fuerte", "dulce", "salada",
-  "cortes", "modales", "simple", "inteligible",
-]);
-
 function _isInvariantAdjective(adj: string): boolean {
   return INVARIANT_ADJECTIVES.has(adj);
-}
-
-function _makePlural(word: string): string {
-  if (word.endsWith("s") || word.endsWith("es")) return word;
-
-  // Words ending in a vowel → add -s
-  if (/[aeiouáéíóú]$/.test(word)) return word + "s";
-
-  // Words ending in -z → change to -ces
-  if (word.endsWith("z")) return word.slice(0, -1) + "ces";
-
-  // Words ending in consonant → add -es
-  return word + "es";
 }

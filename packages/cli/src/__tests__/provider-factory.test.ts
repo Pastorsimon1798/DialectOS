@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { createProviderRegistry, resetDefaultProviderRegistryForTests } from "../lib/provider-factory.js";
+import { createProviderRegistry, resetDefaultProviderRegistryForTests } from "@dialectos/providers";
 
 const ENV_KEYS = [
   "DEEPL_AUTH_KEY",

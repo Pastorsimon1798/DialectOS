@@ -16,7 +16,7 @@ import { z } from "zod";
 import { dialectSchema, providerNameSchema } from "@dialectos/types";
 import { RateLimiter } from "@dialectos/security";
 import { ProviderRegistry } from "@dialectos/providers";
-import { createProviderRegistry } from "../lib/provider-factory.js";
+import { createProviderRegistry } from "@dialectos/providers";
 import {
   handleTranslateText,
   handleDetectDialect,

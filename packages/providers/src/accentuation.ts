@@ -12,78 +12,66 @@
  * heuristics, not full NLP. When in doubt, it does NOT add an accent.
  */
 
-// Map: unaccented form → accented form + context rule
-// "always" = always correct (unaccented form is never valid Spanish in this position)
-// "start" = only at start of sentence/clause
-// "before_verb" = only when followed by a verb
-type AccentRule = { accented: string; when: "always" | "start" | "after_comma" };
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 
-const ACCENT_LOOKUP: ReadonlyMap<string, AccentRule> = new Map([
-  // adverbs — always take accent
-  ["mas", { accented: "más", when: "always" }],
-  ["tambien", { accented: "también", when: "always" }],
-  ["ademas", { accented: "además", when: "always" }],
-  ["siempre", { accented: "siempre", when: "always" }],  // no accent needed
-  ["rapido", { accented: "rápido", when: "always" }],
-  ["facil", { accented: "fácil", when: "always" }],
-  ["dificil", { accented: "difícil", when: "always" }],
-  ["util", { accented: "útil", when: "always" }],
-  ["publico", { accented: "público", when: "always" }],  // ambiguous but common
-  ["unico", { accented: "único", when: "always" }],
-  ["logico", { accented: "lógico", when: "always" }],
-  ["practico", { accented: "práctico", when: "always" }],
-  ["basico", { accented: "básico", when: "always" }],
-  ["comun", { accented: "común", when: "always" }],
-  ["util", { accented: "útil", when: "always" }],
-  [" angel", { accented: " ángel", when: "always" }],
-]);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Words that ALWAYS need an accent (the unaccented form IS a different word)
-const ALWAYS_ACCENT: ReadonlyMap<string, string> = new Map([
-  ["mas", "más"],          // mas = but, más = more
-  ["tambien", "también"],   // not a word without accent
-  ["ademas", "además"],     // not a word without accent
-  ["porque", "porque"],     // actually valid both ways — skip
-]);
+interface SimpleFixEntry {
+  source: string;
+  flags?: string;
+  replacement: string;
+}
 
-// Diacritic words: same spelling with/without accent, different meaning
-// Only fix when context is clear
-const DIACRITIC_FIXES: ReadonlyArray<{
+interface DiacriticStringFix {
+  type: "string";
+  source: string;
+  flags?: string;
+  replacement: string;
+  description: string;
+}
+
+interface DiacriticFunctionFix {
+  type: "function";
+  source: string;
+  flags?: string;
+  functionBody: string;
+  description: string;
+}
+
+type DiacriticFixEntry = DiacriticStringFix | DiacriticFunctionFix;
+
+interface AccentFixData {
+  simpleFixes: SimpleFixEntry[];
+  diacriticFixes: DiacriticFixEntry[];
+}
+
+const accentData: AccentFixData = JSON.parse(
+  readFileSync(join(__dirname, "data", "accent-fixes.json"), "utf-8")
+);
+
+// Simple accent fixes: words where the unaccented form is simply wrong
+const SIMPLE_FIXES: ReadonlyArray<[RegExp, string]> = accentData.simpleFixes.map(
+  (e) => [new RegExp(e.source, e.flags || ""), e.replacement] as const
+);
+
+// Diacritic fixes: compiled at load time
+type DiacriticFix = {
   pattern: RegExp;
   replacement: string | ((match: string) => string);
   description: string;
-}> = [
-  // "si" at start of sentence or after comma/period when used as "yes" → "sí"
-  // Heuristic: "si" followed by comma is "yes" (sí, claro)
-  { pattern: /\bSi\b,\s/g, replacement: "Sí, ", description: "Sí at start before comma" },
-  { pattern: /\bsi\b,\s/g, replacement: "sí, ", description: "sí before comma" },
+};
 
-  // "el" when it's a pronoun (he) not an article (the) — too ambiguous, skip
-  // "tu" when it's a pronoun (you) not an adjective (your)
-  { pattern: /\bTu\s+(puedes|quieres|necesitas|tienes|sabes|vas|eres|estas|has|debes|crees|sientes)\b/gi,
-    replacement: (match) => match === match.toUpperCase() ? match : match.replace(/^Tu/, "Tú"),
-    description: "Tú before common verbs" },
-];
-
-// Simple accent fixes: words where the unaccented form is simply wrong
-// (not a valid Spanish word, or the accented form is far more common)
-const SIMPLE_FIXES: ReadonlyArray<[RegExp, string]> = [
-  [/\btambien\b/g, "también"],
-  [/\bTambien\b/g, "También"],
-  [/\bademas\b/g, "además"],
-  [/\bAdemas\b/g, "Además"],
-  [/\bporfavor\b/gi, "por favor"],
-  [/\bquizas\b/g, "quizás"],
-  [/\bQuizas\b/g, "Quizás"],
-  [/\btambien\b/g, "también"],
-  [/\bTambien\b/g, "También"],
-  [/\bjamas\b/g, "jamás"],
-  [/\bJamas\b/g, "Jamás"],
-  [/\balgun\b/g, "algún"],
-  [/\bAlgun\b/g, "Algún"],
-  [/\bningun\b/g, "ningún"],
-  [/\bNingun\b/g, "Ningún"],
-];
+const DIACRITIC_FIXES: ReadonlyArray<DiacriticFix> = accentData.diacriticFixes.map((entry) => {
+  const pattern = new RegExp(entry.source, entry.flags || "");
+  if (entry.type === "string") {
+    return { pattern, replacement: entry.replacement, description: entry.description };
+  }
+  // Function-type: reconstruct the replacement function from stored body
+  const fn = new Function("match", (entry as DiacriticFunctionFix).functionBody) as (match: string) => string;
+  return { pattern, replacement: fn, description: entry.description };
+});
 
 /**
  * Fix common missing Spanish accents in LLM output.

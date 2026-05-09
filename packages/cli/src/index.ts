@@ -24,7 +24,7 @@ import { executeGlossaryDiff } from "./commands/glossary-diff.js";
 import { executeValidate } from "./commands/validate.js";
 import { executeTranslateWebsite } from "./commands/translate-website.js";
 import { executeServe } from "./commands/serve.js";
-import { getDefaultProviderRegistry } from "./lib/provider-factory.js";
+import { getDefaultProviderRegistry } from "@dialectos/providers";
 import { writeError, writeOutput } from "./lib/output.js";
 import { SecurityError, createSafeError } from "@dialectos/security";
 import type { SpanishDialect, ProviderName } from "@dialectos/types";

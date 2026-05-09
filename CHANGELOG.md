@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+#### Architecture Refactoring
+- Extracted shared morphology helpers (`applyCase`, `spanishPluralize`) to `providers/src/morphology.ts` — deduplicated from 3 files
+- Removed hidden dependency: `@dialectos/locale-utils` no longer re-exports `@dialectos/security` symbols
+- Added compile-time completeness check for dialect metadata (all 25 dialects validated)
+- Removed 3 pass-through factory wrappers — CLI and MCP now import directly from `@dialectos/providers`
+- Extracted inline data to JSON files: garbage patterns, false friends, accent fixes, word lists, gender overrides
+- Split `llm.ts` (955 lines) into 3 focused modules: `llm.ts` (class + wire protocol), `llm-prompts.ts` (prompt construction), `llm-response.ts` (response extraction + sanitization)
+- Reorganized `@dialectos/types` index with clear separation between pure types and runtime data modules
+- Exported `extractResponseText` from providers for testability
+- Fixed duplicate `export *` in providers index
+
+#### Dialectal Dictionary Overhaul
+
 #### Dialectal Dictionary Overhaul
 - Stripped 500 mechanically propagated entries to pan-Hispanic only (no fake dialect variation)
 - Added 58 new high-dialectal-variation concepts across 4 batches with genuine per-dialect variants
