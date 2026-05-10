@@ -203,19 +203,21 @@ function pickBestDialect(scores: ScoredDialect[]): DetectionResult {
 
   // Ambiguity check: if second-best is within 10% of top,
   // and they do NOT share the same grammar family, reject as ambiguous.
+  // Only apply when the top score is strong enough (>= 2.0) to suggest
+  // genuine ambiguity rather than weak evidence from shared keywords.
   if (
     scores.length >= 2 &&
-    scores[1].combinedScore >= 0.9 * scores[0].combinedScore
+    scores[1].combinedScore >= 0.9 * scores[0].combinedScore &&
+    scores[0].combinedScore >= 2.0
   ) {
     const family0 = getGrammarFamily(scores[0].dialect);
     const family1 = getGrammarFamily(scores[1].dialect);
-    const bothGrammarOnly =
-      scores[0].keywordScore === 0 && scores[1].keywordScore === 0;
-
+    // If the top two dialects share the same grammar family, they are not
+    // truly conflicting — they are just similar dialects. Return the best
+    // match rather than rejecting as ambiguous.
     const sameFamilyBypass =
       family0 !== null &&
-      family0 === family1 &&
-      bothGrammarOnly;
+      family0 === family1;
 
     if (!sameFamilyBypass) {
       return {

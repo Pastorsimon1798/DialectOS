@@ -38,14 +38,20 @@ function extractEntities(text: string): string[] {
   // Multi-word capitalized phrases (proper nouns like "Kyanite Labs")
   const phrases = safe.match(/\b[A-Z][a-zA-Z0-9]*(?:\s+[A-Z][a-zA-Z0-9]*)+\b/g);
   if (phrases) phrases.forEach((e) => entities.add(e.toLowerCase().replace(/\s+/g, "_")));
-  // Single capitalized words (exclude sentence-initial common words)
+  // Single capitalized words (exclude sentence-initial words and common words)
   const capitalized = safe.match(/\b[A-Z][a-zA-Z0-9]{2,}\b/g);
   if (capitalized) {
     const commonWords = new Set(["the", "and", "for", "are", "but", "not", "you", "all", "can", "had", "her", "was", "one", "our", "out", "day", "get", "has", "him", "his", "how", "its", "may", "new", "now", "old", "see", "two", "way", "who", "boy", "did", "she", "use", "her", "man", "men", "run", "say", "too", "ago", "air", "art", "bad", "big", "bit", "car", "dog", "eat", "far", "few", "fun", "got", "guy", "hit", "hot", "job", "kid", "law", "let", "lot", "low", "mom", "mud", "nod", "own", "pay", "pen", "pie", "pop", "put", "red", "sad", "sat", "set", "sin", "sir", "sit", "six", "sky", "son", "sun", "tab", "tag", "tan", "ten", "tie", "tin", "tip", "toe", "ton", "top", "toy", "try", "tub", "tug", "van", "vet", "via", "war", "wet", "win", "won", "wow", "yes", "yet", "zip", "el", "la", "los", "las", "un", "una", "de", "del", "al", "en", "es", "son", "por", "con", "para", "pero", "más", "muy", "sus", "les", "nos", "sin", "sobre", "entre", "desde", "todo", "todos", "esta", "este", "esto", "estos", "estas", "ese", "eso", "esos", "esas", "cada", "otro", "otra", "otros", "otras", "mismo", "misma", "mismos", "mismas", "tan", "tanto", "tanta", "tantos", "tantas", "cómo", "qué", "quién", "cuál", "cuándo", "dónde", "por_qué"]);
-    capitalized.forEach((e) => {
+    for (const e of capitalized) {
       const lower = e.toLowerCase();
-      if (!commonWords.has(lower)) entities.add(lower);
-    });
+      if (commonWords.has(lower)) continue;
+      // Skip sentence-initial single capitalized words — they are usually just
+      // the first word of a sentence, not a named entity.
+      const idx = safe.indexOf(e);
+      const before = safe.slice(0, idx).trimEnd();
+      if (before.length === 0 || /[.!?]\s*$/.test(before)) continue;
+      entities.add(lower);
+    }
   }
   // Mixed alphanumeric codes and acronyms (API, JSON, MCP, v2, etc.)
   const codes = safe.match(/\b[A-Z]{2,}\b|\b[A-Za-z]+[0-9][A-Za-z0-9]*\b/g);
@@ -104,6 +110,14 @@ function calculateCrossLingualPresence(source: string, translated: string): numb
   // Spanish morphological endings
   if (/\b\w+(?:ción|mente|idad|anza|encia|imiento|oso|osa|ico|ica|able|ible|dad|tad|tud|aje|ez|eza)\b/giu.test(translated)) {
     score += 0.3;
+  }
+
+  // Common Spanish function words — strong signal the text is Spanish
+  const spanishFunctionWords = (translated.match(/\b(el|la|los|las|un|una|unos|unas|de|del|al|y|o|pero|a|en|con|por|para|sin|sobre|entre|desde|hacia|hasta|que|quien|cual|cuando|donde|como|porque|pues|si|no|ni|tambien|tampoco|ya|aun|todavia|ahora|entonces|después|antes|luego|pronto|siempre|nunca|jamás|muy|más|menos|poco|mucho|tanto|todo|toda|todos|todas|cada|otro|otra|otros|otras|mismo|misma|mismos|mismas|tal|tales|alguno|alguna|algunos|algunas|ninguno|ninguna|uno|una|unos|unas|varios|varias|demasiado|demasiada|bastante|casi|apenas|solo|sólo|tan|tanto|tanta|tantos|tantas)\b/giu) || []).length;
+  if (spanishFunctionWords >= 2) {
+    score += 0.3;
+  } else if (spanishFunctionWords === 1) {
+    score += 0.15;
   }
 
   // Reasonable length ratio for EN→ES (Spanish is ~15% longer)
@@ -166,9 +180,11 @@ export function calculateSemanticSimilarity(
   // Entity preservation
   const sourceEntities = extractEntities(safeSource);
   const translatedEntities = extractEntities(safeTranslated);
+  const sourceWordCount = tokenize(safeSource).length;
+  const sourceHadCapitalizedWords = /\b[A-Z][a-zA-Z0-9]{2,}\b/.test(safeSource);
   const entityPreservation =
     sourceEntities.length === 0
-      ? 1
+      ? (sourceHadCapitalizedWords && sourceWordCount <= 5 ? 0.15 : 1)
       : jaccardSimilarity(sourceEntities, translatedEntities);
 
   const score =

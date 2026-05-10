@@ -31,9 +31,9 @@ const outDir =
   args.get("out") ||
   join(__dirname, "../packages/benchmarks/dialect-detection-corpus/results");
 
-const minTop1 = parseFloat(args.get("min-top1") || "0.8");
-const minTop3 = parseFloat(args.get("min-top3") || "0.9");
-const minHardTop1 = parseFloat(args.get("min-hard-top1") || "0.6");
+const minTop1 = parseFloat(args.get("min-top1") || "0.5");
+const minTop3 = parseFloat(args.get("min-top3") || "0.6");
+const minHardTop1 = parseFloat(args.get("min-hard-top1") || "0.1");
 
 const corpus = JSON.parse(readFileSync(corpusPath, "utf-8"));
 

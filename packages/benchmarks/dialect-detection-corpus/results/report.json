@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-01T05:17:24.452Z",
-  "corpusPath": "/Users/simongonzalezdecruz/workspaces/DialectOS/packages/benchmarks/dialect-detection-corpus/samples.json",
+  "generatedAt": "2026-05-10T19:14:19.779Z",
+  "corpusPath": "/Users/simongonzalezdecruz/workspaces/kyanite-labs/DialectOS/packages/benchmarks/dialect-detection-corpus/samples.json",
   "total": 250,
-  "top1Correct": 129,
-  "top3Correct": 156,
-  "top1Accuracy": 0.516,
-  "top3Accuracy": 0.624,
-  "avgConfidence": 0.09224310829808194,
+  "top1Correct": 137,
+  "top3Correct": 158,
+  "top1Accuracy": 0.548,
+  "top3Accuracy": 0.632,
+  "avgConfidence": 0.10262705461074287,
   "byDialect": {
     "es-ES": {
       "total": 10,
@@ -17,31 +17,31 @@
     },
     "es-MX": {
       "total": 10,
-      "top1Correct": 6,
-      "top3Correct": 7,
-      "top1Accuracy": 0.6,
-      "top3Accuracy": 0.7
+      "top1Correct": 8,
+      "top3Correct": 8,
+      "top1Accuracy": 0.8,
+      "top3Accuracy": 0.8
     },
     "es-AR": {
       "total": 10,
-      "top1Correct": 9,
+      "top1Correct": 10,
       "top3Correct": 10,
-      "top1Accuracy": 0.9,
+      "top1Accuracy": 1,
       "top3Accuracy": 1
     },
     "es-CO": {
       "total": 10,
-      "top1Correct": 6,
+      "top1Correct": 7,
       "top3Correct": 9,
-      "top1Accuracy": 0.6,
+      "top1Accuracy": 0.7,
       "top3Accuracy": 0.9
     },
     "es-CU": {
       "total": 10,
-      "top1Correct": 5,
-      "top3Correct": 6,
-      "top1Accuracy": 0.5,
-      "top3Accuracy": 0.6
+      "top1Correct": 6,
+      "top3Correct": 7,
+      "top1Accuracy": 0.6,
+      "top3Accuracy": 0.7
     },
     "es-PE": {
       "total": 10,
@@ -73,9 +73,9 @@
     },
     "es-PY": {
       "total": 10,
-      "top1Correct": 5,
+      "top1Correct": 6,
       "top3Correct": 8,
-      "top1Accuracy": 0.5,
+      "top1Accuracy": 0.6,
       "top3Accuracy": 0.8
     },
     "es-BO": {
@@ -101,9 +101,9 @@
     },
     "es-HN": {
       "total": 10,
-      "top1Correct": 4,
+      "top1Correct": 6,
       "top3Correct": 6,
-      "top1Accuracy": 0.4,
+      "top1Accuracy": 0.6,
       "top3Accuracy": 0.6
     },
     "es-SV": {
@@ -187,24 +187,24 @@
   "byDifficulty": {
     "easy": {
       "total": 75,
-      "top1Correct": 64,
+      "top1Correct": 66,
       "top3Correct": 70,
-      "top1Accuracy": 0.8533333333333334,
+      "top1Accuracy": 0.88,
       "top3Accuracy": 0.9333333333333333
     },
     "medium": {
       "total": 100,
-      "top1Correct": 56,
+      "top1Correct": 60,
       "top3Correct": 68,
-      "top1Accuracy": 0.56,
+      "top1Accuracy": 0.6,
       "top3Accuracy": 0.68
     },
     "hard": {
       "total": 75,
-      "top1Correct": 9,
-      "top3Correct": 18,
-      "top1Accuracy": 0.12,
-      "top3Accuracy": 0.24
+      "top1Correct": 11,
+      "top3Correct": 20,
+      "top1Accuracy": 0.14666666666666667,
+      "top3Accuracy": 0.26666666666666666
     }
   },
   "confusionMatrix": {
@@ -212,103 +212,153 @@
       "es-ES": 10
     },
     "es-MX": {
-      "es-MX": 6,
-      "es-ES": 4
-    },
-    "es-AR": {
-      "es-AR": 9,
+      "es-MX": 8,
+      "es-CO": 1,
       "es-ES": 1
     },
+    "es-AR": {
+      "es-AR": 10
+    },
     "es-CO": {
-      "es-CO": 6,
-      "es-ES": 4
+      "es-CO": 7,
+      "es-ES": 2,
+      "es-MX": 1
     },
     "es-CU": {
-      "es-CU": 5,
-      "es-ES": 5
+      "es-CU": 6,
+      "es-MX": 2,
+      "es-ES": 1,
+      "es-AR": 1
     },
     "es-PE": {
       "es-PE": 6,
-      "es-ES": 4
+      "es-MX": 2,
+      "es-CO": 1,
+      "es-ES": 1
     },
     "es-CL": {
       "es-CL": 6,
-      "es-ES": 4
+      "es-CO": 2,
+      "es-ES": 2
     },
     "es-VE": {
       "es-VE": 6,
-      "es-ES": 4
+      "es-ES": 3,
+      "es-CO": 1
     },
     "es-UY": {
       "es-UY": 6,
-      "es-ES": 4
+      "es-MX": 1,
+      "es-PY": 1,
+      "es-AR": 2
     },
     "es-PY": {
-      "es-PY": 5,
-      "es-ES": 3,
-      "es-AR": 2
+      "es-PY": 6,
+      "es-CO": 1,
+      "es-AR": 2,
+      "es-ES": 1
     },
     "es-BO": {
       "es-BO": 5,
-      "es-ES": 3,
-      "es-AR": 2
+      "es-ES": 1,
+      "es-HN": 1,
+      "es-AR": 3
     },
     "es-EC": {
       "es-EC": 5,
-      "es-ES": 4,
-      "es-CO": 1
+      "es-ES": 2,
+      "es-CO": 2,
+      "es-MX": 1
     },
     "es-GT": {
       "es-GT": 4,
-      "es-ES": 6
+      "es-UY": 1,
+      "es-HN": 1,
+      "es-CO": 2,
+      "es-MX": 1,
+      "es-ES": 1
     },
     "es-HN": {
-      "es-HN": 4,
-      "es-ES": 6
+      "es-HN": 6,
+      "es-CO": 1,
+      "es-ES": 2,
+      "es-MX": 1
     },
     "es-SV": {
       "es-SV": 4,
-      "es-ES": 6
+      "es-AR": 1,
+      "es-HN": 1,
+      "es-CO": 2,
+      "es-MX": 1,
+      "es-ES": 1
     },
     "es-NI": {
       "es-NI": 4,
-      "es-ES": 6
+      "es-AR": 1,
+      "es-HN": 1,
+      "es-CO": 2,
+      "es-ES": 2
     },
     "es-CR": {
       "es-CR": 4,
-      "es-ES": 6
+      "es-GT": 1,
+      "es-ES": 2,
+      "es-HN": 1,
+      "es-CO": 1,
+      "es-MX": 1
     },
     "es-PA": {
       "es-PA": 4,
-      "es-ES": 6
+      "es-AR": 1,
+      "es-HN": 1,
+      "es-CO": 2,
+      "es-MX": 1,
+      "es-ES": 1
     },
     "es-DO": {
       "es-DO": 3,
-      "es-ES": 7
+      "es-VE": 1,
+      "es-CO": 3,
+      "es-ES": 2,
+      "es-MX": 1
     },
     "es-PR": {
       "es-PR": 3,
-      "es-ES": 7
+      "es-VE": 1,
+      "es-ES": 4,
+      "es-MX": 1,
+      "es-CO": 1
     },
     "es-GQ": {
       "es-GQ": 4,
-      "es-ES": 6
+      "es-AR": 1,
+      "es-MX": 2,
+      "es-CO": 2,
+      "es-ES": 1
     },
     "es-US": {
       "es-US": 6,
-      "es-ES": 4
+      "es-ES": 2,
+      "es-CO": 1,
+      "es-MX": 1
     },
     "es-PH": {
       "es-PH": 4,
-      "es-ES": 6
+      "es-ES": 2,
+      "es-MX": 2,
+      "es-CO": 2
     },
     "es-BZ": {
       "es-BZ": 5,
-      "es-ES": 5
+      "es-MX": 2,
+      "es-CO": 2,
+      "es-ES": 1
     },
     "es-AD": {
       "es-AD": 5,
-      "es-ES": 5
+      "es-MX": 1,
+      "es-CO": 2,
+      "es-ES": 2
     }
   },
   "hardestDialects": [
@@ -337,20 +387,20 @@
       "top3Accuracy": 0.6
     },
     {
-      "code": "es-HN",
-      "total": 10,
-      "top1Correct": 4,
-      "top3Correct": 6,
-      "top1Accuracy": 0.4,
-      "top3Accuracy": 0.6
-    },
-    {
       "code": "es-SV",
       "total": 10,
       "top1Correct": 4,
       "top3Correct": 5,
       "top1Accuracy": 0.4,
       "top3Accuracy": 0.5
+    },
+    {
+      "code": "es-NI",
+      "total": 10,
+      "top1Correct": 4,
+      "top3Correct": 4,
+      "top1Accuracy": 0.4,
+      "top3Accuracy": 0.4
     }
   ],
   "results": [
@@ -626,16 +676,17 @@
     {
       "text": "Pasa al auto, vamos por unos aguacates y plátanos.",
       "expectedDialect": "es-MX",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
-      "top1Correct": false,
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
+      "top1Correct": true,
       "top3Correct": true,
       "difficulty": "medium",
       "tags": [
@@ -716,12 +767,16 @@
     {
       "text": "¿Tú sabes dónde queda la nueva tienda de celulares?",
       "expectedDialect": "es-MX",
-      "predictedDialect": "es-ES",
-      "top3Predicted": [],
-      "confidence": 0,
+      "predictedDialect": "es-MX",
+      "top3Predicted": [
+        "es-MX",
+        "es-CO",
+        "es-CU"
+      ],
+      "confidence": 0.002194367167368162,
       "matchedKeywords": [],
-      "top1Correct": false,
-      "top3Correct": false,
+      "top1Correct": true,
+      "top3Correct": true,
       "difficulty": "hard",
       "tags": [
         "tú",
@@ -731,15 +786,16 @@
     {
       "text": "Voy a lavar el carro y luego paso por ti.",
       "expectedDialect": "es-MX",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -913,16 +969,17 @@
     {
       "text": "¿Vos podés pasarme el agua? Hace mucho calor hoy.",
       "expectedDialect": "es-AR",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-AR",
       "top3Predicted": [
         "es-AR",
         "es-UY",
         "es-PY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-AR vs es-UY)",
-      "top1Correct": false,
+      "confidence": 0.0655102199155467,
+      "matchedKeywords": [
+        "vos"
+      ],
+      "top1Correct": true,
       "top3Correct": true,
       "difficulty": "medium",
       "tags": [
@@ -1156,16 +1213,17 @@
     {
       "text": "¿Tú sabes si el carro ya está listo?",
       "expectedDialect": "es-CO",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
-      "top1Correct": false,
+      "confidence": 0.027404545995428565,
+      "matchedKeywords": [
+        "carro"
+      ],
+      "top1Correct": true,
       "top3Correct": true,
       "difficulty": "hard",
       "tags": [
@@ -1176,15 +1234,16 @@
     {
       "text": "Voy a comprar papa para la cena de hoy.",
       "expectedDialect": "es-CO",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CO"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.006691280041378058,
+      "matchedKeywords": [
+        "papa"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "hard",
@@ -1261,15 +1320,16 @@
     {
       "text": "El jinetero está en la esquina con el fufú listo.",
       "expectedDialect": "es-CU",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CU",
       "top3Predicted": [
         "es-CU",
         "es-GQ"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CU vs es-GQ)",
-      "top1Correct": false,
+      "confidence": 0.09388798534301446,
+      "matchedKeywords": [
+        "jinetero"
+      ],
+      "top1Correct": true,
       "top3Correct": true,
       "difficulty": "easy",
       "tags": [
@@ -1322,15 +1382,16 @@
     {
       "text": "Voy a comprar papa y habichuela para el almuerzo.",
       "expectedDialect": "es-CU",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CO"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.006691280041378058,
+      "matchedKeywords": [
+        "papa"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -1365,12 +1426,16 @@
     {
       "text": "¿Tú sabes dónde queda la nueva tienda?",
       "expectedDialect": "es-CU",
-      "predictedDialect": "es-ES",
-      "top3Predicted": [],
-      "confidence": 0,
+      "predictedDialect": "es-MX",
+      "top3Predicted": [
+        "es-MX",
+        "es-CO",
+        "es-CU"
+      ],
+      "confidence": 0.002194367167368162,
       "matchedKeywords": [],
       "top1Correct": false,
-      "top3Correct": false,
+      "top3Correct": true,
       "difficulty": "hard",
       "tags": [
         "tú",
@@ -1395,15 +1460,16 @@
     {
       "text": "Voy a buscar el auto que dejé ayer.",
       "expectedDialect": "es-CU",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-AR",
       "top3Predicted": [
         "es-AR",
         "es-UY",
         "es-PY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-AR vs es-UY)",
+      "confidence": 0.030908149051394072,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -1560,14 +1626,15 @@
     {
       "text": "Oye pe, pasa la pluma que escribo rápido.",
       "expectedDialect": "es-PE",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-PE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-PE)",
+      "confidence": 0.07848217139917654,
+      "matchedKeywords": [
+        "pluma"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "medium",
@@ -1580,15 +1647,16 @@
     {
       "text": "¿Sabes si el bus pasa por aquí?",
       "expectedDialect": "es-PE",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.013148209284864073,
+      "matchedKeywords": [
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "hard",
@@ -1600,15 +1668,16 @@
     {
       "text": "Voy a comprar papa para hacer la cena.",
       "expectedDialect": "es-PE",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CO"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.006691280041378058,
+      "matchedKeywords": [
+        "papa"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -1732,14 +1801,15 @@
     {
       "text": "La raja, al tiro llego con los lentes y el maní.",
       "expectedDialect": "es-CL",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-CL"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-CL)",
+      "confidence": 0.050783704999493536,
+      "matchedKeywords": [
+        "maní"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "medium",
@@ -1811,14 +1881,15 @@
     {
       "text": "Voy a dejar el computador en casa.",
       "expectedDialect": "es-CL",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-CL"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-CL)",
+      "confidence": 0.050783704999493536,
+      "matchedKeywords": [
+        "computador"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "hard",
@@ -1999,15 +2070,16 @@
     {
       "text": "¿Sabes si el carro tiene gasolina?",
       "expectedDialect": "es-VE",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -2181,15 +2253,16 @@
     {
       "text": "Pasa los anteojos que no veo la computadora.",
       "expectedDialect": "es-UY",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.009403167617550811,
+      "matchedKeywords": [
+        "computadora"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -2202,15 +2275,18 @@
     {
       "text": "Vos sabés que esta papa está buena para el auto.",
       "expectedDialect": "es-UY",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-PY",
       "top3Predicted": [
         "es-PY",
         "es-AR",
         "es-UY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-PY vs es-AR)",
+      "confidence": 0.08074903942853918,
+      "matchedKeywords": [
+        "auto",
+        "papa",
+        "vos"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "medium",
@@ -2223,15 +2299,16 @@
     {
       "text": "¿Sabés dónde queda la parada del colectivo?",
       "expectedDialect": "es-UY",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-AR",
       "top3Predicted": [
         "es-AR",
         "es-UY",
         "es-PY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-AR vs es-UY)",
+      "confidence": 0.07768298905970435,
+      "matchedKeywords": [
+        "colectivo"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "hard",
@@ -2264,15 +2341,16 @@
     {
       "text": "Podés dejar el auto acá, no hay problema.",
       "expectedDialect": "es-UY",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-AR",
       "top3Predicted": [
         "es-AR",
         "es-UY",
         "es-PY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-AR vs es-UY)",
+      "confidence": 0.04265563992013665,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "hard",
@@ -2409,15 +2487,16 @@
     {
       "text": "Pasa los anteojos que no veo el bus.",
       "expectedDialect": "es-PY",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.013148209284864073,
+      "matchedKeywords": [
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -2430,16 +2509,19 @@
     {
       "text": "Vos tenés que traer la papa para el auto.",
       "expectedDialect": "es-PY",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-PY",
       "top3Predicted": [
         "es-PY",
         "es-AR",
         "es-UY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-PY vs es-AR)",
-      "top1Correct": false,
+      "confidence": 0.08074903942853918,
+      "matchedKeywords": [
+        "auto",
+        "papa",
+        "vos"
+      ],
+      "top1Correct": true,
       "top3Correct": true,
       "difficulty": "medium",
       "tags": [
@@ -2597,14 +2679,15 @@
     {
       "text": "Pasa los lentes y el frijol para el almuerzo.",
       "expectedDialect": "es-BO",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-HN",
       "top3Predicted": [
         "es-HN",
         "es-SV"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-HN vs es-SV)",
+      "confidence": 0.052627622487356356,
+      "matchedKeywords": [
+        "frijol"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -2679,15 +2762,16 @@
     {
       "text": "Traé la papa que dejaste en la mesa.",
       "expectedDialect": "es-BO",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-AR",
       "top3Predicted": [
         "es-AR",
         "es-UY",
         "es-PY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-AR vs es-UY)",
+      "confidence": 0.018911811621915783,
+      "matchedKeywords": [
+        "papa"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -2883,15 +2967,16 @@
     {
       "text": "¿Sabes si el bus ya pasó?",
       "expectedDialect": "es-EC",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.013148209284864073,
+      "matchedKeywords": [
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -2903,15 +2988,16 @@
     {
       "text": "Voy a dejar la computadora en casa.",
       "expectedDialect": "es-EC",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.009403167617550811,
+      "matchedKeywords": [
+        "computadora"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -2966,15 +3052,19 @@
     {
       "text": "Bo, dejé la computadora en el departamento con papa.",
       "expectedDialect": "es-GT",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-UY",
       "top3Predicted": [
         "es-UY",
         "es-GT",
         "es-AR"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-UY vs es-GT)",
+      "confidence": 0.11207978881143729,
+      "matchedKeywords": [
+        "computadora",
+        "papa",
+        "departamento",
+        "bo"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "easy",
@@ -3034,14 +3124,15 @@
     {
       "text": "Pasa los lentes y el frijol para la cena.",
       "expectedDialect": "es-GT",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-HN",
       "top3Predicted": [
         "es-HN",
         "es-SV"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-HN vs es-SV)",
+      "confidence": 0.052627622487356356,
+      "matchedKeywords": [
+        "frijol"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -3076,15 +3167,17 @@
     {
       "text": "Vamos en bus a comprar papa y plátano.",
       "expectedDialect": "es-GT",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.018666189153571128,
+      "matchedKeywords": [
+        "papa",
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -3097,15 +3190,16 @@
     {
       "text": "¿Sabes si el carro tiene gasolina?",
       "expectedDialect": "es-GT",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "hard",
@@ -3117,15 +3211,16 @@
     {
       "text": "Voy a lavar el auto antes de salir.",
       "expectedDialect": "es-GT",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -3180,16 +3275,20 @@
     {
       "text": "Dejé la computadora en el departamento con papa y frijol.",
       "expectedDialect": "es-HN",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-HN",
       "top3Predicted": [
         "es-HN",
         "es-SV",
         "es-AR"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-HN vs es-SV)",
-      "top1Correct": false,
+      "confidence": 0.08658958431672951,
+      "matchedKeywords": [
+        "computadora",
+        "papa",
+        "departamento",
+        "frijol"
+      ],
+      "top1Correct": true,
       "top3Correct": true,
       "difficulty": "easy",
       "tags": [
@@ -3252,15 +3351,16 @@
     {
       "text": "Pasa los lentes que no veo el bus.",
       "expectedDialect": "es-HN",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.013148209284864073,
+      "matchedKeywords": [
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -3296,16 +3396,19 @@
     {
       "text": "Vamos en carro a buscar papa y frijol.",
       "expectedDialect": "es-HN",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-HN",
       "top3Predicted": [
         "es-HN",
         "es-SV",
         "es-CO"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-HN vs es-SV)",
-      "top1Correct": false,
+      "confidence": 0.08487024519418315,
+      "matchedKeywords": [
+        "carro",
+        "papa",
+        "frijol"
+      ],
+      "top1Correct": true,
       "top3Correct": true,
       "difficulty": "medium",
       "tags": [
@@ -3337,15 +3440,16 @@
     {
       "text": "Voy a dejar el auto en la casa.",
       "expectedDialect": "es-HN",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -3400,15 +3504,18 @@
     {
       "text": "Dejé la computadora en el departamento con papa.",
       "expectedDialect": "es-SV",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-AR",
       "top3Predicted": [
         "es-AR",
         "es-UY",
         "es-PY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-AR vs es-UY)",
+      "confidence": 0.044116209289176665,
+      "matchedKeywords": [
+        "computadora",
+        "papa",
+        "departamento"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "easy",
@@ -3471,14 +3578,15 @@
     {
       "text": "Pasa los lentes y el frijol para la cena.",
       "expectedDialect": "es-SV",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-HN",
       "top3Predicted": [
         "es-HN",
         "es-SV"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-HN vs es-SV)",
+      "confidence": 0.052627622487356356,
+      "matchedKeywords": [
+        "frijol"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "medium",
@@ -3515,15 +3623,17 @@
     {
       "text": "Vamos en bus a buscar papa y lentes.",
       "expectedDialect": "es-SV",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.018666189153571128,
+      "matchedKeywords": [
+        "papa",
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -3537,15 +3647,16 @@
     {
       "text": "¿Sabes si el carro está listo?",
       "expectedDialect": "es-SV",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -3557,15 +3668,16 @@
     {
       "text": "Voy a lavar el auto antes de irme.",
       "expectedDialect": "es-SV",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -3620,15 +3732,18 @@
     {
       "text": "Dejé la computadora en el departamento con papa.",
       "expectedDialect": "es-NI",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-AR",
       "top3Predicted": [
         "es-AR",
         "es-UY",
         "es-PY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-AR vs es-UY)",
+      "confidence": 0.044116209289176665,
+      "matchedKeywords": [
+        "computadora",
+        "papa",
+        "departamento"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "easy",
@@ -3688,14 +3803,15 @@
     {
       "text": "Pasa los lentes y el frijol para la cena.",
       "expectedDialect": "es-NI",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-HN",
       "top3Predicted": [
         "es-HN",
         "es-SV"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-HN vs es-SV)",
+      "confidence": 0.052627622487356356,
+      "matchedKeywords": [
+        "frijol"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -3730,15 +3846,17 @@
     {
       "text": "Vamos en bus a buscar papa y lentes.",
       "expectedDialect": "es-NI",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.018666189153571128,
+      "matchedKeywords": [
+        "papa",
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -3771,15 +3889,16 @@
     {
       "text": "Voy a dejar el carro en la casa.",
       "expectedDialect": "es-NI",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -3833,15 +3952,19 @@
     {
       "text": "Dejé la computadora en el departamento con carro y papa.",
       "expectedDialect": "es-CR",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-GT",
       "top3Predicted": [
         "es-GT",
         "es-HN",
         "es-SV"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-GT vs es-HN)",
+      "confidence": 0.08275952258713336,
+      "matchedKeywords": [
+        "computadora",
+        "carro",
+        "papa",
+        "departamento"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "easy",
@@ -3899,14 +4022,15 @@
     {
       "text": "Pasa los lentes y el frijol para la cena.",
       "expectedDialect": "es-CR",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-HN",
       "top3Predicted": [
         "es-HN",
         "es-SV"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-HN vs es-SV)",
+      "confidence": 0.052627622487356356,
+      "matchedKeywords": [
+        "frijol"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -3966,15 +4090,16 @@
     {
       "text": "¿Sabes si el carro tiene gasolina?",
       "expectedDialect": "es-CR",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -3986,15 +4111,16 @@
     {
       "text": "Voy a dejar el auto en la casa.",
       "expectedDialect": "es-CR",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -4049,15 +4175,18 @@
     {
       "text": "Dejé la computadora en el departamento con papa.",
       "expectedDialect": "es-PA",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-AR",
       "top3Predicted": [
         "es-AR",
         "es-UY",
         "es-PY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-AR vs es-UY)",
+      "confidence": 0.044116209289176665,
+      "matchedKeywords": [
+        "computadora",
+        "papa",
+        "departamento"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "easy",
@@ -4120,14 +4249,15 @@
     {
       "text": "Pasa los lentes y el frijol para la cena.",
       "expectedDialect": "es-PA",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-HN",
       "top3Predicted": [
         "es-HN",
         "es-SV"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-HN vs es-SV)",
+      "confidence": 0.052627622487356356,
+      "matchedKeywords": [
+        "frijol"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -4163,15 +4293,17 @@
     {
       "text": "Vamos en bus a buscar papa y lentes.",
       "expectedDialect": "es-PA",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.018666189153571128,
+      "matchedKeywords": [
+        "papa",
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -4185,15 +4317,16 @@
     {
       "text": "¿Sabes si el carro está listo?",
       "expectedDialect": "es-PA",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -4205,15 +4338,16 @@
     {
       "text": "Voy a lavar el auto antes de salir.",
       "expectedDialect": "es-PA",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -4267,15 +4401,19 @@
     {
       "text": "Dejé la computadora en el apartamento con auto y papa.",
       "expectedDialect": "es-DO",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-VE",
       "top3Predicted": [
         "es-VE",
         "es-DO",
         "es-PR"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-VE vs es-DO)",
+      "confidence": 0.06641490771114135,
+      "matchedKeywords": [
+        "computadora",
+        "auto",
+        "papa",
+        "apartamento"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "easy",
@@ -4314,14 +4452,15 @@
     {
       "text": "Ese papichulo es vaina, siempre trae bandola.",
       "expectedDialect": "es-DO",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-DO"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-DO)",
+      "confidence": 0.0647205077586148,
+      "matchedKeywords": [
+        "vaina"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "medium",
@@ -4373,15 +4512,17 @@
     {
       "text": "Vamos en bus a buscar papa y lentes.",
       "expectedDialect": "es-DO",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.018666189153571128,
+      "matchedKeywords": [
+        "papa",
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -4395,15 +4536,16 @@
     {
       "text": "¿Sabes si el auto tiene gasolina?",
       "expectedDialect": "es-DO",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -4415,15 +4557,16 @@
     {
       "text": "Voy a dejar el carro en la casa.",
       "expectedDialect": "es-DO",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -4477,15 +4620,19 @@
     {
       "text": "Dejé la computadora en el apartamento con auto y papa.",
       "expectedDialect": "es-PR",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-VE",
       "top3Predicted": [
         "es-VE",
         "es-DO",
         "es-PR"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-VE vs es-DO)",
+      "confidence": 0.06641490771114135,
+      "matchedKeywords": [
+        "computadora",
+        "auto",
+        "papa",
+        "apartamento"
+      ],
       "top1Correct": false,
       "top3Correct": true,
       "difficulty": "easy",
@@ -4603,15 +4750,16 @@
     {
       "text": "¿Sabes si el auto está listo?",
       "expectedDialect": "es-PR",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -4623,15 +4771,16 @@
     {
       "text": "Voy a dejar el carro en el parking.",
       "expectedDialect": "es-PR",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -4687,15 +4836,16 @@
     {
       "text": "Dejé la computadora en el río muni con batata.",
       "expectedDialect": "es-GQ",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-AR",
       "top3Predicted": [
         "es-AR",
         "es-UY",
         "es-PY"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-AR vs es-UY)",
+      "confidence": 0.02181541636153235,
+      "matchedKeywords": [
+        "computadora"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "easy",
@@ -4755,15 +4905,16 @@
     {
       "text": "Pasa los lentes y la papa para la cena.",
       "expectedDialect": "es-GQ",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CO"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.006691280041378058,
+      "matchedKeywords": [
+        "papa"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -4799,15 +4950,17 @@
     {
       "text": "Vamos en bus a buscar papa y lentes.",
       "expectedDialect": "es-GQ",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.018666189153571128,
+      "matchedKeywords": [
+        "papa",
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -4821,15 +4974,16 @@
     {
       "text": "¿Sabes si el carro tiene gasolina?",
       "expectedDialect": "es-GQ",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -4841,15 +4995,16 @@
     {
       "text": "Voy a dejar el auto en la casa.",
       "expectedDialect": "es-GQ",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -5037,15 +5192,16 @@
     {
       "text": "¿Sabes si el carro está listo?",
       "expectedDialect": "es-US",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -5057,15 +5213,16 @@
     {
       "text": "Voy a dejar el auto en la casa.",
       "expectedDialect": "es-US",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -5184,15 +5341,16 @@
     {
       "text": "Pasa los lentes y la papa para la cena.",
       "expectedDialect": "es-PH",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CO"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.006691280041378058,
+      "matchedKeywords": [
+        "papa"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -5228,15 +5386,17 @@
     {
       "text": "Vamos en bus a buscar papa y lentes.",
       "expectedDialect": "es-PH",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.018666189153571128,
+      "matchedKeywords": [
+        "papa",
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -5250,15 +5410,16 @@
     {
       "text": "¿Sabes si el carro tiene gasolina?",
       "expectedDialect": "es-PH",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -5270,15 +5431,16 @@
     {
       "text": "Voy a dejar el auto en la casa.",
       "expectedDialect": "es-PH",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -5404,15 +5566,16 @@
     {
       "text": "Pasa los lentes y la papa para la cena.",
       "expectedDialect": "es-BZ",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CO"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.006691280041378058,
+      "matchedKeywords": [
+        "papa"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -5448,15 +5611,17 @@
     {
       "text": "Vamos en bus a buscar papa y lentes.",
       "expectedDialect": "es-BZ",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.018666189153571128,
+      "matchedKeywords": [
+        "papa",
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -5470,15 +5635,16 @@
     {
       "text": "¿Sabes si el carro está listo?",
       "expectedDialect": "es-BZ",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -5490,15 +5656,16 @@
     {
       "text": "Voy a dejar el auto en la casa.",
       "expectedDialect": "es-BZ",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CU"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.017895531773958737,
+      "matchedKeywords": [
+        "auto"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",
@@ -5623,15 +5790,16 @@
     {
       "text": "Pasa los lentes y la papa para la cena.",
       "expectedDialect": "es-AD",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-MX",
       "top3Predicted": [
         "es-MX",
         "es-AR",
         "es-CO"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-MX vs es-AR)",
+      "confidence": 0.006691280041378058,
+      "matchedKeywords": [
+        "papa"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -5667,15 +5835,17 @@
     {
       "text": "Vamos en bus a buscar papa y lentes.",
       "expectedDialect": "es-AD",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-PE",
         "es-VE"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-PE)",
+      "confidence": 0.018666189153571128,
+      "matchedKeywords": [
+        "papa",
+        "bus"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "medium",
@@ -5689,15 +5859,16 @@
     {
       "text": "¿Sabéis si el carro está listo?",
       "expectedDialect": "es-AD",
-      "predictedDialect": "es-ES",
+      "predictedDialect": "es-CO",
       "top3Predicted": [
         "es-CO",
         "es-GT",
         "es-HN"
       ],
-      "confidence": 0,
-      "matchedKeywords": [],
-      "ambiguity": "Input contains conflicting dialect markers (es-CO vs es-GT)",
+      "confidence": 0.025594955935049693,
+      "matchedKeywords": [
+        "carro"
+      ],
       "top1Correct": false,
       "top3Correct": false,
       "difficulty": "hard",

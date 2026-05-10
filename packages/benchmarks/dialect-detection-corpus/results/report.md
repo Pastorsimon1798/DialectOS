@@ -1,47 +1,47 @@
 # Dialect Detection Benchmark Report
 
-- **Date**: 2026-05-01T05:17:24.452Z
-- **Corpus**: /Users/simongonzalezdecruz/workspaces/DialectOS/packages/benchmarks/dialect-detection-corpus/samples.json
+- **Date**: 2026-05-10T19:14:19.779Z
+- **Corpus**: /Users/simongonzalezdecruz/workspaces/kyanite-labs/DialectOS/packages/benchmarks/dialect-detection-corpus/samples.json
 - **Total samples**: 250
-- **Top-1 correct**: 129
-- **Top-3 correct**: 156
-- **Top-1 accuracy**: 51.6%
-- **Top-3 accuracy**: 62.4%
-- **Avg confidence**: 9.2%
+- **Top-1 correct**: 137
+- **Top-3 correct**: 158
+- **Top-1 accuracy**: 54.8%
+- **Top-3 accuracy**: 63.2%
+- **Avg confidence**: 10.3%
 
 ## By Difficulty
 
 | Difficulty | Top-1 Acc | Top-3 Acc | Total |
 |------------|-----------|-----------|-------|
-| easy | 85.3% | 93.3% | 75 |
-| medium | 56.0% | 68.0% | 100 |
-| hard | 12.0% | 24.0% | 75 |
+| easy | 88.0% | 93.3% | 75 |
+| medium | 60.0% | 68.0% | 100 |
+| hard | 14.7% | 26.7% | 75 |
 
 ## By Dialect
 
 | Dialect | Top-1 Acc | Top-3 Acc | Total |
 |---------|-----------|-----------|-------|
 | es-AD | 50.0% | 50.0% | 10 |
-| es-AR | 90.0% | 100.0% | 10 |
+| es-AR | 100.0% | 100.0% | 10 |
 | es-BO | 50.0% | 50.0% | 10 |
 | es-BZ | 50.0% | 50.0% | 10 |
 | es-CL | 60.0% | 80.0% | 10 |
-| es-CO | 60.0% | 90.0% | 10 |
+| es-CO | 70.0% | 90.0% | 10 |
 | es-CR | 40.0% | 40.0% | 10 |
-| es-CU | 50.0% | 60.0% | 10 |
+| es-CU | 60.0% | 70.0% | 10 |
 | es-DO | 30.0% | 50.0% | 10 |
 | es-EC | 50.0% | 60.0% | 10 |
 | es-ES | 100.0% | 100.0% | 10 |
 | es-GQ | 40.0% | 40.0% | 10 |
 | es-GT | 40.0% | 60.0% | 10 |
-| es-HN | 40.0% | 60.0% | 10 |
-| es-MX | 60.0% | 70.0% | 10 |
+| es-HN | 60.0% | 60.0% | 10 |
+| es-MX | 80.0% | 80.0% | 10 |
 | es-NI | 40.0% | 40.0% | 10 |
 | es-PA | 40.0% | 40.0% | 10 |
 | es-PE | 60.0% | 80.0% | 10 |
 | es-PH | 40.0% | 40.0% | 10 |
 | es-PR | 30.0% | 50.0% | 10 |
-| es-PY | 50.0% | 80.0% | 10 |
+| es-PY | 60.0% | 80.0% | 10 |
 | es-SV | 40.0% | 50.0% | 10 |
 | es-US | 60.0% | 60.0% | 10 |
 | es-UY | 60.0% | 90.0% | 10 |
@@ -54,62 +54,47 @@
 | es-DO | 30.0% | 10 |
 | es-PR | 30.0% | 10 |
 | es-GT | 40.0% | 10 |
-| es-HN | 40.0% | 10 |
 | es-SV | 40.0% | 10 |
+| es-NI | 40.0% | 10 |
 
 ## Confusion Matrix (expected → predicted)
 
 | Expected \ Predicted | es-AD | es-AR | es-BO | es-BZ | es-CL | es-CO | es-CR | es-CU | es-DO | es-EC | es-ES | es-GQ | es-GT | es-HN | es-MX | es-NI | es-PA | es-PE | es-PH | es-PR | es-PY | es-SV | es-US | es-UY | es-VE |
 |------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|
-| es-AD | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-AR | 0 | **9** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-BO | 0 | **2** | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-BZ | 0 | 0 | 0 | **5** | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-CL | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-CO | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-CR | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-CU | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-DO | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | **7** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-EC | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | **5** | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-AD | **5** | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-AR | 0 | **10** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-BO | 0 | **3** | **5** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-BZ | 0 | 0 | 0 | **5** | 0 | **2** | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-CL | 0 | 0 | 0 | 0 | **6** | **2** | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-CO | 0 | 0 | 0 | 0 | 0 | **7** | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-CR | 0 | 0 | 0 | 0 | 0 | **1** | **4** | 0 | 0 | 0 | **2** | 0 | **1** | **1** | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-CU | 0 | **1** | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | **1** | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-DO | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | **3** | 0 | **2** | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **1** |
+| es-EC | 0 | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | **5** | **2** | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | es-ES | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **10** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-GQ | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-GT | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-HN | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-MX | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-NI | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-PA | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-PE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-PH | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 |
-| es-PR | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **7** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 |
-| es-PY | 0 | **2** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **5** | 0 | 0 | 0 | 0 |
-| es-SV | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 |
-| es-US | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 |
-| es-UY | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 |
-| es-VE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** |
+| es-GQ | 0 | **1** | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | **1** | **4** | 0 | 0 | **2** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-GT | 0 | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | **1** | 0 | **4** | **1** | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **1** | 0 |
+| es-HN | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | **2** | 0 | 0 | **6** | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-MX | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | **8** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-NI | 0 | **1** | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | **2** | 0 | 0 | **1** | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-PA | 0 | **1** | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | **1** | 0 | 0 | **1** | **1** | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-PE | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | **2** | 0 | 0 | **6** | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-PH | 0 | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | **2** | 0 | 0 | 0 | **4** | 0 | 0 | 0 | 0 | 0 | 0 |
+| es-PR | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | **1** |
+| es-PY | 0 | **2** | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 | 0 | 0 |
+| es-SV | 0 | **1** | 0 | 0 | 0 | **2** | 0 | 0 | 0 | 0 | **1** | 0 | 0 | **1** | **1** | 0 | 0 | 0 | 0 | 0 | 0 | **4** | 0 | 0 | 0 |
+| es-US | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | **2** | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** | 0 | 0 |
+| es-UY | 0 | **2** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | **6** | 0 |
+| es-VE | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 | **3** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **6** |
 
 ## Misclassifications
 
-- **es-MX** → **es-ES** (medium)
-  - Text: "Pasa al auto, vamos por unos aguacates y plátanos."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
-
-- **es-MX** → **es-ES** (hard)
-  - Text: "¿Tú sabes dónde queda la nueva tienda de celulares?"
-  - Matched: none
-
-- **es-MX** → **es-ES** (hard)
+- **es-MX** → **es-CO** (hard)
   - Text: "Voy a lavar el carro y luego paso por ti."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
 - **es-MX** → **es-ES** (hard)
   - Text: "¿Quieres que prepare la cena? Ya casi es hora."
-  - Matched: none
-
-- **es-AR** → **es-ES** (medium)
-  - Text: "¿Vos podés pasarme el agua? Hace mucho calor hoy."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
   - Matched: none
 
 - **es-CO** → **es-ES** (medium)
@@ -117,31 +102,19 @@
   - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-CR)
   - Matched: none
 
-- **es-CO** → **es-ES** (hard)
-  - Text: "¿Tú sabes si el carro ya está listo?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
-
-- **es-CO** → **es-ES** (hard)
+- **es-CO** → **es-MX** (hard)
   - Text: "Voy a comprar papa para la cena de hoy."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: papa
 
 - **es-CO** → **es-ES** (hard)
   - Text: "¿Quieres que te acompañe a la tienda?"
   - Matched: none
 
-- **es-CU** → **es-ES** (easy)
-  - Text: "El jinetero está en la esquina con el fufú listo."
-  - Ambiguity: Input contains conflicting dialect markers (es-CU vs es-GQ)
-  - Matched: none
-
-- **es-CU** → **es-ES** (medium)
+- **es-CU** → **es-MX** (medium)
   - Text: "Voy a comprar papa y habichuela para el almuerzo."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: papa
 
-- **es-CU** → **es-ES** (hard)
+- **es-CU** → **es-MX** (hard)
   - Text: "¿Tú sabes dónde queda la nueva tienda?"
   - Matched: none
 
@@ -149,43 +122,37 @@
   - Text: "Dame un momento que termino esto."
   - Matched: none
 
-- **es-CU** → **es-ES** (hard)
+- **es-CU** → **es-AR** (hard)
   - Text: "Voy a buscar el auto que dejé ayer."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
+  - Matched: auto
 
-- **es-PE** → **es-ES** (medium)
+- **es-PE** → **es-MX** (medium)
   - Text: "Oye pe, pasa la pluma que escribo rápido."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-PE)
-  - Matched: none
+  - Matched: pluma
 
-- **es-PE** → **es-ES** (hard)
+- **es-PE** → **es-CO** (hard)
   - Text: "¿Sabes si el bus pasa por aquí?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: bus
 
-- **es-PE** → **es-ES** (hard)
+- **es-PE** → **es-MX** (hard)
   - Text: "Voy a comprar papa para hacer la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: papa
 
 - **es-PE** → **es-ES** (hard)
   - Text: "¿Quieres que vayamos juntos al centro?"
   - Matched: none
 
-- **es-CL** → **es-ES** (medium)
+- **es-CL** → **es-CO** (medium)
   - Text: "La raja, al tiro llego con los lentes y el maní."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-CL)
-  - Matched: none
+  - Matched: maní
 
 - **es-CL** → **es-ES** (medium)
   - Text: "Voy a comprar poroto y frutilla para la once."
   - Matched: none
 
-- **es-CL** → **es-ES** (hard)
+- **es-CL** → **es-CO** (hard)
   - Text: "Voy a dejar el computador en casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-CL)
-  - Matched: none
+  - Matched: computador
 
 - **es-CL** → **es-ES** (hard)
   - Text: "¿Quieres que prepare algo para comer?"
@@ -200,44 +167,33 @@
   - Text: "Dame el lapicero y los lentes para leer la carta."
   - Matched: none
 
-- **es-VE** → **es-ES** (hard)
+- **es-VE** → **es-CO** (hard)
   - Text: "¿Sabes si el carro tiene gasolina?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
 - **es-VE** → **es-ES** (hard)
   - Text: "¿Quieres que vayamos juntos mañana?"
   - Matched: none
 
-- **es-UY** → **es-ES** (medium)
+- **es-UY** → **es-MX** (medium)
   - Text: "Pasa los anteojos que no veo la computadora."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: computadora
 
-- **es-UY** → **es-ES** (medium)
+- **es-UY** → **es-PY** (medium)
   - Text: "Vos sabés que esta papa está buena para el auto."
-  - Ambiguity: Input contains conflicting dialect markers (es-PY vs es-AR)
-  - Matched: none
+  - Matched: auto, papa, vos
 
-- **es-UY** → **es-ES** (hard)
+- **es-UY** → **es-AR** (hard)
   - Text: "¿Sabés dónde queda la parada del colectivo?"
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
+  - Matched: colectivo
 
-- **es-UY** → **es-ES** (hard)
+- **es-UY** → **es-AR** (hard)
   - Text: "Podés dejar el auto acá, no hay problema."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
+  - Matched: auto
 
-- **es-PY** → **es-ES** (medium)
+- **es-PY** → **es-CO** (medium)
   - Text: "Pasa los anteojos que no veo el bus."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
-
-- **es-PY** → **es-ES** (medium)
-  - Text: "Vos tenés que traer la papa para el auto."
-  - Ambiguity: Input contains conflicting dialect markers (es-PY vs es-AR)
-  - Matched: none
+  - Matched: bus
 
 - **es-PY** → **es-AR** (hard)
   - Text: "¿Sabés si hay agua en la casa?"
@@ -255,19 +211,17 @@
   - Text: "Ese jichi tiene q'omer pero no quiere ch'iti."
   - Matched: none
 
-- **es-BO** → **es-ES** (medium)
+- **es-BO** → **es-HN** (medium)
   - Text: "Pasa los lentes y el frijol para el almuerzo."
-  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
-  - Matched: none
+  - Matched: frijol
 
 - **es-BO** → **es-AR** (hard)
   - Text: "¿Sabés dónde queda el mercado?"
   - Matched: none
 
-- **es-BO** → **es-ES** (hard)
+- **es-BO** → **es-AR** (hard)
   - Text: "Traé la papa que dejaste en la mesa."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
+  - Matched: papa
 
 - **es-BO** → **es-AR** (hard)
   - Text: "Andá despacio por la calle empedrada."
@@ -282,228 +236,185 @@
   - Text: "Vamos en carro a buscar maní y guagua."
   - Matched: carro, maní
 
-- **es-EC** → **es-ES** (hard)
+- **es-EC** → **es-CO** (hard)
   - Text: "¿Sabes si el bus ya pasó?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: bus
 
-- **es-EC** → **es-ES** (hard)
+- **es-EC** → **es-MX** (hard)
   - Text: "Voy a dejar la computadora en casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: computadora
 
 - **es-EC** → **es-ES** (hard)
   - Text: "¿Quieres que prepare algo de comer?"
   - Matched: none
 
-- **es-GT** → **es-ES** (easy)
+- **es-GT** → **es-UY** (easy)
   - Text: "Bo, dejé la computadora en el departamento con papa."
-  - Ambiguity: Input contains conflicting dialect markers (es-UY vs es-GT)
-  - Matched: none
+  - Matched: computadora, papa, departamento, bo
 
-- **es-GT** → **es-ES** (medium)
+- **es-GT** → **es-HN** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
-  - Matched: none
+  - Matched: frijol
 
-- **es-GT** → **es-ES** (medium)
+- **es-GT** → **es-CO** (medium)
   - Text: "Vamos en bus a comprar papa y plátano."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: papa, bus
 
-- **es-GT** → **es-ES** (hard)
+- **es-GT** → **es-CO** (hard)
   - Text: "¿Sabes si el carro tiene gasolina?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
-- **es-GT** → **es-ES** (hard)
+- **es-GT** → **es-MX** (hard)
   - Text: "Voy a lavar el auto antes de salir."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
 - **es-GT** → **es-ES** (hard)
   - Text: "¿Quieres que vayamos temprano?"
   - Matched: none
 
-- **es-HN** → **es-ES** (easy)
-  - Text: "Dejé la computadora en el departamento con papa y frijol."
-  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
-  - Matched: none
-
-- **es-HN** → **es-ES** (medium)
+- **es-HN** → **es-CO** (medium)
   - Text: "Pasa los lentes que no veo el bus."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
-
-- **es-HN** → **es-ES** (medium)
-  - Text: "Vamos en carro a buscar papa y frijol."
-  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
-  - Matched: none
+  - Matched: bus
 
 - **es-HN** → **es-ES** (hard)
   - Text: "¿Sabes si ya llegó el autobús?"
   - Matched: autobús
 
-- **es-HN** → **es-ES** (hard)
+- **es-HN** → **es-MX** (hard)
   - Text: "Voy a dejar el auto en la casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
 - **es-HN** → **es-ES** (hard)
   - Text: "¿Quieres que prepare la cena?"
   - Matched: none
 
-- **es-SV** → **es-ES** (easy)
+- **es-SV** → **es-AR** (easy)
   - Text: "Dejé la computadora en el departamento con papa."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
+  - Matched: computadora, papa, departamento
 
-- **es-SV** → **es-ES** (medium)
+- **es-SV** → **es-HN** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
-  - Matched: none
+  - Matched: frijol
 
-- **es-SV** → **es-ES** (medium)
+- **es-SV** → **es-CO** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: papa, bus
 
-- **es-SV** → **es-ES** (hard)
+- **es-SV** → **es-CO** (hard)
   - Text: "¿Sabes si el carro está listo?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
-- **es-SV** → **es-ES** (hard)
+- **es-SV** → **es-MX** (hard)
   - Text: "Voy a lavar el auto antes de irme."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
 - **es-SV** → **es-ES** (hard)
   - Text: "¿Quieres que te ayude con eso?"
   - Matched: none
 
-- **es-NI** → **es-ES** (easy)
+- **es-NI** → **es-AR** (easy)
   - Text: "Dejé la computadora en el departamento con papa."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
+  - Matched: computadora, papa, departamento
 
-- **es-NI** → **es-ES** (medium)
+- **es-NI** → **es-HN** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
-  - Matched: none
+  - Matched: frijol
 
-- **es-NI** → **es-ES** (medium)
+- **es-NI** → **es-CO** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: papa, bus
 
 - **es-NI** → **es-ES** (hard)
   - Text: "¿Sabes si ya pasó el autobús?"
   - Matched: autobús
 
-- **es-NI** → **es-ES** (hard)
+- **es-NI** → **es-CO** (hard)
   - Text: "Voy a dejar el carro en la casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
 - **es-NI** → **es-ES** (hard)
   - Text: "¿Quieres que prepare algo de comer?"
   - Matched: none
 
-- **es-CR** → **es-ES** (easy)
+- **es-CR** → **es-GT** (easy)
   - Text: "Dejé la computadora en el departamento con carro y papa."
-  - Ambiguity: Input contains conflicting dialect markers (es-GT vs es-HN)
-  - Matched: none
+  - Matched: computadora, carro, papa, departamento
 
 - **es-CR** → **es-ES** (medium)
   - Text: "Ese roine es sarasa, siempre trae jupa."
   - Matched: none
 
-- **es-CR** → **es-ES** (medium)
+- **es-CR** → **es-HN** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
-  - Matched: none
+  - Matched: frijol
 
-- **es-CR** → **es-ES** (hard)
+- **es-CR** → **es-CO** (hard)
   - Text: "¿Sabes si el carro tiene gasolina?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
-- **es-CR** → **es-ES** (hard)
+- **es-CR** → **es-MX** (hard)
   - Text: "Voy a dejar el auto en la casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
 - **es-CR** → **es-ES** (hard)
   - Text: "¿Quieres que vayamos juntos?"
   - Matched: none
 
-- **es-PA** → **es-ES** (easy)
+- **es-PA** → **es-AR** (easy)
   - Text: "Dejé la computadora en el departamento con papa."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
+  - Matched: computadora, papa, departamento
 
-- **es-PA** → **es-ES** (medium)
+- **es-PA** → **es-HN** (medium)
   - Text: "Pasa los lentes y el frijol para la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-HN vs es-SV)
-  - Matched: none
+  - Matched: frijol
 
-- **es-PA** → **es-ES** (medium)
+- **es-PA** → **es-CO** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: papa, bus
 
-- **es-PA** → **es-ES** (hard)
+- **es-PA** → **es-CO** (hard)
   - Text: "¿Sabes si el carro está listo?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
-- **es-PA** → **es-ES** (hard)
+- **es-PA** → **es-MX** (hard)
   - Text: "Voy a lavar el auto antes de salir."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
 - **es-PA** → **es-ES** (hard)
   - Text: "¿Quieres que te acompañe?"
   - Matched: none
 
-- **es-DO** → **es-ES** (easy)
+- **es-DO** → **es-VE** (easy)
   - Text: "Dejé la computadora en el apartamento con auto y papa."
-  - Ambiguity: Input contains conflicting dialect markers (es-VE vs es-DO)
-  - Matched: none
+  - Matched: computadora, auto, papa, apartamento
 
-- **es-DO** → **es-ES** (medium)
+- **es-DO** → **es-CO** (medium)
   - Text: "Ese papichulo es vaina, siempre trae bandola."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-DO)
-  - Matched: none
+  - Matched: vaina
 
 - **es-DO** → **es-ES** (medium)
   - Text: "Pasa los lentes y la habichuela para la cena."
   - Matched: none
 
-- **es-DO** → **es-ES** (medium)
+- **es-DO** → **es-CO** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: papa, bus
 
-- **es-DO** → **es-ES** (hard)
+- **es-DO** → **es-MX** (hard)
   - Text: "¿Sabes si el auto tiene gasolina?"
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
-- **es-DO** → **es-ES** (hard)
+- **es-DO** → **es-CO** (hard)
   - Text: "Voy a dejar el carro en la casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
 - **es-DO** → **es-ES** (hard)
   - Text: "¿Quieres que prepare la cena?"
   - Matched: none
 
-- **es-PR** → **es-ES** (easy)
+- **es-PR** → **es-VE** (easy)
   - Text: "Dejé la computadora en el apartamento con auto y papa."
-  - Ambiguity: Input contains conflicting dialect markers (es-VE vs es-DO)
-  - Matched: none
+  - Matched: computadora, auto, papa, apartamento
 
 - **es-PR** → **es-ES** (medium)
   - Text: "Pasa los lentes y la habichuela para la cena."
@@ -518,44 +429,37 @@
   - Ambiguity: Input contains conflicting dialect markers (es-CU vs es-EC)
   - Matched: none
 
-- **es-PR** → **es-ES** (hard)
+- **es-PR** → **es-MX** (hard)
   - Text: "¿Sabes si el auto está listo?"
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
-- **es-PR** → **es-ES** (hard)
+- **es-PR** → **es-CO** (hard)
   - Text: "Voy a dejar el carro en el parking."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
 - **es-PR** → **es-ES** (hard)
   - Text: "¿Quieres que vayamos juntos?"
   - Matched: none
 
-- **es-GQ** → **es-ES** (easy)
+- **es-GQ** → **es-AR** (easy)
   - Text: "Dejé la computadora en el río muni con batata."
-  - Ambiguity: Input contains conflicting dialect markers (es-AR vs es-UY)
-  - Matched: none
+  - Matched: computadora
 
-- **es-GQ** → **es-ES** (medium)
+- **es-GQ** → **es-MX** (medium)
   - Text: "Pasa los lentes y la papa para la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: papa
 
-- **es-GQ** → **es-ES** (medium)
+- **es-GQ** → **es-CO** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: papa, bus
 
-- **es-GQ** → **es-ES** (hard)
+- **es-GQ** → **es-CO** (hard)
   - Text: "¿Sabes si el carro tiene gasolina?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
-- **es-GQ** → **es-ES** (hard)
+- **es-GQ** → **es-MX** (hard)
   - Text: "Voy a dejar el auto en la casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
 - **es-GQ** → **es-ES** (hard)
   - Text: "¿Quieres que prepare algo de comer?"
@@ -565,15 +469,13 @@
   - Text: "El mijo trajo mija para la raza."
   - Matched: none
 
-- **es-US** → **es-ES** (hard)
+- **es-US** → **es-CO** (hard)
   - Text: "¿Sabes si el carro está listo?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
-- **es-US** → **es-ES** (hard)
+- **es-US** → **es-MX** (hard)
   - Text: "Voy a dejar el auto en la casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
 - **es-US** → **es-ES** (hard)
   - Text: "¿Quieres que vayamos juntos?"
@@ -583,68 +485,57 @@
   - Text: "Ese kamo es mo'o, siempre trae evo."
   - Matched: none
 
-- **es-PH** → **es-ES** (medium)
+- **es-PH** → **es-MX** (medium)
   - Text: "Pasa los lentes y la papa para la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: papa
 
-- **es-PH** → **es-ES** (medium)
+- **es-PH** → **es-CO** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: papa, bus
 
-- **es-PH** → **es-ES** (hard)
+- **es-PH** → **es-CO** (hard)
   - Text: "¿Sabes si el carro tiene gasolina?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
-- **es-PH** → **es-ES** (hard)
+- **es-PH** → **es-MX** (hard)
   - Text: "Voy a dejar el auto en la casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
 - **es-PH** → **es-ES** (hard)
   - Text: "¿Quieres que prepare algo de comer?"
   - Matched: none
 
-- **es-BZ** → **es-ES** (medium)
+- **es-BZ** → **es-MX** (medium)
   - Text: "Pasa los lentes y la papa para la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: papa
 
-- **es-BZ** → **es-ES** (medium)
+- **es-BZ** → **es-CO** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: papa, bus
 
-- **es-BZ** → **es-ES** (hard)
+- **es-BZ** → **es-CO** (hard)
   - Text: "¿Sabes si el carro está listo?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
-- **es-BZ** → **es-ES** (hard)
+- **es-BZ** → **es-MX** (hard)
   - Text: "Voy a dejar el auto en la casa."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: auto
 
 - **es-BZ** → **es-ES** (hard)
   - Text: "¿Quieres que vayamos juntos?"
   - Matched: none
 
-- **es-AD** → **es-ES** (medium)
+- **es-AD** → **es-MX** (medium)
   - Text: "Pasa los lentes y la papa para la cena."
-  - Ambiguity: Input contains conflicting dialect markers (es-MX vs es-AR)
-  - Matched: none
+  - Matched: papa
 
-- **es-AD** → **es-ES** (medium)
+- **es-AD** → **es-CO** (medium)
   - Text: "Vamos en bus a buscar papa y lentes."
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-PE)
-  - Matched: none
+  - Matched: papa, bus
 
-- **es-AD** → **es-ES** (hard)
+- **es-AD** → **es-CO** (hard)
   - Text: "¿Sabéis si el carro está listo?"
-  - Ambiguity: Input contains conflicting dialect markers (es-CO vs es-GT)
-  - Matched: none
+  - Matched: carro
 
 - **es-AD** → **es-ES** (hard)
   - Text: "Voy a dejar el coche en la casa."

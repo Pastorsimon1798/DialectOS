@@ -28,6 +28,15 @@ export interface LexicalComplianceResult {
 }
 
 /**
+ * Check whether a term appears as a whole word in text (case-insensitive).
+ * Uses Unicode-aware word boundaries to avoid false positives on substrings.
+ */
+function hasWord(text: string, term: string): boolean {
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(^|[^\\p{L}\\p{N}_])${escaped}(?=$|[^\\p{L}\\p{N}_])`, "iu").test(text);
+}
+
+/**
  * Check translated output against lexical ambiguity expectations.
  * Returns a compliance score (0-1) and list of violations.
  */
@@ -36,17 +45,16 @@ export function checkLexicalCompliance(
   expectations: LexicalAmbiguityExpectations
 ): LexicalComplianceResult {
   const violations: string[] = [];
-  const lowerTranslated = translated.toLowerCase();
 
   for (const group of expectations.requiredOutputGroups) {
-    const hasAny = group.some((term) => lowerTranslated.includes(term.toLowerCase()));
+    const hasAny = group.some((term) => hasWord(translated, term));
     if (!hasAny) {
       violations.push(`Missing required term: expected one of [${group.join(", ")}]`);
     }
   }
 
   for (const term of expectations.forbiddenOutputTerms) {
-    if (lowerTranslated.includes(term.toLowerCase())) {
+    if (hasWord(translated, term)) {
       violations.push(`Forbidden term detected: ${term}`);
     }
   }

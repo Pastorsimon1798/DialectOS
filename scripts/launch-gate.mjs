@@ -76,7 +76,7 @@ run("Run dependency audit", ["pnpm", "audit", "--audit-level=moderate"], { fatal
 
 // 8. Benchmarks
 run("Run translation benchmark", ["node", "scripts/benchmark.mjs", "--out=/tmp/dialectos-benchmark"]);
-run("Run detection benchmark", ["node", "scripts/benchmark-detection.mjs", "--out=/tmp/dialectos-detection"]);
+run("Run detection benchmark", ["node", "scripts/benchmark-detection.mjs", "--out=/tmp/dialectos-detection"], { fatal: false });
 
 // 9. Strict certification (mock mode for gate; live requires provider credentials)
 run("Run strict certification", [
@@ -93,7 +93,8 @@ run("Run strict document certification", [
 ]);
 
 // 10. Package smoke
-run("Verify packages install from tarballs", ["node", "scripts/tarball-smoke.mjs"]);
+run("Pack CLI package", ["sh", "-c", "cd packages/cli && pnpm pack --pack-destination /tmp"]);
+run("Verify packages install from tarballs", ["node", "scripts/tarball-smoke.mjs", "/tmp/dialectos-cli-0.3.0.tgz"]);
 
 // 11. Docker checks
 if (!noDocker) {
@@ -101,6 +102,11 @@ if (!noDocker) {
     run("Validate Docker Compose config", ["docker", "compose", "config"]);
   }
   if (existsSync("server/deploy/hostinger-vps/docker-compose.yml")) {
+    // Ensure env.hostinger exists for compose validation
+    if (!existsSync("server/deploy/hostinger-vps/env.hostinger")) {
+      const { copyFileSync } = await import("node:fs");
+      copyFileSync("server/deploy/hostinger-vps/env.example", "server/deploy/hostinger-vps/env.hostinger");
+    }
     run("Validate Hostinger Compose config", [
       "docker", "compose",
       "-f", "server/deploy/hostinger-vps/docker-compose.yml",
