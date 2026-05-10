@@ -9,7 +9,7 @@ pnpm monorepo with 7 workspace packages under `packages/`:
 | Package | Role | Key exports |
 |---------|------|-------------|
 | `@dialectos/types` | Types, schemas, dictionary data | `SpanishDialect`, `DICTIONARY`, `VERB_CONJUGATIONS` |
-| `@dialectos/security` | Rate limiting, input validation, SSRF guard | `RateLimiter`, `validateInput` |
+| `@dialectos/security` | Rate limiting, path validation, error sanitization | `RateLimiter`, `validateFilePath` |
 | `@dialectos/locale-utils` | Locale parsing, collation | `parseLocale`, `normalizeLocale` |
 | `@dialectos/markdown-parser` | Markdown structure preservation | `parseMarkdown`, `restoreMarkdown` |
 | `@dialectos/providers` | Translation providers + post-processing | `LLMProvider`, `createProviderRegistry`, `BulkTranslationEngine` |
