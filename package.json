@@ -16,7 +16,8 @@
     "dialect:certify:adversarial": "node scripts/dialect-certify-adversarial.mjs",
     "dialect:certify:documents": "node scripts/dialect-certify-documents.mjs",
     "dialect:report": "node scripts/dialect-report.mjs",
-    "dialect:research": "node packages/cli/dist/index.js research-regional-term"
+    "dialect:research": "node packages/cli/dist/index.js research-regional-term",
+    "launch:gate": "node scripts/launch-gate.mjs"
   },
   "keywords": [
     "spanish",
