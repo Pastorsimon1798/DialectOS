@@ -1834,7 +1834,7 @@ Not-tested: restoring historical agent replay data"
 
 **Step 1: Add test**
 
-Assert no tracked non-test/non-remediation file contains `100.66.225.85` or private Tailscale endpoint.
+Assert no tracked non-test/non-remediation file contains `localhost` or private Tailscale endpoint.
 
 **Step 2: Replace defaults**
 

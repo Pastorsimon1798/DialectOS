@@ -28,8 +28,8 @@ from pathlib import Path
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-INFERENCE_URL = os.environ.get("DIALECTOS_BENCHMARK_URL", "http://100.66.225.85:1234")
-INFERENCE_HOST = os.environ.get("DIALECTOS_BENCHMARK_HOST", "100.66.225.85")
+INFERENCE_URL = os.environ.get("DIALECTOS_BENCHMARK_URL", "http://localhost:1234")
+INFERENCE_HOST = os.environ.get("DIALECTOS_BENCHMARK_HOST", "localhost")
 INFERENCE_PORT = os.environ.get("DIALECTOS_BENCHMARK_PORT", "1234")
 TIMEOUT = 120
 BETWEEN_REQUESTS = 0.5

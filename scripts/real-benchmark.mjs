@@ -12,7 +12,7 @@ const { LLMProvider } = await import(
   new URL("../packages/providers/dist/index.js", import.meta.url).href
 );
 
-const API_URL = process.env.LLM_API_URL || "http://100.66.225.85:1234/v1/chat/completions";
+const API_URL = process.env.LLM_API_URL || "http://localhost:1234/v1/chat/completions";
 
 // Representative models per tier
 const MODEL_TIERS = {

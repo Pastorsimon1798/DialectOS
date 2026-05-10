@@ -1,7 +1,0 @@
-{
-  "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"pnpm -r build 2>&1 | tail -3 && pnpm --filter=@dialectos/cli test -- --run src/__tests__/glossary-suggest.test.ts src/__tests__/glossary-diff.test.ts 2>&1\",\"timeout\":60000,\"description\":\"B...",
-  "error": "Exit code 1\npackages/mcp build$ tsc\npackages/mcp build: Done\npackages/cli build: Done\n\n> @dialectos/cli@0.2.0 test /Users/simongonzalezdecruz/workspaces/DialectOS/packages/cli\n> vitest run \"--run\" \"src/__tests__/glossary-suggest.test.ts\" \"src/__tests__/glossary-diff.test.ts\"\n\n\n RUN  v4.1.5 /Users/simongonzalezdecruz/workspaces/DialectOS/packages/cli\n\n ❯ src/__tests__/glossary-suggest.test.ts (6 tests | 1 failed) 4ms\n     × returns suggestions when corrections meet threshold 2ms\nGlossary diff: 1 ...",
-  "timestamp": "2026-04-28T00:31:06.655Z",
-  "retry_count": 2
-}
