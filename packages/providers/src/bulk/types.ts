@@ -47,6 +47,8 @@ export interface BulkTranslationResult {
   totalLatencyMs: number;
   /** Whether all items succeeded */
   allSucceeded: boolean;
+  /** Non-fatal warnings emitted during the operation */
+  warnings: string[];
 }
 
 export interface BulkTranslationProgress {

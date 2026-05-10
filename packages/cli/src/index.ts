@@ -216,6 +216,7 @@ program
   .option("--no-cache", "Disable translation memory caching")
   .option("--checkpoint-dir <path>", "Directory for checkpoint files")
   .option("--dead-letter-dir <path>", "Directory for dead-letter queue files")
+  .option("--allow-partial", "Write partial outputs when some strings fail", false)
   .action(async (directory, options) => {
     try {
       const registry = getDefaultProviderRegistry();
@@ -228,6 +229,7 @@ program
         useCache: options.cache !== false,
         checkpointDir: options.checkpointDir,
         deadLetterDir: options.deadLetterDir,
+        allowPartial: options.allowPartial,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
