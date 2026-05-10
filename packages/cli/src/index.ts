@@ -1,8 +1,10 @@
-#!/usr/bin/env node
 /**
  * @dialectos/cli
  *
  * Spanish translation CLI — translate text, docs, i18n files with dialect awareness
+ *
+ * This module exports the Commander program for programmatic use.
+ * The binary entry point is cli.ts.
  */
 
 import { Command } from "commander";
@@ -663,16 +665,4 @@ i18nCommand
     }
   });
 
-// Parse arguments
-program.parseAsync(process.argv).catch((error) => {
-  // Handle SecurityError with proper error classification
-  if (error instanceof SecurityError) {
-    const safeError = createSafeError(error);
-    writeError(`Security Error [${safeError.code}]: ${safeError.error}`);
-  } else {
-    // Handle other errors
-    const safeError = createSafeError(error);
-    writeError(safeError.error);
-  }
-  process.exit(1);
-});
+export { program };
