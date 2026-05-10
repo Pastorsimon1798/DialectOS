@@ -34,6 +34,9 @@ export interface BuildSemanticContextOptions {
   formality?: FormalityLevel;
   documentKind?: "plain" | "readme" | "api-docs" | "i18n";
   sectionType?: string;
+  /** When true, skip heavy dictionary/grammar/ambiguity/idiom context.
+   *  Use for tiny inputs or when prompt budget is constrained. */
+  compact?: boolean;
 }
 
 const DOMAIN_PATTERNS: Array<{ domain: SemanticDomain; signals: RegExp[] }> = [
@@ -151,14 +154,27 @@ export function analyzeSemanticContext(
 export function buildSemanticTranslationContext(options: BuildSemanticContextOptions): string {
   const signals = analyzeSemanticContext(options.text, options.formality || "auto");
   const dialect = getDialectInfo(options.dialect);
-  const grammarProfile = getDialectGrammarProfile(options.dialect);
   const qualityPrompt = buildDialectQualityPrompt(options.dialect);
-  const outputConstraintPrompt = buildOutputConstraintPrompt(options.text, options.dialect);
-  const lexicalAmbiguityGuidance = buildLexicalAmbiguityGuidance(options.text, options.dialect);
-  const idiomGuidance = buildIdiomGuidance(options.text, options.dialect);
   const dialectTerms = dialect
     ? [...dialect.formalTerms.slice(0, 4), ...dialect.slangTerms.slice(0, 4)].join(", ")
     : options.dialect;
+
+  if (options.compact) {
+    return [
+      "Translate by preserving meaning, intent, and reader expectations; do not translate literally word-by-word.",
+      `Target dialect: ${dialect?.name || options.dialect} (${options.dialect}).`,
+      `Document domain: ${signals.domain}; intent: ${signals.intent}; register: ${signals.register}.`,
+      dialectTerms ? `Use regional vocabulary naturally where appropriate; examples/signals: ${dialectTerms}.` : undefined,
+      qualityPrompt ? `Dialect quality contract: ${qualityPrompt}` : undefined,
+      "Preserve product names, code identifiers, URLs, placeholders, markdown structure, and glossary-locked terms.",
+      "Prefer idiomatic Spanish for the target audience over one-to-one lexical substitution.",
+    ].filter(Boolean).join(" ");
+  }
+
+  const grammarProfile = getDialectGrammarProfile(options.dialect);
+  const outputConstraintPrompt = buildOutputConstraintPrompt(options.text, options.dialect);
+  const lexicalAmbiguityGuidance = buildLexicalAmbiguityGuidance(options.text, options.dialect);
+  const idiomGuidance = buildIdiomGuidance(options.text, options.dialect);
   const grammarGuidance = grammarProfile
     ? [
         grammarProfile.pluralAddress,

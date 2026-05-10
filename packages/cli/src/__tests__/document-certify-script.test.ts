@@ -14,6 +14,7 @@ describe("document adversarial certification", () => {
       `--out=${outDir}`,
       "--dialects=es-MX,es-PA,es-PR,es-AR,es-ES,es-CL,es-BO",
       "--sample-timeout-ms=10000",
+      "--allow-mock=true",
     ], { cwd: join(import.meta.dirname, "../../../.."), stdio: "pipe", timeout: 120000 });
 
     const summary = JSON.parse(readFileSync(join(outDir, "results.json"), "utf-8")) as {
@@ -43,6 +44,7 @@ describe("document adversarial certification", () => {
       `--out=${outDir}`,
       "--dialects=es-MX",
       "--sample-timeout-ms=10000",
+      "--allow-mock=true",
     ], {
       cwd: join(import.meta.dirname, "../../../.."),
       stdio: "pipe",
