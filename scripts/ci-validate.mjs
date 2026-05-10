@@ -35,6 +35,7 @@ const glossaryFile = args.get("glossary-file") || "";
 const failOnBlocking = args.get("fail-on-blocking") !== "false";
 const format = args.get("format") || "text";
 const strict = args.get("strict") === "true";
+const cliPath = args.get("cli-path") || join(process.cwd(), "packages/cli/dist/index.js");
 
 // Detect changed files (CI mode) or scan directory (local mode)
 function detectTargetFiles() {
@@ -102,7 +103,6 @@ function detectTargetFiles() {
 }
 
 function validateFile(filePath) {
-  const cliPath = join(process.cwd(), "packages/cli/dist/index.js");
   const validateArgs = [
     cliPath,
     "validate",
