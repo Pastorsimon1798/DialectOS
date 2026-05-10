@@ -26,7 +26,7 @@ function passThroughArgs(runOutDir) {
     `--fixtures=${fixtureDir}`,
     `--out=${runOutDir}`,
   ];
-  for (const key of ["provider", "dialects", "sample-timeout-ms", "sample-retries"]) {
+  for (const key of ["provider", "dialects", "sample-timeout-ms", "sample-retries", "fail-on-warnings", "judge"]) {
     if (args.has(key)) forwarded.push(`--${key}=${args.get(key)}`);
   }
   if (args.get("live") === "true") forwarded.push("--live");
