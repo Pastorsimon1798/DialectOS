@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Stack Overflow Answer: MCP server for translation
 
 **Question to search for:** "mcp server translation" or "model context protocol translate tool"
@@ -36,4 +38,4 @@ If you're using Claude Desktop, Cursor, or any MCP client and want **native tran
 
 **Why this matters:** Instead of copy-pasting into ChatGPT and hoping it knows Puerto Rican Spanish, you get **deterministic, tested, dialect-aware translation** with quality gates.
 
-Open source, 1034 tests, works with any OpenAI/Anthropic/local LLM.
+source-available, automated tests, works with any OpenAI/Anthropic/local LLM.

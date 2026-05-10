@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 ---
 title: "25 Spanish Dialects Your Translation Tool Doesn't Know About"
 published: false
@@ -73,7 +75,7 @@ DialectOS supports all of these:
 2. **Pick target markets** — Translate to the specific dialect, not "Spanish"
 3. **Use quality gates** — Check for semantic drift, negation drops, structure breaks
 
-[DialectOS](https://github.com/KyaniteLabs/DialectOS) handles all of this as an MCP server and CLI tool. 25 dialects, structure preservation, adversarial quality gates, 1034 tests.
+[DialectOS](https://github.com/KyaniteLabs/DialectOS) handles all of this as an MCP server and CLI tool. 25 dialects, structure preservation, adversarial quality gates, automated tests.
 
 ---
 

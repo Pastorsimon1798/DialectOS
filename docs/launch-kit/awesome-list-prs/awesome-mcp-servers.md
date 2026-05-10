@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # PR Draft: Add DialectOS to awesome-mcp-servers
 
 **Repo to submit to:** `punkpeye/awesome-mcp-servers`
@@ -50,11 +52,11 @@ Go to: `https://github.com/punkpeye/awesome-mcp-servers/compare/main...simongonz
 ```
 Adds [DialectOS](https://github.com/KyaniteLabs/DialectOS) to the Translation section.
 
-DialectOS is an open-source MCP server for Spanish regional dialect translation:
+DialectOS is an source-available MCP server for Spanish regional dialect translation:
 - 25 Spanish dialects (es-MX, es-AR, es-CO, es-PR, etc.)
 - 17 MCP tools for translation, i18n, glossary, and research workflows
 - Structure-preserving markdown translation (tables, code blocks, links)
 - Adversarial quality gates (semantic drift, negation preservation, structure validation)
-- 1034 tests across 7 packages
+- automated tests across 7 packages
 - BSL 1.1 license (free for most use, Apache-2.0 in 2030)
 ```

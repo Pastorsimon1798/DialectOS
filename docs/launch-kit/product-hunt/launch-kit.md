@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Product Hunt Launch Kit
 
 **Launch day:** Tuesday (highest engagement day)
@@ -11,9 +13,9 @@
 **Tagline:** The first MCP server for Spanish dialects — 25 variants, quality gates, structure preservation
 **Description:**
 
-DialectOS is an open-source Spanish dialect translation server that runs as an MCP (Model Context Protocol) tool and CLI. It translates English and other languages into 25 regional Spanish variants while preserving markdown structure, enforcing glossary terms, and applying adversarial quality gates that catch semantic drift before it reaches users.
+DialectOS is an source-available Spanish dialect translation server that runs as an MCP (Model Context Protocol) tool and CLI. It translates English and other languages into 25 regional Spanish variants while preserving markdown structure, enforcing glossary terms, and applying adversarial quality gates that catch semantic drift before it reaches users.
 
-**Topics:** Developer Tools, AI, Open Source, Translation
+**Topics:** Developer Tools, AI, source-available, Translation
 **Website:** https://kyanitelabs.github.io/DialectOS
 **GitHub:** https://github.com/KyaniteLabs/DialectOS
 
@@ -44,7 +46,7 @@ Text: "4 quality gates + semantic backstop. Auto-reject negation drops."
 **Image 5: The Numbers**
 Title: "Built for Audits"
 Visual: Metrics dashboard
-Text: "1034 tests · 25 dialects · 17 MCP tools · 0 silent fallbacks"
+Text: "automated tests · 25 dialects · 17 MCP tools · 0 silent fallbacks"
 
 ---
 
@@ -62,7 +64,7 @@ We built this after a real production incident: we shipped Spain Spanish to Mexi
 
 2. **Adversarial quality gates** — We don't trust translations blindly. If "Do not click" becomes "Haz clic" (the opposite meaning), it's auto-rejected. We maintain a corpus of semantic traps and run them against every release.
 
-3. **1034 tests for v0.3.0** — We test harder than we market. Grammar detection (voseo, leísmo, laísmo), semantic backstop, translation memory torture tests — everything is tested.
+3. **automated tests for v0.3.0** — We test harder than we market. Grammar detection (voseo, leísmo, laísmo), semantic backstop, translation memory torture tests — everything is tested.
 
 **Tech stack:** TypeScript monorepo, pnpm workspace, 7 packages, stdio MCP.
 

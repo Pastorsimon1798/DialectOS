@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Newsletter Outreach
 
 ---
@@ -7,19 +9,19 @@
 **Contact:** https://javascriptweekly.com/contact (or tweet @JavaScriptDaily)
 **Audience:** 100K+ JavaScript developers
 
-**Subject:** New open-source project: MCP server for Spanish dialect translation in TypeScript
+**Subject:** New source-available project: MCP server for Spanish dialect translation in TypeScript
 
 **Body:**
 
 Hi JavaScript Weekly team,
 
-I wanted to share DialectOS — an open-source Spanish dialect translation engine we built as a TypeScript monorepo.
+I wanted to share DialectOS — an source-available Spanish dialect translation engine we built as a TypeScript monorepo.
 
 It exposes 17 MCP (Model Context Protocol) tools so AI assistants like Claude can translate to 25 Spanish regional variants natively. Think of it as a translation layer that understands Mexican Spanish, Argentinian voseo, and Puerto Rican vocabulary — not just generic "Spanish."
 
 **Key details:**
 - 7 packages in a pnpm workspace
-- 1034 tests
+- automated tests
 - Structure-preserving markdown translation
 - Adversarial quality gates (catches semantic drift)
 - Works with OpenAI, Anthropic, or local LLMs
@@ -55,7 +57,7 @@ It started from a real production issue: we shipped Spain Spanish translations t
 - 17 MCP tools exposed over stdio JSON-RPC
 - Provider registry with circuit breaker pattern
 - Translation memory with SHA-256 keyed caching
-- 1034 tests across 7 packages
+- automated tests across 7 packages
 
 **Repo:** https://github.com/KyaniteLabs/DialectOS
 
@@ -102,18 +104,18 @@ Simon Gonzalez
 **Contact:** https://console.dev/contact
 **Audience:** Senior developers, tool curators
 
-**Subject:** Open-source tool recommendation: DialectOS
+**Subject:** source-available tool recommendation: DialectOS
 
 **Body:**
 
 Hi Console team,
 
-I'd like to recommend DialectOS for your newsletter — it's an open-source Spanish dialect translation server with MCP integration.
+I'd like to recommend DialectOS for your newsletter — it's an source-available Spanish dialect translation server with MCP integration.
 
 **Why it fits Console:**
 - Developer-first (TypeScript, CLI, MCP server)
 - Solves a real problem (generic Spanish translation fails in production)
-- High test coverage (1034 tests)
+- High test coverage (automated tests)
 - Clean architecture (pnpm workspace, provider registry, circuit breaker)
 
 **Repo:** https://github.com/KyaniteLabs/DialectOS
@@ -143,7 +145,7 @@ Simon Gonzalez
 
 Hi Pointer team,
 
-We're building DialectOS — an open-source translation engine for Spanish regional dialects.
+We're building DialectOS — an source-available translation engine for Spanish regional dialects.
 
 It exposes 17 MCP tools, supports 25 dialects, and applies adversarial quality gates to catch semantic drift in AI translations.
 

@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Reddit Post: r/LocalLLaMA
 
 **Title:** DialectOS: Translate to 25 Spanish variants with any local LLM (LM Studio, Ollama compatible)
@@ -8,7 +10,7 @@ If you're running local models and need to translate content to Spanish dialects
 
 But local models can do much better with the right prompts.
 
-**DialectOS** is an open-source translation engine that feeds dialect-specific prompts + grammar profiles + glossary constraints to any LLM:
+**DialectOS** is an source-available translation engine that feeds dialect-specific prompts + grammar profiles + glossary constraints to any LLM:
 
 **Compatible with:**
 - LM Studio (native API)
@@ -40,7 +42,7 @@ This runs adversarial tests and writes:
 - Leísmo/laísmo/loísmo grammar detection
 - Semantic backstop catches drift
 - Translation memory with SHA-256 cache
-- 1034 tests
+- automated tests
 
 **Repo:** https://github.com/KyaniteLabs/DialectOS
 

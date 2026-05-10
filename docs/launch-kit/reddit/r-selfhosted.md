@@ -1,10 +1,12 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Reddit Post: r/selfhosted
 
-**Title:** DialectOS — Self-hosted Spanish dialect translation via MCP (25 variants, 1034 tests)
+**Title:** DialectOS — Self-hosted Spanish dialect translation via MCP (25 variants, automated tests)
 
 **Body:**
 
-I've been building DialectOS — an open-source Spanish dialect translation server that runs entirely self-hosted.
+I've been building DialectOS — an source-available Spanish dialect translation server that runs entirely self-hosted.
 
 **The problem it solves:**
 
@@ -36,7 +38,7 @@ LLM_API_FORMAT="lmstudio" \
 pnpm dialect:eval -- --live --provider=llm
 ```
 
-**Tech stack:** TypeScript, pnpm workspace, 7 packages, 1034 tests.
+**Tech stack:** TypeScript, pnpm workspace, 7 packages, automated tests.
 
 **License:** BSL 1.1 (free for most use, becomes Apache-2.0 in 2030).
 

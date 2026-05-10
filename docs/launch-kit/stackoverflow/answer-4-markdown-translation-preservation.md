@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Stack Overflow Answer: Translating markdown while preserving structure
 
 **Question to search for:** "translate markdown file preserving structure" or "how to translate markdown documentation programmatically"
@@ -45,4 +47,4 @@ translate_markdown({
 - No HTML injection in output
 - Semantic meaning intact
 
-1034 tests, open source (BSL 1.1 → Apache-2.0 in 2030).
+automated tests, source-available (BSL 1.1 → Apache-2.0 in 2030).

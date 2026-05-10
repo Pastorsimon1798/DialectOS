@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # PR Draft: Add DialectOS to awesome-cli-apps
 
 **Repo to submit to:** `agarrharr/awesome-cli-apps`

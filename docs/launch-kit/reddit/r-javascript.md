@@ -1,6 +1,8 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Reddit Post: r/javascript
 
-**Title:** We built an MCP server for Spanish dialect translation in TypeScript — 1034 tests, 25 dialects
+**Title:** We built an MCP server for Spanish dialect translation in TypeScript — automated tests, 25 dialects
 
 **Body:**
 
@@ -31,7 +33,7 @@ packages/
 2. **MCP over stdio** — not HTTP, so no server needed for local use
 3. **Provider registry pattern** — LLM primary, DeepL fallback, LibreTranslate fallback
 4. **Translation memory** — SHA-256 keyed cache with TTL + LRU eviction
-5. **Adversarial fixtures** — 1034 tests including semantic drift, negation gates, grammar detection
+5. **Adversarial fixtures** — automated tests including semantic drift, negation gates, grammar detection
 
 **Quality gates** are the fun part:
 
@@ -46,7 +48,7 @@ if (result.negationDropped) {
 **Try it:**
 
 ```bash
-npm install -g @dialectos/cli
+local build (packages not published yet)
 dialectos translate "Hello world" --dialect es-MX
 ```
 
