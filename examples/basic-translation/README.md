@@ -4,14 +4,17 @@ This example demonstrates how to use DialectOS to translate a README file to mul
 
 ## Setup
 
+Clone the repository and install dependencies:
+
 ```bash
-npm install @dialectos/cli
+pnpm install
+pnpm build
 ```
 
 ## Translate to Mexican Spanish
 
 ```bash
-npx dialectos translate-readme README.md \
+node packages/cli/dist/index.js translate-readme README.md \
   --dialect es-MX \
   --output README.es-MX.md \
   --policy balanced
@@ -20,7 +23,7 @@ npx dialectos translate-readme README.md \
 ## Translate to Argentine Spanish
 
 ```bash
-npx dialectos translate-readme README.md \
+node packages/cli/dist/index.js translate-readme README.md \
   --dialect es-AR \
   --output README.es-AR.md \
   --policy strict
@@ -29,13 +32,13 @@ npx dialectos translate-readme README.md \
 ## Batch translate i18n files
 
 ```bash
-npx dialectos i18n batch-translate locales/en.json \
-  --dialects es-MX,es-AR,es-CO,es-ES \
-  --output-dir locales/
+node packages/cli/dist/index.js i18n batch-translate locales \
+  --base en \
+  --targets es-MX,es-AR,es-CO,es-ES
 ```
 
 ## Check what changed
 
 ```bash
-npx dialectos i18n detect-missing locales/en.json locales/es-MX.json
+node packages/cli/dist/index.js i18n detect-missing locales/en.json locales/es-MX.json
 ```
