@@ -21,7 +21,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Pages
         uses: actions/configure-pages@v6
       # Ensure GNU tar is available as 'gtar' (required by upload-pages-artifact)
