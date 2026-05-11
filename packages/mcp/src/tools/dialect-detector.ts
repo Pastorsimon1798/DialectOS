@@ -137,6 +137,13 @@ export function scoreAllDialects(text: string): ScoredDialect[] {
       }
     }
 
+    // Penalize generic keywords (appear in 10+ dialects) to favor distinctive matches.
+    const genericPenalty = matchedKeywords.reduce((penalty, kw) => {
+      const freq = KEYWORD_FREQ.get(kw.toLowerCase()) || 1;
+      return freq >= 10 ? penalty + 0.15 : penalty;
+    }, 0);
+    const adjustedKeywordScore = Math.max(0, keywordScore - genericPenalty);
+
     let grammarBoost = 0;
 
     // Voseo boost
@@ -168,7 +175,9 @@ export function scoreAllDialects(text: string): ScoredDialect[] {
     }
 
     grammarBoost = Math.min(grammarBoost, GRAMMAR_MAX_BOOST);
-    const combinedScore = keywordScore + grammarBoost * GRAMMAR_WEIGHT;
+    // Small bonus for matching multiple keywords (helps break ties).
+    const keywordCountBonus = matchedKeywords.length > 1 ? (matchedKeywords.length - 1) * 0.05 : 0;
+    const combinedScore = adjustedKeywordScore + grammarBoost * GRAMMAR_WEIGHT + keywordCountBonus;
     const keywordPotential = DIALECT_POTENTIAL.get(dialect.code) || 1;
     const combinedPotential = keywordPotential + GRAMMAR_MAX_BOOST * GRAMMAR_WEIGHT;
     const confidence = Math.min(combinedScore / combinedPotential, 1);
@@ -185,8 +194,12 @@ export function scoreAllDialects(text: string): ScoredDialect[] {
     }
   }
 
-  // Sort by combined score descending
-  scores.sort((a, b) => b.combinedScore - a.combinedScore);
+  // Sort by combined score descending, then by confidence descending to break ties.
+  scores.sort((a, b) => {
+    const scoreDiff = b.combinedScore - a.combinedScore;
+    if (scoreDiff !== 0) return scoreDiff;
+    return b.confidence - a.confidence;
+  });
 
   return scores;
 }

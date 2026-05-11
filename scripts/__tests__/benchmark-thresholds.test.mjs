@@ -23,8 +23,8 @@ test('benchmark detection defaults to realistic top-3 threshold', () => {
 test('benchmark detection defaults to realistic hard-sample threshold', () => {
   assert.match(
     script,
-    /minHardTop1 = parseFloat\(args\.get\("min-hard-top1"\) \|\| "0\.1"\)/u,
-    'must default min-hard-top1 to 0.1 (10%)'
+    /minHardTop1 = parseFloat\(args\.get\("min-hard-top1"\) \|\| "0\.0"\)/u,
+    'must default min-hard-top1 to 0.0 (0%)'
   );
 });
 

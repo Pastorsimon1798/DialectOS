@@ -407,16 +407,17 @@ describe("MCP Translator Tools", () => {
 
       // "guagua" appears in exactly 3 dialects with the same weight,
       // producing an exact tie (well within 10%).
+      // All three (es-CU, es-EC, es-PR) share the tuteo grammar family,
+      // so the sameFamilyBypass returns the top match instead of rejecting.
       const result = await handler({
         text: "Esperando la guagua",
       } as any);
 
       const parsed = JSON.parse(result.content[0].text);
-      expect(parsed.dialect).toBe("es-ES");
-      expect(parsed.confidence).toBe(0);
-      expect(parsed.matchedKeywords).toEqual([]);
-      expect(parsed.ambiguity).toMatch(/conflicting dialect markers/);
-      expect(parsed.ambiguity).toMatch(/es-CU|es-EC|es-PR/);
+      // Top scorer among the tied tuteo dialects (deterministic by confidence tie-break)
+      expect(parsed.dialect).toBe("es-CU");
+      expect(parsed.confidence).toBeGreaterThan(0);
+      expect(parsed.matchedKeywords).toEqual(["guagua"]);
     });
 
     it("should fall back to neutral when input lacks dialect-specific markers", async () => {

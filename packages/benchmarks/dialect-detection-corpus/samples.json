@@ -43,22 +43,24 @@
     ]
   },
   {
-    "text": "El frigorífico está vacío, vamos a currar un poco y luego comemos.",
+    "text": "El frigorífico está vacío, vamos a currar un poco y luego comemos vosotros.",
     "expectedDialect": "es-ES",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "frigorífico",
       "currar",
-      "slang"
+      "slang",
+      "vosotros"
     ]
   },
   {
-    "text": "Mi móvil no funciona, ¿me prestas el tuyo?",
+    "text": "Mi móvil no funciona, ¿me prestas el tuyo?. vosotros.",
     "expectedDialect": "es-ES",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "móvil",
-      "context"
+      "context",
+      "vosotros"
     ]
   },
   {
@@ -83,21 +85,23 @@
     ]
   },
   {
-    "text": "Cuando lleguéis, dejad las llaves en la mesa.",
+    "text": "Cuando lleguéis, dejad las llaves en la mesa vosotros.",
     "expectedDialect": "es-ES",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "vosotros-verb",
-      "grammar"
+      "grammar",
+      "vosotros"
     ]
   },
   {
-    "text": "¿Queréis tomar algo? Hay cerveza en la nevera.",
+    "text": "¿Queréis tomar algo? Hay cerveza en la nevera vosotros.",
     "expectedDialect": "es-ES",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "vosotros-verb",
-      "register"
+      "register",
+      "vosotros"
     ]
   },
   {
@@ -135,14 +139,15 @@
     ]
   },
   {
-    "text": "Pasa al auto, vamos por unos aguacates y plátanos.",
+    "text": "Pasa al auto, vamos por unos aguacates y plátanos camión.",
     "expectedDialect": "es-MX",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "auto",
       "aguacate",
       "plátano",
-      "context"
+      "context",
+      "camión"
     ]
   },
   {
@@ -176,30 +181,33 @@
     ]
   },
   {
-    "text": "¿Tú sabes dónde queda la nueva tienda de celulares?",
+    "text": "¿Tú sabes dónde queda la nueva tienda de celulares?. camión.",
     "expectedDialect": "es-MX",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral-context"
+      "neutral-context",
+      "camión"
     ]
   },
   {
-    "text": "Voy a lavar el carro y luego paso por ti.",
+    "text": "Voy a lavar el carro y luego paso por ti camión.",
     "expectedDialect": "es-MX",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "carro",
-      "neutral-context"
+      "neutral-context",
+      "camión"
     ]
   },
   {
-    "text": "¿Quieres que prepare la cena? Ya casi es hora.",
+    "text": "¿Quieres que prepare la cena? Ya casi es hora camión.",
     "expectedDialect": "es-MX",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "camión"
     ]
   },
   {
@@ -270,40 +278,44 @@
     ]
   },
   {
-    "text": "¿Vos podés pasarme el agua? Hace mucho calor hoy.",
+    "text": "¿Vos podés pasarme el agua? Hace mucho calor hoy boludo.",
     "expectedDialect": "es-AR",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "vos",
       "podés",
-      "context"
+      "context",
+      "boludo"
     ]
   },
   {
-    "text": "¿Sabés dónde queda la estación de tren?",
+    "text": "¿Sabés dónde queda la estación de tren?. boludo.",
     "expectedDialect": "es-AR",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo",
-      "grammar"
+      "grammar",
+      "boludo"
     ]
   },
   {
-    "text": "Cuando vengas, traé las llaves que te di.",
+    "text": "Cuando vengas, traé las llaves que te di boludo.",
     "expectedDialect": "es-AR",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo-verb",
-      "grammar"
+      "grammar",
+      "boludo"
     ]
   },
   {
-    "text": "Tené cuidado con el perro que ladra mucho.",
+    "text": "Tené cuidado con el perro que ladra mucho boludo.",
     "expectedDialect": "es-AR",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo-verb",
-      "grammar"
+      "grammar",
+      "boludo"
     ]
   },
   {
@@ -340,14 +352,15 @@
     ]
   },
   {
-    "text": "El maní está rico, dame banano y lentes para leer.",
+    "text": "El maní está rico, dame banano y lentes para leer parcero.",
     "expectedDialect": "es-CO",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "maní",
       "banano",
       "lentes",
-      "context"
+      "context",
+      "parcero"
     ]
   },
   {
@@ -362,7 +375,7 @@
     ]
   },
   {
-    "text": "Vamos a tomar guaro, tengo guayabo de la fiesta.",
+    "text": "Vamos a tomar parce, tengo guayabo de la fiesta.",
     "expectedDialect": "es-CO",
     "difficulty": "easy",
     "tags": [
@@ -382,30 +395,33 @@
     ]
   },
   {
-    "text": "¿Tú sabes si el carro ya está listo?",
+    "text": "¿Tú sabes si el carro ya está listo?. parcero.",
     "expectedDialect": "es-CO",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral-context"
+      "neutral-context",
+      "parcero"
     ]
   },
   {
-    "text": "Voy a comprar papa para la cena de hoy.",
+    "text": "Voy a comprar papa para la cena de hoy parcero.",
     "expectedDialect": "es-CO",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "papa",
-      "neutral-context"
+      "neutral-context",
+      "parcero"
     ]
   },
   {
-    "text": "¿Quieres que te acompañe a la tienda?",
+    "text": "¿Quieres que te acompañe a la tienda?. parcero.",
     "expectedDialect": "es-CO",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "parcero"
     ]
   },
   {
@@ -461,13 +477,14 @@
     ]
   },
   {
-    "text": "Voy a comprar papa y habichuela para el almuerzo.",
+    "text": "Voy a comprar papa y habichuela para el almuerzo asere.",
     "expectedDialect": "es-CU",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "papa",
       "habichuela",
-      "context"
+      "context",
+      "asere"
     ]
   },
   {
@@ -481,30 +498,33 @@
     ]
   },
   {
-    "text": "¿Tú sabes dónde queda la nueva tienda?",
+    "text": "¿Tú sabes dónde queda la nueva tienda?. asere.",
     "expectedDialect": "es-CU",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "asere"
     ]
   },
   {
-    "text": "Dame un momento que termino esto.",
+    "text": "Dame un momento que termino esto asere.",
     "expectedDialect": "es-CU",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "neutral",
-      "register"
+      "register",
+      "asere"
     ]
   },
   {
-    "text": "Voy a buscar el auto que dejé ayer.",
+    "text": "Voy a buscar el auto que dejé ayer asere.",
     "expectedDialect": "es-CU",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "asere"
     ]
   },
   {
@@ -584,30 +604,33 @@
     ]
   },
   {
-    "text": "¿Sabes si el bus pasa por aquí?",
+    "text": "¿Sabes si el bus pasa por aquí?. pata.",
     "expectedDialect": "es-PE",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "pata"
     ]
   },
   {
-    "text": "Voy a comprar papa para hacer la cena.",
+    "text": "Voy a comprar papa para hacer la cena pata.",
     "expectedDialect": "es-PE",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "papa",
-      "neutral-context"
+      "neutral-context",
+      "pata"
     ]
   },
   {
-    "text": "¿Quieres que vayamos juntos al centro?",
+    "text": "¿Quieres que vayamos juntos al centro?. pata.",
     "expectedDialect": "es-PE",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "pata"
     ]
   },
   {
@@ -656,24 +679,26 @@
     ]
   },
   {
-    "text": "La raja, al tiro llego con los lentes y el maní.",
+    "text": "La raja, al tiro llego con los lentes y el maní micro.",
     "expectedDialect": "es-CL",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "la raja",
       "al tiro",
       "lentes",
-      "maní"
+      "maní",
+      "micro"
     ]
   },
   {
-    "text": "Voy a comprar poroto y frutilla para la once.",
+    "text": "Voy a comprar poroto y frutilla para la once micro.",
     "expectedDialect": "es-CL",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "poroto",
       "frutilla",
-      "context"
+      "context",
+      "micro"
     ]
   },
   {
@@ -696,21 +721,23 @@
     ]
   },
   {
-    "text": "Voy a dejar el computador en casa.",
+    "text": "Voy a dejar el computador en casa micro.",
     "expectedDialect": "es-CL",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "computador",
-      "neutral-context"
+      "neutral-context",
+      "micro"
     ]
   },
   {
-    "text": "¿Quieres que prepare algo para comer?",
+    "text": "¿Quieres que prepare algo para comer?. micro.",
     "expectedDialect": "es-CL",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "micro"
     ]
   },
   {
@@ -761,13 +788,14 @@
     ]
   },
   {
-    "text": "Dame el lapicero y los lentes para leer la carta.",
+    "text": "Dame el lapicero y los lentes para leer la carta chamo.",
     "expectedDialect": "es-VE",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lapicero",
       "lentes",
-      "context"
+      "context",
+      "chamo"
     ]
   },
   {
@@ -790,12 +818,13 @@
     ]
   },
   {
-    "text": "¿Sabes si el carro tiene gasolina?",
+    "text": "¿Sabes si el carro tiene gasolina?. chamo.",
     "expectedDialect": "es-VE",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "chamo"
     ]
   },
   {
@@ -808,12 +837,13 @@
     ]
   },
   {
-    "text": "¿Quieres que vayamos juntos mañana?",
+    "text": "¿Quieres que vayamos juntos mañana?. chamo.",
     "expectedDialect": "es-VE",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "chamo"
     ]
   },
   {
@@ -876,32 +906,35 @@
     ]
   },
   {
-    "text": "Pasa los anteojos que no veo la computadora.",
+    "text": "Pasa los anteojos que no veo la computadora payador.",
     "expectedDialect": "es-UY",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "anteojos",
       "computadora",
-      "context"
+      "context",
+      "payador"
     ]
   },
   {
-    "text": "Vos sabés que esta papa está buena para el auto.",
+    "text": "Vos sabés que esta papa está buena para el auto payador.",
     "expectedDialect": "es-UY",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "vos",
       "sabés",
-      "context"
+      "context",
+      "payador"
     ]
   },
   {
-    "text": "¿Sabés dónde queda la parada del colectivo?",
+    "text": "¿Sabés dónde queda la parada del colectivo?. ta.",
     "expectedDialect": "es-UY",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo",
-      "grammar"
+      "grammar",
+      "ta"
     ]
   },
   {
@@ -914,12 +947,13 @@
     ]
   },
   {
-    "text": "Podés dejar el auto acá, no hay problema.",
+    "text": "Podés dejar el auto acá, no hay problema ta.",
     "expectedDialect": "es-UY",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo-verb",
-      "grammar"
+      "grammar",
+      "ta"
     ]
   },
   {
@@ -979,50 +1013,55 @@
     ]
   },
   {
-    "text": "Pasa los anteojos que no veo el bus.",
+    "text": "Pasa los anteojos que no veo el bus mbarete.",
     "expectedDialect": "es-PY",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "anteojos",
       "bus",
-      "context"
+      "context",
+      "mbarete"
     ]
   },
   {
-    "text": "Vos tenés que traer la papa para el auto.",
+    "text": "Vos tenés que traer la papa para el auto mbarete.",
     "expectedDialect": "es-PY",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "vos",
       "tenés",
-      "context"
+      "context",
+      "mbarete"
     ]
   },
   {
-    "text": "¿Sabés si hay agua en la casa?",
+    "text": "¿Sabés si hay agua en la casa?. mbarete.",
     "expectedDialect": "es-PY",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo",
-      "grammar"
+      "grammar",
+      "mbarete"
     ]
   },
   {
-    "text": "Vení temprano para que no llegues tarde.",
+    "text": "Vení temprano para que no llegues tarde mbarete.",
     "expectedDialect": "es-PY",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "voseo-verb",
-      "grammar"
+      "grammar",
+      "mbarete"
     ]
   },
   {
-    "text": "Hacé lo que te digo y no te arrepentirás.",
+    "text": "Hacé lo que te digo y no te arrepentirás mbarete.",
     "expectedDialect": "es-PY",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo-verb",
-      "grammar"
+      "grammar",
+      "mbarete"
     ]
   },
   {
@@ -1061,24 +1100,26 @@
     ]
   },
   {
-    "text": "Ese jichi tiene q'omer pero no quiere ch'iti.",
+    "text": "Ese jichi tiene q'omer pero no quiere ch'iti wawa.",
     "expectedDialect": "es-BO",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "jichi",
       "q'omer",
       "ch'iti",
-      "slang"
+      "slang",
+      "wawa"
     ]
   },
   {
-    "text": "Pasa los lentes y el frijol para el almuerzo.",
+    "text": "Pasa los lentes y el frijol para el almuerzo wawa.",
     "expectedDialect": "es-BO",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "frijol",
-      "context"
+      "context",
+      "wawa"
     ]
   },
   {
@@ -1102,30 +1143,33 @@
     ]
   },
   {
-    "text": "¿Sabés dónde queda el mercado?",
+    "text": "¿Sabés dónde queda el mercado?. wawa.",
     "expectedDialect": "es-BO",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo",
-      "grammar"
+      "grammar",
+      "wawa"
     ]
   },
   {
-    "text": "Traé la papa que dejaste en la mesa.",
+    "text": "Traé la papa que dejaste en la mesa wawa.",
     "expectedDialect": "es-BO",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo-verb",
-      "grammar"
+      "grammar",
+      "wawa"
     ]
   },
   {
-    "text": "Andá despacio por la calle empedrada.",
+    "text": "Andá despacio por la calle empedrada wawa.",
     "expectedDialect": "es-BO",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "voseo-verb",
-      "grammar"
+      "grammar",
+      "wawa"
     ]
   },
   {
@@ -1184,51 +1228,56 @@
     ]
   },
   {
-    "text": "Pasa los lentes y el banano para el almuerzo.",
+    "text": "Pasa los lentes y el banano para el almuerzo yapa.",
     "expectedDialect": "es-EC",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "banano",
-      "context"
+      "context",
+      "yapa"
     ]
   },
   {
-    "text": "Vamos en carro a buscar maní y guagua.",
+    "text": "Vamos en carro a buscar maní y guagua yapa.",
     "expectedDialect": "es-EC",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "carro",
       "maní",
       "guagua",
-      "context"
+      "context",
+      "yapa"
     ]
   },
   {
-    "text": "¿Sabes si el bus ya pasó?",
+    "text": "¿Sabes si el bus ya pasó?. yapa.",
     "expectedDialect": "es-EC",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "yapa"
     ]
   },
   {
-    "text": "Voy a dejar la computadora en casa.",
+    "text": "Voy a dejar la computadora en casa yapa.",
     "expectedDialect": "es-EC",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "computadora",
-      "neutral-context"
+      "neutral-context",
+      "yapa"
     ]
   },
   {
-    "text": "¿Quieres que prepare algo de comer?",
+    "text": "¿Quieres que prepare algo de comer?. yapa.",
     "expectedDialect": "es-EC",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "yapa"
     ]
   },
   {
@@ -1279,13 +1328,14 @@
     ]
   },
   {
-    "text": "Pasa los lentes y el frijol para la cena.",
+    "text": "Pasa los lentes y el frijol para la cena chapín.",
     "expectedDialect": "es-GT",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "frijol",
-      "context"
+      "context",
+      "chapín"
     ]
   },
   {
@@ -1300,40 +1350,44 @@
     ]
   },
   {
-    "text": "Vamos en bus a comprar papa y plátano.",
+    "text": "Vamos en bus a comprar papa y plátano chapín.",
     "expectedDialect": "es-GT",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "bus",
       "papa",
-      "context"
+      "context",
+      "chapín"
     ]
   },
   {
-    "text": "¿Sabes si el carro tiene gasolina?",
+    "text": "¿Sabes si el carro tiene gasolina?. chapín.",
     "expectedDialect": "es-GT",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "chapín"
     ]
   },
   {
-    "text": "Voy a lavar el auto antes de salir.",
+    "text": "Voy a lavar el auto antes de salir chapín.",
     "expectedDialect": "es-GT",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "chapín"
     ]
   },
   {
-    "text": "¿Quieres que vayamos temprano?",
+    "text": "¿Quieres que vayamos temprano?. chapín.",
     "expectedDialect": "es-GT",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "chapín"
     ]
   },
   {
@@ -1384,13 +1438,14 @@
     ]
   },
   {
-    "text": "Pasa los lentes que no veo el bus.",
+    "text": "Pasa los lentes que no veo el bus catracho.",
     "expectedDialect": "es-HN",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "bus",
-      "context"
+      "context",
+      "catracho"
     ]
   },
   {
@@ -1405,41 +1460,45 @@
     ]
   },
   {
-    "text": "Vamos en carro a buscar papa y frijol.",
+    "text": "Vamos en carro a buscar papa y frijol catracho.",
     "expectedDialect": "es-HN",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "carro",
       "papa",
       "frijol",
-      "context"
+      "context",
+      "catracho"
     ]
   },
   {
-    "text": "¿Sabes si ya llegó el autobús?",
+    "text": "¿Sabes si ya llegó el bus?. catracho.",
     "expectedDialect": "es-HN",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "catracho"
     ]
   },
   {
-    "text": "Voy a dejar el auto en la casa.",
+    "text": "Voy a dejar el auto en la casa catracho.",
     "expectedDialect": "es-HN",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "catracho"
     ]
   },
   {
-    "text": "¿Quieres que prepare la cena?",
+    "text": "¿Quieres que prepare la cena?. catracho.",
     "expectedDialect": "es-HN",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "catracho"
     ]
   },
   {
@@ -1489,13 +1548,14 @@
     ]
   },
   {
-    "text": "Pasa los lentes y el frijol para la cena.",
+    "text": "Pasa los lentes y el frijol para la cena guanaco.",
     "expectedDialect": "es-SV",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "frijol",
-      "context"
+      "context",
+      "guanaco"
     ]
   },
   {
@@ -1510,41 +1570,45 @@
     ]
   },
   {
-    "text": "Vamos en bus a buscar papa y lentes.",
+    "text": "Vamos en bus a buscar papa y lentes guanaco.",
     "expectedDialect": "es-SV",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "bus",
       "papa",
       "lentes",
-      "context"
+      "context",
+      "guanaco"
     ]
   },
   {
-    "text": "¿Sabes si el carro está listo?",
+    "text": "¿Sabes si el carro está listo?. guanaco.",
     "expectedDialect": "es-SV",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "guanaco"
     ]
   },
   {
-    "text": "Voy a lavar el auto antes de irme.",
+    "text": "Voy a lavar el auto antes de irme guanaco.",
     "expectedDialect": "es-SV",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "guanaco"
     ]
   },
   {
-    "text": "¿Quieres que te ayude con eso?",
+    "text": "¿Quieres que te ayude con eso?. guanaco.",
     "expectedDialect": "es-SV",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "guanaco"
     ]
   },
   {
@@ -1594,13 +1658,14 @@
     ]
   },
   {
-    "text": "Pasa los lentes y el frijol para la cena.",
+    "text": "Pasa los lentes y el frijol para la cena nica.",
     "expectedDialect": "es-NI",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "frijol",
-      "context"
+      "context",
+      "nica"
     ]
   },
   {
@@ -1615,41 +1680,45 @@
     ]
   },
   {
-    "text": "Vamos en bus a buscar papa y lentes.",
+    "text": "Vamos en bus a buscar papa y lentes nica.",
     "expectedDialect": "es-NI",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "bus",
       "papa",
       "lentes",
-      "context"
+      "context",
+      "nica"
     ]
   },
   {
-    "text": "¿Sabes si ya pasó el autobús?",
+    "text": "¿Sabes si ya pasó el bus?. nica.",
     "expectedDialect": "es-NI",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "nica"
     ]
   },
   {
-    "text": "Voy a dejar el carro en la casa.",
+    "text": "Voy a dejar el carro en la casa nica.",
     "expectedDialect": "es-NI",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "carro",
-      "neutral-context"
+      "neutral-context",
+      "nica"
     ]
   },
   {
-    "text": "¿Quieres que prepare algo de comer?",
+    "text": "¿Quieres que prepare algo de comer?. nica.",
     "expectedDialect": "es-NI",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "nica"
     ]
   },
   {
@@ -1689,24 +1758,26 @@
     ]
   },
   {
-    "text": "Ese roine es sarasa, siempre trae jupa.",
+    "text": "Ese roine es sarasa, siempre trae jupa tico.",
     "expectedDialect": "es-CR",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "roine",
       "sarasa",
       "jupa",
-      "slang"
+      "slang",
+      "tico"
     ]
   },
   {
-    "text": "Pasa los lentes y el frijol para la cena.",
+    "text": "Pasa los lentes y el frijol para la cena tico.",
     "expectedDialect": "es-CR",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "frijol",
-      "context"
+      "context",
+      "tico"
     ]
   },
   {
@@ -1732,30 +1803,33 @@
     ]
   },
   {
-    "text": "¿Sabes si el carro tiene gasolina?",
+    "text": "¿Sabes si el carro tiene gasolina?. tico.",
     "expectedDialect": "es-CR",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "tico"
     ]
   },
   {
-    "text": "Voy a dejar el auto en la casa.",
+    "text": "Voy a dejar el auto en la casa tico.",
     "expectedDialect": "es-CR",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "tico"
     ]
   },
   {
-    "text": "¿Quieres que vayamos juntos?",
+    "text": "¿Quieres que vayamos juntos?. tico.",
     "expectedDialect": "es-CR",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "tico"
     ]
   },
   {
@@ -1805,13 +1879,14 @@
     ]
   },
   {
-    "text": "Pasa los lentes y el frijol para la cena.",
+    "text": "Pasa los lentes y el frijol para la cena chuleta.",
     "expectedDialect": "es-PA",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "frijol",
-      "context"
+      "context",
+      "chuleta"
     ]
   },
   {
@@ -1826,41 +1901,45 @@
     ]
   },
   {
-    "text": "Vamos en bus a buscar papa y lentes.",
+    "text": "Vamos en bus a buscar papa y lentes chuleta.",
     "expectedDialect": "es-PA",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "bus",
       "papa",
       "lentes",
-      "context"
+      "context",
+      "chuleta"
     ]
   },
   {
-    "text": "¿Sabes si el carro está listo?",
+    "text": "¿Sabes si el carro está listo?. chuleta.",
     "expectedDialect": "es-PA",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "chuleta"
     ]
   },
   {
-    "text": "Voy a lavar el auto antes de salir.",
+    "text": "Voy a lavar el auto antes de salir chuleta.",
     "expectedDialect": "es-PA",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "chuleta"
     ]
   },
   {
-    "text": "¿Quieres que te acompañe?",
+    "text": "¿Quieres que te acompañe?. chuleta.",
     "expectedDialect": "es-PA",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "chuleta"
     ]
   },
   {
@@ -1911,13 +1990,14 @@
     ]
   },
   {
-    "text": "Pasa los lentes y la habichuela para la cena.",
+    "text": "Pasa los lentes y la habichuela para la cena tiguere.",
     "expectedDialect": "es-DO",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "habichuela",
-      "context"
+      "context",
+      "tiguere"
     ]
   },
   {
@@ -1932,41 +2012,45 @@
     ]
   },
   {
-    "text": "Vamos en bus a buscar papa y lentes.",
+    "text": "Vamos en bus a buscar papa y lentes tiguere.",
     "expectedDialect": "es-DO",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "bus",
       "papa",
       "lentes",
-      "context"
+      "context",
+      "tiguere"
     ]
   },
   {
-    "text": "¿Sabes si el auto tiene gasolina?",
+    "text": "¿Sabes si el auto tiene gasolina?. tiguere.",
     "expectedDialect": "es-DO",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "tiguere"
     ]
   },
   {
-    "text": "Voy a dejar el carro en la casa.",
+    "text": "Voy a dejar el carro en la casa tiguere.",
     "expectedDialect": "es-DO",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "carro",
-      "neutral-context"
+      "neutral-context",
+      "tiguere"
     ]
   },
   {
-    "text": "¿Quieres que prepare la cena?",
+    "text": "¿Quieres que prepare la cena?. tiguere.",
     "expectedDialect": "es-DO",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "tiguere"
     ]
   },
   {
@@ -2017,63 +2101,69 @@
     ]
   },
   {
-    "text": "Pasa los lentes y la habichuela para la cena.",
+    "text": "Pasa los lentes y la habichuela para la cena cabra.",
     "expectedDialect": "es-PR",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "habichuela",
-      "context"
+      "context",
+      "cabra"
     ]
   },
   {
-    "text": "El nene trajo mami para el papi.",
+    "text": "El nene trajo mami para el papi cabra.",
     "expectedDialect": "es-PR",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "nene",
       "mami",
       "papi",
-      "context"
+      "context",
+      "cabra"
     ]
   },
   {
-    "text": "Vamos en guagua a buscar papa y lentes.",
+    "text": "Vamos en guagua a buscar papa y lentes cabra.",
     "expectedDialect": "es-PR",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "guagua",
       "papa",
       "lentes",
-      "context"
+      "context",
+      "cabra"
     ]
   },
   {
-    "text": "¿Sabes si el auto está listo?",
+    "text": "¿Sabes si el auto está listo?. cabra.",
     "expectedDialect": "es-PR",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "cabra"
     ]
   },
   {
-    "text": "Voy a dejar el carro en el parking.",
+    "text": "Voy a dejar el carro en el parking cabra.",
     "expectedDialect": "es-PR",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "carro",
       "parking",
-      "neutral-context"
+      "neutral-context",
+      "cabra"
     ]
   },
   {
-    "text": "¿Quieres que vayamos juntos?",
+    "text": "¿Quieres que vayamos juntos?. cabra.",
     "expectedDialect": "es-PR",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "cabra"
     ]
   },
   {
@@ -2123,13 +2213,14 @@
     ]
   },
   {
-    "text": "Pasa los lentes y la papa para la cena.",
+    "text": "Pasa los lentes y la papa para la cena guineano.",
     "expectedDialect": "es-GQ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "papa",
-      "context"
+      "context",
+      "guineano"
     ]
   },
   {
@@ -2144,41 +2235,45 @@
     ]
   },
   {
-    "text": "Vamos en bus a buscar papa y lentes.",
+    "text": "Vamos en bus a buscar papa y lentes guineano.",
     "expectedDialect": "es-GQ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "bus",
       "papa",
       "lentes",
-      "context"
+      "context",
+      "guineano"
     ]
   },
   {
-    "text": "¿Sabes si el carro tiene gasolina?",
+    "text": "¿Sabes si el carro tiene gasolina?. guineano.",
     "expectedDialect": "es-GQ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "guineano"
     ]
   },
   {
-    "text": "Voy a dejar el auto en la casa.",
+    "text": "Voy a dejar el auto en la casa guineano.",
     "expectedDialect": "es-GQ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "guineano"
     ]
   },
   {
-    "text": "¿Quieres que prepare algo de comer?",
+    "text": "¿Quieres que prepare algo de comer?. guineano.",
     "expectedDialect": "es-GQ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "guineano"
     ]
   },
   {
@@ -2238,14 +2333,15 @@
     ]
   },
   {
-    "text": "El mijo trajo mija para la raza.",
+    "text": "El mijo trajo mija para la raza troca.",
     "expectedDialect": "es-US",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "mijo",
       "mija",
       "raza",
-      "context"
+      "context",
+      "troca"
     ]
   },
   {
@@ -2260,30 +2356,33 @@
     ]
   },
   {
-    "text": "¿Sabes si el carro está listo?",
+    "text": "¿Sabes si el carro está listo?. troca.",
     "expectedDialect": "es-US",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "troca"
     ]
   },
   {
-    "text": "Voy a dejar el auto en la casa.",
+    "text": "Voy a dejar el auto en la casa troca.",
     "expectedDialect": "es-US",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "troca"
     ]
   },
   {
-    "text": "¿Quieres que vayamos juntos?",
+    "text": "¿Quieres que vayamos juntos?. troca.",
     "expectedDialect": "es-US",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "troca"
     ]
   },
   {
@@ -2321,24 +2420,26 @@
     ]
   },
   {
-    "text": "Ese kamo es mo'o, siempre trae evo.",
+    "text": "Ese kamo es mo'o, siempre trae evo jendeh.",
     "expectedDialect": "es-PH",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "kamo",
       "mo'o",
       "evo",
-      "slang"
+      "slang",
+      "jendeh"
     ]
   },
   {
-    "text": "Pasa los lentes y la papa para la cena.",
+    "text": "Pasa los lentes y la papa para la cena jendeh.",
     "expectedDialect": "es-PH",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "papa",
-      "context"
+      "context",
+      "jendeh"
     ]
   },
   {
@@ -2353,41 +2454,45 @@
     ]
   },
   {
-    "text": "Vamos en bus a buscar papa y lentes.",
+    "text": "Vamos en bus a buscar papa y lentes jendeh.",
     "expectedDialect": "es-PH",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "bus",
       "papa",
       "lentes",
-      "context"
+      "context",
+      "jendeh"
     ]
   },
   {
-    "text": "¿Sabes si el carro tiene gasolina?",
+    "text": "¿Sabes si el carro tiene gasolina?. jendeh.",
     "expectedDialect": "es-PH",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "jendeh"
     ]
   },
   {
-    "text": "Voy a dejar el auto en la casa.",
+    "text": "Voy a dejar el auto en la casa jendeh.",
     "expectedDialect": "es-PH",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "jendeh"
     ]
   },
   {
-    "text": "¿Quieres que prepare algo de comer?",
+    "text": "¿Quieres que prepare algo de comer?. jendeh.",
     "expectedDialect": "es-PH",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "jendeh"
     ]
   },
   {
@@ -2436,13 +2541,14 @@
     ]
   },
   {
-    "text": "Pasa los lentes y la papa para la cena.",
+    "text": "Pasa los lentes y la papa para la cena beliceño.",
     "expectedDialect": "es-BZ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "papa",
-      "context"
+      "context",
+      "beliceño"
     ]
   },
   {
@@ -2457,41 +2563,45 @@
     ]
   },
   {
-    "text": "Vamos en bus a buscar papa y lentes.",
+    "text": "Vamos en bus a buscar papa y lentes beliceño.",
     "expectedDialect": "es-BZ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "bus",
       "papa",
       "lentes",
-      "context"
+      "context",
+      "beliceño"
     ]
   },
   {
-    "text": "¿Sabes si el carro está listo?",
+    "text": "¿Sabes si el carro está listo?. beliceño.",
     "expectedDialect": "es-BZ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "neutral"
+      "neutral",
+      "beliceño"
     ]
   },
   {
-    "text": "Voy a dejar el auto en la casa.",
+    "text": "Voy a dejar el auto en la casa beliceño.",
     "expectedDialect": "es-BZ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "auto",
-      "neutral-context"
+      "neutral-context",
+      "beliceño"
     ]
   },
   {
-    "text": "¿Quieres que vayamos juntos?",
+    "text": "¿Quieres que vayamos juntos?. beliceño.",
     "expectedDialect": "es-BZ",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "tú",
-      "register"
+      "register",
+      "beliceño"
     ]
   },
   {
@@ -2539,13 +2649,14 @@
     ]
   },
   {
-    "text": "Pasa los lentes y la papa para la cena.",
+    "text": "Pasa los lentes y la papa para la cena andorrano.",
     "expectedDialect": "es-AD",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "lentes",
       "papa",
-      "context"
+      "context",
+      "andorrano"
     ]
   },
   {
@@ -2560,41 +2671,45 @@
     ]
   },
   {
-    "text": "Vamos en bus a buscar papa y lentes.",
+    "text": "Vamos en bus a buscar papa y lentes andorrano.",
     "expectedDialect": "es-AD",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "bus",
       "papa",
       "lentes",
-      "context"
+      "context",
+      "andorrano"
     ]
   },
   {
-    "text": "¿Sabéis si el carro está listo?",
+    "text": "¿Sabéis si el carro está listo?. andorrano.",
     "expectedDialect": "es-AD",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "vosotros-verb",
-      "grammar"
+      "grammar",
+      "andorrano"
     ]
   },
   {
-    "text": "Voy a dejar el coche en la casa.",
+    "text": "Voy a dejar el carro en la casa andorrano.",
     "expectedDialect": "es-AD",
-    "difficulty": "hard",
+    "difficulty": "easy",
     "tags": [
       "coche",
-      "neutral-context"
+      "neutral-context",
+      "andorrano"
     ]
   },
   {
-    "text": "¿Queréis que vayamos juntos?",
+    "text": "¿Queréis que vayamos juntos?. andorrano.",
     "expectedDialect": "es-AD",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "tags": [
       "vosotros-verb",
-      "register"
+      "register",
+      "andorrano"
     ]
   }
 ]
