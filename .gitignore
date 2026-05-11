@@ -26,3 +26,4 @@ benchmark_report.md
 # Agent runtime state
 .omc/
 .claude/
+packages/benchmarks/dialect-detection-corpus/results/

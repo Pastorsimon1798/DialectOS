@@ -54,6 +54,8 @@ const VOSEO_PRESENT_BLOCKLIST = new Set([
   "tesis",
   "déficit",
   "próceres",
+  // Common adverbs ending in -és that are not voseo verb forms
+  "después",
 ]);
 
 const IMPERATIVE_BLOCKLIST = new Set([
@@ -106,6 +108,20 @@ const IMPERATIVE_BLOCKLIST = new Set([
   "diré",
   "haré",
   "oí",
+  // Common preterite 1st-person and non-imperative words ending in -á/-é
+  "qué",
+  "dejé",
+  "compré",
+  "llegué",
+  "saqué",
+  "busqué",
+  "pagué",
+  "jugué",
+  "empecé",
+  "creé",
+  "quedé",
+  "pasé",
+  "acá",
 ]);
 
 const VOSOTROS_FALSE_POSITIVES = new Set([
@@ -119,7 +135,7 @@ const VOSOTROS_FALSE_POSITIVES = new Set([
 function getWords(text: string): string[] {
   return text
     .toLowerCase()
-    .split(/[^a-záéíóúñ]+/)
+    .split(/[^a-záéíóúñü]+/)
     .filter((w) => w.length > 0);
 }
 
