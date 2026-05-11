@@ -51,6 +51,9 @@ const PUBLIC_STATIC_FILES = new Map([
   ["/dialectos-engine.js", "docs/dialectos-engine.js"],
   ["/assets/dialectos-logo.svg", "docs/assets/dialectos-logo.svg"],
   ["/CNAME", "docs/CNAME"],
+  ["/robots.txt", "docs/robots.txt"],
+  ["/sitemap.xml", "docs/sitemap.xml"],
+  ["/llms.txt", "llms.txt"],
 ]);
 
 // Additional safe paths that can be served dynamically from docs/
@@ -240,10 +243,10 @@ async function serveStatic(req, res, rootDir) {
 
 async function loadDefaultServices(rootDir) {
   const serviceUrl = pathToFileURL(path.join(rootDir, "packages/cli/dist/lib/web-demo-service.js")).href;
-  const factoryUrl = pathToFileURL(path.join(rootDir, "packages/cli/dist/lib/provider-factory.js")).href;
+  const factoryUrl = pathToFileURL(path.join(rootDir, "packages/providers/dist/factory.js")).href;
   const service = await import(serviceUrl);
   const factory = await import(factoryUrl);
-  const registry = factory.createProviderRegistry(true);
+  const registry = factory.createProviderRegistry(undefined, true);
   return {
     status: () => service.getWebDemoProviderStatus(registry),
     translate: (request) => service.translateForWebDemo(request, registry),
