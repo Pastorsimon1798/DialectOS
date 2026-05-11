@@ -150,20 +150,20 @@ function fixArticleGender(text: string, oldNoun: string, newNoun: string): strin
 
   if (newGender === "m") {
     text = text.replace(
-      new RegExp(`(^|[^\\p{L}\\p{N}])de\\s+la\\s+${nounLower}([^\\p{L}\\p{N}]|$)`, "giu"),
+      new RegExp(`(^|[^\\p{L}\\p{N}])de\\s+la\\s+(${nounLower})([^\\p{L}\\p{N}]|$)`, "giu"),
       "$1del $2$3"
     );
     text = text.replace(
-      new RegExp(`(^|[^\\p{L}\\p{N}])a\\s+la\\s+${nounLower}([^\\p{L}\\p{N}]|$)`, "giu"),
+      new RegExp(`(^|[^\\p{L}\\p{N}])a\\s+la\\s+(${nounLower})([^\\p{L}\\p{N}]|$)`, "giu"),
       "$1al $2$3"
     );
   } else {
     text = text.replace(
-      new RegExp(`(^|[^\\p{L}\\p{N}])del\\s+${nounLower}([^\\p{L}\\p{N}]|$)`, "giu"),
+      new RegExp(`(^|[^\\p{L}\\p{N}])del\\s+(${nounLower})([^\\p{L}\\p{N}]|$)`, "giu"),
       "$1de la $2$3"
     );
     text = text.replace(
-      new RegExp(`(^|[^\\p{L}\\p{N}])al\\s+${nounLower}([^\\p{L}\\p{N}]|$)`, "giu"),
+      new RegExp(`(^|[^\\p{L}\\p{N}])al\\s+(${nounLower})([^\\p{L}\\p{N}]|$)`, "giu"),
       "$1a la $2$3"
     );
   }
