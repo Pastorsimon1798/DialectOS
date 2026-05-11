@@ -4,6 +4,8 @@ import {
   buildSemanticTranslationContext,
 } from "../lib/semantic-context.js";
 
+const PROMPT_BUDGET = 8_000; // chars
+
 describe("semantic translation context", () => {
   it("classifies technical/security intent beyond literal terms", () => {
     const signals = analyzeSemanticContext(
@@ -126,6 +128,39 @@ describe("semantic translation context", () => {
     expect(orange).toContain("jugo de china");
     expect(orange).toContain("do not use jugo de naranja");
     expect(baby).toContain("do not use guagua");
+  });
+
+  it("compact mode stays under prompt budget for tiny inputs", () => {
+    const compact = buildSemanticTranslationContext({
+      text: "Hello",
+      dialect: "es-MX",
+      compact: true,
+    });
+    expect(compact.length).toBeLessThan(PROMPT_BUDGET);
+  });
+
+  it("compact mode omits heavy dictionary, grammar, ambiguity, and idiom context", () => {
+    const full = buildSemanticTranslationContext({
+      text: "Hello",
+      dialect: "es-MX",
+    });
+    const compact = buildSemanticTranslationContext({
+      text: "Hello",
+      dialect: "es-MX",
+      compact: true,
+    });
+    expect(full.length).toBeGreaterThan(compact.length);
+    expect(compact).not.toContain("Dialect grammar and style profile");
+    expect(compact).not.toContain("Output constraints");
+  });
+
+  it("full mode is acceptable for tiny inputs but compact is available", () => {
+    const full = buildSemanticTranslationContext({
+      text: "Hello",
+      dialect: "es-MX",
+    });
+    // Full mode may exceed budget for some dialects; test documents current behavior
+    expect(full.length).toBeGreaterThan(0);
   });
 
 });

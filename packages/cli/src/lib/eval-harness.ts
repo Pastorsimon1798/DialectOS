@@ -62,10 +62,28 @@ export function mockTranslate(source: string, dialect: SpanishDialect, sample: M
     .replace(/\bThe baby is sleeping\./i, dialect === "es-CL" ? "La guagua está durmiendo." : "El bebé está durmiendo.")
     .replace(/\bUse the computer to open the file\./i, ["es-CO", "es-EC"].includes(dialect) ? "Usa el computador para abrir el archivo." : "Usa la computadora para abrir el archivo.")
     .replace(/\bPlease update your contraseña before continuing\./i, formalSupport ? "Por favor, actualice su contraseña antes de continuar." : "Actualiza tu contraseña antes de continuar.")
+    .replace(/\bContact support if the payment fails\./i, formalSupport ? "Comuníquese con soporte si el pago falla." : "Contacta a soporte si el pago falla.")
     .replace(/\bContact support\./i, formalSupport ? "Comuníquese con soporte." : "Contacta a soporte.")
     .replace(/\bpayment fails\./i, "pago falla")
     .replace(/\bPick up the room before guests arrive\./i, dialect === "es-PR" ? "Recoge el cuarto antes de que lleguen los invitados." : "Ordena la habitación antes de que lleguen los invitados.")
-    .replace(/\bCatch the bus to the office\./i, "Toma el autobús a la oficina.")
+    .replace(/\bCatch the bus to the office\./i,
+      GUAGUA_BUS_DIALECTS.has(dialect) ? "Toma la guagua a la oficina." :
+      ["es-AR", "es-UY"].includes(dialect) ? "Toma el colectivo a la oficina." :
+      dialect === "es-MX" ? "Toma el camión a la oficina." :
+      dialect === "es-PA" ? "Toma el bus a la oficina." :
+      "Toma el autobús a la oficina.")
+    .replace(/\bRide the bus to the office\./i,
+      GUAGUA_BUS_DIALECTS.has(dialect) ? "Toma la guagua a la oficina." :
+      ["es-AR", "es-UY"].includes(dialect) ? "Toma el colectivo a la oficina." :
+      dialect === "es-MX" ? "Toma el camión a la oficina." :
+      dialect === "es-PA" ? "Toma el bus a la oficina." :
+      "Toma el autobús a la oficina.")
+    .replace(/\bTake the bus to the office\./i,
+      GUAGUA_BUS_DIALECTS.has(dialect) ? "Toma la guagua a la oficina." :
+      ["es-AR", "es-UY"].includes(dialect) ? "Toma el colectivo a la oficina." :
+      dialect === "es-MX" ? "Toma el camión a la oficina." :
+      dialect === "es-PA" ? "Toma el bus a la oficina." :
+      "Toma el autobús a la oficina.")
     .replace(/\bPick up the file before deployment\./i, "Recoge el archivo antes del despliegue.")
     .replace(/\bPick up the package from reception\./i, "Recoge el paquete de recepción.")
     .replace(/\bHi \{userName\}, your %\{count\} files are ready at https:\/\/example\.com\/app\./i,
@@ -76,7 +94,9 @@ export function mockTranslate(source: string, dialect: SpanishDialect, sample: M
     .replace(/\bbus\b/i,
       GUAGUA_BUS_DIALECTS.has(dialect) ? "guagua" :
       ["es-AR", "es-UY"].includes(dialect) ? "colectivo" :
-      dialect === "es-MX" ? "camión" : "autobús")
+      dialect === "es-MX" ? "camión" :
+      dialect === "es-PA" ? "bus" :
+      "autobús")
     .replace(/\boffice\b/i, "oficina")
     .replace(/\bpackage\b/i, "paquete")
     .replace(/\breception\b/i, "recepción")

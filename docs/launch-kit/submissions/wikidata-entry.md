@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Wikidata Entry for DialectOS
 
 **URL:** https://www.wikidata.org/wiki/Special:NewItem
@@ -18,7 +20,7 @@
 
 ### Descriptions
 
-**English:** open-source Spanish dialect translation server built on the Model Context Protocol
+**English:** source-available Spanish dialect translation server built on the Model Context Protocol
 
 ### Aliases
 

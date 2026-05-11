@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Stack Overflow Answer: Spanish translation API with dialect support
 
 **Question to search for:** "spanish translation api dialects" or "how to translate to mexican spanish programmatically"
@@ -12,10 +14,10 @@ If you need **dialect-aware Spanish translation** (not just generic "Spanish"), 
 - **DeepL** — ~5 Spanish variants (ES, MX, BR-PT, etc.)
 - **Azure Translator** — 1 Spanish option
 
-For **25 regional Spanish variants** with quality gates, consider **[DialectOS](https://github.com/KyaniteLabs/DialectOS)** — an open-source MCP server and CLI:
+For **25 regional Spanish variants** with quality gates, consider **[DialectOS](https://github.com/KyaniteLabs/DialectOS)** — an source-available MCP server and CLI:
 
 ```bash
-npm install -g @dialectos/cli
+local build (packages not published yet)
 dialectos translate "Hello world" --dialect es-MX
 dialectos translate "Hello world" --dialect es-AR
 dialectos translate "Hello world" --dialect es-PR
@@ -29,6 +31,6 @@ dialectos translate "Hello world" --dialect es-PR
 - Glossary enforcement
 - Adversarial quality gates (catches semantic drift, negation drops)
 - Works with OpenAI, Anthropic, DeepL, or local LLMs
-- 1034 tests, BSL 1.1 license
+- automated tests, BSL 1.1 license
 
 **For existing APIs:** You can use DialectOS as a wrapper — it adds dialect prompts, quality scoring, and fallback chains on top of your existing provider.

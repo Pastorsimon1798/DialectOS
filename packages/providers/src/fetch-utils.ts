@@ -5,7 +5,8 @@
  * legitimate redirects (e.g. HTTP→HTTPS, path changes).
  *
  * Each redirect hop is validated against the original allow-list before
- * the request is sent.
+ * the request is sent. Sensitive headers are stripped on cross-origin
+ * redirects to prevent credential leakage.
  */
 
 export interface FetchWithRedirectsOptions {
@@ -17,11 +18,38 @@ export interface FetchWithRedirectsOptions {
   init?: RequestInit;
 }
 
+const SENSITIVE_HEADERS = new Set([
+  "authorization",
+  "cookie",
+  "proxy-authorization",
+  "www-authenticate",
+]);
+
+function stripSensitiveHeaders(init: RequestInit): RequestInit {
+  if (!init.headers) return init;
+  const headers = new Headers(init.headers);
+  for (const name of SENSITIVE_HEADERS) {
+    headers.delete(name);
+  }
+  return { ...init, headers };
+}
+
+function isSameOrigin(a: string, b: string): boolean {
+  const urlA = new URL(a);
+  const urlB = new URL(b);
+  return (
+    urlA.protocol === urlB.protocol &&
+    urlA.hostname === urlB.hostname &&
+    urlA.port === urlB.port
+  );
+}
+
 /**
  * Follow redirects safely.
  *
  * - Uses `redirect: "manual"` on the underlying fetch to stay in control.
  * - Validates every hop with the caller-supplied `validateUrl`.
+ * - Strips sensitive headers on cross-origin redirects.
  * - Returns the final non-redirect Response.
  * - Throws on excessive redirects or validation failure.
  */
@@ -32,6 +60,7 @@ export async function fetchWithRedirects(
   const { maxRedirects = 3, validateUrl, init = {} } = options;
   let currentUrl = url;
   let remaining = maxRedirects;
+  let currentInit = init;
 
   while (true) {
     if (validateUrl) {
@@ -39,7 +68,7 @@ export async function fetchWithRedirects(
     }
 
     const response = await fetch(currentUrl, {
-      ...init,
+      ...currentInit,
       redirect: "manual",
     });
 
@@ -59,7 +88,14 @@ export async function fetchWithRedirects(
       remaining--;
 
       // Resolve relative URLs against the current URL
-      currentUrl = new URL(location, currentUrl).href;
+      const nextUrl = new URL(location, currentUrl).href;
+
+      // Strip sensitive headers on cross-origin redirect
+      if (!isSameOrigin(currentUrl, nextUrl)) {
+        currentInit = stripSensitiveHeaders(currentInit);
+      }
+
+      currentUrl = nextUrl;
       continue;
     }
 

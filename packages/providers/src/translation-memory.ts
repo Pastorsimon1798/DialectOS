@@ -56,7 +56,11 @@ export class TranslationMemory {
   constructor(options: TranslationMemoryOptions = {}) {
     const cacheDir = this.resolveCacheDir(options.cacheDir);
     this.cachePath = path.join(cacheDir, "translation-memory.json");
-    this.maxSize = options.maxSize ?? DEFAULT_MAX_SIZE;
+    const maxSize = options.maxSize ?? DEFAULT_MAX_SIZE;
+    if (!Number.isInteger(maxSize)) {
+      throw new Error("TranslationMemory maxSize must be an integer");
+    }
+    this.maxSize = maxSize;
     this.defaultTtlMs = options.defaultTtlMs ?? DEFAULT_TTL_MS;
     this.load();
   }

@@ -6,6 +6,8 @@ coverage/
 *.log
 .pnpm-debug.log*
 .env*
+!.env.example
+env.hostinger
 *.tgz
 
 # Translation checkpoints
@@ -25,3 +27,4 @@ benchmark_report.md
 # Agent runtime state
 .omc/
 .claude/
+packages/benchmarks/dialect-detection-corpus/results/

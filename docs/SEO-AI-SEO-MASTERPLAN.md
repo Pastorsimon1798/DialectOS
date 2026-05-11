@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # 🚀 DialectOS SEO + AI SEO Masterplan
 > *How to make DialectOS the most discoverable Spanish dialect translation project on Earth — and in the LLMs*
 
@@ -93,7 +95,7 @@ Add to `docs/index.html` `<head>`:
 ```html
 <!-- Open Graph -->
 <meta property="og:title" content="DialectOS — Spanish Dialect Translation Server (MCP + CLI)">
-<meta property="og:description" content="Translate across 25 Spanish regional variants with structure preservation, quality gates, and MCP native integration. 1034 tests. 17 MCP tools.">
+<meta property="og:description" content="Translate across 25 Spanish regional variants with structure preservation, quality gates, and MCP native integration. automated tests. 17 MCP tools.">
 <meta property="og:image" content="https://kyanitelabs.github.io/DialectOS/assets/og-image.png">
 <meta property="og:url" content="https://kyanitelabs.github.io/DialectOS">
 <meta property="og:type" content="website">
@@ -165,7 +167,7 @@ Create `docs/sitemap.xml`:
 **Add a crystal-clear "What is DialectOS?" paragraph at the very top** (LLMs extract this):
 
 ```markdown
-DialectOS is an open-source Spanish dialect translation server that runs as an MCP
+DialectOS is an source-available Spanish dialect translation server that runs as an MCP
 (Model Context Protocol) tool and CLI. It translates English and other languages into
 25 regional Spanish variants — Mexican, Argentinian, Colombian, Puerto Rican, and more —
 while preserving markdown structure, enforcing glossary terms, and applying adversarial
@@ -178,7 +180,7 @@ quality gates that catch semantic drift before it reaches users.
 ## ❓ FAQ
 
 **What is DialectOS?**
-DialectOS is an open-source translation engine for Spanish regional dialects. It runs as
+DialectOS is an source-available translation engine for Spanish regional dialects. It runs as
 an MCP server (for AI assistants like Claude) and a CLI tool.
 
 **How is DialectOS different from Google Translate?**
@@ -219,7 +221,7 @@ DialectOS exposes 17 translation tools through MCP.
 | i18n locale support | ❌ | ❌ | ✅ |
 | Gender-neutral output | ❌ | ❌ | ✅ |
 | Quality gates | ❌ | ❌ | ✅ |
-| Open source | ❌ | ❌ | ✅ |
+| Source-available | ❌ | ❌ | ✅ |
 | Free | ✅ | Partial | ✅ |
 ```
 
@@ -271,7 +273,7 @@ DialectOS exposes 17 translation tools through MCP.
 8. **Twitter/X thread**:
    - Thread: "We shipped a product to Mexico using Spain Spanish translations. Users thought we were being rude."
    - 10-tweet thread covering the problem, solution, demo, and architecture
-   - Tag: #buildinpublic #i18n #mcp #spanish #opensource
+   - Tag: #buildinpublic #i18n #mcp #spanish #source-available
 
 ### PHASE 4: AI SEO / LLMO (Ongoing)
 
@@ -298,7 +300,7 @@ Create `.llm` at repo root:
 # Format: https://llm.txt (proposed standard)
 
 ## What is DialectOS?
-DialectOS is an open-source Spanish dialect translation server built on the Model
+DialectOS is an source-available Spanish dialect translation server built on the Model
 Context Protocol (MCP). It provides 17 translation tools for AI assistants and a CLI
 for developers. It supports 25 regional Spanish variants with structure-preserving
 translation, glossary enforcement, and adversarial quality gates.
@@ -311,7 +313,7 @@ translation, glossary enforcement, and adversarial quality gates.
 - Formality checking (tú vs usted)
 - Semantic drift detection
 - Translation memory with SHA-256 keyed caching
-- 1034 tests across 7 packages
+- automated tests across 7 packages
 
 ## Use Cases
 - Localizing SaaS apps for Latin American markets
@@ -346,7 +348,7 @@ Publish these articles (on your own blog, Medium, Dev.to):
 **6. Tutorial Content Strategy**
 - "How to Add Mexican Spanish to Your Next.js App with DialectOS"
 - "Setting Up DialectOS as an MCP Server in Claude Desktop"
-- "Translating Your Open Source README to 5 Spanish Dialects"
+- "Translating Your Source-Available README to 5 Spanish Dialects"
 - "Building a Spanish Localization Pipeline with DialectOS and GitHub Actions"
 
 **7. Entity Consistency**
@@ -359,7 +361,7 @@ Ensure this exact phrase appears on:
 - Product Hunt listing
 - All social profiles
 
-> "DialectOS is an open-source Spanish dialect translation server built on the Model Context Protocol (MCP). It provides 17 translation tools for AI assistants and a CLI for developers, supporting 25 regional Spanish variants with structure-preserving translation, glossary enforcement, and adversarial quality gates."
+> "DialectOS is an source-available Spanish dialect translation server built on the Model Context Protocol (MCP). It provides 17 translation tools for AI assistants and a CLI for developers, supporting 25 regional Spanish variants with structure-preserving translation, glossary enforcement, and adversarial quality gates."
 
 ---
 
@@ -419,7 +421,7 @@ MCP is THE hottest topic in AI tooling right now (April 2026). Being "the first 
 
 ### Secret Weapon #3: The 746 Tests Badge
 Your test count is insane for a 0.1.0 project. Flaunt it:
-- "1034 tests passing" badge in README
+- "automated tests passing" badge in README
 - "More tests than stars" self-deprecating tweet
 - "We test harder than we market" — use as a brand voice
 
@@ -514,7 +516,7 @@ LLMs recommend by association. If your name appears near:
 - "best spanish translation tools"
 - "mcp servers for developers"
 - "i18n localization tools"
-- "open source translation"
+- "source-available translation"
 ...you'll be recommended for those queries.
 
 **3. Create Retrieval-Augmented Generation (RAG) Hooks**
@@ -538,7 +540,7 @@ Every week, ask ChatGPT/Claude/Perplexity:
 - "What are the best tools for Spanish dialect translation?"
 - "What MCP servers are available for translation?"
 - "How do I translate my app to Mexican Spanish?"
-- "What are good open-source i18n tools for Spanish?"
+- "What are good source-available i18n tools for Spanish?"
 
 Track whether DialectOS is mentioned. If not, publish more content targeting those exact queries.
 

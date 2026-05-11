@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 ---
 title: "Building an MCP Server for Spanish Dialect Translation"
 published: false
@@ -89,16 +91,16 @@ Quality Score = tokenIntegrity×25% + glossaryFidelity×30% + structureIntegrity
 
 ```bash
 # MCP setup
-npx -y @dialectos/mcp
+local build (packages not published yet)
 
 # CLI
-npm install -g @dialectos/cli
+local build (packages not published yet)
 dialectos translate "Hello world" --dialect es-MX
 ```
 
-## Open Source
+## Source-Available License
 
-- **1034 tests** across 7 packages
+- **automated tests** across 7 packages
 - **BSL 1.1** — free for most use, becomes Apache-2.0 in 2030
 - [GitHub](https://github.com/KyaniteLabs/DialectOS)
 - [Live Demo](https://kyanitelabs.github.io/DialectOS)

@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Medium Article: Why Spanish Is Not One Language
 
 **Title:** Why Spanish Is Not One Language: A Developer's Guide to Regional Variants
@@ -139,7 +141,7 @@ We built DialectOS to solve this systematically:
 It runs as a CLI tool or an MCP server that Claude Desktop and Cursor can use natively.
 
 ```bash
-npm install -g @dialectos/cli
+local build (packages not published yet)
 dialectos translate "Hello world" --dialect es-MX
 dialectos translate "Hello world" --dialect es-AR
 ```
@@ -156,6 +158,6 @@ Your users will notice. And they'll thank you for it.
 
 ---
 
-*Simon Gonzalez is the builder of DialectOS, an open-source Spanish dialect translation server. 25 dialects, 1034 tests, and a mission to fix Spanish localization.*
+*Simon Gonzalez is the builder of DialectOS, an source-available Spanish dialect translation server. 25 dialects, automated tests, and a mission to fix Spanish localization.*
 
 **Repo:** https://github.com/KyaniteLabs/DialectOS

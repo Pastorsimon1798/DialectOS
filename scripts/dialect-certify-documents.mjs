@@ -17,6 +17,10 @@ const fixtures = args.get("fixtures") || "packages/cli/src/__tests__/fixtures/do
 const outDir = resolve(args.get("out") || `audits/document-certify-${new Date().toISOString().slice(0, 10)}`);
 const provider = args.get("provider") || "mock-doc";
 const live = args.get("live") === "true";
+const allowMock = args.get("allow-mock") === "true";
+const policy = args.get("policy") || "strict";
+const failurePolicy = args.get("failure-policy") || "strict";
+const structureMode = args.get("structure-mode") || "strict";
 const dialects = (args.get("dialects") || "es-MX,es-PA,es-PR,es-AR,es-ES,es-CL,es-BO").split(",").map((x) => x.trim()).filter(Boolean);
 const sampleTimeoutMs = parseInt(args.get("sample-timeout-ms") || "300000", 10);
 
@@ -113,15 +117,17 @@ for (const dialect of dialects) {
 
   const failures = [];
   if (live) {
-    const readme = runCommand(["node", "packages/cli/dist/index.js", "translate-readme", readmeIn, "--dialect", dialect, "--provider", provider, "--output", readmeOut, "--policy", "permissive", "--failure-policy", "allow-partial", "--structure-mode", "warn"], env);
+    const readme = runCommand(["node", "packages/cli/dist/index.js", "translate-readme", readmeIn, "--dialect", dialect, "--provider", provider, "--output", readmeOut, "--policy", policy, "--failure-policy", failurePolicy, "--structure-mode", structureMode], env);
     if (readme.status !== 0) failures.push(`README command failed: ${readme.stderr}`);
-    const api = runCommand(["node", "packages/cli/dist/index.js", "translate-api-docs", apiIn, "--dialect", dialect, "--provider", provider, "--output", apiOut, "--policy", "permissive", "--failure-policy", "allow-partial", "--structure-mode", "warn"], env);
+    const api = runCommand(["node", "packages/cli/dist/index.js", "translate-api-docs", apiIn, "--dialect", dialect, "--provider", provider, "--output", apiOut, "--policy", policy, "--failure-policy", failurePolicy, "--structure-mode", structureMode], env);
     if (api.status !== 0) failures.push(`API command failed: ${api.stderr}`);
-  } else {
+  } else if (allowMock) {
     if (process.env.DIALECT_DOC_CERT_SKIP_README_OUTPUT !== "1") {
       writeFileSync(readmeOut, mockDocTranslate(readFileSync(readmeIn, "utf-8"), dialect));
     }
     writeFileSync(apiOut, mockDocTranslate(readFileSync(apiIn, "utf-8"), dialect));
+  } else {
+    failures.push("Document certification requires --live or --allow-mock=true");
   }
   const localeSource = JSON.parse(readFileSync(localeIn, "utf-8"));
   const localeTranslated = Object.fromEntries(Object.entries(localeSource).map(([key, value]) => [key, mockDocTranslate(String(value), dialect)]));

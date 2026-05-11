@@ -5,8 +5,10 @@ ENV PNPM_HOME="/pnpm" \
 RUN corepack enable
 
 WORKDIR /app
-COPY pnpm-lock.yaml package.json pnpm-workspace.yaml ./
+COPY pnpm-lock.yaml package.json pnpm-workspace.yaml tsconfig.base.json vitest.workspace.ts ./
 COPY packages/ ./packages/
+COPY scripts/ ./scripts/
+COPY docs/ ./docs/
 RUN pnpm install --frozen-lockfile
 RUN pnpm build
 
@@ -36,11 +38,12 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 
-COPY scripts/demo-server.mjs ./scripts/demo-server.mjs
-COPY docs/index.html ./docs/index.html
-COPY docs/dialectos-engine.js ./docs/dialectos-engine.js
-COPY docs/assets ./docs/assets
-COPY docs/full-app-demo.md ./docs/full-app-demo.md
+COPY --from=builder /app/scripts/demo-server.mjs ./scripts/demo-server.mjs
+COPY --from=builder /app/scripts/lib/ensure-built.mjs ./scripts/lib/ensure-built.mjs
+COPY --from=builder /app/docs/index.html ./docs/index.html
+COPY --from=builder /app/docs/dialectos-engine.js ./docs/dialectos-engine.js
+COPY --from=builder /app/docs/assets ./docs/assets
+COPY --from=builder /app/docs/full-app-demo.md ./docs/full-app-demo.md
 
 # Set ownership to non-root user
 RUN chown -R dialectos:dialectos /app

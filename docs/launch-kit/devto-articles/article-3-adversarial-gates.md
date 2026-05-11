@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 ---
 title: "How We Built Adversarial Quality Gates for AI Translation"
 published: false
@@ -87,7 +89,7 @@ Each produces:
 
 ## Numbers
 
-- **1034 tests** across 7 packages
+- **automated tests** across 7 packages
 - **18 CVEs** resolved
 - **4 quality gates** with semantic backstop
 - **6 adversarial trap categories**
@@ -96,7 +98,7 @@ Each produces:
 ## Try It
 
 ```bash
-npm install -g @dialectos/cli
+local build (packages not published yet)
 dialectos translate "Do not proceed" --dialect es-MX
 # If negation drops, you'll see the quality gate fail explicitly
 ```

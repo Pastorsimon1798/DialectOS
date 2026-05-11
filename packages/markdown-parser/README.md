@@ -22,7 +22,7 @@ const parsed = parseMarkdown(content);
 const translated = reconstructMarkdown(originalSections, translatedSections);
 
 // Extract only translatable text
-const text = extractTranslatableText(content);
+const texts = extractTranslatableText(parsed);
 ```
 
 ## Security

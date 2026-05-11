@@ -4,7 +4,9 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.1.x   | :white_check_mark: |
+| 0.3.x   | :white_check_mark: (current development) |
+
+> No stable supported release exists yet. Security claims in this document reflect the target posture, not necessarily the current implementation.
 
 ## Reporting a Vulnerability
 
@@ -19,17 +21,16 @@ We will:
 
 ## Security Hardening
 
-DialectOS has undergone adversarial security auditing with the following measures in place:
+DialectOS is undergoing adversarial security auditing. The following measures are targeted; not all are fully implemented in the current release:
 
 ### Input Validation
-- **SSRF protection**: All provider endpoint URLs are validated against private IP ranges, localhost, and non-HTTP(S) protocols
+- **SSRF protection**: Provider endpoint validation is under remediation; do not rely on untrusted provider URLs.
 - **Path traversal protection**: File paths are validated before any filesystem operations
 - **Content length limits**: Maximum payload sizes enforced per provider capability
 
 ### Output Safety
 - **HTML injection detection**: Structure validator rejects disallowed HTML tags in translated output
-- **ANSI sanitization**: Console output strips escape sequences to prevent terminal injection
-- **Auth key redaction**: DeepL API keys are automatically redacted from error messages
+- **Auth key redaction**: Common provider tokens are automatically redacted from error messages where implemented
 
 ### Resilience
 - **Circuit breaker**: Prevents cascade failures when providers are down
@@ -37,7 +38,7 @@ DialectOS has undergone adversarial security auditing with the following measure
 - **Atomic writes**: Checkpoint files use temp-file + rename pattern with O_EXCL
 
 ### Dependencies
-- `pnpm audit` is run in CI — currently **0 vulnerabilities**
+- `pnpm audit` is run in CI — currently there are pending advisories under remediation.
 - Dependabot alerts are monitored and resolved via `pnpm.overrides`
 
 ## Recent Security Work

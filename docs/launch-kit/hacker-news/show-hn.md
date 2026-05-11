@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Hacker News: Show HN Post
 
 **Title:** Show HN: DialectOS — MCP server for 25 Spanish dialects with quality gates
@@ -32,7 +34,7 @@ Every translation passes 4 checks:
 
 A semantic backstop catches borderline scores. If "Do not click" becomes "Haz clic" (opposite meaning), it's auto-rejected.
 
-**Tech:** TypeScript monorepo, 7 packages, 1034 tests, pnpm workspace, stdio MCP.
+**Tech:** TypeScript monorepo, 7 packages, automated tests, pnpm workspace, stdio MCP.
 
 **Demo:** https://kyanitelabs.github.io/DialectOS
 

@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # OpenAI Product Discovery Submission
 
 **URL:** https://openai.com/chatgpt/search-product-discovery/
@@ -10,7 +12,7 @@
 
 **Product Description:**
 
-DialectOS is an open-source Spanish dialect translation server built on the Model Context Protocol (MCP). It provides 17 translation tools for AI assistants and a CLI for developers, supporting 25 regional Spanish variants with structure-preserving translation, glossary enforcement, and adversarial quality gates.
+DialectOS is an source-available Spanish dialect translation server built on the Model Context Protocol (MCP). It provides 17 translation tools for AI assistants and a CLI for developers, supporting 25 regional Spanish variants with structure-preserving translation, glossary enforcement, and adversarial quality gates.
 
 **Category:** Developer Tools
 
@@ -25,7 +27,7 @@ DialectOS is an open-source Spanish dialect translation server built on the Mode
 - Gender-neutral language support (elles, latine, -e/-x)
 - Adversarial quality gates (semantic drift, negation preservation, structure validation)
 - Works with OpenAI, Anthropic, DeepL, and local LLMs
-- 1034 tests across 7 TypeScript packages
+- automated tests across 7 TypeScript packages
 - BSL 1.1 license (free for most use, Apache-2.0 in 2030)
 
 **Use Cases:**

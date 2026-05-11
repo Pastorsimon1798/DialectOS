@@ -2,7 +2,7 @@ services:
   dialectos-api:
     build:
       context: ../..
-      dockerfile: Dockerfile
+      dockerfile: server/Dockerfile
     image: dialectos-demo:hostinger
     restart: unless-stopped
     env_file:

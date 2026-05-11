@@ -4,11 +4,17 @@ Security utilities for input validation, sanitization, and rate limiting.
 
 ## Features
 
-- **SSRF Protection** — Validate URLs against private IPs, localhost, non-HTTP(S) protocols
-- **Rate Limiting** — Token bucket rate limiter with configurable windows
 - **Path Validation** — Prevent path traversal attacks
 - **Content Length Validation** — Enforce maximum payload sizes
-- **Error Sanitization** — Strip ANSI sequences and redact sensitive data
+- **Rate Limiting** — Token bucket rate limiter with configurable windows
+- **HTML Sanitization** — DOMPurify-based HTML stripping and sanitization
+- **Error Sanitization** — Redact API keys, tokens, and file paths from error messages
+- **URL Protocol Validation** — Reject dangerous URL protocols (`javascript:`, `data:`, etc.)
+
+## What lives elsewhere
+
+- **SSRF protection** (private-IP blocking, localhost guards, per-redirect validation) is implemented in `@dialectos/providers` (`fetch-utils.ts`, `libre-translate.ts`, `llm.ts`, `deepl.ts`).
+- **ANSI escape stripping** for terminal output lives in `@dialectos/cli` (`output.ts`).
 
 ## Usage
 

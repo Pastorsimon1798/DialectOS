@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # DialectOS Launch Kit
 
 Copy-paste these for social media, forums, and outreach.
@@ -21,7 +23,7 @@ DialectOS is a Model Context Protocol server that understands 25 Spanish regiona
 - i18n operations: detect missing keys, batch translate, check formality
 - LLM-first provider routing with DeepL/LibreTranslate/MyMemory as fallback utilities
 
-**Tech stack:** TypeScript, pnpm monorepo, 1034 tests, Vitest
+**Tech stack:** TypeScript, pnpm monorepo, automated tests, Vitest
 
 **Repo:** https://github.com/KyaniteLabs/DialectOS
 
@@ -65,7 +67,7 @@ Security matters when you're piping content through translation APIs.
 - 18 CVEs resolved, zero current vulnerabilities
 
 **Tweet 5:**
-1034 tests. 7 packages. pnpm monorepo. TypeScript.
+automated tests. 7 packages. pnpm monorepo. TypeScript.
 
 Source available. BSL 1.1 license (Apache-2.0 on 2030-04-20).
 
@@ -91,7 +93,7 @@ I built DialectOS because existing translation APIs treat Spanish as a single la
 - i18n utilities (detect missing keys, batch translate, formality check)
 - Security hardened (SSRF protection, circuit breakers, rate limiting)
 
-**Tech:** TypeScript, pnpm monorepo, 1034 tests
+**Tech:** TypeScript, pnpm monorepo, automated tests
 
 **License:** BSL 1.1 (becomes Apache-2.0 on 2030-04-20)
 
@@ -113,11 +115,11 @@ For teams building multilingual products, this means:
 - ✅ Markdown, tables, and code blocks stay intact
 - ✅ Quality gates catch semantic drift before release
 
-Source available, BSL 1.1 licensed, 1034 tests passing.
+Source available, BSL 1.1 licensed, automated tests passing.
 
 https://github.com/KyaniteLabs/DialectOS
 
-#i18n #localization #mcp #ai #typescript #opensource
+#i18n #localization #mcp #ai #typescript #source-available
 
 ---
 
@@ -136,7 +138,7 @@ DialectOS translates content across 25 Spanish regional variants while preservin
 - LLM-first provider routing plus fallback utilities
 - Security hardened with SSRF protection and circuit breakers
 
-**Tech stack:** TypeScript, pnpm monorepo, 1034 tests
+**Tech stack:** TypeScript, pnpm monorepo, automated tests
 
 **License:** BSL 1.1 (source available, becomes Apache-2.0 on 2030-04-20)
 
@@ -144,9 +146,9 @@ DialectOS translates content across 25 Spanish regional variants while preservin
 
 ## Email Newsletter / Blog Pitch
 
-**Subject:** New open-source tool: Spanish dialect translation for AI workflows
+**Subject:** New source-available tool: Spanish dialect translation for AI workflows
 
-DialectOS is a new open-source project that solves a problem most translation tools ignore: Spanish has 25 regional variants, and treating them as one language produces poor user experiences.
+DialectOS is a new source-available project that solves a problem most translation tools ignore: Spanish has 25 regional variants, and treating them as one language produces poor user experiences.
 
 It runs as a Model Context Protocol server, making it the first translation infrastructure designed specifically for AI assistant integration. Claude, Cursor, and any MCP client can translate to Mexican Spanish, Argentine Spanish, Colombian Spanish, and 22 more variants without wrappers or glue code.
 

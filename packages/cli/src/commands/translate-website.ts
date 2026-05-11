@@ -27,6 +27,7 @@ export interface TranslateWebsiteOptions {
   useCache?: boolean;
   checkpointDir?: string;
   deadLetterDir?: string;
+  allowPartial?: boolean;
 }
 
 interface DiscoveredAsset {
@@ -141,6 +142,7 @@ export async function executeTranslateWebsite(
     useCache = true,
     checkpointDir = path.join(siteDir, ".dialectos", "checkpoints"),
     deadLetterDir = path.join(siteDir, ".dialectos", "dead-letters"),
+    allowPartial = false,
   } = options;
 
   validateDialects(targets);
@@ -225,6 +227,23 @@ export async function executeTranslateWebsite(
     totalFail += result.failures.length;
     totalCacheHits += result.cacheHits;
     totalApiCalls += result.apiCalls;
+
+    if (result.failures.length > 0 && !allowPartial) {
+      const dlqLines = result.failures.map((f) =>
+        JSON.stringify({
+          dialect: targetDialect,
+          itemId: f.item.id,
+          sourceText: f.item.sourceText,
+          error: f.error,
+          retryCount: f.retryCount,
+          failedAt: f.failedAt,
+        })
+      );
+      fs.appendFileSync(dlqPath, dlqLines.join("\n") + "\n", "utf-8");
+      writeError(`  ${result.failures.length} failures written to ${path.relative(validatedDir, dlqPath)}`);
+      writeError(`  Partial output discarded for ${targetDialect} (use --allow-partial to keep)`);
+      continue;
+    }
 
     // Write outputs per asset
     for (const range of assetItemRanges) {

@@ -4,7 +4,7 @@
 
 **The first Model Context Protocol server built specifically for Spanish dialects.**
 
-DialectOS is an open-source Spanish dialect translation server that runs as an MCP
+DialectOS is a source-available Spanish dialect translation server that runs as an MCP
 (Model Context Protocol) tool and CLI. It translates English and other languages into
 25 regional Spanish variants — Mexican, Argentinian, Colombian, Puerto Rican, and more —
 while preserving markdown structure, enforcing glossary terms, and applying adversarial
@@ -13,7 +13,7 @@ quality gates that catch semantic drift before it reaches users.
 Translate, detect, and adapt content across **25 regional Spanish variants** while preserving markdown structure, code comments, and locale file formatting.
 
 [![CI](https://github.com/KyaniteLabs/DialectOS/actions/workflows/ci.yml/badge.svg)](https://github.com/KyaniteLabs/DialectOS/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-1034%20passing-brightgreen)](https://github.com/KyaniteLabs/DialectOS/actions)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)](https://github.com/KyaniteLabs/DialectOS/actions)
 [![License](https://img.shields.io/badge/license-BSL%201.1-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](package.json)
 [![pnpm](https://img.shields.io/badge/pnpm-9.15.0-orange)](package.json)
@@ -113,8 +113,9 @@ Add to your Claude Desktop, Cursor, or any MCP client:
 {
   "mcpServers": {
     "dialectos": {
-      "command": "npx",
-      "args": ["-y", "@dialectos/mcp"],
+      "command": "node",
+      "args": ["packages/mcp/dist/index.js"],
+      "comment": "Package publishing is not enabled yet. For local development, clone the repository and use pnpm.",
       "env": {
         "LLM_API_URL": "https://your-llm-gateway/v1/chat/completions",
         "LLM_MODEL": "your-dialect-capable-model",
@@ -187,8 +188,8 @@ pnpm dialect:report -- --input=audits/release-candidate-2026-04-22/model-matrix.
 ### CLI install
 
 ```bash
-# Install globally
-npm install -g @dialectos/cli
+# Local development (packages are not published yet)
+pnpm build
 
 # Translate to Mexican Spanish
 dialectos translate "Hello world" --dialect es-MX
@@ -278,7 +279,7 @@ pnpm test        # ~850+ tests passing
 | [`@dialectos/locale-utils`](packages/locale-utils) | `0.3.0` | Locale file diff/merge utilities | 55 |
 | [`@dialectos/markdown-parser`](packages/markdown-parser) | `0.3.0` | Structure-preserving markdown parser | 74 |
 
-**Total: 1034 tests across 7 packages plus the full-app docs, demo-server, and static-hardening contracts**
+**Tests run across 7 packages plus the full-app docs, demo-server, and static-hardening contracts**
 
 ---
 
@@ -390,13 +391,12 @@ Quality Score = tokenIntegrity×25% + glossaryFidelity×30% + structureIntegrity
 | GitHub CI integration | ❌ | ❌ | ✅ **Composite action for PR validation** |
 | Auto-glossary from corrections | ❌ | ❌ | ✅ **Learns from user feedback** |
 | Public benchmark suite | ❌ | ❌ | ✅ **205 adversarial samples across 25 dialects** |
-| Open source | ❌ | ❌ | ✅ **BSL 1.1 → Apache-2.0 in 2030** |
-| Free | ✅ | Partial | ✅ |
+| Source-available | ❌ | ❌ | ✅ **BSL 1.1 → Apache-2.0 on 2030-04-20** |
 
 ## ❓ FAQ
 
 **What is DialectOS?**
-DialectOS is an open-source translation engine for Spanish regional dialects. It runs as
+DialectOS is a source-available translation engine for Spanish regional dialects. It runs as
 an MCP server (for AI assistants like Claude) and a CLI tool for developers.
 
 **How is DialectOS different from Google Translate?**
@@ -413,18 +413,18 @@ Yes. DialectOS is an MCP server, so Claude Desktop, Cursor, Windsurf, and other 
 clients can use its 17 translation tools natively.
 
 **Is DialectOS free?**
-Yes. It's licensed under BSL 1.1 (free for most use) and becomes Apache-2.0 on 2030-04-20.
+It is source-available under BSL 1.1. Most non-production use is free. It becomes Apache-2.0 on 2030-04-20. See [LICENSE](LICENSE) for details.
 
 **What is MCP?**
 Model Context Protocol is an open standard that lets AI assistants use external tools.
 DialectOS exposes 17 translation tools through MCP so AI agents can translate natively.
 
 **Can I use DialectOS for commercial projects?**
-Yes. BSL 1.1 allows production use. See [LICENSE](LICENSE) for details.
+Commercial/production use requires a commercial license or explicit Additional Use Grant until the Change Date. See [LICENSE](LICENSE) for details.
 
 **How accurate is the translation?**
 DialectOS applies 4 quality gates (token integrity, glossary fidelity, structure integrity,
-semantic similarity) and adversarial tests. 1034 tests verify correctness across dialects.
+semantic similarity) and adversarial tests. Automated tests verify correctness across dialects.
 
 ## 🏷️ Badges
 
@@ -439,7 +439,7 @@ Add this badge to your project if you use DialectOS for translation:
 Validate Spanish translations in CI on every pull request:
 
 ```yaml
-- uses: KyaniteLabs/DialectOS/action@v0.3.0
+- uses: KyaniteLabs/DialectOS/action  # Planned — version pinning unavailable until first release
   with:
     dialect: es-MX
     source-dir: locales/en
@@ -454,7 +454,7 @@ strategy:
   matrix:
     dialect: [es-ES, es-MX, es-AR, es-CO]
 steps:
-  - uses: KyaniteLabs/DialectOS/action@v0.3.0
+  - uses: KyaniteLabs/DialectOS/action  # Planned — version pinning unavailable until first release
     with:
       dialect: ${{ matrix.dialect }}
       fail-on-blocking: true

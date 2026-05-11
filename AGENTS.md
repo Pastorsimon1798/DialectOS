@@ -9,12 +9,12 @@ pnpm monorepo with 7 workspace packages under `packages/`:
 | Package | Role | Key exports |
 |---------|------|-------------|
 | `@dialectos/types` | Types, schemas, dictionary data | `SpanishDialect`, `DICTIONARY`, `VERB_CONJUGATIONS` |
-| `@dialectos/security` | Rate limiting, input validation, SSRF guard | `RateLimiter`, `validateInput` |
-| `@dialectos/locale-utils` | Locale parsing, collation | `parseLocale`, `normalizeLocale` |
-| `@dialectos/markdown-parser` | Markdown structure preservation | `parseMarkdown`, `restoreMarkdown` |
+| `@dialectos/security` | Rate limiting, path validation, error sanitization | `RateLimiter`, `validateFilePath` |
+| `@dialectos/locale-utils` | Locale file read/write, flatten, diff | `readLocaleFile`, `writeLocaleFile`, `diffLocales` |
+| `@dialectos/markdown-parser` | Markdown structure preservation | `parseMarkdown`, `reconstructMarkdown` |
 | `@dialectos/providers` | Translation providers + post-processing | `LLMProvider`, `createProviderRegistry`, `BulkTranslationEngine` |
-| `@dialectos/cli` | CLI commands, evaluation scripts, web demo | `dialectos` binary, `eval-harness.ts` |
-| `@dialectos/mcp` | MCP server for IDE integration | `createMcpServer` |
+| `@dialectos/cli` | CLI commands, evaluation scripts, web demo | `dialectos` binary |
+| `@dialectos/mcp` | MCP server for IDE integration | `createServer` |
 
 Scripts in `scripts/` are thin Node CLIs that import from `packages/cli/dist/`.
 

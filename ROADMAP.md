@@ -4,7 +4,7 @@ This document outlines the planned direction for DialectOS. It is a living docum
 
 ## 🎯 Vision
 
-Become the **most accurate open-source engine for Spanish dialect detection and adaptation**. We focus on depth over breadth: 25 Spanish variants with high-quality keyword detection, register classification, and vocabulary adaptation rules.
+Become the **most accurate source-available engine for Spanish dialect detection and adaptation**. We focus on depth over breadth: 25 Spanish variants with high-quality keyword detection, register classification, and vocabulary adaptation rules.
 
 ## 📅 Short Term (Next 1–3 Months)
 
@@ -66,7 +66,7 @@ Become the **most accurate open-source engine for Spanish dialect detection and 
 - [x] **Public benchmark suite** — 205 adversarial samples across 25 dialects and 13 categories with benchmark runner
 - [x] **GitHub Action** — Composite CI action for PR translation validation with multi-dialect matrix
 - [x] **Auto-glossary from corrections** — Suggestion engine + `dialectos glossary suggest/diff` commands
-- [x] **1034 tests** across 7 packages
+- [x] **Automated tests** across 7 packages
 
 ### v0.2.0 (2026-04-27)
 - [x] **Grammar detection** — Voseo, leísmo/laísmo/loísmo, yeísmo with exact bigram matching

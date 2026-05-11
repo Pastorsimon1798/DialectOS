@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Stack Overflow Answer: Gender-neutral Spanish in software
 
 **Question to search for:** "gender neutral spanish translation software" or "spanish inclusive language elles latine programming"
@@ -42,4 +44,4 @@ dialectos i18n apply-gender-neutral ./locales/es-MX.json --style inclusive
 - Dialect appropriateness (some regions resist -e endings)
 - Glossary enforcement (brand terms stay unchanged)
 
-Open source, 1034 tests.
+source-available, automated tests.

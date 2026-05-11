@@ -1,7 +1,7 @@
 # Real Benchmark Results — Actual Provider Pipeline
 
 **Date:** 2026-04-30  
-**API:** http://100.66.225.85:1234/v1/chat/completions (LM Studio)  
+**API:** http://localhost:1234/v1/chat/completions (LM Studio)  
 **Tests:** 39 sentences × full post-processor pipeline  
 **Pipeline:** Single-call LLM → strip preamble → lexical substitution (with plural handling) → voseo → agreement → punctuation → accentuation → capitalization → typography → sentinel restore
 

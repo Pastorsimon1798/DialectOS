@@ -30,5 +30,28 @@
     "dist",
     "README.md",
     "package.json"
+  ],
+  "license": "BSL-1.1",
+  "author": "Simon Gonzalez <simon@kyanitelabs.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KyaniteLabs/DialectOS.git"
+  },
+  "homepage": "https://kyanitelabs.github.io/DialectOS/",
+  "bugs": {
+    "url": "https://github.com/KyaniteLabs/DialectOS/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "spanish",
+    "translation",
+    "types",
+    "dialect",
+    "typescript"
   ]
 }

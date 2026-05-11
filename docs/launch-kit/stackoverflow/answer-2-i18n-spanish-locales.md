@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # Stack Overflow Answer: i18n Spanish locale files with dialect variants
 
 **Question to search for:** "how to manage spanish locale files for multiple countries" or "i18n es-MX es-AR es-ES same translations"
@@ -52,4 +54,4 @@ dialectos i18n manage-variants ./locales/es-MX.json --target es-AR
 - Supports gender-neutral language (elles, latine)
 - Applies quality gates to catch drift
 
-1034 tests, open source (BSL 1.1).
+automated tests, source-available (BSL 1.1).

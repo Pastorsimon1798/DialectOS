@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # 🚀 DialectOS Launch Kit
 
 > Everything you need to launch DialectOS to the world. All prepared. Nothing submitted without your approval.

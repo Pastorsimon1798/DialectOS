@@ -74,6 +74,8 @@ export class BulkTranslationEngine {
   ): Promise<BulkTranslationResult> {
     const startTime = Date.now();
 
+    const warnings: string[] = [];
+
     if (items.length === 0) {
       return {
         successes: [],
@@ -82,6 +84,7 @@ export class BulkTranslationEngine {
         apiCalls: 0,
         totalLatencyMs: 0,
         allSucceeded: true,
+        warnings,
       };
     }
 
@@ -136,6 +139,7 @@ export class BulkTranslationEngine {
     // Track in-flight promises for checkpoint coordination
     const inFlight: Promise<void>[] = [];
     const latencies: number[] = [];
+    const checkpointWarnings: string[] = [];
 
     // Progress tracking
     let completedCount = resumedIds.size;
@@ -189,7 +193,7 @@ export class BulkTranslationEngine {
       ) {
         await Promise.all([...inFlight]);
         inFlight.length = 0;
-        await this.saveCheckpoint(this.checkpointPath, {
+        const ok = await this.saveCheckpoint(this.checkpointPath, {
           version: CHECKPOINT_VERSION,
           createdAt: new Date().toISOString(),
           completedIds: successes.map((s) => s.item.id),
@@ -197,6 +201,9 @@ export class BulkTranslationEngine {
           failedItems: failures,
           totalItems: items.length,
         });
+        if (!ok) {
+          checkpointWarnings.push(`Failed to save checkpoint to ${this.checkpointPath}`);
+        }
       }
     }
 
@@ -207,7 +214,7 @@ export class BulkTranslationEngine {
 
     // Final checkpoint
     if (this.checkpointPath) {
-      await this.saveCheckpoint(this.checkpointPath, {
+      const ok = await this.saveCheckpoint(this.checkpointPath, {
         version: CHECKPOINT_VERSION,
         createdAt: new Date().toISOString(),
         completedIds: successes.map((s) => s.item.id),
@@ -215,6 +222,9 @@ export class BulkTranslationEngine {
         failedItems: failures,
         totalItems: items.length,
       });
+      if (!ok) {
+        checkpointWarnings.push(`Failed to save checkpoint to ${this.checkpointPath}`);
+      }
     }
 
     return {
@@ -224,6 +234,7 @@ export class BulkTranslationEngine {
       apiCalls,
       totalLatencyMs: Date.now() - startTime,
       allSucceeded: failures.length === 0,
+      warnings: [...warnings, ...checkpointWarnings],
     };
   }
 
@@ -359,7 +370,7 @@ export class BulkTranslationEngine {
   private async saveCheckpoint(
     checkpointPath: string,
     checkpoint: BulkCheckpoint
-  ): Promise<void> {
+  ): Promise<boolean> {
     try {
       const dir = path.dirname(checkpointPath);
       await fsp.mkdir(dir, { recursive: true });
@@ -367,8 +378,9 @@ export class BulkTranslationEngine {
       await fsp.writeFile(tempPath, JSON.stringify(checkpoint, null, 2), "utf-8");
       await fsp.rename(tempPath, checkpointPath);
       this.onCheckpoint?.(checkpoint);
+      return true;
     } catch {
-      // Non-fatal
+      return false;
     }
   }
 

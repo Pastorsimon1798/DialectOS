@@ -137,6 +137,13 @@ export function scoreAllDialects(text: string): ScoredDialect[] {
       }
     }
 
+    // Penalize generic keywords (appear in 10+ dialects) to favor distinctive matches.
+    const genericPenalty = matchedKeywords.reduce((penalty, kw) => {
+      const freq = KEYWORD_FREQ.get(kw.toLowerCase()) || 1;
+      return freq >= 10 ? penalty + 0.15 : penalty;
+    }, 0);
+    const adjustedKeywordScore = Math.max(0, keywordScore - genericPenalty);
+
     let grammarBoost = 0;
 
     // Voseo boost
@@ -168,7 +175,9 @@ export function scoreAllDialects(text: string): ScoredDialect[] {
     }
 
     grammarBoost = Math.min(grammarBoost, GRAMMAR_MAX_BOOST);
-    const combinedScore = keywordScore + grammarBoost * GRAMMAR_WEIGHT;
+    // Small bonus for matching multiple keywords (helps break ties).
+    const keywordCountBonus = matchedKeywords.length > 1 ? (matchedKeywords.length - 1) * 0.05 : 0;
+    const combinedScore = adjustedKeywordScore + grammarBoost * GRAMMAR_WEIGHT + keywordCountBonus;
     const keywordPotential = DIALECT_POTENTIAL.get(dialect.code) || 1;
     const combinedPotential = keywordPotential + GRAMMAR_MAX_BOOST * GRAMMAR_WEIGHT;
     const confidence = Math.min(combinedScore / combinedPotential, 1);
@@ -185,8 +194,12 @@ export function scoreAllDialects(text: string): ScoredDialect[] {
     }
   }
 
-  // Sort by combined score descending
-  scores.sort((a, b) => b.combinedScore - a.combinedScore);
+  // Sort by combined score descending, then by confidence descending to break ties.
+  scores.sort((a, b) => {
+    const scoreDiff = b.combinedScore - a.combinedScore;
+    if (scoreDiff !== 0) return scoreDiff;
+    return b.confidence - a.confidence;
+  });
 
   return scores;
 }
@@ -203,19 +216,21 @@ function pickBestDialect(scores: ScoredDialect[]): DetectionResult {
 
   // Ambiguity check: if second-best is within 10% of top,
   // and they do NOT share the same grammar family, reject as ambiguous.
+  // Only apply when the top score is strong enough (>= 2.0) to suggest
+  // genuine ambiguity rather than weak evidence from shared keywords.
   if (
     scores.length >= 2 &&
-    scores[1].combinedScore >= 0.9 * scores[0].combinedScore
+    scores[1].combinedScore >= 0.9 * scores[0].combinedScore &&
+    scores[0].combinedScore >= 2.0
   ) {
     const family0 = getGrammarFamily(scores[0].dialect);
     const family1 = getGrammarFamily(scores[1].dialect);
-    const bothGrammarOnly =
-      scores[0].keywordScore === 0 && scores[1].keywordScore === 0;
-
+    // If the top two dialects share the same grammar family, they are not
+    // truly conflicting — they are just similar dialects. Return the best
+    // match rather than rejecting as ambiguous.
     const sameFamilyBypass =
       family0 !== null &&
-      family0 === family1 &&
-      bothGrammarOnly;
+      family0 === family1;
 
     if (!sameFamilyBypass) {
       return {

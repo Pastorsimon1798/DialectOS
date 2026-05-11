@@ -1,3 +1,5 @@
+> Status: draft, not approved for publication. Do not publish until `docs/plans/2026-05-10-launch-remediation-plan.md` final launch gates pass.
+>
 # PR Draft: Add DialectOS to awesome-nlp
 
 **Repo to submit to:** `keon/awesome-nlp`
@@ -33,7 +35,7 @@ git push origin add-dialectos
 
 **Body:**
 ```
-DialectOS is an open-source translation engine focused on Spanish regional dialects:
+DialectOS is an source-available translation engine focused on Spanish regional dialects:
 
 - 25 Spanish dialects with vocabulary, grammar, and register adaptation
 - 17 MCP (Model Context Protocol) tools for AI assistant integration
@@ -41,5 +43,5 @@ DialectOS is an open-source translation engine focused on Spanish regional diale
 - Adversarial quality gates (semantic drift, negation, structure validation)
 - i18n locale file diff/merge
 - Gender-neutral language support
-- 1034 tests
+- automated tests
 ```

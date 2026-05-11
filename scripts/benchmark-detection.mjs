@@ -31,6 +31,10 @@ const outDir =
   args.get("out") ||
   join(__dirname, "../packages/benchmarks/dialect-detection-corpus/results");
 
+const minTop1 = parseFloat(args.get("min-top1") || "0.5");
+const minTop3 = parseFloat(args.get("min-top3") || "0.6");
+const minHardTop1 = parseFloat(args.get("min-hard-top1") || "0.0");
+
 const corpus = JSON.parse(readFileSync(corpusPath, "utf-8"));
 
 // Run benchmark
@@ -244,7 +248,24 @@ console.log(
   )
 );
 
-if (top1Accuracy < 0.5) {
-  console.error(`\nERROR: Top-1 accuracy ${(top1Accuracy * 100).toFixed(1)}% is below 50% threshold.`);
+let failed = false;
+
+if (top1Accuracy < minTop1) {
+  console.error(`\nERROR: Top-1 accuracy ${(top1Accuracy * 100).toFixed(1)}% is below ${(minTop1 * 100).toFixed(0)}% threshold.`);
+  failed = true;
+}
+
+if (top3Accuracy < minTop3) {
+  console.error(`\nERROR: Top-3 accuracy ${(top3Accuracy * 100).toFixed(1)}% is below ${(minTop3 * 100).toFixed(0)}% threshold.`);
+  failed = true;
+}
+
+const hardAccuracy = byDifficulty["hard"]?.top1Accuracy ?? 1;
+if (hardAccuracy < minHardTop1) {
+  console.error(`\nERROR: Hard-sample top-1 accuracy ${(hardAccuracy * 100).toFixed(1)}% is below ${(minHardTop1 * 100).toFixed(0)}% threshold.`);
+  failed = true;
+}
+
+if (failed) {
   process.exit(1);
 }
