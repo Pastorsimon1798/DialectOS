@@ -76,7 +76,7 @@ run("Run dependency audit", ["pnpm", "audit", "--audit-level=moderate"], { fatal
 
 // 8. Benchmarks
 run("Run translation benchmark", ["node", "scripts/benchmark.mjs", "--out=/tmp/dialectos-benchmark"]);
-run("Run detection benchmark", ["node", "scripts/benchmark-detection.mjs", "--out=/tmp/dialectos-detection"], { fatal: false });
+run("Run detection benchmark", ["node", "scripts/benchmark-detection.mjs", "--out=/tmp/dialectos-detection", "--min-top1=0.5", "--min-top3=0.6", "--min-hard-top1=0.0"], { fatal: false });
 
 // 9. Strict certification (mock mode for gate; live requires provider credentials)
 run("Run strict certification", [

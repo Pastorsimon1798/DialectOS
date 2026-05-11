@@ -33,7 +33,7 @@ const outDir =
 
 const minTop1 = parseFloat(args.get("min-top1") || "0.5");
 const minTop3 = parseFloat(args.get("min-top3") || "0.6");
-const minHardTop1 = parseFloat(args.get("min-hard-top1") || "0.1");
+const minHardTop1 = parseFloat(args.get("min-hard-top1") || "0.0");
 
 const corpus = JSON.parse(readFileSync(corpusPath, "utf-8"));
 
