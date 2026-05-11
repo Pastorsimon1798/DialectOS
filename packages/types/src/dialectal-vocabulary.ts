@@ -73,7 +73,13 @@ export function getVocabularyForDialect(dialect: SpanishDialect): VocabularySwap
     const variant = resolveVariant(entry, dialect);
     if (!variant) continue;
     const allTerms = getAllTerms(entry);
-    const avoidTerms = allTerms.filter(t => t !== variant.term);
+    // Build avoid-terms, excluding ambiguous variants that have common
+    // non-slang meanings (e.g. "botón" = button, not just es-UY cop slang).
+    const ambiguousTerms = new Set<string>();
+    for (const v of Object.values(entry.variants ?? {})) {
+      if (v?.ambiguous) ambiguousTerms.add(v.term);
+    }
+    const avoidTerms = allTerms.filter(t => t !== variant.term && !ambiguousTerms.has(t));
     swaps.push({
       concept: entry.concept,
       englishGloss: entry.englishGloss,

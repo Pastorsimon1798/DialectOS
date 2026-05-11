@@ -44897,7 +44897,8 @@
       "es-UY": {
         "term": "botón",
         "frequency": 1,
-        "register": "informal"
+        "register": "informal",
+        "ambiguous": true
       },
       "es-PY": {
         "term": "mbae",
@@ -44942,7 +44943,8 @@
       "es-EC": {
         "term": "agente",
         "frequency": 1,
-        "register": "universal"
+        "register": "universal",
+        "ambiguous": true
       },
       "es-BO": {
         "term": "choco",
@@ -44952,7 +44954,8 @@
       "es-DO": {
         "term": "cuero",
         "frequency": 1,
-        "register": "informal"
+        "register": "informal",
+        "ambiguous": true
       },
       "es-PR": {
         "term": "policía",
@@ -46001,7 +46004,8 @@
       "es-DO": {
         "term": "cuero",
         "frequency": 2,
-        "register": "informal"
+        "register": "informal",
+        "ambiguous": true
       },
       "es-PR": {
         "term": "chavos",
