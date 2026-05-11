@@ -19,6 +19,10 @@ export interface Variant {
   frequency: 1 | 2 | 3;
   register: "formal" | "informal" | "universal";
   notes?: string;
+  /** When true, this variant has a common non-slang meaning and should not
+   *  be used as an avoid-term for lexical substitution. Prevents false
+   *  positives like "botón" (button) being swapped to "tomba" (cop slang). */
+  ambiguous?: boolean;
 }
 
 export interface DictionaryEntry {

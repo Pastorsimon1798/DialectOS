@@ -74,4 +74,25 @@ describe("applyLexicalSubstitution", () => {
     expect(result).toContain("zumo");
     expect(result).not.toContain("jugo");
   });
+
+  it("does not swap ambiguous slang terms with common non-slang meanings", () => {
+    // "botón" = button (UI) but also es-UY slang for "cop". Must NOT swap to "tomba".
+    expect(applyLexicalSubstitution("Haga clic en el botón para continuar.", "es-CO"))
+      .toContain("botón");
+
+    // "agente" = agent (generic) but also es-EC variant for "cop". Must NOT swap.
+    expect(applyLexicalSubstitution("El agente secreto fue descubierto.", "es-CO"))
+      .toContain("agente");
+
+    // "cuero" = leather but also es-DO slang for "money" and "cop". Must NOT swap.
+    expect(applyLexicalSubstitution("El cuero del zapato está dañado.", "es-CO"))
+      .toContain("cuero");
+  });
+
+  it("still swaps unambiguous slang terms correctly", () => {
+    // "paco" (es-CL cop slang) is unambiguous — should still swap
+    const result = applyLexicalSubstitution("El paco está en la esquina.", "es-CO");
+    expect(result).toContain("tomba");
+    expect(result).not.toContain("paco");
+  });
 });
