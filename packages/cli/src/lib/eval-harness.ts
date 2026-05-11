@@ -70,11 +70,13 @@ export function mockTranslate(source: string, dialect: SpanishDialect, sample: M
       GUAGUA_BUS_DIALECTS.has(dialect) ? "Toma la guagua a la oficina." :
       ["es-AR", "es-UY"].includes(dialect) ? "Toma el colectivo a la oficina." :
       dialect === "es-MX" ? "Toma el camión a la oficina." :
+      dialect === "es-PA" ? "Toma el bus a la oficina." :
       "Toma el autobús a la oficina.")
     .replace(/\bRide the bus to the office\./i,
       GUAGUA_BUS_DIALECTS.has(dialect) ? "Toma la guagua a la oficina." :
       ["es-AR", "es-UY"].includes(dialect) ? "Toma el colectivo a la oficina." :
       dialect === "es-MX" ? "Toma el camión a la oficina." :
+      dialect === "es-PA" ? "Toma el bus a la oficina." :
       "Toma el autobús a la oficina.")
     .replace(/\bTake the bus to the office\./i,
       GUAGUA_BUS_DIALECTS.has(dialect) ? "Toma la guagua a la oficina." :
