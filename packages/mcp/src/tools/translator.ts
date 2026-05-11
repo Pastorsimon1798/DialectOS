@@ -84,7 +84,7 @@ export function registerTranslatorTools(
   // Register detect_dialect tool
   server.tool(
     "detect_dialect",
-    "Detect Spanish dialect from text using keyword matching",
+    "Detect Spanish dialect from text using keyword matching, grammar analysis, and IDF-weighted scoring across 25 regional variants",
     {
       text: z.string().describe("Text to analyze for dialect detection"),
     },
@@ -152,7 +152,7 @@ export function registerTranslatorTools(
   // Register list_dialects tool
   server.tool(
     "list_dialects",
-    "List all 20 Spanish dialects with metadata",
+    "List all 25 Spanish dialects with metadata",
     {},
     async (params) => {
       return handleListDialects(params as ListDialectsParams, registry, rateLimiter);

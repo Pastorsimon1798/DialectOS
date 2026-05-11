@@ -6,11 +6,14 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { ensureAllBuilt } from "./lib/ensure-built.mjs";
 
-ensureAllBuilt();
+// Skip build check in production Docker images where build is guaranteed
+if (process.env.NODE_ENV !== "production") {
+  ensureAllBuilt();
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_ROOT = path.resolve(__dirname, "..");
-const MAX_JSON_BYTES = 128 * 1024;
+const MAX_JSON_BYTES = 1024 * 1024;
 
 const CONTENT_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -47,7 +50,16 @@ const PUBLIC_STATIC_FILES = new Map([
   ["/docs/dialectos-engine.js", "docs/dialectos-engine.js"],
   ["/dialectos-engine.js", "docs/dialectos-engine.js"],
   ["/assets/dialectos-logo.svg", "docs/assets/dialectos-logo.svg"],
+  ["/CNAME", "docs/CNAME"],
 ]);
+
+// Additional safe paths that can be served dynamically from docs/
+const SAFE_DOC_EXTENSIONS = new Set([".html", ".js", ".css", ".json", ".md", ".svg", ".png", ".jpg", ".jpeg", ".txt", ".xml"]);
+
+function isSafeDocPath(pathname) {
+  const ext = pathname.slice(pathname.lastIndexOf("."));
+  return SAFE_DOC_EXTENSIONS.has(ext);
+}
 
 function createRateLimiter(options = {}) {
   const maxRequests = Number(options.maxRequests || process.env.DIALECTOS_DEMO_RATE_LIMIT || 60);
@@ -83,7 +95,15 @@ function sendJson(res, status, payload) {
 }
 
 function safeError(error) {
-  return error instanceof Error ? error.message : String(error);
+  const msg = error instanceof Error ? error.message : String(error);
+  // In production, never leak stack traces or internal paths
+  if (process.env.NODE_ENV === "production") {
+    // Return generic message for unexpected errors
+    if (/ENOENT|EACCES|EPERM|stack|at\s+\w+|\.js:\d+:|internal\/modules/i.test(msg)) {
+      return "Internal server error.";
+    }
+  }
+  return msg;
 }
 
 class ClientInputError extends Error {}
@@ -159,15 +179,25 @@ function staticPathFor(urlPath, rootDir) {
   } catch {
     throw new ClientInputError("Malformed URL path.");
   }
+  // Check hardcoded whitelist first
   const relative = PUBLIC_STATIC_FILES.get(pathname);
-  if (!relative) {
-    return undefined;
+  if (relative) {
+    const absolute = path.resolve(rootDir, relative);
+    if (!absolute.startsWith(rootDir + path.sep) && absolute !== rootDir) {
+      return undefined;
+    }
+    return absolute;
   }
-  const absolute = path.resolve(rootDir, relative);
-  if (!absolute.startsWith(rootDir + path.sep) && absolute !== rootDir) {
-    return undefined;
+  // Allow safe files from docs/ directory
+  if (pathname.startsWith("/docs/") && isSafeDocPath(pathname)) {
+    const relativePath = pathname.slice(1); // remove leading /
+    const absolute = path.resolve(rootDir, relativePath);
+    if (!absolute.startsWith(rootDir + path.sep) && absolute !== rootDir) {
+      return undefined;
+    }
+    return absolute;
   }
-  return absolute;
+  return undefined;
 }
 
 async function serveStatic(req, res, rootDir) {
@@ -228,9 +258,10 @@ export function createDemoServer(options = {}) {
     : loadDefaultServices(rootDir);
 
   return createServer(async (req, res) => {
+    const startTime = Date.now();
+    const method = req.method || "GET";
+    const url = new URL(req.url || "/", "http://127.0.0.1");
     try {
-      const method = req.method || "GET";
-      const url = new URL(req.url || "/", "http://127.0.0.1");
 
       // Handle CORS preflight
       if (method === "OPTIONS") {
@@ -304,6 +335,12 @@ export function createDemoServer(options = {}) {
       await serveStatic(req, res, rootDir);
     } catch (error) {
       sendJson(res, 500, { ok: false, error: safeError(error) });
+    } finally {
+      const duration = Date.now() - startTime;
+      const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+      // Structured request log for operators
+      // eslint-disable-next-line no-console
+      console.log(`${new Date().toISOString()} ${method} ${url.pathname} ${res.statusCode} ${duration}ms ${clientIp || "-"}`);
     }
   });
 }

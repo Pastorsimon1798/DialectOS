@@ -87,6 +87,8 @@ Spanish is not one language — it's **25 regional variants** with different voc
 
 ## 🚀 Quick Start
 
+> **Note:** DialectOS packages are not yet published to npm. Setup requires cloning the repo and building from source (~2–5 minutes first time).
+
 ### Full-app browser demo
 
 The browser demo is no longer a fake/static rule replacer. It calls a local
@@ -105,9 +107,9 @@ Open `http://127.0.0.1:8080`.
 For the beginner container walkthrough, see
 [`docs/full-app-demo.md`](docs/full-app-demo.md).
 
-### 30-second MCP setup
+### Local MCP setup
 
-Add to your Claude Desktop, Cursor, or any MCP client:
+After `pnpm build`, add to your Claude Desktop, Cursor, or any MCP client:
 
 ```json
 {
@@ -115,7 +117,7 @@ Add to your Claude Desktop, Cursor, or any MCP client:
     "dialectos": {
       "command": "node",
       "args": ["packages/mcp/dist/index.js"],
-      "comment": "Package publishing is not enabled yet. For local development, clone the repository and use pnpm.",
+      "comment": "Local development setup — see README for clone and build instructions.",
       "env": {
         "LLM_API_URL": "https://your-llm-gateway/v1/chat/completions",
         "LLM_MODEL": "your-dialect-capable-model",
@@ -229,7 +231,7 @@ git clone https://github.com/KyaniteLabs/DialectOS.git
 cd DialectOS
 pnpm install
 pnpm build
-pnpm test        # ~850+ tests passing
+pnpm test        # 662+ tests passing
 ```
 
 ---
@@ -271,15 +273,15 @@ pnpm test        # ~850+ tests passing
 
 | Package | Version | Description | Tests |
 |---------|---------|-------------|-------|
-| [`@dialectos/mcp`](packages/mcp) | `0.3.0` | 17 MCP tools (stdio server) | 86 |
-| [`@dialectos/cli`](packages/cli) | `0.3.0` | CLI: translate, validate, corpus, benchmark, glossary | 545 |
+| [`@dialectos/mcp`](packages/mcp) | `0.3.0` | 17 MCP tools (stdio server) | 93 |
+| [`@dialectos/cli`](packages/cli) | `0.3.0` | CLI: translate, validate, corpus, benchmark, glossary | 569 |
 | [`@dialectos/providers`](packages/providers) | `0.3.0` | LLM, DeepL, LibreTranslate, MyMemory with circuit breaker + corpus | 152 |
 | [`@dialectos/security`](packages/security) | `0.3.0` | Rate limiting, SSRF protection, sanitization | 68 |
 | [`@dialectos/types`](packages/types) | `0.3.0` | Shared TypeScript types + glossary, profile, certification, and quality data | 54 |
 | [`@dialectos/locale-utils`](packages/locale-utils) | `0.3.0` | Locale file diff/merge utilities | 55 |
 | [`@dialectos/markdown-parser`](packages/markdown-parser) | `0.3.0` | Structure-preserving markdown parser | 74 |
 
-**Tests run across 7 packages plus the full-app docs, demo-server, and static-hardening contracts**
+**662+ tests across 7 packages plus docs contracts, demo-server contracts, and static-hardening checks**
 
 ---
 
@@ -374,24 +376,6 @@ Quality Score = tokenIntegrity×25% + glossaryFidelity×30% + structureIntegrity
 | **Semantic Similarity** | Meaning not drifted | "API is down" → "Hello world" |
 
 ---
-
-## 🆚 DialectOS vs Alternatives
-
-| Feature | Google Translate | DeepL | **DialectOS** |
-|---------|----------------|-------|---------------|
-| Spanish dialect awareness | ❌ Generic "Spanish" | ⚠️ Limited variants | ✅ **25 regional variants** |
-| MCP native integration | ❌ | ❌ | ✅ **17 MCP tools** |
-| Markdown structure preservation | ❌ | ❌ | ✅ **Tables, code blocks, links intact** |
-| i18n locale file support | ❌ | ❌ | ✅ **JSON locale diff & merge** |
-| Gender-neutral language | ❌ | ❌ | ✅ **elles / latine / -x** |
-| Formality checking (tú vs usted) | ❌ | ❌ | ✅ **Cross-dialect consistency** |
-| Adversarial quality gates | ❌ | ❌ | ✅ **Semantic drift + structure validation** |
-| LLM-first dialect adaptation | ❌ Generic MT | ⚠️ Limited dialect control | ✅ **Any OpenAI/Anthropic/LM Studio local LLM + dialect contracts** |
-| Translation validation (any provider) | ❌ | ❌ | ✅ **`dialectos validate` — standalone correctness check** |
-| GitHub CI integration | ❌ | ❌ | ✅ **Composite action for PR validation** |
-| Auto-glossary from corrections | ❌ | ❌ | ✅ **Learns from user feedback** |
-| Public benchmark suite | ❌ | ❌ | ✅ **205 adversarial samples across 25 dialects** |
-| Source-available | ❌ | ❌ | ✅ **BSL 1.1 → Apache-2.0 on 2030-04-20** |
 
 ## ❓ FAQ
 
