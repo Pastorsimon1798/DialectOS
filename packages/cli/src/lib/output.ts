@@ -76,17 +76,56 @@ export function sanitizeConsoleOutput(message: string): string {
 }
 
 /**
- * Write error message to stderr
- * @param message - The error message
+ * Known error patterns and actionable hints for users.
  */
-export function writeError(message: string): void {
-  process.stderr.write(`Error: ${sanitizeConsoleOutput(sanitizeErrorMessage(message))}\n`);
+const ERROR_HINTS: Array<{ pattern: RegExp; hint: string }> = [
+  {
+    pattern: /No provider configured|No translation providers|Provider not available/i,
+    hint: "\n  → Set LLM_API_URL and LLM_MODEL in your .env file, or run with a local model.\n    See .env.example for all options.",
+  },
+  {
+    pattern: /LLM_API_URL|LLM_MODEL|api key|api_key|authorization/i,
+    hint: "\n  → Check your .env file has LLM_API_URL, LLM_MODEL, and LLM_API_KEY (if required).\n    Copy .env.example to .env and fill in your values.",
+  },
+  {
+    pattern: /rate limit|too many requests|429/i,
+    hint: "\n  → Rate limit hit. Wait a moment or reduce concurrency with --concurrency.",
+  },
+  {
+    pattern: /network|timeout|fetch failed|ENOTFOUND|ECONNREFUSED/i,
+    hint: "\n  → Network error. Check your internet connection and LLM_API_URL reachability.",
+  },
+  {
+    pattern: /dialect.*not.*valid|invalid.*dialect/i,
+    hint: "\n  → Run 'dialectos dialects list' to see all 25 supported dialect codes.",
+  },
+  {
+    pattern: /file.*not.*found|ENOENT/i,
+    hint: "\n  → Check the file path exists and is readable.",
+  },
+];
+
+function getActionableHint(message: string): string {
+  for (const { pattern, hint } of ERROR_HINTS) {
+    if (pattern.test(message)) return hint;
+  }
+  return "";
 }
 
 /**
- * Write info message to stderr (for non-error status messages)
+ * Write error message to stderr with actionable hints
+ * @param message - The error message
+ */
+export function writeError(message: string): void {
+  const sanitized = sanitizeConsoleOutput(sanitizeErrorMessage(message));
+  const hint = getActionableHint(sanitized);
+  process.stderr.write(`Error: ${sanitized}${hint}\n`);
+}
+
+/**
+ * Write info message to stdout (for non-error status messages)
  * @param message - The info message
  */
 export function writeInfo(message: string): void {
-  process.stderr.write(`${sanitizeConsoleOutput(message)}\n`);
+  process.stdout.write(`${sanitizeConsoleOutput(message)}\n`);
 }

@@ -323,8 +323,9 @@
     }
     @media (max-width: 640px) {
       .shell { width: min(100% - 22px, 1160px); }
-      .nav { align-items: flex-start; }
-      .navlinks { display: none; }
+      .nav { flex-wrap: wrap; gap: 12px; }
+      .navlinks { flex-wrap: wrap; justify-content: flex-end; gap: 4px; font-size: 12px; }
+      .navlinks a { padding: 6px 8px; }
       h1 { font-size: clamp(40px, 14vw, 60px); }
       .metrics, .matrix, .audit-strip, .dialect-grid { grid-template-columns: 1fr; }
       .metric { border-right: 0; border-bottom: 1px solid var(--border-subtle); }
@@ -385,7 +386,7 @@
 
   <section class="shell metrics" aria-label="Project metrics">
     <div class="metric"><strong>25</strong><span>Spanish regional variants covered by the app surface</span></div>
-    <div class="metric"><strong>1034</strong><span>tests across runtime, docs, dialect fixtures, and safety checks</span></div>
+    <div class="metric"><strong>662</strong><span>tests across runtime, docs, dialect fixtures, and safety checks</span></div>
     <div class="metric"><strong>17</strong><span>MCP tools for translation, glossary, and research workflows</span></div>
     <div class="metric"><strong>0</strong><span>hidden fallbacks — client mode is receipt-visible</span></div>
   </section>
@@ -416,14 +417,17 @@
           <div class="translator-grid">
             <div>
               <div class="field-head"><label for="sourceText">Source text</label><span id="detectedSource" class="detect-name">unknown · insufficient markers</span></div>
-              <textarea id="sourceText" placeholder="Try: Orange juice is ready."></textarea>
+              <textarea id="sourceText" placeholder="Try: El zumo de naranja está listo."></textarea>
             </div>
             <div>
               <label for="targetDialect">Target dialect</label>
               <select id="targetDialect"></select>
               <div class="actions">
                 <button id="translateButton" class="btn btn-primary">Translate with full app</button>
-                <div id="outputBox" class="output"><span class="placeholder">Run a provider-backed translation. The receipt below will show what happened.</span></div>
+                <div style="position:relative;">
+                  <div id="outputBox" class="output"><span class="placeholder">Run a provider-backed translation. The receipt below will show what happened.</span></div>
+                  <button id="copyButton" class="btn btn-secondary" style="position:absolute;top:8px;right:8px;padding:8px 12px;font-size:12px;display:none;" title="Copy output">📋</button>
+                </div>
               </div>
             </div>
           </div>
@@ -514,7 +518,7 @@
       'es-ar-voseo': { text: 'Vosotros podéis actualizar vuestra cuenta ahora. El móvil tiene el archivo.', target: 'es-AR' }
     };
 
-    const REMOTE_API = 'https://dialectos.kyanitelabs.tech';
+    const REMOTE_API = '';
     let backendAvailable = false;
     let activeApiBase = '';
     let translateRequestId = 0;
@@ -537,8 +541,8 @@
     }
 
     async function refreshBackendStatus() {
-      // Try local backend first (same origin), then remote VPS
-      for (const base of ['', REMOTE_API]) {
+      // Try local backend first (same origin)
+      for (const base of ['']) {
         try {
           const response = await fetch(base + '/api/status', { headers: { accept: 'application/json' } });
           if (!response.ok) throw new Error('status ' + response.status);
@@ -605,6 +609,7 @@
           if (requestId !== translateRequestId) return;
           if (!response.ok || result.ok === false) throw new Error(result.error || `backend returned ${response.status}`);
           $('outputBox').innerHTML = escapeHtml(result.translatedText || '');
+          $('copyButton').style.display = result.translatedText ? 'inline-flex' : 'none';
           const qualityText = result.qualityScore != null ? String(result.qualityScore) : (result.warnings?.length ? 'warnings' : 'not reported');
           $('changesList').innerHTML = [
             ['mode', 'live · LLM-powered'],
@@ -637,6 +642,7 @@
       renderDetection(detection);
 
       $('outputBox').innerHTML = escapeHtml(adapted);
+      $('copyButton').style.display = adapted ? 'inline-flex' : 'none';
       const pills = [['mode', 'client · vocabulary engine'], ['target', dialect]];
       if (detection.isReliable) {
         pills.push(['detected', `${FLAGS[detection.dialect] || '🌐'} ${detection.dialect} (${Math.round(detection.confidence * 100)}%)`]);
@@ -677,6 +683,15 @@
       renderDialects();
       loadPreset('es-pr-orange');
       $('translateButton').addEventListener('click', runTranslation);
+      $('copyButton').addEventListener('click', () => {
+        const text = $('outputBox').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = $('copyButton');
+          const original = btn.textContent;
+          btn.textContent = '✓';
+          setTimeout(() => btn.textContent = original, 1200);
+        });
+      });
       document.querySelectorAll('[data-preset]').forEach((button) => button.addEventListener('click', () => loadPreset(button.dataset.preset)));
       refreshBackendStatus();
     });

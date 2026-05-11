@@ -46,7 +46,13 @@ program
   .command("translate")
   .description("Translate text to Spanish with dialect awareness")
   .argument("[text]", "Text to translate (can also be provided via stdin or --input-file)")
-  .option("--dialect <dialect>", "Spanish dialect (e.g., es-ES, es-MX, es-AR)", "es-ES")
+  .addHelpText("after", `
+Examples:
+  $ dialectos translate "Hello world" --dialect es-MX
+  $ echo "Hello world" | dialectos translate --dialect es-MX
+  $ dialectos translate --input-file README.md --dialect es-AR --output README.ar.md
+`)
+  .option("--dialect <dialect>", "Spanish dialect (e.g., es-MX, es-ES, es-AR)", "es-MX")
   .option("--provider <provider>", "Translation provider (llm, deepl, libre, mymemory, or auto for automatic selection)", "auto")
   .option("--formal", "Use formal language (usted)", false)
   .option("--informal", "Use informal language (tú)", false)
@@ -65,7 +71,7 @@ program
 
       await executeTranslate(text, options, (providerName) => {
         if (!providerName || providerName === "auto") {
-          return registry.getAuto("es", { dialect: options.dialect || "es-ES" });
+          return registry.getAuto("es", { dialect: options.dialect || "es-MX" });
         }
         return registry.get(providerName);
       });
@@ -142,7 +148,7 @@ program
   .command("translate-api-docs")
   .description("Translate an API documentation markdown file")
   .argument("<input>", "Input markdown file")
-  .option("--dialect <dialect>", "Spanish dialect (e.g., es-ES, es-MX, es-AR)", "es-ES")
+  .option("--dialect <dialect>", "Spanish dialect (e.g., es-MX, es-ES, es-AR)", "es-MX")
   .option("--provider <provider>", "Translation provider (llm, deepl, libre, mymemory, or auto for automatic selection)", "auto")
   .option("--output <path>", "Write translation to file instead of stdout")
   .option("--protect-tokens <file>", "JSON file with protected tokens")
@@ -210,7 +216,7 @@ program
   .description("Translate all translatable assets in a website directory")
   .argument("<directory>", "Website directory to translate")
   .option("--base <locale>", "Base locale code (e.g., en)", "en")
-  .option("--targets <dialects>", "Comma-separated target dialects (e.g., es-MX,es-AR,es-CO)", "es-ES")
+  .option("--targets <dialects>", "Comma-separated target dialects (e.g., es-MX,es-AR,es-CO)", "es-MX")
   .option("--provider <provider>", "Translation provider (llm, deepl, libre, mymemory, or auto)", "auto")
   .option("--concurrency <n>", "Max concurrent API calls", "4")
   .option("--no-cache", "Disable translation memory caching")
@@ -221,7 +227,7 @@ program
     try {
       const registry = getDefaultProviderRegistry();
       const targets = options.targets.split(",").map((t: string) => t.trim()) as SpanishDialect[];
-      const provider = registry.getAuto("es", { dialect: targets[0] || "es-ES" });
+      const provider = registry.getAuto("es", { dialect: targets[0] || "es-MX" });
 
       await executeTranslateWebsite(directory, targets, provider, {
         baseLocale: options.base,
@@ -379,7 +385,7 @@ dialectsCommand
   .description("Detect Spanish dialect from text")
   .argument("<text>", "Text to analyze for dialect detection")
   .option("--format <format>", "Output format (text or json)", "text")
-  .option("--register <register>", "Register preference: formal | slang | any", "any")
+  .option("--register <register>", "Language register: formal (usted/ustedes), slang (colloquial), or any", "any")
   .action(async (text, options) => {
     try {
       const register = ["formal", "slang", "any"].includes(options.register)
@@ -510,7 +516,7 @@ i18nCommand
   .description("Translate missing keys from base locale to target locale")
   .argument("<base>", "Base locale file (e.g., ./locales/en.json)")
   .argument("<target>", "Target locale file (e.g., ./locales/es.json)")
-  .option("--dialect <dialect>", "Spanish dialect (e.g., es-MX, es-AR, es-CO)", "es-ES")
+  .option("--dialect <dialect>", "Spanish dialect (e.g., es-MX, es-AR, es-CO)", "es-MX")
   .option("--provider <provider>", "Translation provider (llm, deepl, libre, mymemory, or auto for automatic selection)", "auto")
   .action(async (base, target, options) => {
     try {
@@ -518,7 +524,7 @@ i18nCommand
 
       await executeTranslateKeys(base, target, options.dialect, undefined, (providerName) => {
         if (!providerName) {
-          return registry.getAuto("es", { dialect: options.dialect || "es-ES" });
+          return registry.getAuto("es", { dialect: options.dialect || "es-MX" });
         }
         return registry.get(providerName);
       });
@@ -535,7 +541,7 @@ i18nCommand
   .description("Translate base locale to multiple target dialects")
   .argument("<directory>", "Directory containing locale files (e.g., ./locales)")
   .option("--base <locale>", "Base locale code (e.g., en)", "en")
-  .option("--targets <dialects>", "Comma-separated target dialects (e.g., es-MX,es-AR,es-CO)", "es-ES")
+  .option("--targets <dialects>", "Comma-separated target dialects (e.g., es-MX,es-AR,es-CO)", "es-MX")
   .option("--provider <provider>", "Translation provider (llm, deepl, libre, mymemory, or auto for automatic selection)", "auto")
   .option("--concurrency <n>", "Max concurrent API calls", "4")
   .option("--no-cache", "Disable translation memory caching")
@@ -558,7 +564,7 @@ i18nCommand
         providerName,
         (name) => {
           if (!name || name === "auto") {
-            return registry.getAuto("es", { dialect: targets[0] || "es-ES" });
+            return registry.getAuto("es", { dialect: targets[0] || "es-MX" });
           }
           return registry.get(name);
         },
